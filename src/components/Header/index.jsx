@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './styles.scss'
+import { Button } from '@mui/material';
+import HeaderAuthentic from './components/HeaderAuthentic';
+import HeaderNavigation from './components/HeaderNavigation';
 
 Header.propTypes = {
   
@@ -8,8 +11,9 @@ Header.propTypes = {
 
 function Header(props) {
   return (
-    <div>
-      <h3>Hello World</h3>
+    <div className='header'>
+     <HeaderAuthentic/>
+     <HeaderNavigation/>
     </div>
   );
 }
