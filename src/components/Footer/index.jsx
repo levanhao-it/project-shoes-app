@@ -1,16 +1,38 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import './styles.scss';
-import { styled } from '@mui/material/styles';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
+import { Button, Container } from '@mui/material';
 import Box from '@mui/material/Box';
-import { Container } from '@mui/material';
-import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
+import Grid from '@mui/material/Grid';
+import React from 'react';
+import './styles.scss';
+import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import { makeStyles } from '@mui/styles';
+import Register from '../../features/Auth/components/Register';
 
 Footer.propTypes = {};
 
+const useStyles = makeStyles((theme) => ({
+  dialog: {
+    fontSize: '1.6rem',
+  },
+}));
+
 function Footer(props) {
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const classes = useStyles();
+
   return (
     <div className="footer">
       <Container maxWidth="lg" fixed className="footer__container">
@@ -57,7 +79,7 @@ function Footer(props) {
                   <a>Payment Options</a>
                 </li>
                 <li>
-                  <a>Contact Us</a>
+                  <a onClick={handleClickOpen}>Contact Us</a>
                 </li>
               </ul>
             </Grid>
@@ -108,6 +130,14 @@ function Footer(props) {
           </Grid>
         </Box>
       </Container>
+      <Dialog disableEscapeKeyDown open={open} onClose={handleClose} onBackdropClick>
+        <DialogContent>
+          <Register />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }
