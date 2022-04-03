@@ -16,7 +16,11 @@ function HeaderAuthentic(props) {
 
         <ul className="header-authetic__list">
           <li className="header-authetic__item">
-            <a href="./" className="header-authetic__link">Login & register</a>
+            <a href="./" className="header-authetic__link">Login</a>
+          </li>
+
+          <li className="header-authetic__item">
+            <a href="./" className="header-authetic__link">Register</a>
           </li>
 
           <li className="header-authetic__item">

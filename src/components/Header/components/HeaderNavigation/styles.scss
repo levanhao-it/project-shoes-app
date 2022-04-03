@@ -25,7 +25,14 @@
     color: var(--black-color);
     font-weight: 700;
     text-decoration: none;
-    padding: 10px 20px;
+    padding: 5px 20px;
+    transition: all 0.3s linear;
+  }
+
+  &__link:hover {
+    background-color: var(--green-primary-color);
+    color: var(--white-color);
+    border-radius: 20px;
   }
 
   &__search{
