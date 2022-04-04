@@ -8,10 +8,9 @@ import Register from './features/Auth/components/Register';
 function App() {
   return (
     <div className="App">
-      {/* <Header /> */}
-      {/* <SignInFeature /> */}
-      <Register />
-      {/* <Footer /> */}
+      <Header />
+      <SignInFeature />
+      <Footer />
     </div>
   );
 }

@@ -31,10 +31,11 @@
     border-left: 1px solid var(--border-color);
     height: 40px;
     line-height: 4rem;
+    cursor: pointer;
   }
 
   &__link:hover {
     background-color: #e5e5e5;
-    color: #2AC37D;
+    color: #2ac37d;
   }
 }

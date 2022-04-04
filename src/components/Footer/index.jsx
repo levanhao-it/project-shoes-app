@@ -14,25 +14,7 @@ import Register from '../../features/Auth/components/Register';
 
 Footer.propTypes = {};
 
-const useStyles = makeStyles((theme) => ({
-  dialog: {
-    fontSize: '1.6rem',
-  },
-}));
-
 function Footer(props) {
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const classes = useStyles();
-
   return (
     <div className="footer">
       <Container maxWidth="lg" fixed className="footer__container">
@@ -79,7 +61,7 @@ function Footer(props) {
                   <a>Payment Options</a>
                 </li>
                 <li>
-                  <a onClick={handleClickOpen}>Contact Us</a>
+                  <a>Contact Us</a>
                 </li>
               </ul>
             </Grid>
@@ -130,14 +112,6 @@ function Footer(props) {
           </Grid>
         </Box>
       </Container>
-      <Dialog disableEscapeKeyDown open={open} onClose={handleClose} onBackdropClick>
-        <DialogContent>
-          <Register />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-        </DialogActions>
-      </Dialog>
     </div>
   );
 }
