@@ -1,6 +1,4 @@
-
-import { Button, Dialog, DialogContent } from '@mui/material';
-import { makeStyles } from '@mui/styles';
+import { Button, Dialog, DialogContent, makeStyles } from '@material-ui/core';
 import React, { useState } from 'react';
 import LogIn from '../../../../features/Auth/components/LogIn';
 import Register from '../../../../features/Auth/components/Register';
@@ -44,16 +42,16 @@ function HeaderAuthentic(props) {
         </p>
 
         <ul className="header-authetic__list">
-          
-          <Button onClick={handleClickOpenRegister} className="header-authetic__link">Register</Button>
-          
+          <Button onClick={handleClickOpenRegister} className="header-authetic__link">
+            Register
+          </Button>
 
           <Button onClick={handleClickOpenLogin} className="header-authetic__item">
             Login
           </Button>
 
           <li className="header-authetic__item">
-            <a  className="header-authetic__link">Usd</a>
+            <a className="header-authetic__link">Usd</a>
           </li>
 
           <li className="header-authetic__item">
@@ -62,26 +60,23 @@ function HeaderAuthentic(props) {
         </ul>
       </div>
 
-      <Dialog
-        open={openLogin}
-        onClose={handleCloseLogin}
-        disableEscapeKeyDown
-      >
+      <Dialog open={openLogin} onClose={handleCloseLogin} disableEscapeKeyDown>
         <DialogContent>
           <LogIn />
         </DialogContent>
       </Dialog>
 
-      <Dialog disableEscapeKeyDown open={openRegister} onClose={handleCloseRegister} className={classes.dialog}>
+      <Dialog
+        disableEscapeKeyDown
+        open={openRegister}
+        onClose={handleCloseRegister}
+        className={classes.dialog}
+      >
         <DialogContent>
           <Register />
         </DialogContent>
       </Dialog>
-      
     </div>
-
-    
-
   );
 }
 

@@ -1,19 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './styles.scss'
-import { Button } from '@mui/material';
+import './styles.scss';
 import HeaderAuthentic from './components/HeaderAuthentic';
 import HeaderNavigation from './components/HeaderNavigation';
 
-Header.propTypes = {
-  
-};
+Header.propTypes = {};
 
 function Header(props) {
   return (
-    <div className='header'>
-     <HeaderAuthentic/>
-     <HeaderNavigation/>
+    <div className="header">
+      <HeaderAuthentic />
+      <HeaderNavigation />
     </div>
   );
 }

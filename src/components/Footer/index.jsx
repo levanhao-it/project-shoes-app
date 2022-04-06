@@ -1,16 +1,6 @@
-import { Button, Container } from '@mui/material';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
+import { Box, Container, Grid } from '@material-ui/core';
 import React from 'react';
 import './styles.scss';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import { makeStyles } from '@mui/styles';
-import Register from '../../features/Auth/components/Register';
 
 Footer.propTypes = {};
 

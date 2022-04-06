@@ -1,4 +1,4 @@
-import { TextField } from '@mui/material';
+import { TextField } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Controller } from 'react-hook-form';
@@ -20,13 +20,11 @@ function InputField(props) {
       name={name}
       control={form.control}
       as={TextField}
-
       fullWidth
       margin="normal"
       variant="outlined"
       label={label}
       disabled={disabled}
-      
       error={!!hasError}
       helperText={errors[name]?.message}
       id="outlined-size-normal"

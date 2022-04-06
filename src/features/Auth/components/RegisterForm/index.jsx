@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Avatar, Button, Checkbox, FormControlLabel, Grid, Paper, Typography } from '@mui/material';
-import { makeStyles } from '@mui/styles';
+import { Button, makeStyles, Typography } from '@material-ui/core';
+
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useForm } from 'react-hook-form';
