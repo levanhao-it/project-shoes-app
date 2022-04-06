@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, makeStyles, Typography } from '@material-ui/core';
+import { Box, Button, Link, makeStyles, Typography } from '@material-ui/core';
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -7,7 +7,6 @@ import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import InputField from '../../../../components/form-controls/InputField';
 import PasswordField from '../../../../components/form-controls/PasswordField';
-import './styles.scss';
 
 RegisterForm.propTypes = {
   onSubmit: PropTypes.func,
@@ -20,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
   },
   avatar: {
-    width: '150px',
+    width: '100px',
   },
   title: {
     margin: '10px 0 20px 0 !important',
@@ -100,6 +99,14 @@ function RegisterForm(props) {
         >
           <Typography variant="h6"> Create an account</Typography>
         </Button>
+        <Typography>
+          <Box sx={{ fontFamily: 'default', m: 1, fontSize: 12 }}>
+            Have a account?
+            <Link href="#" color={'#111'}>
+              Sign in
+            </Link>
+          </Box>
+        </Typography>
       </form>
     </div>
   );
