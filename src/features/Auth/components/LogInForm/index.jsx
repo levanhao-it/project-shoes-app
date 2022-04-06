@@ -36,7 +36,6 @@ const useStyles = makeStyles((theme) => ({
 
 function LogInForm(props) {
   const classes = useStyles();
-  console.log(classes)
 
   const form = useForm({
     defaultValues: {
@@ -47,15 +46,14 @@ function LogInForm(props) {
   })
 
   const handelSubmit = (values) => {
-    console.log(values)
     const {onSubmit} = props;
+    console.log(values)
     if(onSubmit){
       onSubmit(values)
     }
 
     form.reset();
   }
-
 
   return (
     <Grid align='center'>
@@ -65,7 +63,7 @@ function LogInForm(props) {
       </Typography>
       
       <form onSubmit={form.handleSubmit(handelSubmit)}>
-        <InputField name='email' label='Email' form={form}/>
+        <InputField name='emưail' label='Email' form={form}/>
         <PasswordField name='password' label='Password' form={form}/>
         <Grid justifyContent={'space-between'} alignItems={'center'} display='flex'>
           <FormControlLabel control={<Checkbox />} label="Keep me signed in" />

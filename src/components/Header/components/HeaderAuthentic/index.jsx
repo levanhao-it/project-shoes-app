@@ -1,14 +1,11 @@
 
-import PropTypes from 'prop-types';
-import './styles.scss';
+import { Button, Dialog, DialogContent } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import { Dialog, DialogContent } from '@mui/material';
-import Register from '../../../../features/Auth/components/Register';
-
-import { Button } from '@mui/material';
-import DialogActions from '@mui/material/DialogActions';
 import React, { useState } from 'react';
 import LogIn from '../../../../features/Auth/components/LogIn';
+import Register from '../../../../features/Auth/components/Register';
+import './styles.scss';
+
 HeaderAuthentic.propTypes = {};
 
 const useStyles = makeStyles((theme) => ({
@@ -19,15 +16,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function HeaderAuthentic(props) {
-  const [open, setOpen] = useState(false);
+  const [openLogin, setOpenLogin] = useState(false);
   const [openRegister, setOpenRegister] = useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleClickOpenLogin = () => {
+    setOpenLogin(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleCloseLogin = () => {
+    setOpenLogin(false);
   };
 
   const handleClickOpenRegister = () => {
@@ -51,7 +48,7 @@ function HeaderAuthentic(props) {
           <Button onClick={handleClickOpenRegister} className="header-authetic__link">Register</Button>
           
 
-          <Button onClick={handleClickOpen} className="header-authetic__item">
+          <Button onClick={handleClickOpenLogin} className="header-authetic__item">
             Login
           </Button>
 
@@ -66,8 +63,8 @@ function HeaderAuthentic(props) {
       </div>
 
       <Dialog
-        open={open}
-        onClose={handleClose}
+        open={openLogin}
+        onClose={handleCloseLogin}
         disableEscapeKeyDown
       >
         <DialogContent>

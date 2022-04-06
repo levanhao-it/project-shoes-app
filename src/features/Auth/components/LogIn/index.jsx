@@ -12,7 +12,7 @@ function LogIn(props) {
   }
   return (
     <div>
-      <LogInForm />
+      <LogInForm onSubmit={handleSubmit} />
     </div>
   );
 }
