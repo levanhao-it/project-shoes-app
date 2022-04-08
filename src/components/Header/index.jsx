@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import './styles.scss';
 import HeaderAuthentic from './components/HeaderAuthentic';
 import HeaderNavigation from './components/HeaderNavigation';
+import HeaderServices from './components/HeaderServices';
 
 Header.propTypes = {};
 
@@ -11,6 +12,7 @@ function Header(props) {
     <div className="header">
       <HeaderAuthentic />
       <HeaderNavigation />
+      <HeaderServices />
     </div>
   );
 }
