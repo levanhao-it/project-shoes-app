@@ -19,7 +19,7 @@ function Footer(props) {
               <h3>ADDRESS OFFICE 1</h3>
               <ul className="footer__address__content">
                 <li>
-                  <strong>Nguyen Trai, District 1, Ho Chi Minh City</strong>
+                  <strong>Nguyen Trai, District 1, Ho Chi Minh</strong>
                 </li>
                 <li>Email: support@store.com</li>
                 <li>Phone: +1 (212) 998 8888</li>
@@ -29,7 +29,7 @@ function Footer(props) {
               <h3>ADDRESS OFFICE 2</h3>
               <ul className="footer__address__content">
                 <li>
-                  <strong>Quarter 6, Thu Duc, Ho Chi Minh City</strong>
+                  <strong>Quarter 6, Thu Duc, Ho Chi Minh</strong>
                 </li>
                 <li>Email: support@store.com</li>
                 <li>Phone: +1 (212) 998 8888</li>

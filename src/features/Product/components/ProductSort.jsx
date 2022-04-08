@@ -21,8 +21,9 @@ const BootstrapInput = withStyles((theme) => ({
 
     '&:focus': {
       borderRadius: 4,
-      borderColor: '#80bdff',
-      boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
+      borderColor: '#2AC37D',
+      boxShadow: '0 0 0 0.2rem #2AC37D',
+      backgroundColor: '#2AC37D',
     },
   },
 }))(InputBase);
@@ -36,9 +37,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-ShortBy.propTypes = {};
+ProductSort.propTypes = {};
 
-function ShortBy(props) {
+function ProductSort(props) {
   const classes = useStyles();
   const [age, setAge] = React.useState('');
 
@@ -71,4 +72,4 @@ function ShortBy(props) {
   );
 }
 
-export default ShortBy;
+export default ProductSort;
