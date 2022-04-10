@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Grid, makeStyles } from '@material-ui/core';
 import ProductInfo from '../../components/ProductInfo';
 import ProductSidebar from '../../components/ProductSidebar';
+import ProductRecomend from '../../components/ProductRecomend';
 
 ProductDetailPage.propTypes = {
   
@@ -10,8 +11,7 @@ ProductDetailPage.propTypes = {
 
 const useStyle = makeStyles((theme) => ({
   root: {
-    width: '1200px',
-    margin: 'auto',
+    padding: '60px 40px 0'
   }
 }))
 
@@ -20,13 +20,17 @@ function ProductDetailPage(props) {
   return (
     <div className={classes.root}>
       <Grid container spacing={0} >
-        <Grid item xs={7}>
+        <Grid item xs={8}>
           <ProductInfo />
         </Grid>
 
-        <Grid item xs={5}>
+        <Grid item xs={4}>
           <ProductSidebar/>
         </Grid>
+        <Grid item xs={12}>
+        <ProductRecomend />
+        </Grid>
+       
       </Grid>
     </div>
   );
