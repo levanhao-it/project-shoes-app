@@ -1,11 +1,14 @@
+import { Dialog, DialogContent, Link } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import Typography from '@material-ui/core/Typography';
+import { Rating } from '@material-ui/lab';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import ProductReview from '../ProductReview';
 import './styles.scss';
 
 function TabPanel(props) {
@@ -57,11 +60,33 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#fff',
     borderBottom: '1px solid #ccc'
   },
+  titleRating: {
+    fontSize: '14px',
+    marginLeft: '10px'
+  },
+  commentLink: {
+    fontSize: '14px',
+    textDecoration: 'underline',
+    color: '#000',
+    marginTop: '6px',
+    cursor: 'pointer',
+    display: 'block'
+  }
 }));
 
 export default function ProductTabs() {
+  const [openReview, setOpenReview] = useState(false);
   const classes = useStyles();
   const [value, setValue] = useState(0);
+
+
+  const handleCloseReview = () => {
+    setOpenReview(false)
+  }
+
+  const handleOpenReview = () => {
+    setOpenReview(true)
+  }
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -94,7 +119,19 @@ Sweet roll soufflé oat cake apple pie croissant. Pie gummi bears jujubes cake l
         </Typography>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Item Two
+        <>
+          <Box display="flex" alignItems="center">
+            <Rating name="read-only" defaultValue={3.5} precision={0.5} readOnly size='large'/>
+            <Typography variant='p' className={classes.titleRating}>4.5 stars</Typography>
+          </Box>
+
+          <Link className={classes.commentLink} onClick={handleOpenReview}>Write a Review</Link>
+
+          <ProductReview />
+        </>
+        
+
+
       </TabPanel>
       <TabPanel value={value} index={2}>
         Item Three
@@ -102,6 +139,14 @@ Sweet roll soufflé oat cake apple pie croissant. Pie gummi bears jujubes cake l
       <TabPanel value={value} index={3}>
         Item Four
       </TabPanel>
+
+
+
+      <Dialog open={openReview} onClose={handleCloseReview} disableEscapeKeyDown>
+        <DialogContent>
+          
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

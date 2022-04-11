@@ -14,6 +14,10 @@ ProductRecomend.propTypes = {
 const useStyle = makeStyles((theme) => ({
   root: {
     margin: '40px 0 40px'
+  },
+  title: {
+    fontWeight: 'bold',
+    fontSize: '24px'
   }
 }))
 
@@ -21,7 +25,7 @@ function ProductRecomend(props) {
   const classes = useStyle()
   return (
     <div className={classes.root}>
-      <Typography variant='h3' component="h3">OTHERS ALSO BOUGHT</Typography>
+      <Typography variant='h3' component="h3" className={classes.title}>OTHERS ALSO BOUGHT</Typography>
       <Swiper
         slidesPerView={4}
         spaceBetween={30}
