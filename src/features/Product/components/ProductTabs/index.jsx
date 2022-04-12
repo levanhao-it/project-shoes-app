@@ -9,6 +9,7 @@ import { Rating } from '@material-ui/lab';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import ProductReview from '../ProductReview';
+import ProductReviewForm from '../ProductReviewForm';
 import './styles.scss';
 
 function TabPanel(props) {
@@ -144,7 +145,7 @@ Sweet roll soufflé oat cake apple pie croissant. Pie gummi bears jujubes cake l
 
       <Dialog open={openReview} onClose={handleCloseReview} disableEscapeKeyDown>
         <DialogContent>
-          
+          <ProductReviewForm/>
         </DialogContent>
       </Dialog>
     </div>
