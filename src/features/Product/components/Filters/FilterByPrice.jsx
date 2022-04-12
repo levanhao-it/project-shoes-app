@@ -61,14 +61,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 function valuetext(value) {
-  return `${value}°C`;
+  return `${value}$`;
 }
 
 function FilterByPrice(props) {
   const handleCategoryClick = (category) => {};
 
   const classes = useStyles();
-  const [value, setValue] = React.useState([20, 37]);
+  const [value, setValue] = React.useState([300, 1200]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -77,7 +77,7 @@ function FilterByPrice(props) {
   return (
     <Box className={classes.root}>
       <Typography variant="h3" className={classes.h3}>
-        CAtegory
+        price
       </Typography>
 
       <Slider
@@ -87,9 +87,12 @@ function FilterByPrice(props) {
         aria-labelledby="range-slider"
         getAriaValueText={valuetext}
         className={classes.range}
+        min={0}
+        max={2000}
+        step={200}
       />
       <Typography variant="h4" className={classes.h4}>
-        Price:$300-$2000
+        Price: $300 - $1200
       </Typography>
 
       <Button size="normal" className={classes.btn}>

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Box, Container, Grid, makeStyles } from '@material-ui/core';
+import { Box, Container, Grid, makeStyles, Typography } from '@material-ui/core';
 import ProductList from '../components/ProductList';
 import OfferBanner from '../components/OfferBanner';
 import ProductSort from '../components/ProductSort';
@@ -24,13 +24,6 @@ const useStyles = makeStyles((theme) => ({
   pagination: {
     marginTop: '10px',
   },
-  ProductFilters: {
-    overflow: 'hidden',
-    width: 'inherit',
-    height: 'inherit',
-    maxWidth: 'inherit',
-    maxWeight: 'inherit',
-  },
 }));
 
 function ListPage(props) {
@@ -39,10 +32,10 @@ function ListPage(props) {
     <Box className={classes.root}>
       <Container maxWidth="lx">
         <Grid container spacing={2}>
-          <Grid item xs={0} sm={3} md={3} lg={3}>
+          <Grid item xs={12} sm={2} md={2} lg={2}>
             <ProductFilters />
           </Grid>
-          <Grid item xs={12} sm={9} md={9} lg={9}>
+          <Grid item xs={12} sm={10} md={10} lg={10}>
             <OfferBanner />
 
             <Box display="flex">
@@ -54,7 +47,7 @@ function ListPage(props) {
               </Box>
             </Box>
             <ProductList />
-            <Box display="flex" paddingBottom={5}>
+            <Box display="flex" paddingBottom={7}>
               <Box flexGrow={1}>
                 <ProductSort />
               </Box>
