@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Box, Button, makeStyles, Typography } from '@material-ui/core';
 
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
+import CartList from '../CartList';
 
 CartDetail.propTypes = {};
 
