@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
 function HeaderServices(props) {
   const classes = useStyles();
   return (
-    <Box className={classes.root}>
+    <Box id="headerService" className={classes.root}>
       <Swiper
         loop={true}
         navigation={true}

@@ -10,6 +10,7 @@ import { Route } from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
 import NotFound from './components/NotFound';
 import Home from './components/Home';
+import CartFeature from './features/Cart';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/products" component={ProductFeature} />
 
         <Route path="/" component={Home} exact />
+        <Route path="/cart" component={CartFeature} />
 
         <Route component={NotFound} />
       </Switch>
