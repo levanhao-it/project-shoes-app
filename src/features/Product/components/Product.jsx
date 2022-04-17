@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'block',
     width: '40px',
     height: '40px',
-    zIndex: '1000',
+    zIndex: '2',
     backgroundColor: '#4d4d4d',
     webkitBorderRadius: '50%',
     mozBorderRadius: '50%',

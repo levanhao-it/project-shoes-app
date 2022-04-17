@@ -55,6 +55,11 @@ const useStyle = makeStyles((theme) => ({
     height: '50px',
     fontSize: '16px',
     fontWeight: '600',
+    '&:hover': {
+      backgroundColor: "#000",
+      color: '#ccc',
+      opacity: '0.7'
+    }
   },
   buttonHeart: {
     width: 'calc(20% - 5px)',
