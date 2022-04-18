@@ -9,37 +9,100 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
 import './styles.scss';
+import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 
 // import required modules
-import { EffectFade, Navigation, Pagination } from 'swiper';
+import { A11y, Autoplay, EffectFade, Navigation, Pagination } from 'swiper';
+import { Box, Button, makeStyles, Typography } from '@material-ui/core';
+
+const useStyles = makeStyles((theme) => ({
+  buttonCart: {
+    width: '20%',
+    backgroundColor: '#2AC37D',
+    color: '#fff',
+    height: '50px',
+    fontSize: '16px',
+    fontWeight: '600',
+    borderRadius: '60px',
+    border: 'none',
+    margin: '20px 0',
+    '&:hover': {
+      backgroundColor: '#2AC37D',
+      color: '#ccc',
+    },
+  },
+  buttonHeart: {
+    width: 'calc(20% - 5px)',
+    marginLeft: '5px',
+    height: '50px',
+    border: '2px solid #000',
+  },
+  buttonTitle: {
+    fontSize: '16px',
+    fontWeight: '600',
+  },
+  box: {
+    position: 'absolute',
+    top: '30%',
+    left: '5%',
+    zIndex: '1',
+  },
+  // slogan: {
+  //   color: '#2AC37D',
+  //   fontSize: '28px',
+  //   fontWeight: '600',
+  //   textTransform: 'uppercase',
+  //   fontFamily: 'Georgia, serif',
+  //   width: '55%',
+  //   marginBottom: '20px',
+  // },
+}));
 
 HomeSlider.propTypes = {};
 
 function HomeSlider(props) {
+  const classes = useStyles();
   return (
-    <div className="slider">
+    <Box className="slider">
       <Swiper
         spaceBetween={30}
         effect={'fade'}
-        navigation={true}
         pagination={{
           clickable: true,
         }}
         loop={true}
-        modules={[EffectFade, Navigation, Pagination]}
+        modules={[EffectFade, Pagination, Autoplay, A11y]}
         className="mySwiper"
+        autoplay={{
+          delay: 2500,
+          disableOnInteraction: false,
+        }}
       >
         <SwiperSlide>
-          <img src="https://graphicsfamily.com/wp-content/uploads/edd/2021/07/Professional-E-Commerce-Shoes-Banner-Design-1180x664.jpg" />
+          <img src="http://nouthemes.net/html/trueshoes/images/slider/3.jpg" />
         </SwiperSlide>
         <SwiperSlide>
-          <img src="https://cdnb.artstation.com/p/assets/images/images/028/692/321/large/vineet-joshi-shoes-banner.jpg?1595238969" />
-        </SwiperSlide>
-        <SwiperSlide>
-          <img src="https://storage.pixteller.com/designs/designs-images/2020-12-21/05/sport-shoes-sale-banner-1-5fe0c471dbecb.png" />
+          <img src="http://nouthemes.net/html/trueshoes/images/slider/2.jpg" />
         </SwiperSlide>
       </Swiper>
-    </div>
+
+      <Box className={classes.box}>
+        <Typography className="slogan" variant="h2" component="h3">
+          Life is better in running shoes
+        </Typography>
+
+        <Box>
+          <Button variant="contained" className={classes.buttonCart} size="large">
+            <Box display="flex" justifyContent="space-between" width="100%">
+              <Typography variant="h5" className={classes.buttonTitle}>
+                shop now
+              </Typography>
+              <ArrowRightAltIcon fontSize="large" />
+            </Box>
+          </Button>
+        </Box>
+      </Box>
+    </Box>
   );
 }
 
