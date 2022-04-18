@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Box, Button, makeStyles, Typography } from '@material-ui/core';
 
-import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import CartList from '../CartList';
 
 CartDetail.propTypes = {};
@@ -20,12 +20,18 @@ const useStyles = makeStyles((theme) => ({
     padding: '3rem 1rem',
   },
   buttonCart: {
-    width: '80%',
+    width: '50%',
     backgroundColor: '#000',
     color: '#fff',
     height: '50px',
     fontSize: '16px',
     fontWeight: '600',
+    '&:hover': {
+      backgroundColor: '#000',
+      color: '#ccc',
+      opacity: '0.7',
+      transition: 'all 0.3s ease-in-out',
+    },
   },
   buttonHeart: {
     width: 'calc(20% - 5px)',
@@ -37,22 +43,31 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '16px',
     fontWeight: '600',
   },
+  title: {
+    fontSize: '2.6rem',
+    textTransform: 'uppercase',
+    color: '#000',
+    fontWeight: 'bold',
+    paddingBottom: '2rem ',
+  },
 }));
 
 function CartDetail(props) {
   const classes = useStyles();
   return (
     <Box>
-      <Typography>Hello User</Typography>
-      <Typography variant="h2">Your Bag</Typography>
+      <Typography variant="h3" className={classes.title}>
+        Your Bag
+      </Typography>
+      <Typography variant="h5"> TOTAL (2 products) 9,5$</Typography>
       <CartList />
       <Box mt={3}>
         <Button variant="contained" className={classes.buttonCart} size="large">
           <Box display="flex" justifyContent="space-between" width="100%">
+            <ArrowBackIcon fontSize="large" />
             <Typography variant="h5" className={classes.buttonTitle}>
-              ADD TO CART
+              continue shopping
             </Typography>
-            <ArrowRightAltIcon fontSize="large" />
           </Box>
         </Button>
       </Box>

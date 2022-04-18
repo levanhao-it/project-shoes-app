@@ -1,16 +1,7 @@
+import { Box, Container, Grid, makeStyles } from '@material-ui/core';
 import React from 'react';
-import PropTypes from 'prop-types';
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  Container,
-  Grid,
-  makeStyles,
-  Typography,
-} from '@material-ui/core';
-import { DeleteOutline } from '@material-ui/icons';
 import CartDetail from './components/CartDetail';
+import CartSummary from './components/CartSummary';
 
 CartFeature.propTypes = {};
 const useStyles = makeStyles((theme) => ({
@@ -33,17 +24,12 @@ function CartFeature(props) {
   return (
     <Container maxWidth="lg" className={classes.root}>
       <Box>
-        <Grid
-          container
-          rowSpacing={1}
-          columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-          className={classes.thread}
-        >
+        <Grid container spacing={7} className={classes.thread}>
           <Grid item xs={12} sm={12} md={8} lg={8} xl={8}>
             <CartDetail />
           </Grid>
           <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
-            <h3>Ben day la Summary Cert</h3>
+            <CartSummary />
           </Grid>
         </Grid>
       </Box>

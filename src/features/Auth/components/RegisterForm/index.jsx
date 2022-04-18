@@ -57,6 +57,7 @@ function RegisterForm(props) {
       password: '',
       confirmPassword: '',
     },
+    mode: 'onBlur',
     resolver: yupResolver(schema),
   });
 

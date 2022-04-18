@@ -17,7 +17,7 @@ HomeSlider.propTypes = {};
 
 function HomeSlider(props) {
   return (
-    <div>
+    <div className="slider">
       <Swiper
         spaceBetween={30}
         effect={'fade'}

@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     margin: '0 0 20px 0',
     '&:hover': {
-      background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+      background: 'linear-gradient(45deg, #5c5c5c 30%, #383838 90%)',
       transition: 'all 0.3s ease-in-out',
     },
   },
@@ -96,6 +96,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Product(props) {
+  const { imageProduct, nameProduct, priceProduct } = props;
   const classes = useStyles();
   return (
     <Box padding={1} className={classes.box}>
@@ -103,21 +104,16 @@ function Product(props) {
         <Box className={classes.favorite}>
           <FavoriteBorderIcon className={classes.icon} />
         </Box>
-        <img
-          src="http://nouthemes.net/html/trueshoes/images/shoe/2.jpg"
-          alt="Giay"
-          width="100%"
-          className={classes.img}
-        />
+        <img src={imageProduct} alt="Giay" width="100%" className={classes.img} />
       </Box>
       <Button className={classes.btn}>Add to cart</Button>
       <Box>
         <Typography variant="h5" className={classes.left}>
-          Air Jordan 7 Retro
+          {nameProduct}
         </Typography>
         <Typography variant="h5" className={classes.right}>
           <Box component="span" fontSize="16px" fontWeight="bold" mr={1}>
-            440$
+            {priceProduct} $
           </Box>
         </Typography>
       </Box>
