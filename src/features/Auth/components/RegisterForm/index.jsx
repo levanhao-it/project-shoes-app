@@ -1,5 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Button, Link, makeStyles, Typography } from '@material-ui/core';
+import ButtonActive from 'components/component-custom/ButtonActive';
 
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -90,7 +91,7 @@ function RegisterForm(props) {
         <PasswordField name="password" label="Password" form={form} />
         <PasswordField name="confirmPassword" label="Confirm Password" form={form} />
 
-        <Button
+        {/* <Button
           variant="contained"
           margin="outlined"
           fullWidth
@@ -99,7 +100,11 @@ function RegisterForm(props) {
           type="submit"
         >
           <Typography variant="h6"> Create an account</Typography>
-        </Button>
+        </Button> */}
+
+        <ButtonActive content="Create an account" type="submit"/>
+
+
         <Typography>
           <Box sx={{ fontFamily: 'default', m: 1, fontSize: 12 }}>
             Have a account?

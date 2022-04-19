@@ -26,11 +26,11 @@ const useStyle = makeStyles((theme) => ({
 }))
 
 function ButtonActive(props) {
-  const {content, widthBtn} = props;
+  const {content, widthBtn, type} = props;
   const classes = useStyle(props);
   return (
-      <div className='btn-primary' style={{ width: `${widthBtn}`}}>
-        <Button className={`${classes.root} btn-primary__root`} >
+      <div className='btn-primary' style={{ width: `${widthBtn}`}} >
+        <Button className={`${classes.root} btn-primary__root`} type={type}>
         {content} <ArrowRightAltIcon fontSize="large" />
        </Button>
 
