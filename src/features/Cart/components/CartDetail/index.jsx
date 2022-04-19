@@ -9,15 +9,15 @@ CartDetail.propTypes = {};
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: '7rem 0',
+    padding: '70px 0',
   },
   thread: {
     borderBottom: '1px solid #e6e6e6',
-    padding: '1rem 1rem',
+    padding: '10px 10px',
   },
   box: {
     borderBottom: '1px solid #e6e6e6',
-    padding: '3rem 1rem',
+    padding: '30px 10px',
   },
   buttonCart: {
     width: '50%',
@@ -40,15 +40,15 @@ const useStyles = makeStyles((theme) => ({
     border: '2px solid #000',
   },
   buttonTitle: {
-    fontSize: '16px',
+    fontSize: '20px',
     fontWeight: '600',
   },
   title: {
-    fontSize: '2.6rem',
+    fontSize: '26px',
     textTransform: 'uppercase',
     color: '#000',
     fontWeight: 'bold',
-    paddingBottom: '2rem ',
+    paddingBottom: '20px ',
   },
 }));
 
@@ -59,7 +59,7 @@ function CartDetail(props) {
       <Typography variant="h3" className={classes.title}>
         Your Bag
       </Typography>
-      <Typography variant="h5"> TOTAL (2 products) 9,5$</Typography>
+      <Typography variant="h6"> TOTAL (2 products) 9,5$</Typography>
       <CartList />
       <Box mt={3}>
         <Button variant="contained" className={classes.buttonCart} size="large">

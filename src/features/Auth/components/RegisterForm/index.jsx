@@ -16,14 +16,11 @@ RegisterForm.propTypes = {
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '350px',
-    padding: '20px 40px',
+    padding: '10px 40px',
     textAlign: 'center',
   },
-  avatar: {
-    width: '100px',
-  },
   title: {
-    margin: '10px 0 20px 0 !important',
+    margin: '10px 0 20px 0',
   },
 }));
 
@@ -75,11 +72,6 @@ function RegisterForm(props) {
 
   return (
     <div className={classes.root}>
-      <img
-        src="http://nouthemes.net/html/trueshoes/images/logo.png"
-        alt=""
-        className={classes.avatar}
-      />
       <h2 className="sign-in__title">Sign Up</h2>
       <Typography className={classes.title}>Create an account</Typography>
 
@@ -102,8 +94,7 @@ function RegisterForm(props) {
           <Typography variant="h6"> Create an account</Typography>
         </Button> */}
 
-        <ButtonActive content="Create an account" type="submit"/>
-
+        <ButtonActive content="Create an account" type="submit" />
 
         <Typography>
           <Box sx={{ fontFamily: 'default', m: 1, fontSize: 12 }}>

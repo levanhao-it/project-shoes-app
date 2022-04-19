@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     maxHeight: '100%',
     scrollbarWidth: 'none',
     '&::-webkit-scrollbar': {
-      width: '0.6rem',
+      width: '6px',
       backgroundColor: '#fff',
     },
     '&::-webkit-scrollbar-thumb': {

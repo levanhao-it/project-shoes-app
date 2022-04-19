@@ -34,14 +34,14 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: '700',
     color: '#626262',
     textTransform: 'uppercase',
-    marginBottom: '2.5rem',
+    marginBottom: '25px',
   },
   li: {
     position: 'relative',
     display: 'block',
     fontSize: '14px',
     color: '#313131',
-    marginBottom: '2rem',
+    marginBottom: '20px',
     '&:hover': {
       color: '#2AC37D',
     },

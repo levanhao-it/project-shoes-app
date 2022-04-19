@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: '700',
     color: '#626262',
     textTransform: 'uppercase',
-    marginBottom: '2.5rem',
+    marginBottom: '25px',
   },
   h4: {
     display: 'block',
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     fontStyle: 'italic',
     fontSize: '14px',
     color: '#898989',
-    marginBottom: '1.8rem',
+    marginBottom: '18px',
   },
   btn: {
     padding: '5px 30px',

@@ -5,6 +5,7 @@ import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 import './styles.scss';
 import CodeIcon from '@material-ui/icons/Code';
 import { Grid } from '@material-ui/core';
+import ButtonActive from '../../../../components/component-custom/ButtonActive';
 
 CartSummary.propTypes = {};
 
@@ -69,14 +70,7 @@ function CartSummary(props) {
   return (
     <Box className="summary">
       <Box>
-        <Button variant="contained" className={classes.buttonCart} size="large">
-          <Box display="flex" justifyContent="space-between" width="100%">
-            <Typography variant="h5" className={classes.buttonTitle}>
-              PAYMENT
-            </Typography>
-            <ArrowRightAltIcon fontSize="large" />
-          </Box>
-        </Button>
+        <ButtonActive content="Checkout" />
       </Box>
       <Box className={classes.box}>
         <Typography variant="h4" className={classes.headingTitle}>
@@ -130,10 +124,7 @@ function CartSummary(props) {
       </Box>
       <Box className={classes.box}>
         <Grid container spacing={1} alignItems="flex-end">
-          <Grid item>
-            <CodeIcon className={classes.icon} />
-          </Grid>
-          <Grid item>
+          <Grid item xs={8} sm={8} md={8} lg={8}>
             <TextField
               id="input-with-icon-grid"
               label="Enter your promo code"
@@ -143,14 +134,8 @@ function CartSummary(props) {
               size="medium"
             />
           </Grid>
-          <Grid item>
-            <Button variant="contained" className={classes.buttonCart} size="large">
-              <Box display="flex" justifyContent="space-between" width="100%">
-                <Typography variant="h5" className={classes.buttonTitle}>
-                  Apply
-                </Typography>
-              </Box>
-            </Button>
+          <Grid item xs={4} sm={4} md={4} lg={4}>
+            <ButtonActive content="Apply" />
           </Grid>
         </Grid>
       </Box>

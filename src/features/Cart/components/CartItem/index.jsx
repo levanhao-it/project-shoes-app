@@ -18,7 +18,7 @@ const BootstrapInput = withStyles((theme) => ({
     position: 'relative',
     backgroundColor: theme.palette.background.paper,
     border: '1px solid #000',
-    fontSize: '1.8rem',
+    fontSize: '18px',
     padding: '10px 26px 10px 36px',
     transition: theme.transitions.create(['border-color', 'box-shadow']),
     // Use the system font instead of the default Roboto font.
@@ -36,7 +36,7 @@ const BootstrapInput = withStyles((theme) => ({
     ].join(','),
     '&:focus': {
       borderColor: '#000',
-      boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
+      boxShadow: '0 0 0 2px rgba(0,123,255,.25)',
     },
   },
 }))(InputBase);
@@ -48,11 +48,11 @@ const useStyle = makeStyles((theme) => ({
     margin: '35px 0',
   },
   img: {
-    width: '240px',
-    height: '240px',
+    width: '100%',
+    height: '100%',
   },
   title: {
-    fontSize: '1.6rem',
+    fontSize: '16px',
     textTransform: 'uppercase',
     color: '#000',
     '& span': {
@@ -60,7 +60,7 @@ const useStyle = makeStyles((theme) => ({
     },
   },
   icon: {
-    fontSize: '2.2rem',
+    fontSize: '22px',
     color: '#000',
     '&:hover': {
       color: '#2AC37D',
@@ -69,7 +69,8 @@ const useStyle = makeStyles((theme) => ({
   parent: {
     display: 'flex',
     flexDirection: 'column',
-    marginTop: '20px',
+    paddingTop: '20px',
+    paddingLeft: '15px',
   },
   form: {
     marginTop: 'auto',
@@ -95,7 +96,7 @@ function CartItem(props) {
     <Box>
       <Grid container className={classes.root}>
         <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
-          <img className={classes.img} src={imageProduct}></img>
+          <img className={classes.img} src={imageProduct} alt="Day la anh"></img>
         </Grid>
         <Grid item xs={8} sm={8} md={8} lg={8} xl={8} className={classes.parent}>
           <Grid container className={classes.header}>

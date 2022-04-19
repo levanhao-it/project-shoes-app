@@ -17,7 +17,7 @@ import { Box, Button, makeStyles, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   buttonCart: {
-    width: '20%',
+    width: '40%',
     backgroundColor: '#2AC37D',
     color: '#fff',
     height: '50px',
@@ -38,8 +38,9 @@ const useStyles = makeStyles((theme) => ({
     border: '2px solid #000',
   },
   buttonTitle: {
-    fontSize: '16px',
+    fontSize: '18px',
     fontWeight: '600',
+    lineHeight: '2',
   },
   box: {
     position: 'absolute',

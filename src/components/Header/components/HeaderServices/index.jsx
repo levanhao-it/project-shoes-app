@@ -18,12 +18,12 @@ const useStyles = makeStyles((theme) => ({
     background: '#eee',
   },
   swiper: {
-    width: '60rem',
-    height: '5rem',
+    width: '600px',
+    height: '50px',
   },
   slide: {
     textAlign: 'center',
-    fontSize: '1.4rem',
+    fontSize: '14px',
 
     display: '-webkit-box',
     display: '-ms-flexbox',
@@ -38,12 +38,13 @@ const useStyles = makeStyles((theme) => ({
     width: '35px',
     height: '25px',
     color: '#2AC37D',
-    marginRight: '1rem',
+    marginRight: '10px',
   },
   title: {
     fontWeight: 'bolder',
-    marginRight: '1rem',
+    marginRight: '10px',
     textTransform: 'uppercase',
+    fontSize: '16px',
   },
 }));
 
@@ -63,21 +64,21 @@ function HeaderServices(props) {
       >
         <SwiperSlide className={classes.slide}>
           <FlightLandIcon className={classes.icon} />
-          <Typography variant="h5" className={classes.title}>
+          <Typography variant="h6" className={classes.title}>
             FAST DELIVERY:{' '}
           </Typography>{' '}
           Get free standard delivery on every order
         </SwiperSlide>
         <SwiperSlide className={classes.slide}>
           <Phone className={classes.icon} />
-          <Typography variant="h5" className={classes.title}>
+          <Typography variant="h6" className={classes.title}>
             support 24/7:{' '}
           </Typography>{' '}
           Support online
         </SwiperSlide>
         <SwiperSlide className={classes.slide}>
           <EventAvailableIcon className={classes.icon} />
-          <Typography variant="h5" className={classes.title}>
+          <Typography variant="h6" className={classes.title}>
             Special offer:{' '}
           </Typography>{' '}
           On holidays

@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
   btn: {
     background: '#2AC37D',
-    fontSize: '1.6rem',
+    fontSize: '16px',
     border: 0,
     borderRadius: 3,
     boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
@@ -52,16 +52,16 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '16px',
     fontWeight: '700',
     color: '#5b5b5b',
-    lineHeight: '2rem',
+    lineHeight: '20px',
     cursor: 'pointer',
-    marginBottom: '1rem',
+    marginBottom: '10px',
     '&:hover': {
       color: '#2AC37D',
     },
   },
   favorite: {
     color: '#2AC37D',
-    fontSize: '2rem',
+    fontSize: '20px',
     position: 'absolute',
     top: '20px',
     right: '18px',
@@ -90,7 +90,7 @@ const useStyles = makeStyles((theme) => ({
     left: '50%',
     transform: 'translate(-50%, -50%)',
     color: '#fff',
-    fontSize: '2rem',
+    fontSize: '20px',
   },
   right: {},
 }));

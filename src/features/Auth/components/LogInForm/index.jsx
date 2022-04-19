@@ -53,6 +53,7 @@ function LogInForm(props) {
       email: '',
       password: '',
     },
+    mode: 'onBlur',
     resolver: yupResolver(schema),
   });
 
