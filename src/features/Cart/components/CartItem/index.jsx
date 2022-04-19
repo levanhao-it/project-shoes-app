@@ -83,14 +83,14 @@ const useStyle = makeStyles((theme) => ({
 
 function CartItem(props) {
   const classes = useStyle();
+  const { imageProduct, nameProduct, priceProduct, sizeProduct, colorProduct, quantityProduct } =
+    props;
 
-  const [quantity, setQuantity] = React.useState('');
+  const [quantity, setQuantity] = React.useState({ quantityProduct });
   const handleChange = (event) => {
     setQuantity(event.target.value);
   };
 
-  const { imageProduct, nameProduct, priceProduct, sizeProduct, colorProduct, quantityProduct } =
-    props;
   return (
     <Box>
       <Grid container className={classes.root}>
@@ -123,9 +123,17 @@ function CartItem(props) {
           </Typography>
           <FormControl className={classes.form}>
             <NativeSelect id="" value={quantity} onChange={handleChange} input={<BootstrapInput />}>
+              <option value={0}>{quantityProduct}</option>
               <option value={1}>1</option>
               <option value={2}>2</option>
               <option value={3}>3</option>
+              <option value={4}>4</option>
+              <option value={5}>5</option>
+              <option value={6}>6</option>
+              <option value={7}>7</option>
+              <option value={8}>8</option>
+              <option value={9}>9</option>
+              <option value={10}>10</option>
             </NativeSelect>
           </FormControl>
         </Grid>

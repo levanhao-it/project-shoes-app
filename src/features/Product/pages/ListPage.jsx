@@ -4,8 +4,8 @@ import { Box, Container, Grid, makeStyles, Typography } from '@material-ui/core'
 import ProductList from '../components/ProductList';
 import OfferBanner from '../components/OfferBanner';
 import ProductSort from '../components/ProductSort';
-import Pagination from '@material-ui/lab/Pagination';
 import ProductFilters from '../components/ProductFilters';
+import ProductPagination from '../components/ProductPagination';
 
 ListPage.propTypes = {};
 const useStyles = makeStyles((theme) => ({
@@ -43,7 +43,7 @@ function ListPage(props) {
                 <ProductSort />
               </Box>
               <Box flexShrink={0}>
-                <Pagination count={5} color="success" className={classes.pagination} />
+                <ProductPagination />
               </Box>
             </Box>
             <ProductList />
@@ -52,7 +52,7 @@ function ListPage(props) {
                 <ProductSort />
               </Box>
               <Box flexShrink={0}>
-                <Pagination count={5} color="success" className={classes.pagination} />
+                <ProductPagination />
               </Box>
             </Box>
           </Grid>

@@ -14,13 +14,15 @@ function CartList(props) {
         priceProduct="150"
         colorProduct="Blue"
         sizeProduct="6.5"
+        quantityProduct="2"
       />
       <CartItem
         imageProduct="http://nouthemes.net/html/trueshoes/images/shoe/7.jpg"
         nameProduct="ZX 6K BOOST Shoes Size 7"
         priceProduct="150"
-        colorProduct="{Pink}"
+        colorProduct="  Pink"
         sizeProduct="7"
+        quantityProduct="1"
       />
     </Box>
   );

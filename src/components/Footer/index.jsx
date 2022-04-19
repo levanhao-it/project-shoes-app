@@ -1,5 +1,6 @@
 import { Box, Container, Grid } from '@material-ui/core';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './styles.scss';
 
 Footer.propTypes = {};
@@ -8,10 +9,12 @@ function Footer(props) {
   return (
     <div className="footer">
       <Container maxWidth="lg" fixed className="footer__container">
-        <img
-          className="footer__img"
-          src="http://nouthemes.net/html/trueshoes/images/logo-white.png"
-        ></img>
+        <Link to="/">
+          <img
+            className="footer__img"
+            src="http://nouthemes.net/html/trueshoes/images/logo-white.png"
+          ></img>
+        </Link>
 
         <Box sx={{ width: '100%' }}>
           <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
