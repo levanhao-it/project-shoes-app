@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import DeliveryOption from '../DeliveryOption';
 import AirportShuttleOutlinedIcon from '@material-ui/icons/AirportShuttleOutlined';
 import StoreMallDirectoryOutlinedIcon from '@material-ui/icons/StoreMallDirectoryOutlined';
-import ButtonActive from '../../../../components/form-controls/ButtonActive';
+import ButtonActive from '../../../../components/component-custom/ButtonActive';
 
 DeliveryForm.propTypes = {
   
@@ -62,7 +62,7 @@ function DeliveryForm(props) {
       <Typography variant='p' className={classes.subHeading}>Please provide a location to find the most convenient store:</Typography>
       <InputField name='locationStore' label='Location *' form={form}/>
       
-      <ButtonActive content = "search for store" />
+      <ButtonActive content = "search for store" widthBtn="40%" />
 
       <Typography variant='h3' className={classes.headingTitle}>Contact details</Typography>
       <Typography variant='p' className={classes.subHeading}>We'll use these details to keep you informed on your delivery.</Typography>
@@ -75,7 +75,7 @@ function DeliveryForm(props) {
         </Grid>
       </Grid>
 
-      <ButtonActive content = "Review and pay" />
+      <ButtonActive content = "Review and pay" widthBtn="40%"/>
 
 
 
