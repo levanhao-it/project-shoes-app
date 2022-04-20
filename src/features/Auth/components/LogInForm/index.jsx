@@ -1,11 +1,12 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
-  Box, Checkbox,
+  Box,
+  Checkbox,
   FormControlLabel,
   Grid,
   Link,
   makeStyles,
-  Typography
+  Typography,
 } from '@material-ui/core';
 import ButtonActive from 'components/component-custom/ButtonActive';
 import PropTypes from 'prop-types';
@@ -30,7 +31,9 @@ const schema = yup.object().shape({
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: '20 0',
+    width: '350px',
+    padding: '10px 40px',
+    textAlign: 'center',
   },
   title: {
     fontSize: '26px',
@@ -46,7 +49,10 @@ const useStyles = makeStyles((theme) => ({
   link: {
     fontSize: '12px',
     color: '#8d8d8d',
-    textDecoration: 'underline'
+    textDecoration: 'underline',
+  },
+  slogan: {
+    margin: '10px 0 20px 0',
   },
 }));
 
@@ -77,12 +83,13 @@ function LogInForm(props) {
       <Typography className={classes.title} component="h3" variant="h5">
         Sign In
       </Typography>
+      <Typography className={classes.slogan}>Your account for everything shoes</Typography>
 
       <form onSubmit={form.handleSubmit(handelSubmit)}>
         <InputField name="email" label="Email" form={form} />
         <PasswordField name="password" label="Password" form={form} />
         <Box justifyContent={'space-between'} alignItems={'center'} display="flex">
-          <FormControlLabel control={<Checkbox />} label="Keep me signed in"/>
+          <FormControlLabel control={<Checkbox />} label="Keep me signed in" />
           <Link href="#" underline="none" className={classes.link}>
             Forgotten your password?
           </Link>
@@ -91,15 +98,23 @@ function LogInForm(props) {
         <Box>
           <Typography>
             <Box sx={{ fontFamily: 'default', m: 1, fontSize: 12 }}>
-              By logging in, you agree to our <Link href="#" className={classes.link}> Privacy Policy </Link> and{' '}
-              <Link href="#" className={classes.link} > Terms of Use </Link>{' '}
+              By logging in, you agree to our{' '}
+              <Link href="#" className={classes.link}>
+                {' '}
+                Privacy Policy{' '}
+              </Link>{' '}
+              and{' '}
+              <Link href="#" className={classes.link}>
+                {' '}
+                Terms of Use{' '}
+              </Link>{' '}
             </Box>
           </Typography>
 
-          <ButtonActive content="sign in"/>
+          <ButtonActive content="sign in" />
 
           <Box mt={2}>
-           <Typography variant='p' component='p'>
+            <Typography variant="p" component="p">
               Not a Member?
               <Link href="#" className={classes.link}>
                 Join Us

@@ -1,5 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Box, Button, Link, makeStyles, Typography } from '@material-ui/core';
+import Close from '@material-ui/icons/Close';
 import ButtonActive from 'components/component-custom/ButtonActive';
 
 import PropTypes from 'prop-types';
@@ -21,6 +22,9 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     margin: '10px 0 20px 0',
+  },
+  heading: {
+    fontSize: '26px',
   },
 }));
 
@@ -72,7 +76,7 @@ function RegisterForm(props) {
 
   return (
     <div className={classes.root}>
-      <h2 className="sign-in__title">Sign Up</h2>
+      <h2 className={classes.heading}>Sign Up</h2>
       <Typography className={classes.title}>Create an account</Typography>
 
       <form onSubmit={form.handleSubmit(handleSubmit)}>

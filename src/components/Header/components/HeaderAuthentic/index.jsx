@@ -1,4 +1,5 @@
 import { Button, Dialog, DialogContent, makeStyles } from '@material-ui/core';
+import Close from '@material-ui/icons/Close';
 import React, { useState } from 'react';
 import LogIn from '../../../../features/Auth/components/LogIn';
 import Register from '../../../../features/Auth/components/Register';
@@ -10,6 +11,15 @@ const useStyles = makeStyles((theme) => ({
   dialog: {
     fontSize: '1.6rem',
     minWidth: '300px',
+    position: 'relative',
+  },
+  icon: {
+    float: 'right',
+    position: 'absolute',
+    top: '5px',
+    right: '5px',
+    cursor: 'pointer',
+    fontSize: '30px',
   },
 }));
 
@@ -61,6 +71,7 @@ function HeaderAuthentic(props) {
       </div>
 
       <Dialog open={openLogin} onClose={handleCloseLogin} disableEscapeKeyDown>
+        <Close className={classes.icon} onClick={handleCloseLogin}></Close>
         <DialogContent>
           <LogIn />
         </DialogContent>
@@ -72,6 +83,7 @@ function HeaderAuthentic(props) {
         onClose={handleCloseRegister}
         className={classes.dialog}
       >
+        <Close className={classes.icon} onClick={handleCloseRegister}></Close>
         <DialogContent>
           <Register />
         </DialogContent>
