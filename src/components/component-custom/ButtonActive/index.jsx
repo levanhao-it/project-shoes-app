@@ -21,8 +21,9 @@ const useStyle = makeStyles((theme) => ({
     '&:hover': {
       backgroundColor: "#000",
       color: '#ccc',
-    }
-  }
+    },
+  },
+  
 }))
 
 function ButtonActive(props) {

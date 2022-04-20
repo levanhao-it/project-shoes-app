@@ -1,20 +1,20 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
-  Box,
-  Button,
-  Checkbox,
+  Box, Checkbox,
   FormControlLabel,
   Grid,
   Link,
   makeStyles,
-  Typography,
+  Typography
 } from '@material-ui/core';
+import ButtonActive from 'components/component-custom/ButtonActive';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import InputField from '../../../../components/form-controls/InputField';
 import PasswordField from '../../../../components/form-controls/PasswordField';
+import './styles.scss';
 
 LogInForm.propTypes = {
   onSubmit: PropTypes.func,
@@ -30,10 +30,10 @@ const schema = yup.object().shape({
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    paddingTop: '20',
+    padding: '20 0',
   },
   title: {
-    fontSize: '20px',
+    fontSize: '26px',
     fontWeight: 'bold',
   },
   submit: {
@@ -42,6 +42,11 @@ const useStyles = makeStyles((theme) => ({
   },
   img: {
     width: '100px',
+  },
+  link: {
+    fontSize: '12px',
+    color: '#8d8d8d',
+    textDecoration: 'underline'
   },
 }));
 
@@ -68,12 +73,7 @@ function LogInForm(props) {
   };
 
   return (
-    <Grid align="center">
-      <img
-        className={classes.img}
-        src="http://nouthemes.net/html/trueshoes/images/logo.png"
-        alt="logo"
-      />
+    <Box align="center" className={classes.root}>
       <Typography className={classes.title} component="h3" variant="h5">
         Sign In
       </Typography>
@@ -81,43 +81,34 @@ function LogInForm(props) {
       <form onSubmit={form.handleSubmit(handelSubmit)}>
         <InputField name="email" label="Email" form={form} />
         <PasswordField name="password" label="Password" form={form} />
-        <Grid justifyContent={'space-between'} alignItems={'center'} display="flex">
-          <FormControlLabel control={<Checkbox />} label="Keep me signed in" />
-          <Link href="#" underline="none">
+        <Box justifyContent={'space-between'} alignItems={'center'} display="flex">
+          <FormControlLabel control={<Checkbox />} label="Keep me signed in"/>
+          <Link href="#" underline="none" className={classes.link}>
             Forgotten your password?
           </Link>
-        </Grid>
+        </Box>
 
-        <Grid>
+        <Box>
           <Typography>
             <Box sx={{ fontFamily: 'default', m: 1, fontSize: 12 }}>
-              By logging in, you agree to our <Link href="#"> Privacy Policy </Link> and{' '}
-              <Link href="#"> Terms of Use </Link>{' '}
+              By logging in, you agree to our <Link href="#" className={classes.link}> Privacy Policy </Link> and{' '}
+              <Link href="#" className={classes.link} > Terms of Use </Link>{' '}
             </Box>
           </Typography>
 
-          <Button
-            className={classes.submit}
-            variant="contained"
-            fullWidth
-            size="large"
-            type="submit"
-            style={{ backgroundColor: '#2AC37D' }}
-          >
-            Sign in
-          </Button>
+          <ButtonActive content="sign in"/>
 
-          <Typography>
-            <Box sx={{ fontFamily: 'default', m: 1, fontSize: 12 }}>
+          <Box mt={2}>
+           <Typography variant='p' component='p'>
               Not a Member?
-              <Link href="#" color={'#111'}>
+              <Link href="#" className={classes.link}>
                 Join Us
               </Link>
-            </Box>
-          </Typography>
-        </Grid>
+            </Typography>
+          </Box>
+        </Box>
       </form>
-    </Grid>
+    </Box>
   );
 }
 

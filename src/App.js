@@ -13,6 +13,7 @@ import Home from "./components/Home";
 import CartFeature from "./features/Cart";
 import { makeStyles } from "@material-ui/styles";
 import PaymentFeature from "./features/Payment";
+import UserFeature from "features/User";
 
 const useStyle = makeStyles((theme) => ({
   root: {
@@ -34,6 +35,7 @@ function App() {
           <Route path="/" component={Home} exact />
           <Route path="/cart" component={CartFeature} />
           <Route path="/payment" component={PaymentFeature} />
+          <Route path="/user" component={UserFeature} />
 
           <Route component={NotFound} />
         </Switch>
