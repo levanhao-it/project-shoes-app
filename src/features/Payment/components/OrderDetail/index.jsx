@@ -34,8 +34,6 @@ const useStyle = makeStyles((theme) => ({
   },
   containerOrder: {
     padding: '40px 0',
-    borderTop: '1px solid #ccc',
-    borderBottom: '1px solid #ccc'
   }
 
 

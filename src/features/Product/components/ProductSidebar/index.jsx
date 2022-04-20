@@ -89,6 +89,9 @@ const useStyle = makeStyles((theme) => ({
       border: '2px solid #2AC37D',
     },
   },
+  containerButton: {
+    margin: '15px 0 0 10px'
+  }
 }));
 
 function ProductSidebar(props) {
@@ -186,11 +189,16 @@ function ProductSidebar(props) {
         </Box>
       </Box>
 
-      <Box mt={3} display="flex" alignItems="center" justifyContent="space-between"> 
-        <ButtonActive content="Add to cart" className={classes.btnActive}/>
-        <Button variant="outlined" className={classes.buttonHeart}>
-          <FavoriteBorderIcon fontSize="large" />
-        </Button>
+      <Box mt={3} display="flex" alignItems="center" justifyContent="space-between">
+        <Box flex={1}>
+          <ButtonActive content="Add to cart" className={classes.btnActive}/>
+        </Box>
+        <Box className={classes.containerButton}>
+          <Button variant="outlined" className={classes.buttonHeart}>
+            <FavoriteBorderIcon fontSize="large" />
+          </Button>
+
+        </Box>
       </Box>
     </div>
   );

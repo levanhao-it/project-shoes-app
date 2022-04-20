@@ -7,6 +7,7 @@ import { Pagination, Navigation } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Product from '../Product';
 import { makeStyles } from '@material-ui/core';
+import './styles.scss'
 ProductRecomend.propTypes = {};
 
 const useStyle = makeStyles((theme) => ({
@@ -22,7 +23,7 @@ const useStyle = makeStyles((theme) => ({
 function ProductRecomend(props) {
   const classes = useStyle();
   return (
-    <div className={classes.root}>
+    <div className={`${classes.root} slider-recommed`}>
       <Typography variant="h3" component="h3" className={classes.title}>
         OTHERS ALSO BOUGHT
       </Typography>
