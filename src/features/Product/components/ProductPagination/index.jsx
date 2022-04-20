@@ -10,7 +10,7 @@ ProductPagination.propTypes = {};
 function ProductPagination(props) {
   return (
     <Box className="pagination" marginTop={2}>
-      <Pagination count={5} color="success" />
+      <Pagination count={10} color="success" />
     </Box>
   );
 }

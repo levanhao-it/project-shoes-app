@@ -1,6 +1,8 @@
-import React from 'react';
+import { Box, Collapse, makeStyles, Typography } from '@material-ui/core';
+import ListItem from '@material-ui/core/ListItem';
+import { ExpandLess, ExpandMore } from '@material-ui/icons';
 import PropTypes from 'prop-types';
-import { Box, makeStyles, Typography } from '@material-ui/core';
+import React from 'react';
 
 FilterByBrand.propTypes = {
   onChange: PropTypes.func,
@@ -28,13 +30,12 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
-  h3: {
+  h5: {
     fontFamily: '"Archivo Narrow", sans-serif',
-    fontSize: '24px',
-    fontWeight: '700',
-    color: '#626262',
+    fontSize: '14px',
+    fontWeight: 'bold',
+    color: '#000',
     textTransform: 'uppercase',
-    marginBottom: '25px',
   },
   li: {
     position: 'relative',
@@ -42,9 +43,20 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '14px',
     color: '#313131',
     marginBottom: '20px',
+    paddingLeft: '30px',
+    textTransform: 'uppercase',
     '&:hover': {
       color: '#2AC37D',
     },
+  },
+  boxTitle: {
+    borderTop: 'none',
+    height: '20px',
+    padding: '20px',
+    cursor: 'pointer',
+  },
+  content: {
+    borderBottom: '1px solid #e5e5e5',
   },
 }));
 
@@ -52,40 +64,49 @@ function FilterByBrand(props) {
   const handleCategoryClick = (category) => {};
 
   const classes = useStyles();
+  const [open, setOpen] = React.useState(true);
+
+  const handleClick = () => {
+    setOpen(!open);
+  };
 
   return (
-    <Box className={classes.root}>
-      <Typography variant="h3" className={classes.h3}>
-        shoes brand
-      </Typography>
-
-      <ul className={classes.menu}>
-        <li onClick={() => handleCategoryClick()}>
-          <Typography variant="body2" className={classes.li}>
-            Nike (512)
-          </Typography>
-        </li>
-        <li>
-          <Typography variant="body2" className={classes.li}>
-            Adidas (90)
-          </Typography>
-        </li>
-        <li>
-          <Typography variant="body2" className={classes.li}>
-            Gucci (44)
-          </Typography>
-        </li>
-        <li>
-          <Typography variant="body2" className={classes.li}>
-            B&G (112)
-          </Typography>
-        </li>
-        <li>
-          <Typography variant="body2" className={classes.li}>
-            Dior (33)
-          </Typography>
-        </li>
-      </ul>
+    <Box>
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        className={classes.boxTitle}
+        onClick={handleClick}
+      >
+        <Typography variant="h5" className={classes.h5}>
+          Shoes brand
+        </Typography>
+        <Box>{open ? <ExpandLess /> : <ExpandMore />}</Box>
+      </Box>
+      <Collapse in={open} timeout="auto" unmountOnExit>
+        <Box className={classes.content} disablePadding>
+          <ListItem button className={classes.nested}>
+            <Typography variant="body2" className={classes.li}>
+              Nike (512)
+            </Typography>
+          </ListItem>
+          <ListItem button className={classes.nested}>
+            <Typography variant="body2" className={classes.li}>
+              Adidas (90)
+            </Typography>
+          </ListItem>
+          <ListItem button className={classes.nested}>
+            <Typography variant="body2" className={classes.li}>
+              vans (4114)
+            </Typography>
+          </ListItem>
+          <ListItem button className={classes.nested}>
+            <Typography variant="body2" className={classes.li}>
+              Converse (22)
+            </Typography>
+          </ListItem>
+        </Box>
+      </Collapse>
     </Box>
   );
 }

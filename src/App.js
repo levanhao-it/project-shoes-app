@@ -1,23 +1,18 @@
-import "./App.css";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-import ListPage from "./features/Product/pages/ListPage";
-import ProductDetailPage from "./features/Product/pages/ProductDetailPage";
-
-import ProductFeature from "./features/Product";
-import { Switch } from "react-router-dom";
-import { Route } from "react-router-dom";
-import { Redirect } from "react-router-dom";
-import NotFound from "./components/NotFound";
-import Home from "./components/Home";
-import CartFeature from "./features/Cart";
-import { makeStyles } from "@material-ui/styles";
-import PaymentFeature from "./features/Payment";
-import UserFeature from "features/User";
+import { makeStyles } from '@material-ui/styles';
+import UserFeature from 'features/User';
+import { Redirect, Route, Switch } from 'react-router-dom';
+import './App.css';
+import Footer from './components/Footer';
+import Header from './components/Header';
+import Home from './components/Home';
+import NotFound from './components/NotFound';
+import CartFeature from './features/Cart';
+import PaymentFeature from './features/Payment';
+import ProductFeature from './features/Product';
 
 const useStyle = makeStyles((theme) => ({
   root: {
-    marginTop: "180px",
+    marginTop: '180px',
   },
 }));
 
