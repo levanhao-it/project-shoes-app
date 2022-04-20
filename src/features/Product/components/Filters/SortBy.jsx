@@ -4,7 +4,7 @@ import { ExpandLess, ExpandMore } from '@material-ui/icons';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-FilterByWidth.propTypes = {
+SortBy.propTypes = {
   onChange: PropTypes.func,
 };
 
@@ -45,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: '20px',
     paddingLeft: '30px',
     textTransform: 'uppercase',
+
     '&:hover': {
       color: '#2AC37D',
     },
@@ -60,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function FilterByWidth(props) {
+function SortBy(props) {
   const handleCategoryClick = (category) => {};
 
   const classes = useStyles();
@@ -79,7 +80,7 @@ function FilterByWidth(props) {
         onClick={handleClick}
       >
         <Typography variant="h5" className={classes.h5}>
-          width
+          Short By
         </Typography>
         <Box>{open ? <ExpandLess /> : <ExpandMore />}</Box>
       </Box>
@@ -87,22 +88,17 @@ function FilterByWidth(props) {
         <Box className={classes.content} disablePadding>
           <ListItem button className={classes.nested}>
             <Typography variant="body2" className={classes.li}>
-              narrow
+              Name
             </Typography>
           </ListItem>
           <ListItem button className={classes.nested}>
             <Typography variant="body2" className={classes.li}>
-              regular
+              Price (Hight - Low)
             </Typography>
           </ListItem>
           <ListItem button className={classes.nested}>
             <Typography variant="body2" className={classes.li}>
-              wide
-            </Typography>
-          </ListItem>
-          <ListItem button className={classes.nested}>
-            <Typography variant="body2" className={classes.li}>
-              extra wide
+              Price (Low -Hight)
             </Typography>
           </ListItem>
         </Box>
@@ -111,4 +107,4 @@ function FilterByWidth(props) {
   );
 }
 
-export default FilterByWidth;
+export default SortBy;
