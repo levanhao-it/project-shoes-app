@@ -7,7 +7,7 @@
   height: 40px;
 
   &__info {
-    font-size: 1.3rem;
+    font-size: 13px;
     color: var(--text-color);
   }
 
@@ -23,14 +23,14 @@
   &__link {
     text-decoration: none;
     display: block;
-    font-size: 1.3rem;
+    font-size: 13px;
     color: var(--text-color);
     text-transform: uppercase;
     padding: 0 15px;
     color: var(--text-color);
     border-left: 1px solid var(--border-color);
     height: 40px;
-    line-height: 4rem;
+    line-height: 40px;
     cursor: pointer;
   }
 

@@ -6,6 +6,7 @@ import StraightenIcon from '@material-ui/icons/Straighten';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 import { makeStyles } from '@material-ui/styles';
+import ButtonActive from 'components/component-custom/ButtonActive';
 ProductSidebar.propTypes = {};
 
 const useStyle = makeStyles((theme) => ({
@@ -96,7 +97,7 @@ function ProductSidebar(props) {
   return (
     <div className={classes.root}>
       <Box display="flex" justifyContent="space-between">
-        <Typography variant="h5" component="h3">
+        <Typography variant="body2" component="h3">
           Basketball
         </Typography>
         <Rating
@@ -109,7 +110,7 @@ function ProductSidebar(props) {
       </Box>
 
       <Box mt={2}>
-        <Typography variant="h3" className={classes.productName}>
+        <Typography variant="h4" className={classes.productName}>
           HARDEN VOL. 6 SHOES
         </Typography>
         <Typography variant="h5" className={classes.productPrice}>
@@ -185,15 +186,8 @@ function ProductSidebar(props) {
         </Box>
       </Box>
 
-      <Box mt={3}>
-        <Button variant="contained" className={classes.buttonCart} size="large">
-          <Box display="flex" justifyContent="space-between" width="100%">
-            <Typography variant="h5" className={classes.buttonTitle}>
-              ADD TO CART
-            </Typography>
-            <ArrowRightAltIcon fontSize="large" />
-          </Box>
-        </Button>
+      <Box mt={3} display="flex" alignItems="center" justifyContent="space-between"> 
+        <ButtonActive content="Add to cart" className={classes.btnActive}/>
         <Button variant="outlined" className={classes.buttonHeart}>
           <FavoriteBorderIcon fontSize="large" />
         </Button>

@@ -14,7 +14,8 @@ const useStyle = makeStyles((theme) => ({
    padding:'12px'
  },
  title: {
-  fontWeight:'bold'
+  fontWeight:'bold',
+  fontSize: '16px'
  },
  ratingContent: {
 
@@ -39,7 +40,7 @@ function ProductReview(props) {
   const classes = useStyle();
   return (
     <div className={classes.root}>
-      <Typography className={classes.title} variant= 'h5' >Nike’s best ever seller is always a nice choice</Typography>
+      <Typography className={classes.title} variant= 'p' >Nike’s best ever seller is always a nice choice</Typography>
       <Box display="flex" mt={1} className={classes.ratingContent} alignItems="center">
         <Rating name="read-only" value={3} readOnly />
         <Typography variant='p' className={classes.ratingHeading}> By <Typography display='inline' variant='p' className={classes.commentName}>Alena Studio</Typography> - November 25, 2017</Typography>

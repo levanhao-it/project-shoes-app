@@ -17,7 +17,8 @@ const useStyle = makeStyles((theme) => ({
   headingTitle: {
     textTransform: 'uppercase',
     fontWeight: 'bold',
-    margin: '40px 0 15px'
+    margin: '40px 0 15px',
+    fontSize: '26px'
   },
   subHeading: {
     fontSize: '16px'

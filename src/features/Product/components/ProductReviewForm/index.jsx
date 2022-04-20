@@ -40,8 +40,8 @@ const useStyle = makeStyles((theme) => ({
 function ProductReviewForm(props) {
   const form = useForm({
     defaultValues: {
-      email: '',
-      password: '',
+      title: '',
+      content: '',
     },
   });
   const classes = useStyle();

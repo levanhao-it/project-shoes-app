@@ -20,7 +20,8 @@ const useStyle = makeStyles((theme) => ({
   },
   headingTitle: {
     textTransform: 'uppercase',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    fontSize: '24px',
   },
   title: {
     textTransform: 'uppercase',

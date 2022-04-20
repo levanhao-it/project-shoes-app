@@ -10,9 +10,10 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     transition: 'all 0.4s ease',
     '&:hover': {
-      boxShadow: '0px 0px 10px #ccc',
-      transition: 'all 0.3s ease-in-out',
-      transform: 'scale(1.05)',
+      border: '1px solid #000',
+      price: {
+        bottom: '30px'
+      }
     },
     // '&:before': {
     //   content: '"',
@@ -29,6 +30,9 @@ const useStyles = makeStyles((theme) => ({
     //   transition: 'all 0.3s ease',
     // },
   },
+  container: {
+    position: 'relative'
+  },
   btn: {
     background: '#2AC37D',
     fontSize: '16px',
@@ -44,13 +48,14 @@ const useStyles = makeStyles((theme) => ({
       background: 'linear-gradient(45deg, #5c5c5c 30%, #383838 90%)',
       transition: 'all 0.3s ease-in-out',
     },
+
   },
   img: {
     cursor: 'pointer',
   },
-  left: {
+  name: {
     fontSize: '16px',
-    fontWeight: '700',
+    fontWeight: '600',
     color: '#5b5b5b',
     lineHeight: '20px',
     cursor: 'pointer',
@@ -92,7 +97,18 @@ const useStyles = makeStyles((theme) => ({
     color: '#fff',
     fontSize: '20px',
   },
-  right: {},
+  price: {
+    position: 'absolute',
+    left: "14px",
+    bottom: "0px",
+    backgroundColor: '#fff',
+    padding: '3px 5px'
+  },
+  nameDesc: {
+    color: '#767677',
+    fontSize: '12px'
+  }
+  
 }));
 
 function Product(props) {
@@ -100,22 +116,32 @@ function Product(props) {
   const classes = useStyles();
   return (
     <Box padding={1} className={classes.box}>
-      <Box padding={1} minHeight="215px">
+      <Box minHeight="215px" className={classes.container}>
         <Box className={classes.favorite}>
           <FavoriteBorderIcon className={classes.icon} />
         </Box>
-        <img src={imageProduct} alt="Giay" width="100%" className={classes.img} />
-      </Box>
-      <Button className={classes.btn}>Add to cart</Button>
+
+        <img src={imageProduct} alt={nameProduct} width="100%" className={classes.img} />
+
+        <Box component="span" fontSize="14px" mr={1} className={classes.price}>
+          <Typography variant="p" component="p">
+              {priceProduct} $
+          </Typography>
+        </Box>
       <Box>
-        <Typography variant="h5" className={classes.left}>
+
+    </Box>
+      </Box>
+      {/* <Button className={classes.btn}>Add to cart</Button> */}
+      <Box>
+        <Typography variant="p" className={classes.name}>
           {nameProduct}
         </Typography>
-        <Typography variant="h5" className={classes.right}>
-          <Box component="span" fontSize="16px" fontWeight="bold" mr={1}>
-            {priceProduct} $
-          </Box>
+
+        <Typography variant='p' component="p" className={classes.nameDesc}>
+            Men's Running
         </Typography>
+
       </Box>
     </Box>
   );
