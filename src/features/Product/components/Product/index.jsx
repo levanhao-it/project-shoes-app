@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Box, Typography, makeStyles, Button } from '@material-ui/core';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import './styles.scss'
 
 Product.propTypes = {};
 
@@ -11,9 +12,7 @@ const useStyles = makeStyles((theme) => ({
     transition: 'all 0.4s ease',
     '&:hover': {
       border: '1px solid #000',
-      price: {
-        bottom: '30px'
-      }
+      
     },
     // '&:before': {
     //   content: '"',
@@ -115,7 +114,7 @@ function Product(props) {
   const { imageProduct, nameProduct, priceProduct } = props;
   const classes = useStyles();
   return (
-    <Box padding={1} className={classes.box}>
+    <Box padding={1} className={`${classes.box} product-root`}>
       <Box minHeight="215px" className={classes.container}>
         <Box className={classes.favorite}>
           <FavoriteBorderIcon className={classes.icon} />
@@ -123,7 +122,7 @@ function Product(props) {
 
         <img src={imageProduct} alt={nameProduct} width="100%" className={classes.img} />
 
-        <Box component="span" fontSize="14px" mr={1} className={classes.price}>
+        <Box component="span" fontSize="14px" mr={1} className={`${classes.price} product-root__price`}>
           <Typography variant="p" component="p">
               {priceProduct} $
           </Typography>
