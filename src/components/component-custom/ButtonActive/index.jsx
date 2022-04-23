@@ -18,6 +18,7 @@ const useStyle = makeStyles((theme) => ({
     fontWeight: '600',
     borderRadius: '0',
     width:'100%',
+    padding: '0 15px',
     '&:hover': {
       backgroundColor: "#000",
       color: '#ccc',

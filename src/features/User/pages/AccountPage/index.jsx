@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Typography } from '@material-ui/core';
+import { Box, Button, Grid, IconButton, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import React, { useState } from 'react';
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
@@ -8,6 +8,11 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import ButtonSecondary from 'components/component-custom/ButtonSecondary';
+import { Close } from '@material-ui/icons';
+import UserDetail from 'features/User/components/UserDetail';
+import UserEmail from 'features/User/components/UserEmail';
+import UserPassword from 'features/User/components/UserPassword';
 
 AccountPage.propTypes = {
   
@@ -59,15 +64,6 @@ const useStyle = makeStyles(() => ({
   containerItem: {
     marginTop: '40px'
   },
-  btnActive: {
-    borderRadius: '0',
-    marginTop: '10px',
-    height: '48px',
-    width: '50%',
-    color: '#000',
-    fontWeight: 'bold',
-    border: '2px solid #000'
-  },
   link: {
     display: "block",
     textDecoration: "none",
@@ -77,6 +73,12 @@ const useStyle = makeStyles(() => ({
       backgroundColor: '#000',
       color: '#fff'
     }
+  },
+  closeButton: {
+    position: 'absolute',
+    top: '2px',
+    right: '2px',
+    zIndex: '1'
   }
   
 }))
@@ -101,6 +103,21 @@ function AccountPage(props) {
     setOpen(false);
   };
 
+  const handleOpenInfomation = () => {
+      setMode(MODE.INFORMATION);
+      handleClickOpen();
+  }
+
+  const handleOpenEmail = () => {
+      setMode(MODE.EMAIL);
+      handleClickOpen();
+  }
+
+  const handleOpenPassword = () => {
+      setMode(MODE.PASSWORD);
+      handleClickOpen();
+  }
+
   return (
     <div>
       <Box>
@@ -115,7 +132,7 @@ function AccountPage(props) {
           <Typography variant='p' component='p' className={classes.content}>Huy le</Typography>
           <Typography variant='p' component='p' className={classes.content}>29-02-2000</Typography>
           <Typography variant='p' component='p' className={classes.content}>Male</Typography>
-          <Typography variant= 'p' component='span' className={classes.edit} onClick={handleClickOpen}>Edit</Typography>
+          <Typography variant= 'p' component='span' className={classes.edit} onClick={handleOpenInfomation}>Edit</Typography>
         </Box>
 
         <Box className={classes.container}>
@@ -124,24 +141,24 @@ function AccountPage(props) {
           <Box className={classes.containerItem}>
             <Typography variant='p' component='p' className={classes.headingTitle}>Email</Typography>
             <Typography variant='p' component='p' className={classes.content}>huyle123@gmail.com</Typography>
-            <Typography variant= 'p' component='span' className={classes.edit} onClick={handleClickOpen}>Edit</Typography>
+            <Typography variant= 'p' component='span' className={classes.edit} onClick={handleOpenEmail}>Edit</Typography>
           </Box>
 
           <Box className={classes.containerItem}>
             <Typography variant='p' component='p' className={classes.headingTitle}>Password</Typography>
             <Typography variant='p' component='p' className={classes.content}>***********</Typography>
-            <Typography variant= 'p' component='span' className={classes.edit} onClick={handleClickOpen}>Edit</Typography>
+            <Typography variant= 'p' component='span' className={classes.edit} onClick={handleOpenPassword}>Edit</Typography>
           </Box>
 
           <Box className={classes.containerItem}>
             <Typography variant='p' component='p' className={classes.headingTitle}>LOG OUT FROM ALL WEB BROWSERS</Typography>
             <Typography variant='p' component='p' className={classes.subHeding}>This will log you out from all web browsers you have used to access the adidas website. To log in again, you'll have to enter your credentials.</Typography>
-            <Button variant="outlined" className={classes.btnActive}> Log me out <ArrowRightAltIcon /> </Button>
+            <ButtonSecondary content="Log me out" widthBtn="50%"/>
           </Box>
 
           <Box className={classes.containerItem}>
             <Typography variant='p' component='p' className={classes.headingTitle}>MANAGE ACCOUNT</Typography>
-            <Button variant="outlined" className={classes.btnActive}>Delete account <ArrowRightAltIcon /></Button>
+            <ButtonSecondary content="Delete account" widthBtn="50%"/>
             <Typography variant='p' component='p' className={classes.subHeding}>By deleting your account you will no longer be a member of the adidas adiClub.</Typography>
             
           </Box>
@@ -179,46 +196,14 @@ function AccountPage(props) {
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
-        {/* <IconButton className={classes.closeButton} onClick={handleClose}>
+        <IconButton className={classes.closeButton} onClick={handleClose}>
           <Close />
-        </IconButton> */}
+        </IconButton>
 
         <DialogContent>
-          {/* {mode === MODE.INFORMATION && (
-            <>
-              <Register closeDialog={handleClose} />
-
-              <Box textAlign="center">
-                <Button color="primary" onClick={() => setMode(MODE.LOGIN)}>
-                  Already have an account. Login here
-                </Button>
-              </Box>
-            </>
-          )} */}
-
-          {/* {mode === MODE.PASSWORD && (
-            <>
-              <Login closeDialog={handleClose} />
-
-              <Box textAlign="center">
-                <Button color="primary" onClick={() => setMode(MODE.REGISTER)}>
-                  Dont have an account. Register here
-                </Button>
-              </Box>
-            </>
-          )} */}
-
-          {/* {mode === MODE.EMAIL && (
-            <>
-              <Login closeDialog={handleClose} />
-
-              <Box textAlign="center">
-                <Button color="primary" onClick={() => setMode(MODE.REGISTER)}>
-                  Dont have an account. Register here
-                </Button>
-              </Box>
-            </>
-          )} */}
+          {mode === MODE.INFORMATION && <UserDetail />}
+          {mode === MODE.EMAIL && <UserEmail />}
+          {mode === MODE.PASSWORD && <UserPassword />}
         </DialogContent>
       </Dialog>
     </div>
