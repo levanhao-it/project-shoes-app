@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
   heading: {
     fontSize: '26px',
+    textTransform: 'uppercase'
   },
 }));
 
@@ -87,27 +88,8 @@ function RegisterForm(props) {
         <PasswordField name="password" label="Password" form={form} />
         <PasswordField name="confirmPassword" label="Confirm Password" form={form} />
 
-        {/* <Button
-          variant="contained"
-          margin="outlined"
-          fullWidth
-          size="large"
-          style={{ backgroundColor: '#2AC37D' }}
-          type="submit"
-        >
-          <Typography variant="h6"> Create an account</Typography>
-        </Button> */}
-
         <ButtonActive content="Create an account" type="submit" />
-
-        <Typography>
-          <Box sx={{ fontFamily: 'default', m: 1, fontSize: 12 }}>
-            Have a account?
-            <Link href="#" color={'#111'}>
-              Sign in
-            </Link>
-          </Box>
-        </Typography>
+        
       </form>
     </div>
   );

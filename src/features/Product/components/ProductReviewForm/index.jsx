@@ -4,24 +4,26 @@ import { Box, Button, FormControl, FormControlLabel, FormLabel, Grid, makeStyles
 import { Rating } from '@material-ui/lab';
 import InputField from '../../../../components/form-controls/InputField';
 import { useForm } from 'react-hook-form';
+import ButtonActive from 'components/component-custom/ButtonActive';
 
 ProductReviewForm.propTypes = {
   
 };
 
 const useStyle = makeStyles((theme) => ({
-  root: {
-    width: '500px'
-  },
+  
   titleHeading: {
     textTransform: 'uppercase',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    width: '500px',
+    textAlign: 'center'
   },
 
   titleSub: {
     fontSize: '14px',
     color: '#8d8d8d',
-    marginTop: '4px'
+    marginTop: '4px',
+    textAlign: 'center'
   },
 
   content: {
@@ -33,7 +35,14 @@ const useStyle = makeStyles((theme) => ({
   },
 
   containerContent: {
-    marginTop: '20px'
+    marginTop: '20px',
+    borderTop: '1px solid #ccc',
+    paddingTop: '20px'
+  },
+  titleCheckbox: {
+    fontSize: '14px',
+    color: '#000',
+    marginBottom: '10px'
   }
 }))
 
@@ -64,10 +73,8 @@ function ProductReviewForm(props) {
   };
   return (
     <form>
-      <Grid align='center' className={classes.root}>
-        <Typography variant='h4' align='center' className={classes.titleHeading}>Write a review</Typography>
-        <Typography variant='p' align='center' className={classes.titleSub}>Please share your experience</Typography>
-      </Grid>
+      <Typography variant='h4'  className={classes.titleHeading}>Write a review</Typography>
+      <Typography variant='p' component='p' className={classes.titleSub}>Please share your experience</Typography>
 
       <Grid container className={classes.content}>
         <Grid item sx={12} sm={4}>
@@ -76,6 +83,7 @@ function ProductReviewForm(props) {
 
         <Grid item sx={12} sm={8}>
         <Rating
+          size='small'
           name="simple-controlled"
           value={valueRating}
           onChange={(event, newValue) => {
@@ -88,7 +96,7 @@ function ProductReviewForm(props) {
       <Grid container className={classes.containerContent}>
         <Grid sx={12} sm={4} >
             <FormControl component="fieldset">
-            <FormLabel component="legend">Size:</FormLabel>
+            <FormLabel component="legend" className={classes.titleCheckbox}>Size:</FormLabel>
             <RadioGroup aria-label="gender" name="gender1" value={sizeValue} onChange={handleChangeSize}>
               <FormControlLabel value="Runs Small" control={<Radio color="default"/>} label="Runs Small" size="small" />
               <FormControlLabel value="Just Right" control={<Radio color="default"/>} label="Just Right"  size="small"/>
@@ -98,7 +106,7 @@ function ProductReviewForm(props) {
         </Grid>
         <Grid sx={12} sm={4}>
           <FormControl component="fieldset">
-            <FormLabel component="legend">Comfort:</FormLabel>
+            <FormLabel component="legend" className={classes.titleCheckbox}>Comfort:</FormLabel>
             <RadioGroup aria-label="gender" name="gender1" value={comfortValue} onChange={handleChangeComfort}>
               <FormControlLabel value="Uncomfortable" control={<Radio color="default"/>} label="Uncomfortable" size="small"/>
               <FormControlLabel value="Average" control={<Radio color="default"/>} label="Average"  size="small"/>
@@ -108,7 +116,7 @@ function ProductReviewForm(props) {
         </Grid>
         <Grid sx={12} sm={4}>
           <FormControl component="fieldset">
-            <FormLabel component="legend">Durability</FormLabel>
+            <FormLabel component="legend" className={classes.titleCheckbox}>Durability:</FormLabel>
             <RadioGroup aria-label="gender" name="gender1" value={durabilityValue} onChange={handleChangeDurability}>
               <FormControlLabel value="Not Durable" control={<Radio color="default"/>} label="Not Durable" size="small"/>
               <FormControlLabel value="Average" control={<Radio color="default"/>} label="Average"  size="small"/>
@@ -124,20 +132,11 @@ function ProductReviewForm(props) {
         </Grid>
 
         <Grid item sx={12} sm={12}>
-          <InputField name="content" label="Review Content" form={form} />
+          <InputField name="content" label="Review Content" multiline rows={4} form={form} />
         </Grid>
 
 
-      <Button
-            className={classes.submit}
-            variant="contained"
-            fullWidth
-            size="large"
-            type="submit"
-            style={{ backgroundColor: '#000', color: '#fff' }}
-          >
-            Submit
-          </Button>
+        <ButtonActive content="Submit" />
 
     </form>
   );

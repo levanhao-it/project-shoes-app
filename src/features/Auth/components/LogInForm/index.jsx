@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     fontSize: '26px',
     fontWeight: 'bold',
+    textTransform: 'uppercase'
   },
   submit: {
     backgroundColor: '#2AC37D',
@@ -111,16 +112,8 @@ function LogInForm(props) {
             </Box>
           </Typography>
 
-          <ButtonActive content="sign in" />
+          <ButtonActive content="sign in" type="submit"/>
 
-          <Box mt={2}>
-            <Typography variant="p" component="p">
-              Not a Member?
-              <Link href="#" className={classes.link}>
-                Join Us
-              </Link>
-            </Typography>
-          </Box>
         </Box>
       </form>
     </Box>

@@ -42,7 +42,7 @@ function ProductReview(props) {
     <div className={classes.root}>
       <Typography className={classes.title} variant= 'p' >Nike’s best ever seller is always a nice choice</Typography>
       <Box display="flex" mt={1} className={classes.ratingContent} alignItems="center">
-        <Rating name="read-only" value={3} readOnly />
+        <Rating name="read-only" value={3} readOnly size='small'/>
         <Typography variant='p' className={classes.ratingHeading}> By <Typography display='inline' variant='p' className={classes.commentName}>Alena Studio</Typography> - November 25, 2017</Typography>
       </Box>
       

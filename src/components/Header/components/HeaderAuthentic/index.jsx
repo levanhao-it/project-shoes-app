@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogContent, makeStyles } from '@material-ui/core';
+import { Box, Button, Dialog, DialogContent, makeStyles, Typography } from '@material-ui/core';
 import Close from '@material-ui/icons/Close';
 import React, { useState } from 'react';
 import LogIn from '../../../../features/Auth/components/LogIn';
@@ -21,27 +21,37 @@ const useStyles = makeStyles((theme) => ({
     cursor: 'pointer',
     fontSize: '30px',
   },
+  footerForm: {
+    justifyContent: 'center',
+    margin: '10px 0 20px'
+  },
+  footerTitle: {
+    color: '#8d8d8d'
+  },
+  footerLink: {
+    marginLeft: '4px',
+    textDecoration: 'underline',
+    cursor: 'pointer'
+  }
 }));
 
+const MODE = {
+  LOGIN: 'login',
+  REGISTER: 'resgister'
+}
+
 function HeaderAuthentic(props) {
-  const [openLogin, setOpenLogin] = useState(false);
-  const [openRegister, setOpenRegister] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [mode, setMode] = useState(MODE.LOGIN)
 
-  const handleClickOpenLogin = () => {
-    setOpenLogin(true);
+  const handleClickOpen = () => {
+    setOpen(true);
   };
 
-  const handleCloseLogin = () => {
-    setOpenLogin(false);
+  const handleClose = () => {
+    setOpen(false);
   };
 
-  const handleClickOpenRegister = () => {
-    setOpenRegister(true);
-  };
-
-  const handleCloseRegister = () => {
-    setOpenRegister(false);
-  };
 
   const classes = useStyles();
   return (
@@ -52,11 +62,11 @@ function HeaderAuthentic(props) {
         </p>
 
         <ul className="header-authetic__list">
-          <Button onClick={handleClickOpenRegister} className="header-authetic__link">
+          <Button  className="header-authetic__link" onClick={handleClickOpen}>
             Register
           </Button>
 
-          <Button onClick={handleClickOpenLogin} className="header-authetic__item">
+          <Button  className="header-authetic__item" onClick={handleClickOpen}>
             Login
           </Button>
 
@@ -70,24 +80,35 @@ function HeaderAuthentic(props) {
         </ul>
       </div>
 
-      <Dialog open={openLogin} onClose={handleCloseLogin} disableEscapeKeyDown>
-        <Close className={classes.icon} onClick={handleCloseLogin}></Close>
+      <Dialog open={open} onClose={handleClose} disableEscapeKeyDown>
+        <Close className={classes.icon} onClick={handleClose}></Close>
         <DialogContent>
-          <LogIn />
+          {mode === MODE.LOGIN && (
+            <>
+              <LogIn />
+              <Box display='flex' className={classes.footerForm}>
+                <Typography variant='p' component = "p" className={classes.footerTitle}>Not a member? </Typography> 
+                <Typography variant='span' component='span' className={classes.footerLink} onClick={() => setMode(MODE.REGISTER)}>Join Us</Typography>
+
+              </Box>
+            </>
+          )}
+
+          {mode === MODE.REGISTER && (
+            <>
+              <Register />
+              <Box display= 'flex' className={classes.footerForm}>
+                <Typography variant='p' component = "p" className={classes.footerTitle} >Already a member? </Typography> 
+                <Typography variant='span' component='span'  className={classes.footerLink} onClick={() => setMode(MODE.LOGIN)}>Sign In</Typography>
+              </Box>
+              
+            </>
+          )}
+
         </DialogContent>
       </Dialog>
 
-      <Dialog
-        disableEscapeKeyDown
-        open={openRegister}
-        onClose={handleCloseRegister}
-        className={classes.dialog}
-      >
-        <Close className={classes.icon} onClick={handleCloseRegister}></Close>
-        <DialogContent>
-          <Register />
-        </DialogContent>
-      </Dialog>
+
     </div>
   );
 }
