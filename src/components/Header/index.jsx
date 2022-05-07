@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import HeaderAuthentic from './components/HeaderAuthentic';
 import HeaderNavigation from './components/HeaderNavigation';
 import HeaderServices from './components/HeaderServices';
 import { Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
+import HeaderAuthentic from './components/HeaderAuthemtic';
 
 Header.propTypes = {};
 
