@@ -27,6 +27,7 @@ function ProductDetailPage(props) {
         <Grid item xs={4}>
           <ProductSidebar/>
         </Grid>
+        
         <Grid item xs={12}>
         <ProductRecomend />
         </Grid>

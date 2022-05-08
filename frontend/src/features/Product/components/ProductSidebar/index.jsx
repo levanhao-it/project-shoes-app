@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Box, Grid, Typography, Button } from '@material-ui/core';
+import { Box, Grid, Typography, Button, makeStyles, IconButton } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
 import StraightenIcon from '@material-ui/icons/Straighten';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
-import { makeStyles } from '@material-ui/styles';
 import ButtonActive from 'components/component-custom/ButtonActive';
 ProductSidebar.propTypes = {};
 
@@ -35,20 +34,29 @@ const useStyle = makeStyles((theme) => ({
   reviewDesc: {
     fontSize: '14px',
   },
-  button: {
-    width: `calc(100% / 5)`,
-    height: '40px',
-    borderRadius: '0',
-    fontSize: '14px',
-    fontWeight: '500',
-    border: '1px solid #ccc',
-    margin: '1px',
-    '&:hover': {
-      backgroundColor: '#2AC37D',
-      color: '#fff',
-      border: '1px solid #fff',
-    },
+
+  listSize: {
+    display: 'flex',
+    flexFlow: 'row wrap',
+    padding: '0',
+    listStyle: 'none',
   },
+
+  size: {
+    width: '50px',
+    height: '50px',
+    border: '1px solid #e9ecef',
+    marginBottom: '-1px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    '&:hover': {
+      cursor: 'pointer',
+      backgroundColor: '#000',
+      color: '#fff',
+    }
+  },
+
   buttonCart: {
     width: '80%',
     backgroundColor: '#000',
@@ -167,25 +175,19 @@ function ProductSidebar(props) {
           </Box>
         </Box>
 
-        <Box>
-          <Button variant="outlined" size="large" className={classes.button}>
-            4
-          </Button>
-          <Button variant="outlined" size="large" className={classes.button}>
-            4.5
-          </Button>
-          <Button variant="outlined" size="large" className={classes.button}>
-            5
-          </Button>
-          <Button variant="outlined" size="large" className={classes.button}>
-            5.5
-          </Button>
-          <Button variant="outlined" size="large" className={classes.button}>
-            6
-          </Button>
-          <Button variant="outlined" size="large" className={classes.button}>
-            6.5
-          </Button>
+        <Box component='ul' className={classes.listSize}>
+          <li className={classes.size}>4</li>
+          <li className={classes.size}>4.5</li>
+          <li className={classes.size}>5</li>
+          <li className={classes.size}>5.5</li>
+          <li className={classes.size}>6</li>
+          <li className={classes.size}>6.5</li>
+          <li className={classes.size}>7</li>
+          <li className={classes.size}>7.5</li>
+          <li className={classes.size}>8</li>
+          <li className={classes.size}>8.5</li>
+          <li className={classes.size}>9</li>
+          <li className={classes.size}>9.5</li>
         </Box>
       </Box>
 
@@ -197,7 +199,6 @@ function ProductSidebar(props) {
           <Button variant="outlined" className={classes.buttonHeart}>
             <FavoriteBorderIcon fontSize="large" />
           </Button>
-
         </Box>
       </Box>
     </div>

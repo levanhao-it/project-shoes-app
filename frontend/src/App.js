@@ -25,7 +25,7 @@ function App() {
       <div className={classes.root}>
         <Switch>
           <Redirect from="/home" to="/" exact />
-          <Route path="/products" component={ProductFeature} exact />
+          <Route path="/products" component={ProductFeature} />
 
           <Route path="/" component={Home} exact />
           <Route path="/cart" component={CartFeature} />

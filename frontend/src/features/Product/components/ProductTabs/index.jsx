@@ -71,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
     color: '#000',
     marginTop: '6px',
     cursor: 'pointer',
-    display: 'block'
+    display: 'inline-block'
   }
 }));
 
@@ -113,26 +113,20 @@ export default function ProductTabs() {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        <Typography>
+        <Typography variant='body2'>
         Caramels tootsie roll carrot cake sugar plum. Sweet roll jelly bear claw liquorice. Gingerbread lollipop dragée cake. Pie topping jelly-o. Fruitcake dragée candy canes tootsie roll. Pastry jelly-o cupcake. Bonbon brownie soufflé muffin.
-
-Sweet roll soufflé oat cake apple pie croissant. Pie gummi bears jujubes cake lemon drops gummi bears croissant macaroon pie. Fruitcake tootsie roll chocolate cake Carrot cake cake bear claw jujubes topping cake apple pie. Jujubes gummi bears soufflé candy canes topping gummi bears cake soufflé cake. Cotton candy soufflé sugar plum pastry sweet roll..
+  Sweet roll soufflé oat cake apple pie croissant. Pie gummi bears jujubes cake lemon drops gummi bears croissant macaroon pie. Fruitcake tootsie roll chocolate cake Carrot cake cake bear claw jujubes topping cake apple pie. Jujubes gummi bears soufflé candy canes topping gummi bears cake soufflé cake. Cotton candy soufflé sugar plum pastry sweet roll..
         </Typography>
       </TabPanel>
       <TabPanel value={value} index={1}>
         <>
           <Box display="flex" alignItems="center">
-            <Rating name="read-only" defaultValue={3.5} precision={0.5} readOnly size='large'/>
+            <Rating name="read-only" defaultValue={3.5} precision={0.5} readOnly size='medium'/>
             <Typography variant='p' className={classes.titleRating}>4.5 stars</Typography>
           </Box>
-
           <Link className={classes.commentLink} onClick={handleOpenReview}>Write a Review</Link>
-
           <ProductReview />
         </>
-        
-
-
       </TabPanel>
       <TabPanel value={value} index={2}>
         Item Three
