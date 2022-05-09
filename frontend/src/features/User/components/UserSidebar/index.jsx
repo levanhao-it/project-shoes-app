@@ -48,21 +48,21 @@ function UserSidebar(props) {
 
       <Box className={classes.menuList} mt={4}>
           <Box>
-            <NavLink to="/account" className={classes.link} activeClassName='active-menu'>
+            <NavLink to="/user" className={classes.link} activeClassName='active-menu'>
               Personal Information 
               <ChevronRightIcon />
             </NavLink>
           </Box>
 
           <Box>
-            <NavLink to="/user" className={classes.link} activeClassName='active-menu'>
+            <NavLink to="/user/whishList" className={classes.link} activeClassName='active-menu'>
               My WishList
               <ChevronRightIcon />
             </NavLink>
           </Box>
 
           <Box>
-            <NavLink to="/order" className={classes.link} activeClassName='active-menu'>
+            <NavLink to="/user/order" className={classes.link} activeClassName='active-menu'>
               My orders
               <ChevronRightIcon />
             </NavLink>

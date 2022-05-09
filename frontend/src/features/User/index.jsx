@@ -1,9 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { Box, Grid } from '@material-ui/core';
-import UserSidebar from './components/UserSidebar';
 import { makeStyles } from '@material-ui/styles';
+import React from 'react';
+import { Route, Switch, useRouteMatch } from 'react-router-dom';
+import UserSidebar from './components/UserSidebar';
 import AccountPage from './pages/AccountPage';
+import OrderListPage from './pages/OrderListPage';
+import WishListPage from './pages/WishListPage';
 
 UserFeature.propTypes = {
   
@@ -21,7 +23,8 @@ const useStyle = makeStyles((theme) => ({
 }))
 
 function UserFeature(props) {
-  const classes = useStyle()
+  const classes = useStyle();
+  const match = useRouteMatch()
   return (
     <div className={classes.root}>
       <Box className={classes.container}>
@@ -30,7 +33,11 @@ function UserFeature(props) {
             <UserSidebar/>
           </Grid>
           <Grid item xs={9}>
-            <AccountPage />
+            <Switch>
+              <Route path={`${match.url}`} exact component={AccountPage}/>
+              <Route path={`${match.url}/order`} exact component={OrderListPage}/>
+              <Route path={`${match.url}/whishList`} extact component={WishListPage}/>
+            </Switch>
           </Grid>
         </Grid>
 

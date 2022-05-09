@@ -8,7 +8,7 @@ WishListPage.propTypes = {
 function WishListPage(props) {
   return (
     <div>
-      
+      WhisList Page
     </div>
   );
 }
