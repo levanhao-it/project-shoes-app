@@ -90,10 +90,6 @@ const useSytle = makeStyles((theme) => ({
     fontWeight: 'bold'
   },
 
-  btn: {
-    float: 'right'
-  },
-
   totalPrice: {
     fontSize: '18px',
     fontWeight: 'bold'
@@ -151,7 +147,7 @@ function OrderDetail(props) {
       </Box>
       
       <Box className={classes.btn}>
-        <ButtonActive content='Mua lại' widthBtn='200px'/>
+        <ButtonActive content='Buy again' widthBtn='200px'/>
       </Box>
     </Paper>
   );

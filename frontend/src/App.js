@@ -1,5 +1,8 @@
+import { Collapse, Fade } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
+import { WIDTH_HEADER } from "constant";
 import UserFeature from "features/User";
+import { useEffect, useState } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import "./App.css";
 import Footer from "./components/Footer";
@@ -18,9 +21,31 @@ const useStyle = makeStyles((theme) => ({
 
 function App() {
   const classes = useStyle();
+  const [showHeader, setShowHeader] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  const handleScroll = (e) => {
+    console.log(window.pageYOffset);
+    if (window.pageYOffset > WIDTH_HEADER && window.pageYOffset > lastScrollY) {
+      setShowHeader(false);
+    } else {
+      setShowHeader(true);
+    }
+
+    setLastScrollY(window.pageYOffset);
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollY]);
+
   return (
     <div className="App">
-      <Header />
+      <Collapse in={showHeader}>
+        <Header />
+      </Collapse>
 
       <div className={classes.root}>
         <Switch>

@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import HeaderNavigation from './components/HeaderNavigation';
 import HeaderServices from './components/HeaderServices';
-import { Box } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { Box, makeStyles } from '@material-ui/core';
+
 import HeaderAuthentic from './components/HeaderAuthemtic';
 
 Header.propTypes = {};
@@ -15,7 +15,7 @@ const useStyle = makeStyles((theme) => ({
     top: 0,
     right: 0,
     left: 0,
-    backgroundColor: "#fff"
+    backgroundColor: "#fff",
   }
 }))
 
