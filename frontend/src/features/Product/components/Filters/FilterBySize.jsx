@@ -60,8 +60,8 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     minWidth: `30px`,
-    width: `40px`,
-    height: '40px',
+    width: `70px`,
+    height: '70px',
     borderRadius: '0',
     fontSize: '14px',
     fontWeight: '500',

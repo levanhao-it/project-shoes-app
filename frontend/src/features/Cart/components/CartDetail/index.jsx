@@ -4,12 +4,13 @@ import { Box, Button, makeStyles, Typography } from '@material-ui/core';
 
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import CartList from '../CartList';
+import ButtonActive from 'components/component-custom/ButtonActive';
 
 CartDetail.propTypes = {};
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: '70px 0',
+    padding: '0px 25px',
   },
   thread: {
     borderBottom: '1px solid #e6e6e6',
@@ -55,21 +56,14 @@ const useStyles = makeStyles((theme) => ({
 function CartDetail(props) {
   const classes = useStyles();
   return (
-    <Box>
+    <Box className={classes.root}>
       <Typography variant="h3" className={classes.title}>
         Your Bag
       </Typography>
       <Typography variant="h6"> TOTAL (2 products) 9,5$</Typography>
       <CartList />
       <Box mt={3}>
-        <Button variant="contained" className={classes.buttonCart} size="large">
-          <Box display="flex" justifyContent="space-between" width="100%">
-            <ArrowBackIcon fontSize="large" />
-            <Typography variant="h5" className={classes.buttonTitle}>
-              continue shopping
-            </Typography>
-          </Box>
-        </Button>
+        <ButtonActive content="Shopping Continue" />
       </Box>
     </Box>
   );

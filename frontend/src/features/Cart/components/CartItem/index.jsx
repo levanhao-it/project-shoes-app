@@ -1,10 +1,19 @@
-import { Box, Grid, InputBase, makeStyles, Typography, withStyles } from '@material-ui/core';
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  Grid,
+  InputBase,
+  makeStyles,
+  Typography,
+  withStyles,
+} from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import CloseIcon from '@material-ui/icons/Close';
-import React from 'react';
+import React, { useState } from 'react';
 
 CartItem.propTypes = {};
 
@@ -80,6 +89,10 @@ const useStyle = makeStyles((theme) => ({
   header: {
     marginBottom: '10px',
   },
+  quantity: {
+    fontSize: '18px',
+    padding: '10px 0px 10px 20px',
+  },
 }));
 
 function CartItem(props) {
@@ -87,10 +100,14 @@ function CartItem(props) {
   const { imageProduct, nameProduct, priceProduct, sizeProduct, colorProduct, quantityProduct } =
     props;
 
-  const [quantity, setQuantity] = React.useState({ quantityProduct });
-  const handleChange = (event) => {
-    setQuantity(event.target.value);
-  };
+  const [quantity, setQuantity] = useState(quantityProduct);
+  // const handleInCreaseQuantity = (event) => {
+  //   setQuantity(quantityProduct + 1);
+  // };
+
+  // const handleDecreaseQuantity = (event) => {
+  //   setQuantity(quantityProduct - 1);
+  // };
 
   return (
     <Box>
@@ -122,21 +139,13 @@ function CartItem(props) {
           <Typography className={classes.title}>
             <span>size: </span> {sizeProduct}
           </Typography>
-          <FormControl className={classes.form}>
-            <NativeSelect id="" value={quantity} onChange={handleChange} input={<BootstrapInput />}>
-              <option value={0}>{quantityProduct}</option>
-              <option value={1}>1</option>
-              <option value={2}>2</option>
-              <option value={3}>3</option>
-              <option value={4}>4</option>
-              <option value={5}>5</option>
-              <option value={6}>6</option>
-              <option value={7}>7</option>
-              <option value={8}>8</option>
-              <option value={9}>9</option>
-              <option value={10}>10</option>
-            </NativeSelect>
-          </FormControl>
+          <Box className={classes.form}>
+            <ButtonGroup variant="contained" color="inherit">
+              <Button>-</Button>
+              <Typography className={classes.quantity}>{quantity}</Typography>
+              <Button>+</Button>
+            </ButtonGroup>
+          </Box>
         </Grid>
       </Grid>
     </Box>
