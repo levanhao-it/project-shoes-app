@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Grid, makeStyles } from '@material-ui/core';
+import { Grid, Hidden, makeStyles } from '@material-ui/core';
 import ProductInfo from '../../components/ProductInfo';
 import ProductSidebar from '../../components/ProductSidebar';
 import ProductRecomend from '../../components/ProductRecomend';
+import ProductTabs from 'features/Product/components/ProductTabs';
 
 ProductDetailPage.propTypes = {
   
@@ -19,20 +20,44 @@ function ProductDetailPage(props) {
   const classes = useStyle();
   return (
     <div className={classes.root}>
-      <Grid container spacing={0} >
-        <Grid item xs={8}>
-          <ProductInfo />
+
+      {/* Laptop */}
+      <Hidden smDown>
+        <Grid container spacing={0} >
+          <Grid item xs={12} md={8} lg={8}>
+            <ProductInfo />
+          </Grid>
+
+          <Grid item xs={12} md={4} lg={4}>
+            <ProductSidebar/>
+          </Grid>
+          
+          <Grid item xs={12} md={12} lg={12}>
+          <ProductRecomend />
+          </Grid>
         </Grid>
 
-        <Grid item xs={4}>
-          <ProductSidebar/>
+      </Hidden>
+
+      {/* Tablet - Mobile */}
+      <Hidden mdUp>
+      <Grid container spacing={0} >
+          <Grid item xs={12} sm={12} >
+            <ProductSidebar/>
+          </Grid>
+
+          <Grid item xs={12} sm={12} >
+              <ProductTabs />
+          </Grid>
+          
+          <Grid item xs={12} sm={12}>
+          <ProductRecomend />
+          </Grid>
         </Grid>
-        
-        <Grid item xs={12}>
-        <ProductRecomend />
-        </Grid>
-       
-      </Grid>
+      </Hidden>
+     
+
+
     </div>
   );
 }

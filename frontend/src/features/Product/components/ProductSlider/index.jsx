@@ -1,5 +1,4 @@
-import { Box } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { Box, makeStyles } from '@material-ui/core';
 import React from 'react';
 import { Autoplay, Navigation, Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -11,7 +10,10 @@ ProductSilder.propTypes = {
 
 const useStyle = makeStyles((theme)=> ({
   silderImg: {
-    margin: 'auto',
+    width: '600px',
+    [theme.breakpoints.down('sm')]: {
+      width: '100%'
+    }
   },
 }))
 
@@ -35,21 +37,22 @@ function ProductSilder(props) {
         navigation={true}
         modules={[Pagination, Navigation, Autoplay]}
         className="mySwiper"
+        
       >
         <SwiperSlide>
-          <Box width={600} className={classes.silderImg}>
+          <Box className={classes.silderImg}>
             <img src="http://nouthemes.net/html/trueshoes/images/shoe-detail/1.jpg" alt="" width="100%"/>
           </Box>
         </SwiperSlide>
 
         <SwiperSlide>
-          <Box width={600} className={classes.silderImg}>
+          <Box className={classes.silderImg}>
             <img src="http://nouthemes.net/html/trueshoes/images/shoe-detail/2.jpg" alt="" width="100%"/>
           </Box>
         </SwiperSlide>
 
         <SwiperSlide>
-          <Box width={600} className={classes.silderImg}>
+          <Box  className={classes.silderImg}>
             <img src="http://nouthemes.net/html/trueshoes/images/shoe-detail/3.jpg" alt="" width="100%"/>
           </Box>
         </SwiperSlide>

@@ -1,4 +1,4 @@
-import { Box, Container, Grid } from '@material-ui/core';
+import { Box, Container, Grid, Hidden } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
@@ -31,9 +31,11 @@ function UserFeature(props) {
     <div className={classes.root}>
       <Container className={classes.container}>
         <Grid container>
-          <Grid item xs={12} sm={12} md={3} lg={3} >
-            <UserSidebar />
-          </Grid>
+          <Hidden smDown>
+            <Grid item xs={12} sm={12} md={3} lg={3} >
+              <UserSidebar />
+            </Grid>
+          </Hidden>
           <Grid item xs={12} sm={12} md={9} lg={9} >
             <Switch>
               <Route path={`${match.url}`} exact component={AccountPage} />

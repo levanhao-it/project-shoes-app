@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Grid, Typography } from '@material-ui/core';
+import { Grid, Typography, useMediaQuery, useTheme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import InputField from '../../../../components/form-controls/InputField';
 import { useForm } from 'react-hook-form';
@@ -40,15 +40,19 @@ function DeliveryForm(props) {
       locationStore: '',
     },
   });
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down('sm'));
+
+
   return (
     <form>
       <Typography variant='h3' className={classes.headingTitle}>Shipping Adrress</Typography>
       
-      <Grid container spacing={2}>
-        <Grid item xs={6}>
+      <Grid container spacing={matches ? 0 : 2}>
+        <Grid item xs={12} md={6}>
           <InputField name='firstName' label='First Name *' form={form}/>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <InputField name='lastName' label='Last Name *' form={form}/>
         </Grid>
       </Grid>
@@ -63,20 +67,20 @@ function DeliveryForm(props) {
       <Typography variant='p' className={classes.subHeading}>Please provide a location to find the most convenient store:</Typography>
       <InputField name='locationStore' label='Location *' form={form}/>
       
-      <ButtonActive content = "search for store" widthBtn="40%" />
+      <ButtonActive content = "search for store" widthBtn={matches ? '100%' : '50%'} />
 
       <Typography variant='h3' className={classes.headingTitle}>Contact details</Typography>
       <Typography variant='p' className={classes.subHeading}>We'll use these details to keep you informed on your delivery.</Typography>
-      <Grid container spacing={2}>
-        <Grid item xs={6}>
+      <Grid container spacing={matches ? 0 : 2}>
+        <Grid item xs={12} md={6}>
           <InputField name='email' label='Email *' form={form}/>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} md={6}>
           <InputField name='phone' label='Phone *' form={form}/>
         </Grid>
       </Grid>
 
-      <ButtonActive content = "Review and pay" widthBtn="40%"/>
+      <ButtonActive content = "Review and pay" widthBtn={matches ? '100%' : '50%'}/>
 
 
 

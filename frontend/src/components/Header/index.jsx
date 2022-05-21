@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import HeaderNavigation from './components/HeaderNavigation';
 import HeaderServices from './components/HeaderServices';
-import { Box, makeStyles } from '@material-ui/core';
+import { Box, Hidden, makeStyles } from '@material-ui/core';
 
 import HeaderAuthentic from './components/HeaderAuthemtic';
 
@@ -23,9 +23,15 @@ function Header(props) {
   const classes =  useStyle();
   return (
     <Box className={classes.root} >
-      <HeaderAuthentic />
+      <Hidden smDown>
+        <HeaderAuthentic />
+      </Hidden>
+      
       <HeaderNavigation />
-      <HeaderServices />
+
+      <Hidden smDown>
+        <HeaderServices />
+      </Hidden>
     </Box>
   );
 }

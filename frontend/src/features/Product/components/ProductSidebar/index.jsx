@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Box, Grid, Typography, Button, makeStyles, IconButton } from '@material-ui/core';
+import { Box, Grid, Typography, Button, makeStyles, IconButton, Hidden } from '@material-ui/core';
 import { Rating } from '@material-ui/lab';
 import StraightenIcon from '@material-ui/icons/Straighten';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 import ButtonActive from 'components/component-custom/ButtonActive';
+import ProductSilder from '../ProductSlider';
 ProductSidebar.propTypes = {};
 
 const useStyle = makeStyles((theme) => ({
   root: {
     padding: '30px 0 0 40px',
+    [theme.breakpoints.down('sm')]: {
+      padding: '0',
+    }
   },
   productName: {
     margin: '20px 0 10px',
@@ -128,16 +132,23 @@ function ProductSidebar(props) {
           $140
         </Typography>
       </Box>
-
-      <Box>
-        <Typography variant="p" className={classes.title} gutterBottom>
-          Quick review
-        </Typography>
-        <Typography variant="p" className={classes.reviewDesc} gutterBottom>
-          The Nike Free RN 2017 Men's Running Shoe weighs less than previous versions and features
-          an updated knit material…
-        </Typography>
-      </Box>
+      
+      <Hidden mdUp>
+        <ProductSilder />
+      </Hidden>
+      
+      <Hidden smDown>
+        <Box>
+          <Typography variant="p" className={classes.title} gutterBottom>
+            Quick review
+          </Typography>
+          <Typography variant="p" className={classes.reviewDesc} gutterBottom>
+            The Nike Free RN 2017 Men's Running Shoe weighs less than previous versions and features
+            an updated knit material…
+          </Typography>
+        </Box>
+      </Hidden>
+      
 
       <Box>
         <Typography variant="p" className={classes.title} gutterBottom>

@@ -28,7 +28,7 @@ function ProductRecomend(props) {
         OTHERS ALSO BOUGHT
       </Typography>
       <Swiper
-        slidesPerView={4}
+        slidesPerView={"auto"}
         spaceBetween={30}
         slidesPerGroup={3}
         loop={true}
@@ -39,6 +39,25 @@ function ProductRecomend(props) {
         navigation={true}
         modules={[Navigation]}
         className="mySwiper"
+        breakpoints={{
+          0: {
+            slidesPerView: 1,
+            spaceBetween: 20
+          },
+
+          450: {
+            slidesPerView: 2,
+            spaceBetween: 20
+          },
+          600: {
+            slidesPerView:2,
+            spaceBetween: 20
+          },
+          960: {
+            slidesPerView: 4,
+            spaceBetween: 20
+          }
+        }}  
       >
         <SwiperSlide>
           <Product

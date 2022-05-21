@@ -1,5 +1,4 @@
-import { Collapse, Fade } from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
+import { Collapse, Fade, makeStyles } from "@material-ui/core";
 import { WIDTH_HEADER } from "constant";
 import UserFeature from "features/User";
 import { useEffect, useState } from "react";
@@ -16,6 +15,9 @@ import ProductFeature from "./features/Product";
 const useStyle = makeStyles((theme) => ({
   root: {
     marginTop: "180px",
+    [theme.breakpoints.down("sm")]: {
+      marginTop: "90px",
+    },
   },
 }));
 
