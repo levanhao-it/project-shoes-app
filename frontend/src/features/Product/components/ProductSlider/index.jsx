@@ -11,6 +11,7 @@ ProductSilder.propTypes = {
 const useStyle = makeStyles((theme)=> ({
   silderImg: {
     width: '600px',
+    margin: 'auto',
     [theme.breakpoints.down('sm')]: {
       width: '100%'
     }

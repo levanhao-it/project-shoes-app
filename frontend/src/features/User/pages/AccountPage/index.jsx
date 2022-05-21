@@ -1,4 +1,4 @@
-import { Box, Button, Grid, IconButton, Typography } from '@material-ui/core';
+import { Box, Button, Grid, IconButton, Typography, useMediaQuery, useTheme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import React, { useState } from 'react';
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
@@ -91,6 +91,8 @@ const MODE = {
 
 function AccountPage(props) {
   const classes = useStyle();
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down('xs'))
 
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState(MODE.INFORMATION);
@@ -153,12 +155,12 @@ function AccountPage(props) {
           <Box className={classes.containerItem}>
             <Typography variant='p' component='p' className={classes.headingTitle}>LOG OUT FROM ALL WEB BROWSERS</Typography>
             <Typography variant='p' component='p' className={classes.subHeding}>This will log you out from all web browsers you have used to access the adidas website. To log in again, you'll have to enter your credentials.</Typography>
-            <ButtonSecondary content="Log me out" widthBtn="50%"/>
+            <ButtonSecondary content="Log me out" widthBtn={matches ? '100%' : '50%'}/>
           </Box>
 
           <Box className={classes.containerItem}>
             <Typography variant='p' component='p' className={classes.headingTitle}>MANAGE ACCOUNT</Typography>
-            <ButtonSecondary content="Delete account" widthBtn="50%"/>
+            <ButtonSecondary content="Delete account" widthBtn={matches ? '100%' : '50%'}/>
             <Typography variant='p' component='p' className={classes.subHeding}>By deleting your account you will no longer be a member of the adidas adiClub.</Typography>
             
           </Box>
@@ -171,17 +173,17 @@ function AccountPage(props) {
 
           <Box className={classes.root} mt={2}>
             <Grid container spacing={4}>
-              <Grid item xs={3}>
+              <Grid item xs={12} sm={6} md={4}>
                 <Link path="" className={classes.link}>Products</Link>
                 <Link path="" className={classes.link}>Ordering & Payments</Link>
                 <Link path="" className={classes.link}>Delivery</Link>
               </Grid>
-              <Grid item xs={3}>
+              <Grid item xs={12} sm={6} md={4}>
                 <Link path="" className={classes.link}>Promotion & Voucher</Link>
                 <Link path="" className={classes.link}>Returns & Refunds</Link>
                 <Link path="" className={classes.link}>Account & Newsletter</Link>
               </Grid>
-              <Grid item xs={3}>
+              <Grid item xs={12} sm={6} md={4}>
               <Link path="" className={classes.link}>Company Information</Link>
               </Grid>
             </Grid>

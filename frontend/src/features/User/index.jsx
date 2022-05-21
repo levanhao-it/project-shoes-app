@@ -1,5 +1,4 @@
-import { Box, Container, Grid, Hidden } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { Box, Container, Grid, Hidden, makeStyles } from '@material-ui/core';
 import React from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import UserSidebar from './components/UserSidebar';
@@ -15,6 +14,9 @@ const useStyle = makeStyles((theme) => ({
   },
   container: {
     padding: '80px 0',
+    [theme.breakpoints.down('sm')]: {
+      padding: '40px 0'
+    }
   },
   // ml: {
   //   marginLeft: '14px',

@@ -1,10 +1,9 @@
+import { Box, Grid, Hidden, makeStyles } from '@material-ui/core';
+import ProductTabsMobile from 'features/Product/components/ProductTabsMobile';
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Grid, Hidden, makeStyles } from '@material-ui/core';
 import ProductInfo from '../../components/ProductInfo';
-import ProductSidebar from '../../components/ProductSidebar';
 import ProductRecomend from '../../components/ProductRecomend';
-import ProductTabs from 'features/Product/components/ProductTabs';
+import ProductSidebar from '../../components/ProductSidebar';
 
 ProductDetailPage.propTypes = {
   
@@ -12,7 +11,14 @@ ProductDetailPage.propTypes = {
 
 const useStyle = makeStyles((theme) => ({
   root: {
-    padding: '60px 40px 0'
+    padding: '60px 40px 0',
+    [theme.breakpoints.down('xs')]: {
+      padding: '40px 20px'
+    },
+  },
+
+  tabsMobile: {
+    marginTop: '20px'
   }
 }))
 
@@ -46,12 +52,14 @@ function ProductDetailPage(props) {
             <ProductSidebar/>
           </Grid>
 
-          <Grid item xs={12} sm={12} >
-              <ProductTabs />
-          </Grid>
+          
+          <Box className={classes.tabsMobile}>
+            <ProductTabsMobile />
+          </Box>
+        
           
           <Grid item xs={12} sm={12}>
-          <ProductRecomend />
+            <ProductRecomend />
           </Grid>
         </Grid>
       </Hidden>

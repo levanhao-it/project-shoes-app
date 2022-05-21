@@ -15,8 +15,11 @@ const useStyle = makeStyles((theme) => ({
   titleHeading: {
     textTransform: 'uppercase',
     fontWeight: 'bold',
-    width: '500px',
-    textAlign: 'center'
+    width: '100%',
+    textAlign: 'center',
+    [theme.breakpoints.down('xs')]: {
+      fontSize: '28px'
+    }
   },
 
   titleSub: {
@@ -93,8 +96,8 @@ function ProductReviewForm(props) {
         </Grid>
       </Grid>
 
-      <Grid container className={classes.containerContent}>
-        <Grid sx={12} sm={4} >
+      <Grid container className={classes.containerContent} spacing={1}>
+        <Grid xs={6} sm={4} >
             <FormControl component="fieldset">
             <FormLabel component="legend" className={classes.titleCheckbox}>Size:</FormLabel>
             <RadioGroup aria-label="gender" name="gender1" value={sizeValue} onChange={handleChangeSize}>
@@ -104,7 +107,7 @@ function ProductReviewForm(props) {
             </RadioGroup>
             </FormControl>
         </Grid>
-        <Grid sx={12} sm={4}>
+        <Grid xs={6} sm={4}>
           <FormControl component="fieldset">
             <FormLabel component="legend" className={classes.titleCheckbox}>Comfort:</FormLabel>
             <RadioGroup aria-label="gender" name="gender1" value={comfortValue} onChange={handleChangeComfort}>
@@ -114,7 +117,7 @@ function ProductReviewForm(props) {
             </RadioGroup>
             </FormControl>
         </Grid>
-        <Grid sx={12} sm={4}>
+        <Grid xs={6} sm={4}>
           <FormControl component="fieldset">
             <FormLabel component="legend" className={classes.titleCheckbox}>Durability:</FormLabel>
             <RadioGroup aria-label="gender" name="gender1" value={durabilityValue} onChange={handleChangeDurability}>
@@ -126,17 +129,8 @@ function ProductReviewForm(props) {
         </Grid>
       </Grid>
         
-
-        <Grid item sx={12} sm={12}>
-          <InputField name="title" label="Review Title" form={form} />
-        </Grid>
-
-        <Grid item sx={12} sm={12}>
-          <InputField name="content" label="Review Content" multiline rows={4} form={form} />
-        </Grid>
-
-
-        <ButtonActive content="Submit" />
+      <InputField name="content" label="Review Content" multiline rows={4} form={form} />
+      <ButtonActive content="Submit" />
 
     </form>
   );

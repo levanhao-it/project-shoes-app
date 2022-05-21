@@ -75,10 +75,11 @@ const useStyle = makeStyles((theme) => ({
     }
   },
   buttonHeart: {
-    width: 'calc(20% - 5px)',
-    marginLeft: '5px',
+    width: '100%',
     height: '50px',
     border: '2px solid #000',
+    marginTop: '10px',
+    borderRadius: '0 !important',
   },
   subTitle: {
     fontSize: '14px',
@@ -103,6 +104,9 @@ const useStyle = makeStyles((theme) => ({
   },
   containerButton: {
     margin: '15px 0 0 10px'
+  },
+  wishList: {
+    fontWeight: 'bold'
   }
 }));
 
@@ -118,6 +122,7 @@ function ProductSidebar(props) {
         <Rating
           name="simple-controlled"
           value={value}
+          readOnly
           onChange={(event, newValue) => {
             setValue(newValue);
           }}
@@ -202,15 +207,12 @@ function ProductSidebar(props) {
         </Box>
       </Box>
 
-      <Box mt={3} display="flex" alignItems="center" justifyContent="space-between">
-        <Box flex={1}>
+      <Box mt={3}>
           <ButtonActive content="Add to cart" className={classes.btnActive}/>
-        </Box>
-        <Box className={classes.containerButton}>
-          <Button variant="outlined" className={classes.buttonHeart}>
+          <Button variant="outlined" className={classes.buttonHeart} >
+            <Typography  variant='button' component='p' className={classes.wishList}>Add to wishList</Typography>
             <FavoriteBorderIcon fontSize="large" />
           </Button>
-        </Box>
       </Box>
     </div>
   );
