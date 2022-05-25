@@ -178,7 +178,7 @@ export default function HeaderNavigation() {
                   <ListItemIcon>
                     <FavoriteIcon />
                   </ListItemIcon>
-                  <ListItemText primary="My wishList" />
+                  <ListItemText primary="My wish list" />
                 </ListItem>
 
                 <ListItem button component={Link} to='/login' >

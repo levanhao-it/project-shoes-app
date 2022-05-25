@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: '16px',
   },
   containerBtn: {
-    width: "50%",
+    width: "100%",
     float: 'left'
   }
 }));

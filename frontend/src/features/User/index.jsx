@@ -42,7 +42,7 @@ function UserFeature(props) {
             <Switch>
               <Route path={`${match.url}`} exact component={AccountPage} />
               <Route path={`${match.url}/order`} exact component={OrderListPage} />
-              <Route path={`${match.url}/whishList`} extact component={WishListPage} />
+              <Route path={`${match.url}/wishList`} extact component={WishListPage} />
             </Switch>
           </Grid>
         </Grid>

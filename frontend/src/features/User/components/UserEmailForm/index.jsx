@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     textTransform: 'uppercase',
     fontSize: '26px',
     fontWeight: '750',
-    width: '550px'
+    width: '100%'
   },
   title: {
     textAlign: 'left',
@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: '16px',
   },
   containerBtn: {
-    width: "50%",
+    width: "100%",
     float: 'left'
   }
 }));
@@ -76,9 +76,6 @@ function UserEmailForm(props) {
           <ButtonActive content="Save Changes" type="submit"/>
           <ButtonSecondary content="Cancel" />
         </Box>
-        
-
-  
       </form>
     </Box>
   );

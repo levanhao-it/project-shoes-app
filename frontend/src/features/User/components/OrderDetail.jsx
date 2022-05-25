@@ -1,8 +1,8 @@
-import { Accordion, AccordionDetails, AccordionSummary, Box, makeStyles, Paper, Typography, useMediaQuery, useTheme } from '@material-ui/core';
+import { Accordion, AccordionDetails, AccordionSummary, Box, makeStyles, Typography, useMediaQuery, useTheme } from '@material-ui/core';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ButtonActive from 'components/component-custom/ButtonActive';
 import PropTypes from 'prop-types';
 import React from 'react';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 OrderDetail.propTypes = {
   order: PropTypes.object,

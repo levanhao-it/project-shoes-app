@@ -169,7 +169,7 @@ function AccountPage(props) {
         </Box>
 
         <Box className={classes.footer}>
-          <Typography variant='p' component='p' className={classes.headingTitle}>Nedd help ?</Typography>
+          <Typography variant='p' component='p' className={classes.headingTitle}>Need help ?</Typography>
 
           <Box className={classes.root} mt={2}>
             <Grid container spacing={4}>
