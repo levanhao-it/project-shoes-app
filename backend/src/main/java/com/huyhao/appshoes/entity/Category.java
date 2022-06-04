@@ -17,7 +17,7 @@ import java.util.List;
 public class Category extends BaseEntity {
     private String name;
     private String code;
-
+    private boolean active;
     @OneToMany(mappedBy = "category")
     private List<Product> productList = new java.util.ArrayList<>();
 }
