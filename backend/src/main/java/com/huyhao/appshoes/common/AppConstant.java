@@ -6,7 +6,7 @@ public class AppConstant {
 
     public static final String BEARER = "Bearer ";
 
-    public static final String SECRET_KEY = "app-shoes-yolo";
+    public static final String SECRET_KEY = "Huy-Hao";
 
     public static final String ACCESS_TOKEN_CLAIM = "atc";
 

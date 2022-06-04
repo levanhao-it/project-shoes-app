@@ -1,7 +1,6 @@
 package com.huyhao.appshoes.controller;
 
 import com.huyhao.appshoes.common.AppConstant;
-import com.huyhao.appshoes.common.ResponseCommon;
 import com.huyhao.appshoes.entity.Users;
 import com.huyhao.appshoes.jwt.JwtProvider;
 import com.huyhao.appshoes.payload.AuthRequest;

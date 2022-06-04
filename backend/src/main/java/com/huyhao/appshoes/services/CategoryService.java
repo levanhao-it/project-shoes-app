@@ -14,7 +14,18 @@ public class CategoryService {
 
     private final CategoryRepository categoryRepository;
 
-    public Category createCategory(CategoryRequest category){
+    public Category createCategory(CategoryRequest categoryRequest){
+        Category existCategory = categoryRepository.findByName(categoryRequest.getName());
+
+        if(existCategory != null){
+            throw new IllegalArgumentException("Category already exists");
+        }
+
+        Category category = Category.builder()
+                .name(categoryRequest.getName())
+                .code(categoryRequest.getCode())
+                .active(true)
+                .build();
         return categoryRepository.save(category);
     }
 
@@ -22,7 +33,7 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
-    public boolean findById(int categoryId) {
+    public boolean findById(Long categoryId) {
         return categoryRepository.findById(categoryId).isPresent();
     }
 }

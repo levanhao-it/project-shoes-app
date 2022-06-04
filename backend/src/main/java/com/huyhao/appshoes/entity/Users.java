@@ -21,6 +21,6 @@ public class Users extends BaseEntity{
     private boolean active;
 
     @ManyToOne()
-    @JoinColumn(name = "users_id", nullable = false)
+    @JoinColumn(name = "role_id", nullable = false)
     private Role role;
 }
