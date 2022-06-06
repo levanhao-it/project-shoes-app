@@ -5,7 +5,7 @@ import com.huyhao.appshoes.payload.ResponseObject;
 public class ResponseCommon {
 
     public static ResponseObject success(Object data){
-        return ResponseObject.builder().status("OK").message("Query successfull").data(data).build();
+        return ResponseObject.builder().status("OK").message("Query successfully").data(data).build();
     }
 
     public static ResponseObject fail(String message){

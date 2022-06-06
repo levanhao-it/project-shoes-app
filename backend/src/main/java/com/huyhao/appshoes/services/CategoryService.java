@@ -26,6 +26,8 @@ public class CategoryService {
                 .code(categoryRequest.getCode())
                 .active(true)
                 .build();
+
+
         return categoryRepository.save(category);
     }
 

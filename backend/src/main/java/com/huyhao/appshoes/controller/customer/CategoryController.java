@@ -13,11 +13,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/category")
+@RequestMapping("/api/categories")
 @RequiredArgsConstructor
 @Slf4j
 public class CategoryController {
-    private CategoryService categoryService;
+    private final CategoryService categoryService;
 
     @GetMapping()
     public ResponseEntity<?> listCategory(){
@@ -30,7 +30,7 @@ public class CategoryController {
 
     }
 
-    @PostMapping("/create")
+    @PostMapping()
     public ResponseEntity<?> createCategory(@RequestBody CategoryRequest categoryRequest){
         try {
             categoryService.createCategory(categoryRequest);

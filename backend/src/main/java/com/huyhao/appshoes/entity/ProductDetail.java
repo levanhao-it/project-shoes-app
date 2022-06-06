@@ -34,6 +34,6 @@ public class ProductDetail{
     private Size size;
 
     @ManyToOne()
-    @JoinColumn(name = "product_id", nullable = false)
+    @JoinColumn(name = "color_id", nullable = false)
     private Color color;
 }
