@@ -1,14 +1,13 @@
 package com.huyhao.appshoes.controller.customer;
 
-import com.huyhao.appshoes.common.ResponseCommon;
-import com.huyhao.appshoes.payload.ErrorResponse;
+import com.huyhao.appshoes.payload.common.ErrorResponse;
+import com.huyhao.appshoes.payload.productDetail.ProductDetailRequest;
+import com.huyhao.appshoes.payload.product.ProductRequest;
 import com.huyhao.appshoes.services.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,4 +26,82 @@ public class ProductController {
         }
 
     }
+
+    @GetMapping("/{productId}")
+    public ResponseEntity<?> getProductById(@PathVariable Long productId){
+        try {
+            return ResponseEntity.ok(productService.getProductById(productId));
+        } catch (Exception ex) {
+            log.error("API /api/category: ", ex);
+            return ResponseEntity.badRequest().body(ErrorResponse.builder().message(ex.getMessage()).build());
+        }
+
+    }
+
+    @PostMapping()
+    public ResponseEntity<?> createProduct(@RequestBody ProductRequest productRequest){
+        try {
+            productService.createProduct(productRequest);
+            return ResponseEntity.ok("");
+        } catch (Exception ex) {
+            log.error("API /api/category: ", ex);
+            return ResponseEntity.badRequest().body(ErrorResponse.builder().message(ex.getMessage()).build());
+        }
+    }
+
+    @PostMapping("/{productId}")
+    public ResponseEntity<?> createProductDetail(@PathVariable Long productId, @RequestBody ProductDetailRequest productDetailRequest){
+        try {
+            productService.createProductDetail(productId, productDetailRequest);
+            return ResponseEntity.ok("");
+        } catch (Exception ex) {
+            log.error("API /api/category: ", ex);
+            return ResponseEntity.badRequest().body(ErrorResponse.builder().message(ex.getMessage()).build());
+        }
+    }
+
+    @PutMapping("/{productId}")
+    public ResponseEntity<?> updateProduct(@PathVariable Long productId, @RequestBody ProductRequest productRequest){
+        try {
+            productService.updateProduct(productId, productRequest);
+            return ResponseEntity.ok("");
+        } catch (Exception ex) {
+            log.error("API /api/category: ", ex);
+            return ResponseEntity.badRequest().body(ErrorResponse.builder().message(ex.getMessage()).build());
+        }
+    }
+
+    @PutMapping("/{productId}/productDetails/{productDetailId}")
+    public ResponseEntity<?> updateProductDetail(@PathVariable Long productId, @PathVariable Long productDetailId, @RequestBody ProductDetailRequest productDetailRequest){
+        try {
+            productService.updateProductDetail(productId, productDetailId, productDetailRequest);
+            return ResponseEntity.ok("");
+        } catch (Exception ex) {
+            log.error("API /api/category: ", ex);
+            return ResponseEntity.badRequest().body(ErrorResponse.builder().message(ex.getMessage()).build());
+        }
+    }
+
+    @DeleteMapping("/{productId}")
+    public ResponseEntity<?> deleteProduct(@PathVariable Long productId){
+        try {
+            productService.deleteProduct(productId);
+            return ResponseEntity.ok("");
+        } catch (Exception ex) {
+            log.error("API /api/category: ", ex);
+            return ResponseEntity.badRequest().body(ErrorResponse.builder().message(ex.getMessage()).build());
+        }
+    }
+
+    @DeleteMapping("/{productId}/productDetails/{productDetailId}")
+    public ResponseEntity<?> deleteProduct(@PathVariable Long productId, @PathVariable Long productDetailId){
+        try {
+            productService.deleteProductDetail(productDetailId);
+            return ResponseEntity.ok("");
+        } catch (Exception ex) {
+            log.error("API /api/category: ", ex);
+            return ResponseEntity.badRequest().body(ErrorResponse.builder().message(ex.getMessage()).build());
+        }
+    }
+
 }

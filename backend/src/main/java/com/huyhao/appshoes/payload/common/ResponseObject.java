@@ -1,4 +1,4 @@
-package com.huyhao.appshoes.payload;
+package com.huyhao.appshoes.payload.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

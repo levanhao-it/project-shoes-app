@@ -1,13 +1,11 @@
 package com.huyhao.appshoes.controller.customer;
 
 import com.huyhao.appshoes.common.ResponseCommon;
-import com.huyhao.appshoes.payload.CategoryRequest;
-import com.huyhao.appshoes.payload.ErrorResponse;
-import com.huyhao.appshoes.payload.ResponseObject;
+import com.huyhao.appshoes.payload.category.CategoryRequest;
+import com.huyhao.appshoes.payload.common.ErrorResponse;
 import com.huyhao.appshoes.services.CategoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

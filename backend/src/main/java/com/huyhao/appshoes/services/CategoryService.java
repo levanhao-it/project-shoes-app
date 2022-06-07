@@ -1,7 +1,7 @@
 package com.huyhao.appshoes.services;
 
 import com.huyhao.appshoes.entity.Category;
-import com.huyhao.appshoes.payload.CategoryRequest;
+import com.huyhao.appshoes.payload.category.CategoryRequest;
 import com.huyhao.appshoes.repositories.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

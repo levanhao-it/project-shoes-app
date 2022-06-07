@@ -2,7 +2,7 @@ package com.huyhao.appshoes.services;
 
 import com.huyhao.appshoes.common.AppConstant;
 import com.huyhao.appshoes.entity.Users;
-import com.huyhao.appshoes.payload.AuthRequest;
+import com.huyhao.appshoes.payload.auth.AuthRequest;
 import com.huyhao.appshoes.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

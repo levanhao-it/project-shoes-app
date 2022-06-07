@@ -12,18 +12,13 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ProductDetail{
-    @Id
-    @GeneratedValue(
-            strategy = GenerationType.IDENTITY
-    )
-    @Column(columnDefinition = "serial")
-    private Long id;
+public class ProductDetail extends BaseEntity{
 
     private double originalPrice;
     private double salePrice;
     private int quantity;
     private Boolean status;
+    private boolean active;
 
     @ManyToOne()
     @JoinColumn(name = "product_id", nullable = false)

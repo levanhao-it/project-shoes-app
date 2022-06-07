@@ -1,6 +1,6 @@
 package com.huyhao.appshoes.common;
 
-import com.huyhao.appshoes.payload.ResponseObject;
+import com.huyhao.appshoes.payload.common.ResponseObject;
 
 public class ResponseCommon {
 

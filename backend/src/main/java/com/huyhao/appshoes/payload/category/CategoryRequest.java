@@ -1,4 +1,4 @@
-package com.huyhao.appshoes.payload;
+package com.huyhao.appshoes.payload.category;
 
 import lombok.Builder;
 import lombok.Getter;
