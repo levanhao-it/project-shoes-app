@@ -83,6 +83,7 @@ public class ProductService {
                     .name(productRequest.getName())
                     .description(productRequest.getDescription())
                     .category(category)
+                    .active(true)
                     .build();
 
             productRepository.save(product);

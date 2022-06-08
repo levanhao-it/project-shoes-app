@@ -1,4 +1,5 @@
 package com.huyhao.appshoes.entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,6 +24,10 @@ public class Product extends BaseEntity{
 
     @OneToMany(mappedBy = "product")
     private List<ProductDetail> productDetailList;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "product")
+    private List<WishList> wishList;
 
     private boolean active;
 }

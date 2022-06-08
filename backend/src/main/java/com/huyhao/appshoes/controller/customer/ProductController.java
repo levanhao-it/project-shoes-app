@@ -1,5 +1,6 @@
 package com.huyhao.appshoes.controller.customer;
 
+import com.huyhao.appshoes.common.ResponseCommon;
 import com.huyhao.appshoes.payload.common.ErrorResponse;
 import com.huyhao.appshoes.payload.productDetail.ProductDetailRequest;
 import com.huyhao.appshoes.payload.product.ProductRequest;
@@ -19,7 +20,7 @@ public class ProductController {
     @GetMapping()
     public ResponseEntity<?> getProductList(){
         try {
-            return ResponseEntity.ok(productService.getProductList());
+            return ResponseEntity.ok(ResponseCommon.success(productService.getProductList()));
         } catch (Exception ex) {
             log.error("API /api/category: ", ex);
             return ResponseEntity.badRequest().body(ErrorResponse.builder().message(ex.getMessage()).build());
@@ -30,7 +31,7 @@ public class ProductController {
     @GetMapping("/{productId}")
     public ResponseEntity<?> getProductById(@PathVariable Long productId){
         try {
-            return ResponseEntity.ok(productService.getProductById(productId));
+            return ResponseEntity.ok(ResponseCommon.success(productService.getProductById(productId)));
         } catch (Exception ex) {
             log.error("API /api/category: ", ex);
             return ResponseEntity.badRequest().body(ErrorResponse.builder().message(ex.getMessage()).build());
@@ -38,70 +39,6 @@ public class ProductController {
 
     }
 
-    @PostMapping()
-    public ResponseEntity<?> createProduct(@RequestBody ProductRequest productRequest){
-        try {
-            productService.createProduct(productRequest);
-            return ResponseEntity.ok("");
-        } catch (Exception ex) {
-            log.error("API /api/category: ", ex);
-            return ResponseEntity.badRequest().body(ErrorResponse.builder().message(ex.getMessage()).build());
-        }
-    }
 
-    @PostMapping("/{productId}")
-    public ResponseEntity<?> createProductDetail(@PathVariable Long productId, @RequestBody ProductDetailRequest productDetailRequest){
-        try {
-            productService.createProductDetail(productId, productDetailRequest);
-            return ResponseEntity.ok("");
-        } catch (Exception ex) {
-            log.error("API /api/category: ", ex);
-            return ResponseEntity.badRequest().body(ErrorResponse.builder().message(ex.getMessage()).build());
-        }
-    }
-
-    @PutMapping("/{productId}")
-    public ResponseEntity<?> updateProduct(@PathVariable Long productId, @RequestBody ProductRequest productRequest){
-        try {
-            productService.updateProduct(productId, productRequest);
-            return ResponseEntity.ok("");
-        } catch (Exception ex) {
-            log.error("API /api/category: ", ex);
-            return ResponseEntity.badRequest().body(ErrorResponse.builder().message(ex.getMessage()).build());
-        }
-    }
-
-    @PutMapping("/{productId}/productDetails/{productDetailId}")
-    public ResponseEntity<?> updateProductDetail(@PathVariable Long productId, @PathVariable Long productDetailId, @RequestBody ProductDetailRequest productDetailRequest){
-        try {
-            productService.updateProductDetail(productId, productDetailId, productDetailRequest);
-            return ResponseEntity.ok("");
-        } catch (Exception ex) {
-            log.error("API /api/category: ", ex);
-            return ResponseEntity.badRequest().body(ErrorResponse.builder().message(ex.getMessage()).build());
-        }
-    }
-
-    @DeleteMapping("/{productId}")
-    public ResponseEntity<?> deleteProduct(@PathVariable Long productId){
-        try {
-            productService.deleteProduct(productId);
-            return ResponseEntity.ok("");
-        } catch (Exception ex) {
-            log.error("API /api/category: ", ex);
-            return ResponseEntity.badRequest().body(ErrorResponse.builder().message(ex.getMessage()).build());
-        }
-    }
-
-    @DeleteMapping("/{productId}/productDetails/{productDetailId}")
-    public ResponseEntity<?> deleteProduct(@PathVariable Long productId, @PathVariable Long productDetailId){
-        try {
-            productService.deleteProductDetail(productDetailId);
-            return ResponseEntity.ok("");
-        } catch (Exception ex) {
-            log.error("API /api/category: ", ex);
-            return ResponseEntity.badRequest().body(ErrorResponse.builder().message(ex.getMessage()).build());
-        }
-    }
 
 }
