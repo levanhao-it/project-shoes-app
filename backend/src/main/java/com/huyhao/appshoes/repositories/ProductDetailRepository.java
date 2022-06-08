@@ -16,4 +16,6 @@ public interface ProductDetailRepository extends JpaRepository<ProductDetail, Lo
 
     @Query(value = "select * from  product_detail pt where pt.product_id = :productId and pt.active = true", nativeQuery = true)
     List<ProductDetail> findProductDetailListByProductId(@Param("productId") Long productId);
+
+
 }

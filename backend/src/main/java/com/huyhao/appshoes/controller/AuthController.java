@@ -5,6 +5,8 @@ import com.huyhao.appshoes.entity.Users;
 import com.huyhao.appshoes.jwt.JwtProvider;
 import com.huyhao.appshoes.payload.auth.AuthRequest;
 import com.huyhao.appshoes.payload.auth.AuthResponse;
+import com.huyhao.appshoes.payload.auth.RegistrationRequest;
+import com.huyhao.appshoes.payload.common.ResponseObject;
 import com.huyhao.appshoes.services.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -61,6 +63,20 @@ public class AuthController {
     public ResponseEntity<Object> logout(HttpServletResponse response){
         addRefreshTokenToCookie(response, null, 0);
         return ResponseEntity.ok().body(null);
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody RegistrationRequest request, HttpServletResponse response) {
+        try {
+            AuthResponse authResponse = authService.register(request);
+            Users user= jwtProvider.getUserFromToken(authResponse.getAccessToken());
+            String refreshToken = jwtProvider.generateRefreshToken(user);
+            addRefreshTokenToCookie(response, refreshToken, jwtProvider.getRefreshTokenTimeMinutes(true)* 60);
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("Success", null, authResponse));
+        } catch (IllegalArgumentException ex) {
+            log.error("API /register: {}", ex.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseObject("Fail", ex.getMessage(),null));
+        }
     }
 
     @GetMapping("/token/refresh")

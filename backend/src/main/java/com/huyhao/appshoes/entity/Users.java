@@ -6,11 +6,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.util.List;
+
+import javax.persistence.*;
+
 
 @Entity
 @Data
@@ -27,7 +31,13 @@ public class Users extends BaseEntity{
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
 
+
     @JsonIgnore
     @OneToMany(mappedBy = "users")
     private List<WishList> wishList;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cart_id", referencedColumnName = "id")
+    private Cart cart;
+
 }

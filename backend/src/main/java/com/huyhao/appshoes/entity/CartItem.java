@@ -1,0 +1,28 @@
+package com.huyhao.appshoes.entity;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+@Entity
+@Data
+@NoArgsConstructor
+@Builder
+@AllArgsConstructor
+public class CartItem extends BaseEntity{
+    private int quantity;
+    @ManyToOne()
+    @JoinColumn(name = "productDetail_id", nullable = false)
+    private ProductDetail productDetail;
+
+    @ManyToOne()
+    @JoinColumn(name = "cart_id", nullable = false)
+    private Cart cart;
+
+
+}

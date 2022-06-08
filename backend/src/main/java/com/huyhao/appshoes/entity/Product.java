@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
-public class Product extends BaseEntity{
+public class    Product extends BaseEntity{
     private String name;
     private String description;
 

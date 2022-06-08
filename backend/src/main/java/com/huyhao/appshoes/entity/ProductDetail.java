@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -31,4 +32,7 @@ public class ProductDetail extends BaseEntity{
     @ManyToOne()
     @JoinColumn(name = "color_id", nullable = false)
     private Color color;
+
+    @OneToMany(mappedBy = "productDetail")
+    private List<CartItem> cartItemList;
 }
