@@ -26,7 +26,7 @@ public class CartController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseCommon.fail(ex.getMessage()));
         }
     }
-    @GetMapping()
+    @GetMapping("")
     public ResponseEntity<?> getCartItemList(){
         try {
             return ResponseEntity.ok(ResponseCommon.success(cartServices.getCart()));

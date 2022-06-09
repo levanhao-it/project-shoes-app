@@ -30,14 +30,9 @@ public class CartServices {
         String email = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         Users user = userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("Please login to purchase!"));
         ProductDetail productDetail = productDetailRepository.findById(addToCartRequest.getProductDetailId())
-                .orElseThrow(() -> new IllegalArgumentException("Not found productDetail from productDetailId"));;
+                .orElseThrow(() -> new IllegalArgumentException("Not found productDetail from productDetailId"));
         Cart cart=cartRepository.findByUsersId(user.getId());
-        if(cart==null){
-            cart=Cart.builder()
-                    .users(user)
-                    .build();
-            cartRepository.save(cart);
-        }
+
         CartItem cartItem =cartItemRepository.findByCartAndProductDetail(cart,productDetail);
 
         if(!action.isEmpty()){
@@ -74,17 +69,11 @@ public class CartServices {
 
     public List<CartResponse> getCart() {
         String email = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
-        Users user = userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("Please login to purchase!"));
+        Users user = userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("Please login to go to cart!"));
 
         Cart cart=cartRepository.findByUsersId(user.getId());
-        if(cart==null){
-            cart=Cart.builder()
-                    .users(user)
-                    .build();
-            cartRepository.save(cart);
 
-        }
-        List<CartItem> cartItemList = cart.getCartItemList();
+        List<CartItem> cartItemList = cartItemRepository.findAllByCartId(cart.getId());
         List<CartResponse> result= new ArrayList<>();
         for (CartItem cartItem:cartItemList){
             CartResponse cartResponse=CartResponse.builder()
