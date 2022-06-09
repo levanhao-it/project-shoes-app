@@ -14,8 +14,6 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class ProductDetail extends BaseEntity{
-
-    private double originalPrice;
     private double salePrice;
     private int quantity;
     private Boolean status;

@@ -30,7 +30,6 @@ public class ProductService {
             List<ProductDetail> productDetails = productDetailRepository.getProductDetailListByProductId(p.getId());
             List<ProductDetailResponse> productDetailResponses = productDetails.stream().map(e -> ProductDetailResponse.builder()
                     .id(e.getId())
-                    .originalPrice(e.getOriginalPrice())
                     .salePrice(e.getSalePrice())
                     .quantity(e.getQuantity())
                     .status(e.getStatus())
@@ -43,6 +42,7 @@ public class ProductService {
                     .name(p.getName())
                     .description(p.getDescription())
                     .nameCategory(p.getCategory().getName())
+                    .originalPrice(p.getOriginalPrice())
                     .productDetailList(productDetailResponses)
                     .build());
         }
@@ -62,9 +62,9 @@ public class ProductService {
                 .name(product.getName())
                 .description(product.getDescription())
                 .nameCategory(product.getCategory().getName())
+                .originalPrice(product.getOriginalPrice())
                 .productDetailList(productDetails.stream().map(e -> ProductDetailResponse.builder()
                         .id(e.getId())
-                        .originalPrice(e.getOriginalPrice())
                         .salePrice(e.getSalePrice())
                         .quantity(e.getQuantity())
                         .status(e.getStatus())
@@ -84,6 +84,7 @@ public class ProductService {
                     .description(productRequest.getDescription())
                     .category(category)
                     .active(true)
+                    .originalPrice(productRequest.getOriginalPrice())
                     .build();
 
             productRepository.save(product);
@@ -99,11 +100,10 @@ public class ProductService {
         Color color = colorRepository.findById(productDetailRequest.getColorId())
                 .orElseThrow(() -> new IllegalArgumentException("Not found color from colorId"));
 
-        Size size = sizeRepository.findById(productDetailRequest.getColorId())
+        Size size = sizeRepository.findById(productDetailRequest.getSizeId())
                 .orElseThrow(() -> new IllegalArgumentException("Not found size from sizeId"));
         try{
             ProductDetail productDetail = ProductDetail.builder()
-                    .originalPrice(productDetailRequest.getOriginalPrice())
                     .salePrice(productDetailRequest.getSalePrice())
                     .quantity(productDetailRequest.getQuantity())
                     .status(productDetailRequest.getStatus())
@@ -134,6 +134,11 @@ public class ProductService {
             product.setDescription(description);
         }
 
+        Double originalPrice = productRequest.getOriginalPrice();
+        if( originalPrice != null && originalPrice != product.getOriginalPrice()){
+            product.setOriginalPrice(originalPrice);
+        }
+
         Long categoryId = productRequest.getCategoryId();
         if(categoryId != null && categoryId != product.getCategory().getId()){
             Category category = categoryRepository.findById(categoryId)
@@ -147,11 +152,6 @@ public class ProductService {
     public void updateProductDetail(Long productId, Long productDetailId ,ProductDetailRequest productDetailRequest) {
         ProductDetail productDetail = productDetailRepository.findByIdAndActiveTrue(productDetailId)
                 .orElseThrow(() -> new IllegalArgumentException("Not found productDetail from productDetailId"));
-
-        Double originalPrice = productDetailRequest.getOriginalPrice();
-        if( originalPrice != null && originalPrice != productDetail.getOriginalPrice()){
-                productDetail.setOriginalPrice(originalPrice);
-        }
 
         Double salePrice = productDetailRequest.getSalePrice();
         if( salePrice != null && salePrice != productDetail.getSalePrice()){

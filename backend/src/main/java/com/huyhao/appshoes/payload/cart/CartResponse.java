@@ -6,12 +6,16 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 public class CartResponse {
-    private ProductDetail productDetail;
-    private int quantity;
+
+    private Long id;
+    private List<CartItemResponse> cartItemResponsesList;
+
 
 }

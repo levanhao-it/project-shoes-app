@@ -19,7 +19,7 @@ public class CartController {
     @PostMapping("")
     public ResponseEntity<?> addCart(@RequestBody AddToCartRequest addToCartRequest,@RequestParam(required = false) String action){
         try {
-            cartServices.addToCart(addToCartRequest,action);
+            cartServices.addToCart(addToCartRequest);
             return ResponseEntity.status(HttpStatus.OK).body(ResponseCommon.success(""));
         } catch (Exception ex) {
             log.error("API /: ", ex);

@@ -17,6 +17,7 @@ import java.util.List;
 public class    Product extends BaseEntity{
     private String name;
     private String description;
+    private double originalPrice;
 
     @ManyToOne()
     @JoinColumn(name = "category_id", nullable = false)

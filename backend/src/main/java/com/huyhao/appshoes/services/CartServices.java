@@ -1,9 +1,6 @@
 package com.huyhao.appshoes.services;
 
-import com.huyhao.appshoes.entity.Cart;
-import com.huyhao.appshoes.entity.CartItem;
-import com.huyhao.appshoes.entity.ProductDetail;
-import com.huyhao.appshoes.entity.Users;
+import com.huyhao.appshoes.entity.*;
 import com.huyhao.appshoes.payload.cart.AddToCartRequest;
 import com.huyhao.appshoes.payload.cart.CartItemResponse;
 import com.huyhao.appshoes.payload.cart.CartResponse;
@@ -26,65 +23,57 @@ public class CartServices {
     private final ProductDetailRepository productDetailRepository;
     private final UserRepository userRepository;
 
-    public CartItemResponse addToCart(AddToCartRequest addToCartRequest,String action) {
-        String email = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
-        Users user = userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("Please login to purchase!"));
+
+    public void addToCart(AddToCartRequest addToCartRequest) {
+        String email= SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        Users user = userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("Not found user from email"));
+
+
         ProductDetail productDetail = productDetailRepository.findById(addToCartRequest.getProductDetailId())
-                .orElseThrow(() -> new IllegalArgumentException("Not found productDetail from productDetailId"));
-        Cart cart=cartRepository.findByUsersId(user.getId());
+                .orElseThrow(() -> new IllegalArgumentException("Not found productDetail from productDetailId"));;
 
-        CartItem cartItem =cartItemRepository.findByCartAndProductDetail(cart,productDetail);
-
-        if(!action.isEmpty()){
-            switch (action){
-                case "add":
-                    if(cartItem!=null){
-                        cartItem.setQuantity(cartItem.getQuantity()+addToCartRequest.getQuantity());
-
-                    }
-                    else{
-                        cartItem=CartItem.builder()
-                                .productDetail(productDetail)
-                                .cart(cart)
-                                .quantity(addToCartRequest.getQuantity())
-                                .build();
-                    }
-                    cartItemRepository.saveAndFlush(cartItem);
-                    break;
-                case "change":
-                    cartItem.setQuantity(addToCartRequest.getQuantity());
-                    cartItemRepository.saveAndFlush(cartItem);
-                    break;
-                case "remove":
-                    cartItemRepository.deleteById(cartItem.getId());
-                    break;
-            }
-        }
-        return CartItemResponse.builder()
-                .productDetail_id(productDetail.getId())
+        CartItem cartItem = CartItem.builder()
+                .productDetail(productDetail)
+                .cart(user.getCart())
                 .quantity(addToCartRequest.getQuantity())
                 .build();
 
+        cartItemRepository.save(cartItem);
+
     }
 
-    public List<CartResponse> getCart() {
-        String email = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
-        Users user = userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("Please login to go to cart!"));
+    public CartResponse getCart(){
+        String email= SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        Users user=userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("Not found user from email"));
 
-        Cart cart=cartRepository.findByUsersId(user.getId());
+        List<CartItem> cartItemList = cartItemRepository.findAllByCartId(user.getCart().getId());
 
-        List<CartItem> cartItemList = cartItemRepository.findAllByCartId(cart.getId());
-        List<CartResponse> result= new ArrayList<>();
-        for (CartItem cartItem:cartItemList){
-            CartResponse cartResponse=CartResponse.builder()
-                    .productDetail(cartItem.getProductDetail())
+        List<CartItemResponse> cartItemResponses = new ArrayList<>();
+
+        for(CartItem cartItem : cartItemList){
+            Product product = cartItem.getProductDetail().getProduct();
+            ProductDetail productDetail = cartItem.getProductDetail();
+
+            CartItemResponse cartItemResponse = CartItemResponse.builder()
+                    .id(cartItem.getId())
+                    .name(product.getName())
+                    .originalPrice(product.getOriginalPrice())
+                    .salePrice(productDetail.getSalePrice())
+                    .color(productDetail.getColor())
+                    .size(productDetail.getSize())
                     .quantity(cartItem.getQuantity())
                     .build();
-            result.add(cartResponse);
-        }
-        return result;
+            cartItemResponses.add(cartItemResponse);
 
+        }
+
+        return CartResponse.builder()
+                .id(user.getId())
+                .cartItemResponsesList(cartItemResponses)
+                .build();
     }
+
+
 
 
 }

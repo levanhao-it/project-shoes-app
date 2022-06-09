@@ -17,5 +17,6 @@ public class ProductResponse {
     private String name;
     private String description;
     private String nameCategory;
+    private Double originalPrice;
     private List<ProductDetailResponse> productDetailList;
 }

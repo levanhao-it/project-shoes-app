@@ -11,7 +11,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ProductDetailResponse {
     private Long id;
-    private double originalPrice;
     private double salePrice;
     private int quantity;
     private boolean status;

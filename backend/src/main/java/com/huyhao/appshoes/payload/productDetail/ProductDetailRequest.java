@@ -8,7 +8,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ProductDetailRequest {
-    private Double originalPrice;
     private Double salePrice;
     private Integer quantity;
     private Boolean status;

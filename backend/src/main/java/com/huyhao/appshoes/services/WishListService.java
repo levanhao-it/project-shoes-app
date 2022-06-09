@@ -61,7 +61,7 @@ public class WishListService {
         List<WishListResponse> wishListResponses = new ArrayList<>();
 
 
-        for(WishList wishList : wishLists){
+        for (WishList wishList : wishLists){
             WishListResponse wishListResponse = WishListResponse.builder()
                     .idWishList(wishList.getId())
                     .product(productService.getProductById(wishList.getProduct().getId()))
