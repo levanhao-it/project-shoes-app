@@ -1,13 +1,11 @@
 package com.huyhao.appshoes.repositories;
 
 import com.huyhao.appshoes.entity.Cart;
-import com.huyhao.appshoes.entity.CartItem;
-import com.huyhao.appshoes.entity.Product;
-import com.huyhao.appshoes.entity.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
+@Repository
 public interface CartRepository extends JpaRepository<Cart, Long> {
+    Cart findByUsersId(Long id);
 
 }

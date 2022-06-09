@@ -4,9 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -15,7 +13,8 @@ import java.util.List;
 @Builder
 public class Cart extends BaseEntity{
 
-    @OneToOne(mappedBy = "cart")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "users_id", referencedColumnName = "id")
     private Users users;
 
     @OneToMany(mappedBy = "cart")

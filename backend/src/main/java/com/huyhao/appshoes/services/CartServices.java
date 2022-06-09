@@ -17,64 +17,85 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class CartServices {
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
-    private  final ProductDetailRepository productDetailRepository;
+    private final ProductDetailRepository productDetailRepository;
     private final UserRepository userRepository;
 
-    public CartResponse addToCart(AddToCartRequest addToCartRequest) {
-        String email= SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
-       Users user=userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("Not found user from email"));
-
-
+    public CartItemResponse addToCart(AddToCartRequest addToCartRequest,String action) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        Users user = userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("Please login to purchase!"));
         ProductDetail productDetail = productDetailRepository.findById(addToCartRequest.getProductDetailId())
                 .orElseThrow(() -> new IllegalArgumentException("Not found productDetail from productDetailId"));;
+        Cart cart=cartRepository.findByUsersId(user.getId());
+        if(cart==null){
+            cart=Cart.builder()
+                    .users(user)
+                    .build();
+            cartRepository.save(cart);
+        }
+        CartItem cartItem =cartItemRepository.findByCartAndProductDetail(cart,productDetail);
 
-        CartItem cartItem=CartItem.builder()
-                .productDetail(productDetail)
+        if(!action.isEmpty()){
+            switch (action){
+                case "add":
+                    if(cartItem!=null){
+                        cartItem.setQuantity(cartItem.getQuantity()+addToCartRequest.getQuantity());
+
+                    }
+                    else{
+                        cartItem=CartItem.builder()
+                                .productDetail(productDetail)
+                                .cart(cart)
+                                .quantity(addToCartRequest.getQuantity())
+                                .build();
+                    }
+                    cartItemRepository.saveAndFlush(cartItem);
+                    break;
+                case "change":
+                    cartItem.setQuantity(addToCartRequest.getQuantity());
+                    cartItemRepository.saveAndFlush(cartItem);
+                    break;
+                case "remove":
+                    cartItemRepository.deleteById(cartItem.getId());
+                    break;
+            }
+        }
+        return CartItemResponse.builder()
+                .productDetail_id(productDetail.getId())
                 .quantity(addToCartRequest.getQuantity())
-                .cart(user.getCart())
-                .build();
-        cartItemRepository.save(cartItem);
-
-        List<CartItem> cartItemList= new ArrayList<>();
-        cartItemList.add(cartItem);
-
-        Cart cart=Cart.builder()
-                .users(user)
-                .cartItemList(cartItemList)
-                .build();
-        cartRepository.save(cart);
-
-        return CartResponse.builder()
-                .id(cart.getId())
-                .cartItemResponsesList(cartItemList.stream().map(e-> CartItemResponse.builder()
-                        .productDetail_id(e.getId())
-                        .quantity(e.getQuantity())
-                        .build()).collect(Collectors.toList()))
                 .build();
 
     }
 
-    public CartResponse getCart(){
-        String email= SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
-        Users user=userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("Not found user from email"));
+    public List<CartResponse> getCart() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        Users user = userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("Please login to purchase!"));
 
-        List<CartItemResponse> cartItemList=cartItemRepository.findAllByCartId(user.getId());
-        return CartResponse.builder()
-                .id(user.getId())
-                .cartItemResponsesList(cartItemList)
-                .build();
+        Cart cart=cartRepository.findByUsersId(user.getId());
+        if(cart==null){
+            cart=Cart.builder()
+                    .users(user)
+                    .build();
+            cartRepository.save(cart);
+
+        }
+        List<CartItem> cartItemList = cart.getCartItemList();
+        List<CartResponse> result= new ArrayList<>();
+        for (CartItem cartItem:cartItemList){
+            CartResponse cartResponse=CartResponse.builder()
+                    .productDetail(cartItem.getProductDetail())
+                    .quantity(cartItem.getQuantity())
+                    .build();
+            result.add(cartResponse);
+        }
+        return result;
+
     }
-
-
-
-
 
 
 }

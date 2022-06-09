@@ -8,6 +8,7 @@ import com.huyhao.appshoes.jwt.JwtProvider;
 import com.huyhao.appshoes.payload.auth.AuthRequest;
 import com.huyhao.appshoes.payload.auth.AuthResponse;
 import com.huyhao.appshoes.payload.auth.RegistrationRequest;
+import com.huyhao.appshoes.repositories.CartRepository;
 import com.huyhao.appshoes.repositories.RoleRepository;
 import com.huyhao.appshoes.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 public class AuthService {
     private final UserRepository userRepository;
     private final RoleRepository rolesRepository;
+    private final CartRepository cartRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
     public Users checkLoginCustomer(AuthRequest loginRequest) {
@@ -63,9 +65,13 @@ public class AuthService {
         else {
             role = rolesRepository.findByCode(AppConstant.ADMIN_ROLE);
         }
-        Users user= userRepository.save(Users.builder().email(registrationRequest.getEmail())
+        Users user= userRepository.save(Users.builder()
+                .email(registrationRequest.getEmail())
                 .password(passwordEncoder.encode(registrationRequest.getPassword()))
-                .fullName(registrationRequest.getFullName()).role(role).active(true).cart(new Cart()).build());
+                .fullName(registrationRequest.getFullName()).role(role).active(true)
+                .build());
+        Cart cart=cartRepository.save(Cart.builder()
+                .users(user).build());
         return AuthResponse.builder().accessToken(jwtProvider.generateAccessToken(user)).build();
     }
 

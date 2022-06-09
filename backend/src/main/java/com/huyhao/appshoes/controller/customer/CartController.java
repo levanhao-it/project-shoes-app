@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.*;
 public class CartController {
     private final CartServices cartServices;
     @PostMapping("")
-    public ResponseEntity<?> addCart(@RequestBody AddToCartRequest addToCartRequest){
+    public ResponseEntity<?> addCart(@RequestBody AddToCartRequest addToCartRequest,@RequestParam(required = false) String action){
         try {
-            cartServices.addToCart(addToCartRequest);
+            cartServices.addToCart(addToCartRequest,action);
             return ResponseEntity.status(HttpStatus.OK).body(ResponseCommon.success(""));
         } catch (Exception ex) {
             log.error("API /: ", ex);

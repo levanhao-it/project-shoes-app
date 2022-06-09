@@ -10,7 +10,6 @@ import lombok.Setter;
 @Builder
 @AllArgsConstructor
 public class CartItemResponse {
-    private Long id;
     private Integer quantity;
     private Long productDetail_id;
 }

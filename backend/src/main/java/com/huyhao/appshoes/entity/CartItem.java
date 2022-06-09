@@ -17,11 +17,11 @@ import javax.persistence.ManyToOne;
 public class CartItem extends BaseEntity{
     private int quantity;
     @ManyToOne()
-    @JoinColumn(name = "productDetail_id", nullable = false)
+    @JoinColumn(name = "productDetail_id")
     private ProductDetail productDetail;
 
     @ManyToOne()
-    @JoinColumn(name = "cart_id", nullable = false)
+    @JoinColumn(name = "cart_id")
     private Cart cart;
 
 
