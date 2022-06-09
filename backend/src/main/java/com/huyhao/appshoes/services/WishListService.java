@@ -4,13 +4,16 @@ import com.huyhao.appshoes.entity.Product;
 import com.huyhao.appshoes.entity.Users;
 import com.huyhao.appshoes.entity.WishList;
 import com.huyhao.appshoes.payload.wisList.WishListRequest;
+import com.huyhao.appshoes.payload.wisList.WishListResponse;
 import com.huyhao.appshoes.repositories.ProductRepository;
 import com.huyhao.appshoes.repositories.UserRepository;
 import com.huyhao.appshoes.repositories.WishListRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,6 +23,8 @@ public class WishListService {
     private final UserRepository userRepository;
 
     private final ProductRepository productRepository;
+
+    private final ProductService productService;
 
 
     public void createWishList(WishListRequest wishListRequest) {
@@ -34,22 +39,45 @@ public class WishListService {
         Product product = productRepository.findByIdAndActiveTrue(wishListRequest.getProductId())
                 .orElseThrow(() -> new IllegalArgumentException("not found product from productId"));
 
-        WishList wishList = WishList.builder().product(product).users(userApp).active(true).build();
+        WishList wishList = WishList.builder()
+                .product(product)
+                .users(userApp)
+                .active(true)
+                .build();
 
         wishListRepository.save(wishList);
     }
 
-    public List<WishList> getWishList(String email) {
+    public List<WishListResponse> getWishList(String email) {
         String currentEmail = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
-        if(email != currentEmail){
+        if(!email.equals(currentEmail)){
             throw new IllegalArgumentException("Email not must be current email");
         }
 
         Users userApp = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("Not found user from email"));
 
-        List<WishList> wishLists = wishListRepository.findByUsersId(userApp.getId());
+        List<WishList> wishLists = wishListRepository.findByUsersIdAndActiveTrue(userApp.getId());
+        List<WishListResponse> wishListResponses = new ArrayList<>();
 
-        return wishLists;
+
+        for(WishList wishList : wishLists){
+            WishListResponse wishListResponse = WishListResponse.builder()
+                    .idWishList(wishList.getId())
+                    .product(productService.getProductById(wishList.getProduct().getId()))
+                    .build();
+
+            wishListResponses.add(wishListResponse);
+        }
+        return wishListResponses;
+    }
+
+
+    public void deleteWishList(Long productDetailId) {
+        WishList wishList = wishListRepository.findById(productDetailId)
+                .orElseThrow(() -> new IllegalArgumentException("Not found wishList from wishListId"));
+
+        wishList.setActive(false);
+        wishListRepository.save(wishList);
     }
 }
