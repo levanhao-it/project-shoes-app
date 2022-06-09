@@ -30,15 +30,51 @@ public class CartServices {
 
 
         ProductDetail productDetail = productDetailRepository.findById(addToCartRequest.getProductDetailId())
-                .orElseThrow(() -> new IllegalArgumentException("Not found productDetail from productDetailId"));;
+                .orElseThrow(() -> new IllegalArgumentException("Not found productDetail from productDetailId"));
 
-        CartItem cartItem = CartItem.builder()
-                .productDetail(productDetail)
-                .cart(user.getCart())
-                .quantity(addToCartRequest.getQuantity())
-                .build();
-
+        Cart cart=cartRepository.findByUsersId(user.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Not found cart from user"));
+        CartItem cartItem =cartItemRepository.findByCartAndProductDetail(cart,productDetail);
+        if(cartItem!=null){
+            cartItem.setQuantity(cartItem.getQuantity()+addToCartRequest.getQuantity());
+        }
+        else{
+            cartItem = CartItem.builder()
+                    .productDetail(productDetail)
+                    .cart(user.getCart())
+                    .quantity(addToCartRequest.getQuantity())
+                    .build();
+        }
         cartItemRepository.save(cartItem);
+
+    }
+
+    public void changeCart(AddToCartRequest addToCartRequest){
+        String email= SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        Users user = userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("Not found user from email"));
+
+
+        ProductDetail productDetail = productDetailRepository.findById(addToCartRequest.getProductDetailId())
+                .orElseThrow(() -> new IllegalArgumentException("Not found productDetail from productDetailId"));
+        Cart cart=cartRepository.findByUsersId(user.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Not found cart from user"));
+        CartItem cartItem =cartItemRepository.findByCartAndProductDetail(cart,productDetail);
+        if(cartItem!=null){
+            cartItem.setQuantity(addToCartRequest.getQuantity());
+        }
+        cartItemRepository.saveAndFlush(cartItem);
+
+    }
+
+    public void removeCartItem(Long productDetailId){
+        String email= SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        Users user = userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("Not found user from email"));
+        ProductDetail productDetail = productDetailRepository.findById(productDetailId)
+                .orElseThrow(() -> new IllegalArgumentException("Not found productDetail from productDetailId"));
+        Cart cart=cartRepository.findByUsersId(user.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Not found cart from user"));
+        CartItem cartItem =cartItemRepository.findByCartAndProductDetail(cart,productDetail);
+        cartItemRepository.deleteById(cartItem.getId());
 
     }
 

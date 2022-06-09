@@ -16,8 +16,9 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class CartController {
     private final CartServices cartServices;
+
     @PostMapping("")
-    public ResponseEntity<?> addCart(@RequestBody AddToCartRequest addToCartRequest,@RequestParam(required = false) String action){
+    public ResponseEntity<?> addCart(@RequestBody AddToCartRequest addToCartRequest) {
         try {
             cartServices.addToCart(addToCartRequest);
             return ResponseEntity.status(HttpStatus.OK).body(ResponseCommon.success(""));
@@ -26,8 +27,9 @@ public class CartController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseCommon.fail(ex.getMessage()));
         }
     }
+
     @GetMapping("")
-    public ResponseEntity<?> getCartItemList(){
+    public ResponseEntity<?> getCartItemList() {
         try {
             return ResponseEntity.ok(ResponseCommon.success(cartServices.getCart()));
         } catch (Exception ex) {
@@ -37,4 +39,26 @@ public class CartController {
 
     }
 
+    @PutMapping("")
+    public ResponseEntity<?> changeCart(@RequestBody AddToCartRequest addToCartRequest) {
+        try {
+                cartServices.changeCart(addToCartRequest);
+            return ResponseEntity.status(HttpStatus.OK).body(ResponseCommon.success(""));
+        } catch (Exception ex) {
+            log.error("API /: ", ex);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseCommon.fail(ex.getMessage()));
+        }
+    }
+
+
+    @DeleteMapping("/{productDetailId}")
+    public ResponseEntity<?> removeCartItem(@PathVariable Long productDetailId) {
+        try {
+            cartServices.removeCartItem(productDetailId);
+            return ResponseEntity.ok(ResponseCommon.success(""));
+        } catch (Exception ex) {
+            log.error("API /api/cart: ", ex);
+            return ResponseEntity.badRequest().body(ErrorResponse.builder().message(ex.getMessage()).build());
+        }
+    }
 }

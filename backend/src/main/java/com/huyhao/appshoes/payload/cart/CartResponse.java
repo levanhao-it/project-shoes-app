@@ -1,6 +1,5 @@
 package com.huyhao.appshoes.payload.cart;
 
-import com.huyhao.appshoes.entity.ProductDetail;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
