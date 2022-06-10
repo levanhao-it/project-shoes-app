@@ -33,4 +33,7 @@ public class Users extends BaseEntity{
     @OneToOne(mappedBy = "users")
     private Cart cart;
 
+    @OneToMany(mappedBy = "users")
+    private List<Rate> rateList;
+
 }

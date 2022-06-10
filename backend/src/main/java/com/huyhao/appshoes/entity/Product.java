@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
-public class    Product extends BaseEntity{
+public class Product extends BaseEntity{
     private String name;
     private String description;
     private double originalPrice;
@@ -29,6 +29,9 @@ public class    Product extends BaseEntity{
     @JsonIgnore
     @OneToMany(mappedBy = "product")
     private List<WishList> wishList;
+
+    @OneToMany(mappedBy = "product")
+    private List<Rate> rateList;
 
     private boolean active;
 }
