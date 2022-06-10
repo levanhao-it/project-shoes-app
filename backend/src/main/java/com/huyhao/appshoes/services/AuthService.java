@@ -24,7 +24,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
     public Users checkLoginCustomer(AuthRequest loginRequest) {
-        Users user = userRepository.findByEmailAndActiveTrue(loginRequest.getEmail());
+        Users user = userRepository.findByEmailAndActiveTrue(loginRequest.getEmail()).orElse(null);
 
         if(user == null){
             throw new IllegalArgumentException("Email or password is incorrect");
@@ -55,23 +55,24 @@ public class AuthService {
     }
 
     public AuthResponse register(RegistrationRequest registrationRequest){
-        if(userRepository.findByEmailAndActiveTrue(registrationRequest.getEmail())!=null){
+        Users userApp = userRepository.findByEmailAndActiveTrue(registrationRequest.getEmail()).orElse(null);
+        if(userApp != null){
             throw new IllegalArgumentException("Email already exits");
         }
-        Role role;
-        if(registrationRequest.getRole_id()==""){
-            role=rolesRepository.findByCode(AppConstant.CUSTOMER_ROLE);
-        }
-        else {
-            role = rolesRepository.findByCode(AppConstant.ADMIN_ROLE);
-        }
+
+        Role role = rolesRepository.findByCode(AppConstant.CUSTOMER_ROLE);
+
         Users user= userRepository.save(Users.builder()
                 .email(registrationRequest.getEmail())
                 .password(passwordEncoder.encode(registrationRequest.getPassword()))
-                .fullName(registrationRequest.getFullName()).role(role).active(true)
+                .fullName(registrationRequest.getFullName())
+                .role(role)
+                .active(true)
                 .build());
-        Cart cart=cartRepository.save(Cart.builder()
-                .users(user).build());
+
+        Cart cart = Cart.builder().users(user).build();
+        cartRepository.save(cart);
+
         return AuthResponse.builder().accessToken(jwtProvider.generateAccessToken(user)).build();
     }
 

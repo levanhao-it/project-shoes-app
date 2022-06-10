@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/products")
+@RequestMapping("/api")
 @Slf4j
 public class ProductController {
     private final ProductService productService;
 
-    @GetMapping()
+    @GetMapping("/public/products")
     public ResponseEntity<?> getProductList(){
         try {
             return ResponseEntity.ok(ResponseCommon.success(productService.getProductList()));
@@ -28,7 +28,7 @@ public class ProductController {
 
     }
 
-    @GetMapping("/{productId}")
+    @GetMapping("/public/products/{productId}")
     public ResponseEntity<?> getProductById(@PathVariable Long productId){
         try {
             return ResponseEntity.ok(ResponseCommon.success(productService.getProductById(productId)));

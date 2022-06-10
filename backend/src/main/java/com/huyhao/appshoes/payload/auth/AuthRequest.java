@@ -10,5 +10,5 @@ import lombok.Setter;
 public class AuthRequest {
     private String email;
     private String password;
-    private final Boolean isRemember;
+    private final boolean remember;
 }

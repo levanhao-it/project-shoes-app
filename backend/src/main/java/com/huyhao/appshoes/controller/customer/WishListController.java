@@ -17,7 +17,7 @@ public class WishListController {
     private final WishListService wishListService;
 
     @PostMapping()
-    public ResponseEntity<?> createWishList(@RequestBody WishListRequest wishListRequest){
+    public ResponseEntity<?> addToWishList(@RequestBody WishListRequest wishListRequest){
         try {
             wishListService.createWishList(wishListRequest);
             return ResponseEntity.ok(ResponseCommon.success(""));

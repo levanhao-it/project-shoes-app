@@ -2,7 +2,9 @@ package com.huyhao.appshoes.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator;
+import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.impl.PublicClaims;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.huyhao.appshoes.common.AppConstant;
@@ -10,6 +12,7 @@ import com.huyhao.appshoes.entity.Role;
 import com.huyhao.appshoes.entity.Users;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.Calendar;
@@ -34,8 +37,8 @@ public class JwtProvider {
 
     public boolean isNoneValidRefreshToken(String token){
         if(isNoneValidToken(token)) return true;
-        Boolean isAccessToken = getClaimValue(token, AppConstant.REFRESH_TOKEN_CLAIM, Boolean.class);
-        return isAccessToken == null || Boolean.FALSE.equals(isAccessToken);
+        Boolean isRefreshToken = getClaimValue(token, AppConstant.REFRESH_TOKEN_CLAIM, Boolean.class);
+        return isRefreshToken == null || Boolean.FALSE.equals(isRefreshToken);
     }
 
     public Users getUserFromToken(String token){
@@ -50,31 +53,40 @@ public class JwtProvider {
                 .email(email)
                 .role(Role.builder().code(role).build())
                 .build();
-
     }
 
     public String generateAccessToken(Users user){
-        return getToken(user, this.properties.getToken().getAccessLifetimeMinutes(), false);
+        return this.getToken(user, this.properties.getToken().getAccessLifetimeMinutes(), false);
     }
 
-    public String generateRefreshToken(Users user){
-        return getToken(user, this.properties.getToken().getRefreshLifetimeMinutes(), true);
+    public String generateRefreshToken(Users user, boolean isRememberMe){
+        return this.getToken(user, this.getRefreshTokenLifeTimeMinutes(isRememberMe), true);
     }
 
-    public int getRefreshTokenTimeMinutes(boolean isRememberMe){
+    public int getRefreshTokenLifeTimeMinutes(boolean isRememberMe){
         return isRememberMe ? this.properties.getRememberMe().getExpiredDays() * 24 * 60 : this.properties.getToken().getRefreshLifetimeMinutes();
+    }
+
+    public boolean isNoneValidToken(String token) {
+        if(StringUtils.isEmpty(token)) return true;
+        try {
+            JWTVerifier verifier = JWT.require(algorithm).build();
+            DecodedJWT decoded = verifier.verify(token);
+            Long expiredTime = decoded.getExpiresAt().getTime();
+            return System.currentTimeMillis() >= expiredTime;
+        }catch (JWTVerificationException ex){
+            log.error("Token is invalid: {}", token, ex);
+        }
+        return true;
     }
 
     private <T> T getClaimValue(String token, String claimName, Class<T> clazz) {
         if(isNoneValidToken(token)) return null;
         DecodedJWT decoded = JWT.decode(token);
-
         return decoded.getClaim(claimName).as(clazz);
     }
 
-    public boolean isNoneValidToken(String token) {
-        return false;
-    }
+
 
     private String getToken(Users appUser, int expiredMinutes, boolean isRefreshToken){
         Calendar calendar = Calendar.getInstance();
@@ -85,6 +97,7 @@ public class JwtProvider {
                 .withSubject(appUser.getEmail())
                 .withExpiresAt(calendar.getTime())
                 .withIssuedAt(new Date())
+                .withClaim(AppConstant.FULL_NAME_CLAIM, appUser.getFullName())
                 .withClaim(AppConstant.ROLE_CLAIM, appUser.getRole().getCode());
 
         if(isRefreshToken){
