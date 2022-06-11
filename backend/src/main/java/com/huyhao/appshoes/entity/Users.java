@@ -33,7 +33,16 @@ public class Users extends BaseEntity{
     @OneToOne(mappedBy = "users")
     private Cart cart;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "users")
     private List<Rate> rateList;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "users")
+    private List<Orders> ordersList;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "users")
+    private List<AddressDelivery> addressDeliveryList;
 
 }

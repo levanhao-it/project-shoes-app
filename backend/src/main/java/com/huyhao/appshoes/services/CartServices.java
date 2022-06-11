@@ -22,6 +22,8 @@ public class CartServices {
     private final CartItemRepository cartItemRepository;
     private final ProductDetailRepository productDetailRepository;
     private final UserRepository userRepository;
+    private int quantityCartItem=0;
+    private double priceCart=0;
 
 
     public void addToCart(AddToCartRequest addToCartRequest) {
@@ -43,8 +45,20 @@ public class CartServices {
                     .productDetail(productDetail)
                     .cart(user.getCart())
                     .quantity(addToCartRequest.getQuantity())
+                    .price(productDetail.getSalePrice()*addToCartRequest.getQuantity())
                     .build();
         }
+
+        List<CartItem> cartItemList=cartItemRepository.findAllByCartId(cart.getId());
+        for (CartItem ci:cartItemList
+             ) {
+            quantityCartItem+=ci.getQuantity();
+            priceCart+=ci.getPrice();
+        }
+        cart.setQuantity(quantityCartItem);
+        cart.setPrice(priceCart);
+
+        cartRepository.saveAndFlush(cart);
         cartItemRepository.save(cartItem);
 
     }
@@ -62,6 +76,17 @@ public class CartServices {
         if(cartItem!=null){
             cartItem.setQuantity(addToCartRequest.getQuantity());
         }
+
+        List<CartItem> cartItemList=cartItemRepository.findAllByCartId(cart.getId());
+        for (CartItem ci:cartItemList
+        ) {
+            quantityCartItem+=ci.getQuantity();
+            priceCart+=ci.getPrice();
+        }
+        cart.setQuantity(quantityCartItem);
+        cart.setPrice(priceCart);
+
+        cartRepository.saveAndFlush(cart);
         cartItemRepository.saveAndFlush(cartItem);
 
     }
@@ -76,6 +101,17 @@ public class CartServices {
         CartItem cartItem =cartItemRepository.findByCartAndProductDetail(cart,productDetail);
         cartItemRepository.deleteById(cartItem.getId());
 
+        List<CartItem> cartItemList=cartItemRepository.findAllByCartId(cart.getId());
+        for (CartItem ci:cartItemList
+        ) {
+            quantityCartItem+=ci.getQuantity();
+            priceCart+=ci.getPrice();
+        }
+        cart.setQuantity(quantityCartItem);
+        cart.setPrice(priceCart);
+
+        cartRepository.saveAndFlush(cart);
+
     }
 
     public CartResponse getCart(){
@@ -85,6 +121,8 @@ public class CartServices {
         List<CartItem> cartItemList = cartItemRepository.findAllByCartId(user.getCart().getId());
 
         List<CartItemResponse> cartItemResponses = new ArrayList<>();
+
+        int quantityCartItem=0;
 
         for(CartItem cartItem : cartItemList){
             Product product = cartItem.getProductDetail().getProduct();
@@ -99,6 +137,7 @@ public class CartServices {
                     .size(productDetail.getSize())
                     .quantity(cartItem.getQuantity())
                     .build();
+            quantityCartItem+=cartItem.getQuantity();
             cartItemResponses.add(cartItemResponse);
 
         }
@@ -106,6 +145,7 @@ public class CartServices {
         return CartResponse.builder()
                 .id(user.getId())
                 .cartItemResponsesList(cartItemResponses)
+                .quantity(quantityCartItem)
                 .build();
     }
 

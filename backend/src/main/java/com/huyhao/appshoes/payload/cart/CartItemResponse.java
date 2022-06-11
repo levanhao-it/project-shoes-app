@@ -19,7 +19,6 @@ public class CartItemResponse {
     private Double salePrice;
     private Color color;
     private Size size;
-
     private Integer quantity;
 
 

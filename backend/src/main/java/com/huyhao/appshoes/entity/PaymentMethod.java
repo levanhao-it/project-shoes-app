@@ -10,21 +10,17 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import java.util.List;
 
+@Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity
-public class Voucher extends BaseEntity{
+@AllArgsConstructor
+public class PaymentMethod extends BaseEntity{
     private String name;
-    private String code;
-    private Double priceConditional;
-    private Double discount;
-    private Integer quantity;
-
-    private Boolean active;
+    private String status;
+    private double discount;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "voucher")
+    @OneToMany(mappedBy = "paymentMethod")
     private List<Orders> ordersList;
 }

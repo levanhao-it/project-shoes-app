@@ -14,6 +14,8 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 public class Cart extends BaseEntity{
+    private int quantity;
+    private double price;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "users_id", referencedColumnName = "id")

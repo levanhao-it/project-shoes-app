@@ -38,12 +38,33 @@ public class CategoryService {
         return categoryRepository.save(category);
     }
 
+    public CategoryResponse getCategoryById(Long categoryId){
+        Category category=categoryRepository.findById(categoryId).orElseThrow(()-> new IllegalArgumentException("Not found category"));
+        List<Product> productList=productRepository.findAllByCategory(category);
+        List<ProductResponse> productResponses = productList.stream().map(e -> ProductResponse.builder()
+                    .id(e.getId())
+                    .nameCategory(e.getCategory().getName())
+                    .description(e.getDescription())
+                    .name(e.getName())
+                    .originalPrice(e.getOriginalPrice())
+                    .build()).collect(Collectors.toList());
+        return CategoryResponse.builder()
+                    .id(category.getId())
+                    .name(category.getName())
+                    .code(category.getCode())
+                    .productList(productResponses)
+                    .build();
+
+
+
+    }
+
     public List<CategoryResponse> getAllCategoryList(){
         List<Category> categoryList=categoryRepository.findAll();
         List<CategoryResponse> categoryResponseList=new ArrayList<>();
 
         for (Category c: categoryList
-             ) {
+        ) {
             List<Product> productList=productRepository.findAllByCategory(c);
             List<ProductResponse> productResponses = productList.stream().map(e -> ProductResponse.builder()
                     .id(e.getId())
@@ -62,6 +83,13 @@ public class CategoryService {
         }
         return categoryResponseList;
 
+    }
+
+    public void updateCategory(Long categoryId, CategoryRequest request){
+        Category category=categoryRepository.findById(categoryId).orElseThrow(()-> new IllegalArgumentException("Not found category"));
+        category.setName(request.getName());
+        category.setCode(request.getCode());
+        categoryRepository.save(category);
     }
 
 

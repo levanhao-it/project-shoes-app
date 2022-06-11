@@ -1,14 +1,13 @@
 package com.huyhao.appshoes.repositories;
 
-import com.huyhao.appshoes.entity.Category;
+import com.huyhao.appshoes.entity.PaymentMethod;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface CategoryRepository extends JpaRepository<Category,Long> {
-    Category findByName(String name);
+public interface PaymentMethodRepository extends JpaRepository<PaymentMethod, Long> {
+    Optional<PaymentMethod> findById(Long id);
 
-    Optional<Category> findById(Long id);
 }

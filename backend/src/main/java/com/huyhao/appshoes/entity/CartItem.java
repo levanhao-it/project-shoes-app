@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 @AllArgsConstructor
 public class CartItem extends BaseEntity{
     private int quantity;
+    private double price;
     @ManyToOne()
     @JoinColumn(name = "productDetail_id")
     private ProductDetail productDetail;

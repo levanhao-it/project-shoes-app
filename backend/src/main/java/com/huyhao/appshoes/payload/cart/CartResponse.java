@@ -14,7 +14,10 @@ import java.util.List;
 public class CartResponse {
 
     private Long id;
+    private int quantity;
+    private double price;
     private List<CartItemResponse> cartItemResponsesList;
+
 
 
 }

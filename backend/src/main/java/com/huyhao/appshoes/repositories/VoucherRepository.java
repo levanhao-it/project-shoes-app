@@ -14,4 +14,5 @@ public interface VoucherRepository extends JpaRepository<Voucher, Long> {
     Boolean existsByCodeAndActiveTrue(String code);
 
     List<Voucher> findAllByActiveTrue();
+
 }

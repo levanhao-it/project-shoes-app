@@ -69,7 +69,6 @@ public class RateService {
         String email= SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         Users user = userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("Not found user from email"));
 
-        Product product=productRepository.findByIdAndActiveTrue(request.getProductId()).orElseThrow(()->new IllegalArgumentException("Not found product from product id"));
         Rate rate=rateRepository.findByUsersAndId(user,rateId).orElseThrow(()-> new IllegalArgumentException("Rate not found"));
 
         String contentRequest = request.getContent();

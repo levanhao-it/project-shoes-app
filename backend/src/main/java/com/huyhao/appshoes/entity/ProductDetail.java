@@ -1,5 +1,6 @@
 package com.huyhao.appshoes.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,6 +32,11 @@ public class ProductDetail extends BaseEntity{
     @JoinColumn(name = "color_id", nullable = false)
     private Color color;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "productDetail")
     private List<CartItem> cartItemList;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "productDetail")
+    private List<OrderDetail> orderDetailList;
 }
