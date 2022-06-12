@@ -3,11 +3,9 @@ import PropTypes from 'prop-types';
 import { Box, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
-import './styles.scss'
+import './styles.scss';
 
-ButtonActive.propTypes = {
-  
-};
+ButtonActive.propTypes = {};
 
 const useStyle = makeStyles((theme) => ({
   root: {
@@ -17,29 +15,26 @@ const useStyle = makeStyles((theme) => ({
     fontSize: '16px',
     fontWeight: '600',
     borderRadius: '0',
-    width:'100%',
+    width: '100%',
     padding: '0 15px',
     '&:hover': {
-      backgroundColor: "#000",
+      backgroundColor: '#000',
       color: '#ccc',
     },
   },
-  
-}))
+}));
 
 function ButtonActive(props) {
-  const {content, widthBtn, type} = props;
+  const { content, widthBtn, type, disabled } = props;
   const classes = useStyle(props);
   return (
-      <div className='btn-primary' style={{ width: `${widthBtn}`}} >
-        <Button className={`${classes.root} btn-primary__root`} type={type}>
-        {content} <ArrowRightAltIcon fontSize="large" />
-       </Button>
+    <div className="btn-primary" style={{ width: `${widthBtn}` }}>
+      <Button className={`${classes.root} btn-primary__root`} type={type} disabled={disabled}>
+        {content} <ArrowRightAltIcon fontSize="large"  />
+      </Button>
 
-       <Box className='btn-primary__border'></Box>
-      </div>
-      
-   
+      <Box className="btn-primary__border"></Box>
+    </div>
   );
 }
 

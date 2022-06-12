@@ -1,22 +1,22 @@
-import { Collapse, Fade, makeStyles } from "@material-ui/core";
-import { WIDTH_HEADER } from "constant";
-import UserFeature from "features/User";
-import { useEffect, useState } from "react";
-import { Redirect, Route, Switch } from "react-router-dom";
-import "./App.css";
-import Footer from "./components/Footer";
-import Header from "./components/Header";
-import Home from "./components/Home";
-import NotFound from "./components/NotFound";
-import CartFeature from "./features/Cart";
-import PaymentFeature from "./features/Payment";
-import ProductFeature from "./features/Product";
+import { Collapse, Fade, makeStyles } from '@material-ui/core';
+import { WIDTH_HEADER } from 'constant';
+import UserFeature from 'features/User';
+import { useEffect, useState } from 'react';
+import { Redirect, Route, Switch } from 'react-router-dom';
+import './App.css';
+import Footer from './components/Footer';
+import Header from './components/Header';
+import Home from './components/Home';
+import NotFound from './components/NotFound';
+import CartFeature from './features/Cart';
+import PaymentFeature from './features/Payment';
+import ProductFeature from './features/Product';
 
 const useStyle = makeStyles((theme) => ({
   root: {
-    marginTop: "180px",
-    [theme.breakpoints.down("sm")]: {
-      marginTop: "90px",
+    marginTop: '180px',
+    [theme.breakpoints.down('sm')]: {
+      marginTop: '90px',
     },
   },
 }));
@@ -27,20 +27,17 @@ function App() {
   const [lastScrollY, setLastScrollY] = useState(0);
 
   const handleScroll = (e) => {
-    console.log(window.pageYOffset);
     if (window.pageYOffset > WIDTH_HEADER && window.pageYOffset > lastScrollY) {
       setShowHeader(false);
     } else {
       setShowHeader(true);
     }
-
-    setLastScrollY(window.pageYOffset);
   };
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
 
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, [lastScrollY]);
 
   return (

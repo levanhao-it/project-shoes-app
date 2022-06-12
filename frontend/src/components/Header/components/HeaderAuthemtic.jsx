@@ -5,7 +5,6 @@ import LogIn from 'features/Auth/components/LogIn';
 import Register from 'features/Auth/components/Register';
 import React, { useState } from 'react';
 
-
 HeaderAuthentic.propTypes = {};
 
 const useStyles = makeStyles((theme) => ({
@@ -17,9 +16,9 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'space-between',
     borderBottom: `1px solid ${theme.palette.grey[300]}`,
     height: `${HEADER_AUTHENTIC}`,
-    backgroundColor: '#f5f5f5'
+    backgroundColor: '#f5f5f5',
   },
-  
+
   list: {
     display: 'flex',
     listStyle: 'none',
@@ -27,17 +26,16 @@ const useStyles = makeStyles((theme) => ({
     '& > li': {
       padding: theme.spacing(0, 2),
       fontSize: '0.8rem',
-    }, 
+    },
 
     '& > li:hover': {
       color: '#757575',
-      cursor: 'pointer'
+      cursor: 'pointer',
     },
 
-
     '& > li ~ li': {
-      borderLeft: '1px solid #000'
-    }
+      borderLeft: '1px solid #000',
+    },
   },
 
   dialog: {
@@ -55,26 +53,26 @@ const useStyles = makeStyles((theme) => ({
   },
   footerForm: {
     justifyContent: 'center',
-    margin: '10px 0 20px'
+    margin: '10px 0 20px',
   },
   footerTitle: {
-    color: '#8d8d8d'
+    color: '#8d8d8d',
   },
   footerLink: {
     marginLeft: '4px',
     textDecoration: 'underline',
-    cursor: 'pointer'
-  }
+    cursor: 'pointer',
+  },
 }));
 
 const MODE = {
   LOGIN: 'login',
-  REGISTER: 'resgister'
-}
+  REGISTER: 'resgister',
+};
 
 function HeaderAuthentic(props) {
   const [open, setOpen] = useState(false);
-  const [mode, setMode] = useState(MODE.LOGIN)
+  const [mode, setMode] = useState(MODE.LOGIN);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -87,20 +85,21 @@ function HeaderAuthentic(props) {
   const handleClickLogin = () => {
     setMode(MODE.LOGIN);
     handleClickOpen();
-  }
+  };
 
   const handleClickRegister = () => {
     setMode(MODE.REGISTER);
     handleClickOpen();
-  }
-
+  };
 
   const classes = useStyles();
   return (
     <>
       <Box className={classes.root}>
-        <Typography variant='body2'>460 West 34th Street, 15th floor, New York - Hotline: 804-377-3580 - 804-399-3580</Typography>
-        <ul className={classes.list} >
+        <Typography variant="body2">
+          460 West 34th Street, 15th floor, New York - Hotline: 804-377-3580 - 804-399-3580
+        </Typography>
+        <ul className={classes.list}>
           <li>Help</li>
           <li onClick={handleClickRegister}>Join Us</li>
           <li onClick={handleClickLogin}>Sign In</li>
@@ -113,21 +112,38 @@ function HeaderAuthentic(props) {
           {mode === MODE.LOGIN && (
             <>
               <LogIn />
-              <Box display='flex' className={classes.footerForm}>
-                <Typography variant='p' component = "p" className={classes.footerTitle}>Not a member? </Typography> 
-                <Typography variant='span' component='span' className={classes.footerLink} onClick={() => setMode(MODE.REGISTER)}>Join Us</Typography>
+              <Box display="flex" className={classes.footerForm}>
+                <Typography variant="p" component="p" className={classes.footerTitle}>
+                  Not a member?{' '}
+                </Typography>
+                <Typography
+                  variant="span"
+                  component="span"
+                  className={classes.footerLink}
+                  onClick={() => setMode(MODE.REGISTER)}
+                >
+                  Join Us
+                </Typography>
               </Box>
             </>
           )}
 
           {mode === MODE.REGISTER && (
             <>
-              <Register />
-              <Box display= 'flex' className={classes.footerForm}>
-                <Typography variant='p' component = "p" className={classes.footerTitle} >Already a member? </Typography> 
-                <Typography variant='span' component='span'  className={classes.footerLink} onClick={() => setMode(MODE.LOGIN)}>Sign In</Typography>
+              <Register closeDialog={handleClickLogin} />
+              <Box display="flex" className={classes.footerForm}>
+                <Typography variant="p" component="p" className={classes.footerTitle}>
+                  Already a member?{' '}
+                </Typography>
+                <Typography
+                  variant="span"
+                  component="span"
+                  className={classes.footerLink}
+                  onClick={() => setMode(MODE.LOGIN)}
+                >
+                  Sign In
+                </Typography>
               </Box>
-              
             </>
           )}
         </DialogContent>

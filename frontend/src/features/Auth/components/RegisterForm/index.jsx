@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Button, Link, makeStyles, Typography } from '@material-ui/core';
+import { Box, Button, LinearProgress, Link, makeStyles, Typography } from '@material-ui/core';
 import Close from '@material-ui/icons/Close';
 import ButtonActive from 'components/component-custom/ButtonActive';
 
@@ -25,7 +25,12 @@ const useStyles = makeStyles((theme) => ({
   },
   heading: {
     fontSize: '26px',
-    textTransform: 'uppercase'
+    textTransform: 'uppercase',
+  },
+  processing: {
+    left: '-65px',
+   top:'-18px',
+   width:'479px'
   },
 }));
 
@@ -64,19 +69,22 @@ function RegisterForm(props) {
     resolver: yupResolver(schema),
   });
 
-  const handleSubmit = (values) => {
-    console.log('Todo form: ', values);
+  const handleSubmit = async (values) => {
     const { onSubmit } = props;
     if (onSubmit) {
-      onSubmit(values);
+      await onSubmit(values);
     }
     form.reset();
   };
+
+  const { isSubmitting } = form.formState;
 
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
+      {isSubmitting &&  <LinearProgress className={classes.processing} />}
+     
       <h2 className={classes.heading}>Sign Up</h2>
       <Typography className={classes.title}>Create an account</Typography>
 
@@ -88,8 +96,7 @@ function RegisterForm(props) {
         <PasswordField name="password" label="Password" form={form} />
         <PasswordField name="confirmPassword" label="Confirm Password" form={form} />
 
-        <ButtonActive content="Create an account" type="submit" />
-        
+        <ButtonActive disabled={isSubmitting} content="Create an account" type="submit" />
       </form>
     </div>
   );
