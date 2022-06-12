@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Button, LinearProgress, Link, makeStyles, Typography } from '@material-ui/core';
-import Close from '@material-ui/icons/Close';
+import { LinearProgress, makeStyles, Typography } from '@material-ui/core';
+
 import ButtonActive from 'components/component-custom/ButtonActive';
 
 import PropTypes from 'prop-types';
@@ -29,8 +29,8 @@ const useStyles = makeStyles((theme) => ({
   },
   processing: {
     left: '-65px',
-   top:'-18px',
-   width:'479px'
+    top: '-18px',
+    width: '479px',
   },
 }));
 
@@ -83,8 +83,8 @@ function RegisterForm(props) {
 
   return (
     <div className={classes.root}>
-      {isSubmitting &&  <LinearProgress className={classes.processing} />}
-     
+      {isSubmitting && <LinearProgress className={classes.processing} />}
+
       <h2 className={classes.heading}>Sign Up</h2>
       <Typography className={classes.title}>Create an account</Typography>
 

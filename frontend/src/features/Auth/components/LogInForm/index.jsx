@@ -3,7 +3,7 @@ import {
   Box,
   Checkbox,
   FormControlLabel,
-  Grid,
+  LinearProgress,
   Link,
   makeStyles,
   Typography,
@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     fontSize: '26px',
     fontWeight: 'bold',
-    textTransform: 'uppercase'
+    textTransform: 'uppercase',
   },
   submit: {
     backgroundColor: '#2AC37D',
@@ -55,6 +55,11 @@ const useStyles = makeStyles((theme) => ({
   slogan: {
     margin: '10px 0 20px 0',
   },
+  process: {
+    left: '-65px',
+    top: '-18px',
+    width: '479px',
+  },
 }));
 
 function LogInForm(props) {
@@ -69,18 +74,20 @@ function LogInForm(props) {
     resolver: yupResolver(schema),
   });
 
-  const handelSubmit = (values) => {
+  const handelSubmit = async (values) => {
     const { onSubmit } = props;
-    console.log(values);
     if (onSubmit) {
-      onSubmit(values);
+      await onSubmit(values);
     }
 
     form.reset();
   };
+  const { isSubmitting } = form.formState;
 
   return (
     <Box align="center" className={classes.root}>
+      {isSubmitting && <LinearProgress className={classes.process} />}
+
       <Typography className={classes.title} component="h3" variant="h5">
         Sign In
       </Typography>
@@ -112,8 +119,7 @@ function LogInForm(props) {
             </Box>
           </Typography>
 
-          <ButtonActive content="sign in" type="submit"/>
-
+          <ButtonActive disabled={isSubmitting} content="sign in" type="submit" />
         </Box>
       </form>
     </Box>

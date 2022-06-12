@@ -34,7 +34,7 @@ axiosClient.interceptors.response.use(
     // Do something with response error
     const { config, status, data } = error.response;
     console.log(data);
-    const URLS = ['/register'];
+    const URLS = ['/register', '/login'];
     if (URLS.includes(config.url) && status === 400) {
       throw new Error(data.message);
     }
