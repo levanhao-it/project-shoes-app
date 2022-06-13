@@ -1,12 +1,16 @@
 package com.huyhao.appshoes.services;
 
 import com.huyhao.appshoes.entity.*;
+import com.huyhao.appshoes.payload.product.ProductFilterResponse;
 import com.huyhao.appshoes.payload.productDetail.ProductDetailRequest;
 import com.huyhao.appshoes.payload.productDetail.ProductDetailResponse;
 import com.huyhao.appshoes.payload.product.ProductRequest;
 import com.huyhao.appshoes.payload.product.ProductResponse;
 import com.huyhao.appshoes.repositories.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,8 +26,18 @@ public class ProductService {
     public final ColorRepository colorRepository;
     public final SizeRepository sizeRepository;
 
-    public List<ProductResponse> getProductList() {
-        List<Product> productList = productRepository.findAllByActiveTrue();
+    public ProductFilterResponse getProductList(String title, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Product> pageProducts;
+
+
+        if(title == null){
+            pageProducts = productRepository.findByActiveTrue(pageable);
+        }else {
+            pageProducts = productRepository.findByActiveTrueAndNameContaining(title, pageable);
+        }
+
+        List<Product> productList = pageProducts.getContent();
 
         List<ProductResponse> productResponses = new ArrayList<>();
         for(Product p : productList){
@@ -47,7 +61,12 @@ public class ProductService {
                     .build());
         }
 
-        return productResponses;
+        return  ProductFilterResponse.builder()
+                .totalItems((int) pageProducts.getTotalElements())
+                .products(productResponses)
+                .totalPages(pageProducts.getTotalPages())
+                .currentPage(pageProducts.getNumber() + 1)
+                .build();
     }
 
 

@@ -18,9 +18,13 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping("/public/products")
-    public ResponseEntity<?> getProductList(){
+    public ResponseEntity<?> getProductList(
+            @RequestParam(required = false) String title,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ){
         try {
-            return ResponseEntity.ok(ResponseCommon.success(productService.getProductList()));
+            return ResponseEntity.ok(ResponseCommon.success(productService.getProductList(title, page, size)));
         } catch (Exception ex) {
             log.error("API /api/category: ", ex);
             return ResponseEntity.badRequest().body(ErrorResponse.builder().message(ex.getMessage()).build());

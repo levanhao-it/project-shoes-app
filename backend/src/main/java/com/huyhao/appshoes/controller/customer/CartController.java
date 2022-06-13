@@ -1,7 +1,7 @@
 package com.huyhao.appshoes.controller.customer;
 
 import com.huyhao.appshoes.common.ResponseCommon;
-import com.huyhao.appshoes.payload.cart.AddToCartRequest;
+import com.huyhao.appshoes.payload.cart.CartRequest;
 import com.huyhao.appshoes.payload.common.ErrorResponse;
 import com.huyhao.appshoes.services.CartServices;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ public class CartController {
     private final CartServices cartServices;
 
     @PostMapping("")
-    public ResponseEntity<?> addCart(@RequestBody AddToCartRequest addToCartRequest) {
+    public ResponseEntity<?> addCart(@RequestBody CartRequest addToCartRequest) {
         try {
             cartServices.addToCart(addToCartRequest);
             return ResponseEntity.status(HttpStatus.OK).body(ResponseCommon.success(""));
@@ -40,7 +40,7 @@ public class CartController {
     }
 
     @PutMapping("")
-    public ResponseEntity<?> changeCart(@RequestBody AddToCartRequest addToCartRequest) {
+    public ResponseEntity<?> changeCart(@RequestBody CartRequest addToCartRequest) {
         try {
                 cartServices.changeCart(addToCartRequest);
             return ResponseEntity.status(HttpStatus.OK).body(ResponseCommon.success(""));

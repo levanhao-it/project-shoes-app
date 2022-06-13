@@ -1,7 +1,7 @@
 package com.huyhao.appshoes.services;
 
 import com.huyhao.appshoes.entity.*;
-import com.huyhao.appshoes.payload.cart.AddToCartRequest;
+import com.huyhao.appshoes.payload.cart.CartRequest;
 import com.huyhao.appshoes.payload.cart.CartItemResponse;
 import com.huyhao.appshoes.payload.cart.CartResponse;
 import com.huyhao.appshoes.repositories.CartItemRepository;
@@ -26,7 +26,7 @@ public class CartServices {
     private double priceCart=0;
 
 
-    public void addToCart(AddToCartRequest addToCartRequest) {
+    public void addToCart(CartRequest addToCartRequest) {
         String email= SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         Users user = userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("Not found user from email"));
 
@@ -63,7 +63,7 @@ public class CartServices {
 
     }
 
-    public void changeCart(AddToCartRequest addToCartRequest){
+    public void changeCart(CartRequest addToCartRequest){
         String email= SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         Users user = userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("Not found user from email"));
 

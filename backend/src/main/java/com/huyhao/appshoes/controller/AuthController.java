@@ -75,10 +75,10 @@ public class AuthController {
 //            Users user= jwtProvider.getUserFromToken(authResponse.getAccessToken());
 //            String refreshToken = jwtProvider.generateRefreshToken(user, false);
 //            addRefreshTokenToCookie(response, refreshToken, jwtProvider.getRefreshTokenLifeTimeMinutes(false) * 60);
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject("Success", null, ""));
+            return ResponseEntity.status(HttpStatus.OK).body(ResponseCommon.success(""));
         } catch (IllegalArgumentException ex) {
             log.error("API /register: {}", ex.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseObject("Fail", ex.getMessage(),null));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseCommon.fail(ex.getMessage()));
         }
     }
 
