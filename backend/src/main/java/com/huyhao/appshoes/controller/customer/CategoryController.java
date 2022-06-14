@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/categories")
+@RequestMapping("/api/public/categories")
 @RequiredArgsConstructor
 @Slf4j
 public class CategoryController {
@@ -29,7 +29,7 @@ public class CategoryController {
     }
 
     @GetMapping("/{categoryId}")
-    public ResponseEntity<?> getRate(@PathVariable Long categoryId){
+    public ResponseEntity<?> getCategoryById(@PathVariable Long categoryId){
         try {
             return ResponseEntity.ok(ResponseCommon.success(categoryService.getCategoryById(categoryId)));
         } catch (Exception ex) {

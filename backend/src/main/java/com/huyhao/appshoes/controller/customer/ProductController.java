@@ -2,8 +2,6 @@ package com.huyhao.appshoes.controller.customer;
 
 import com.huyhao.appshoes.common.ResponseCommon;
 import com.huyhao.appshoes.payload.common.ErrorResponse;
-import com.huyhao.appshoes.payload.productDetail.ProductDetailRequest;
-import com.huyhao.appshoes.payload.product.ProductRequest;
 import com.huyhao.appshoes.services.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

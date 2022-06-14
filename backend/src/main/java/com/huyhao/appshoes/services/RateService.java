@@ -46,8 +46,6 @@ public class RateService {
     }
 
     public List<RateResponse> getAllRate(Long productId){
-        String email= SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
-        Users user = userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("Not found user from email"));
         Product product=productRepository.findByIdAndActiveTrue(productId).orElseThrow(()->new IllegalArgumentException("Not found product from product id"));
 
         List<Rate> rateList=rateRepository.findAllByProduct(product);

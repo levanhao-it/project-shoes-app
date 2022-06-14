@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/rate")
+@RequestMapping("/api")
 @Slf4j
 public class RateController {
     private final RateService rateService;
 
-    @GetMapping("/{productId}")
+    @GetMapping("/public/rate/{productId}")
     public ResponseEntity<?> getRate(@PathVariable Long productId){
         try {
             return ResponseEntity.ok(ResponseCommon.success(rateService.getAllRate(productId)));
@@ -26,7 +26,7 @@ public class RateController {
         }
 
     }
-    @PostMapping()
+    @PostMapping("/rate")
     public ResponseEntity<?> addRate(@RequestBody RateRequest rateRequest){
         try {
             rateService.addRate(rateRequest);
@@ -37,8 +37,8 @@ public class RateController {
         }
     }
 
-    @PutMapping("/{rateId}")
-    public ResponseEntity<?> updateProduct(@PathVariable Long rateId, @RequestBody RateRequest rateRequest){
+    @PutMapping("/rate/{rateId}")
+    public ResponseEntity<?> updateRate(@PathVariable Long rateId, @RequestBody RateRequest rateRequest){
         try {
             rateService.updateRate(rateId, rateRequest);
             return ResponseEntity.ok(ResponseCommon.success(""));
@@ -49,8 +49,8 @@ public class RateController {
     }
 
 
-    @DeleteMapping("/{rateId}")
-    public ResponseEntity<?> deleteProduct(@PathVariable Long rateId){
+    @DeleteMapping("/rate/{rateId}")
+    public ResponseEntity<?> deleteRate(@PathVariable Long rateId){
         try {
             rateService.deleteRate(rateId);
             return ResponseEntity.ok(ResponseCommon.success(""));
