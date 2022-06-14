@@ -12,7 +12,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 public class ProductFilterResponse {
-    private int totalItems;
+    private long totalItems;
     private List<ProductResponse> products;
     private int totalPages;
     private int currentPage;

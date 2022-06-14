@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -26,10 +28,19 @@ public class ProductService {
     public final ColorRepository colorRepository;
     public final SizeRepository sizeRepository;
 
-    public ProductFilterResponse getProductList(String title, int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        Page<Product> pageProducts;
+    public ProductFilterResponse getProductList(String title, int page, int size, String[] sort) {
+        List<Order> orders = new ArrayList<>();
+        if(sort[0].contains(",")){
+            for(String sortOrder: sort){
+                String [] _sort = sortOrder.split(",");
+                orders.add(new Order(getSortDirection(_sort[1]), _sort[0] ));
+            }
+        }else {
+            orders.add(new Order(getSortDirection(sort[1]), sort[0]));
+        }
 
+        Pageable pageable = PageRequest.of(page, size, Sort.by(orders));
+        Page<Product> pageProducts;
 
         if(title == null){
             pageProducts = productRepository.findByActiveTrue(pageable);
@@ -62,11 +73,17 @@ public class ProductService {
         }
 
         return  ProductFilterResponse.builder()
-                .totalItems((int) pageProducts.getTotalElements())
-                .products(productResponses)
+                .totalItems( pageProducts.getTotalElements() )
+                .products( productResponses )
                 .totalPages(pageProducts.getTotalPages())
                 .currentPage(pageProducts.getNumber() + 1)
                 .build();
+    }
+
+    private Sort.Direction getSortDirection(String s) {
+        if(s.equals("desc"))
+            return Sort.Direction.DESC;
+        return Sort.Direction.ASC;
     }
 
 

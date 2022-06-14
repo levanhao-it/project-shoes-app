@@ -19,10 +19,11 @@ public class ProductController {
     public ResponseEntity<?> getProductList(
             @RequestParam(required = false) String title,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id,desc") String [] sort
     ){
         try {
-            return ResponseEntity.ok(ResponseCommon.success(productService.getProductList(title, page, size)));
+            return ResponseEntity.ok(ResponseCommon.success(productService.getProductList(title, page, size, sort)));
         } catch (Exception ex) {
             log.error("API /api/category: ", ex);
             return ResponseEntity.badRequest().body(ErrorResponse.builder().message(ex.getMessage()).build());
