@@ -146,6 +146,7 @@ public class ProductService {
                     .product(product)
                     .color(color)
                     .size(size)
+                    .imageLink(productDetailRequest.getImageLink())
                     .active(true)
                     .build();
 

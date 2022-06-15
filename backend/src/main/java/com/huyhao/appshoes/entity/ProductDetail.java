@@ -20,6 +20,8 @@ public class ProductDetail extends BaseEntity{
     private Boolean status;
     private boolean active;
 
+    private String imageLink;
+
     @ManyToOne()
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;

@@ -13,5 +13,6 @@ public class ProductDetailRequest {
     private Boolean status;
     private Long sizeId;
     private Long colorId;
+    private String imageLink;
 
 }

@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    url: ${DATABASE_HOST}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: ${JPA_DDL_AUTO}
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
+
+app-shoes:
+  token:
+    accessLifetimeMinutes: ${TOKEN_ACCESS_LIFE_TIME_MINUTES}
+    refreshLifetimeMinutes: ${TOKEN_REFRESH_LIFE_TIME_MINUTES}
+  rememberMe:
+    expiredDays: ${REMEMBER_ME_EXPIRED_DAYS}
