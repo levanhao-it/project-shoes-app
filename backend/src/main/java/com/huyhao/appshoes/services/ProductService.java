@@ -190,6 +190,9 @@ public class ProductService {
         ProductDetail productDetail = productDetailRepository.findByIdAndActiveTrue(productDetailId)
                 .orElseThrow(() -> new IllegalArgumentException("Not found productDetail from productDetailId"));
 
+        Product product = productRepository.findByIdAndActiveTrue(productId)
+                .orElseThrow(() -> new IllegalArgumentException("Not found product from productId"));
+
         Double salePrice = productDetailRequest.getSalePrice();
         if( salePrice != null && salePrice != productDetail.getSalePrice()){
             productDetail.setSalePrice(salePrice);
@@ -219,6 +222,8 @@ public class ProductService {
             productDetail.setSize(size);
         }
 
+        productDetail.setProduct(product);
+
         productDetailRepository.save(productDetail);
     }
 
@@ -237,9 +242,12 @@ public class ProductService {
         productRepository.save(product);
     }
 
-    public void deleteProductDetail(Long productDetailId) {
+    public void deleteProductDetail(Long productId, Long productDetailId) {
         ProductDetail productDetail = productDetailRepository.findByIdAndActiveTrue(productDetailId)
                 .orElseThrow(() -> new IllegalArgumentException("Not found productDetail from productDetailId"));
+
+        Product product = productRepository.findByIdAndActiveTrue(productId)
+                .orElseThrow(() -> new IllegalArgumentException("Not found product from product id"));
 
         productDetail.setActive(false);
         productDetailRepository.save(productDetail);

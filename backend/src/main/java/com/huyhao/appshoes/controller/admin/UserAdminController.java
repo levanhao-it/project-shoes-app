@@ -39,7 +39,7 @@ public class UserAdminController {
 
     }
     @PutMapping("/{userId}")
-    public ResponseEntity<?> editCategory(@PathVariable Long userId, @RequestBody RegistrationRequest request){
+    public ResponseEntity<?> editUser(@PathVariable Long userId, @RequestBody RegistrationRequest request){
         try {
             authService.updateUserById(userId,request);
             return ResponseEntity.status(HttpStatus.OK).body(ResponseCommon.success(""));

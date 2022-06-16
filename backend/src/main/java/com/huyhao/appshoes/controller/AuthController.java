@@ -35,7 +35,7 @@ public class AuthController {
           return ResponseEntity.ok(ResponseCommon.success(authResponse));
         }
         catch (IllegalArgumentException e){
-            log.error("API /api/login: ", e);
+            log.error("API /api/login: ", e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseCommon.fail(e.getMessage()));
         }
         catch (Exception e){

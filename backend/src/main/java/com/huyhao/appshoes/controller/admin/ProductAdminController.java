@@ -75,7 +75,7 @@ public class ProductAdminController {
     @DeleteMapping("/{productId}/productDetails/{productDetailId}")
     public ResponseEntity<?> deleteProductDetail(@PathVariable Long productId, @PathVariable Long productDetailId){
         try {
-            productService.deleteProductDetail(productDetailId);
+            productService.deleteProductDetail(productId, productDetailId);
             return ResponseEntity.ok(ResponseCommon.success(""));
         } catch (Exception ex) {
             log.error("API /api/category: ", ex);

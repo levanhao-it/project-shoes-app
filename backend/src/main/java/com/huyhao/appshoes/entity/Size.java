@@ -14,4 +14,5 @@ import javax.persistence.Entity;
 @NoArgsConstructor
 public class Size extends BaseEntity{
     private String name;
+    private boolean active;
 }

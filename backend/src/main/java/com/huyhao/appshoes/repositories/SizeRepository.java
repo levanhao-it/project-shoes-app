@@ -9,4 +9,9 @@ import java.util.Optional;
 
 public interface SizeRepository extends JpaRepository<Size, Long> {
 
+    List<Size> findByActiveTrue();
+
+    Optional<Size> findByIdAndActiveTrue(Long id);
+
+    boolean existsSizeByNameAndActiveTrue(String name);
 }

@@ -15,4 +15,5 @@ import javax.persistence.Entity;
 public class Color extends BaseEntity{
     private String name;
     private String code;
+    private boolean active;
 }
