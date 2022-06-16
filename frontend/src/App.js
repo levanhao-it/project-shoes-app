@@ -12,6 +12,7 @@ import CartFeature from './features/Cart';
 import PaymentFeature from './features/Payment';
 import ProductFeature from './features/Product';
 
+const drawerWidth = 240;
 const useStyle = makeStyles((theme) => ({
   root: {
     marginTop: '180px',

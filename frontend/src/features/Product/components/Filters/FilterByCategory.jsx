@@ -1,6 +1,6 @@
 import { Box, Collapse, makeStyles, Typography } from '@material-ui/core';
 import ListItem from '@material-ui/core/ListItem';
-import { ExpandLess, ExpandMore } from '@material-ui/icons';
+import { KeyboardArrowRightIcon, ExpandMore } from '@material-ui/icons';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -81,7 +81,7 @@ function FilterByCategory(props) {
         <Typography variant="h5" className={classes.h5}>
           Category
         </Typography>
-        <Box>{open ? <ExpandLess /> : <ExpandMore />}</Box>
+        <Box>{open ? <KeyboardArrowRightIcon /> : <ExpandMore />}</Box>
       </Box>
       <Collapse in={open} timeout="auto" unmountOnExit>
         <Box className={classes.content} disablePadding>
