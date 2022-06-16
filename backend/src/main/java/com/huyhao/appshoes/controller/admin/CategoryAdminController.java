@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/categories")
+@RequestMapping("/api/admin/categories")
 @RequiredArgsConstructor
 @Slf4j
 public class CategoryAdminController {
@@ -27,7 +27,7 @@ public class CategoryAdminController {
         }
     }
     @PutMapping("/{categoryId}")
-    public ResponseEntity<?> editCategory(@RequestParam Long categoryId, @RequestBody CategoryRequest categoryRequest){
+    public ResponseEntity<?> editCategory(@PathVariable Long categoryId, @RequestBody CategoryRequest categoryRequest){
         try {
             categoryService.updateCategory(categoryId,categoryRequest);
             return ResponseEntity.status(HttpStatus.OK).body(ResponseCommon.success(""));
