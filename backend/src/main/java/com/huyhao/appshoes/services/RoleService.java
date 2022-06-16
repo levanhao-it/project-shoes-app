@@ -13,20 +13,20 @@ public class RoleService {
 
     private final RoleRepository roleRepository;
 
-    public RoleResponse createRole(RoleRequest roleRequest){
+    public void createRole(RoleRequest roleRequest){
         Role existRole = roleRepository.findByCode(roleRequest.getCode());
 
-        if(existRole != null){
-            throw new IllegalArgumentException("Role already exists");
+        if (existRole != null){
+            throw new IllegalArgumentException("Role already exist");
         }
 
-        Role role = roleRepository.save(Role.builder().code(roleRequest.getCode()).build());
-
-
-        return RoleResponse.builder()
-                .name(role.getName())
-                .code(role.getCode())
+        Role role = Role.builder()
+                .name(roleRequest.getName())
+                .code(roleRequest.getCode())
                 .build();
+
+        roleRepository.save(role);
+
     }
 
 }
