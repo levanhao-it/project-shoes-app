@@ -72,7 +72,7 @@ function ManagerUser(props) {
           <Box display="flex">
             <PeopleAltIcon fontSize="small" />
             <Typography variant="h5" className={classes.h5}>
-              Customer
+              Customers
             </Typography>
           </Box>
           <Box>

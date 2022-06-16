@@ -87,7 +87,7 @@ public class AuthService {
         String email = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         Users user = userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("Please login to continues!"));
 
-        List<Users> userList = userRepository.findAll();
+        List<Users> userList = userRepository.findAllByRoleCode(AppConstant.CUSTOMER_ROLE);
         List<UserResponse> userResponses = new ArrayList<>();
         for (Users u : userList
         ) {
@@ -122,7 +122,6 @@ public class AuthService {
 
     public void updateUserById(Long id,RegistrationRequest request){
         Users user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Not found user from id"));
-        user.setEmail(request.getEmail());
         user.setFullName(request.getFullName());
         user.setPassword(request.getPassword());
 

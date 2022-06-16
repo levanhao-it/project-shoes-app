@@ -13,7 +13,7 @@ const axiosClient = axios.create({
 axiosClient.interceptors.request.use(
   function (config) {
     // Do something before request is sent
-    const token = Cookies.get('token');
+    const token = Cookies.get('access_token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -35,7 +35,7 @@ axiosClient.interceptors.response.use(
   function (error) {
     // Do something with response error
     const { config, status, data } = error.response;
-    console.log(data);
+
     const URLS = ['/admin/login'];
     if (URLS.includes(config.url) && status === 400) {
       throw new Error(data.message);

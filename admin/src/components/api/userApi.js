@@ -5,5 +5,28 @@ const userApi = {
     const url = '/admin/login';
     return axiosClient.post(url, data);
   },
+  getAllUser() {
+    const url = `/admin/users`;
+    return axiosClient.get(url);
+  },
+  getById(id) {
+    const url = `/admin/users/${id}`;
+    return axiosClient.get(url);
+  },
+
+  add(data) {
+    const url = '/admin/users';
+    return axiosClient.post(url, data);
+  },
+
+  update(id, data) {
+    const url = `/admin/users/${id}`;
+    return axiosClient.patch(url, data);
+  },
+
+  remove(id) {
+    const url = `/admin/users/${id}`;
+    return axiosClient.delete(url);
+  },
 };
 export default userApi;

@@ -19,7 +19,7 @@ function LogIn(props) {
       const resultAction = await dispatch(action);
       unwrapResult(resultAction);
 
-      history.push('/user');
+      history.push('/users');
       console.log('User: ', resultAction);
       enqueueSnackbar('Login Success', { variant: 'success', autoHideDuration: 1000 });
     } catch (error) {

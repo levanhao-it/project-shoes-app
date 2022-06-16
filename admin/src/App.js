@@ -26,7 +26,7 @@ function App() {
         <div className={classes.content}>
           <Switch>
             <Redirect from="/home" to="/" exact />
-            <Route path="/user" component={UserFeature} />
+            <Route path="/users" component={UserFeature} />
             <Route path="/login" component={LoginFeature} />
             <Route component={NotFound} />
           </Switch>

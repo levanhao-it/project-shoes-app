@@ -87,7 +87,12 @@ public class CategoryService {
 
     public void updateCategory(Long categoryId, CategoryRequest request){
         Category category=categoryRepository.findById(categoryId).orElseThrow(()-> new IllegalArgumentException("Not found category"));
-        category.setName(request.getName());
+        Category existCategory = categoryRepository.findByName(request.getName());
+
+        if(existCategory != null){
+            throw new IllegalArgumentException("Category already exists");
+        }
+        category.setName(existCategory.getName());
         category.setCode(request.getCode());
         categoryRepository.save(category);
     }

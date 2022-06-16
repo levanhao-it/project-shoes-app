@@ -72,7 +72,7 @@ function ManagerCategory(props) {
           <Box display="flex">
             <CategoryIcon fontSize="small" />
             <Typography variant="h5" className={classes.h5}>
-              Category
+              Categories
             </Typography>
           </Box>
           <Box>
