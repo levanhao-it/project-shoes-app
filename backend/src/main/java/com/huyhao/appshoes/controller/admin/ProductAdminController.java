@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/products")
+@RequestMapping("/api/admin/products")
 @Slf4j
 public class ProductAdminController {
     private final ProductService productService;

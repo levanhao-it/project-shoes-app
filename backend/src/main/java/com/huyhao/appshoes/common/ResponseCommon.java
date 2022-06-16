@@ -9,7 +9,7 @@ public class ResponseCommon {
     }
 
     public static ResponseObject fail(String message){
-        return ResponseObject.builder().status("Failed").message("message").build();
+        return ResponseObject.builder().status("Failed").message(message).data("").build();
     }
 
 }

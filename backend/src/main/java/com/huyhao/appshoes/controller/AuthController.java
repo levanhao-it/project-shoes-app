@@ -36,11 +36,11 @@ public class AuthController {
         }
         catch (IllegalArgumentException e){
             log.error("API /api/login: ", e);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseObject("Fail", e.getMessage(),null));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseCommon.fail(e.getMessage()));
         }
         catch (Exception e){
             log.error("API /api/login: ", e);
-            return ResponseEntity.internalServerError().body(ResponseCommon.fail("Serve fail"));
+            return ResponseEntity.internalServerError().body(ResponseCommon.fail("Server fail"));
         }
 
     }
@@ -54,7 +54,7 @@ public class AuthController {
         }
         catch (IllegalArgumentException e){
             log.error("API /api/login: ", e);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseObject("Fail", e.getMessage(),null));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseCommon.fail(e.getMessage()));
         }
         catch (Exception e){
             return ResponseEntity.internalServerError().body(ResponseCommon.fail("Server fail"));
@@ -64,20 +64,17 @@ public class AuthController {
     @GetMapping("/logout")
     public ResponseEntity<Object> logout(HttpServletResponse response){
         addRefreshTokenToCookie(response, null, 0);
-        return ResponseEntity.ok().body(ResponseCommon.success(null));
+        return ResponseEntity.ok().body(ResponseCommon.success(""));
     }
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegistrationRequest request, HttpServletResponse response) {
         try {
 
-            AuthResponse authResponse = authService.register(request);
-//            Users user= jwtProvider.getUserFromToken(authResponse.getAccessToken());
-//            String refreshToken = jwtProvider.generateRefreshToken(user, false);
-//            addRefreshTokenToCookie(response, refreshToken, jwtProvider.getRefreshTokenLifeTimeMinutes(false) * 60);
+            authService.register(request);
+
             return ResponseEntity.status(HttpStatus.OK).body(ResponseCommon.success(""));
         } catch (IllegalArgumentException ex) {
-            log.error("API /register: {}", ex.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseCommon.fail(ex.getMessage()));
         }
     }
