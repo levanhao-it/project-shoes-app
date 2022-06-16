@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
 
 function ManagerUser(props) {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
 
   const handleClick = () => {
     setOpen(!open);

@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { AppBar, makeStyles, Toolbar, Typography } from '@material-ui/core';
+import { AppBar, IconButton, makeStyles, Toolbar, Typography } from '@material-ui/core';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../../features/Auth/userSlice';
+import { Link } from 'react-router-dom';
 
 Header.propTypes = {};
 const drawerWidth = 240;
@@ -30,7 +33,16 @@ const useStyles = makeStyles((theme) => ({
 
 function Header(props) {
   const classes = useStyles();
-  const menuId = 'primary-search-account-menu';
+  const dispatch = useDispatch();
+  const loggedInUser = useSelector((state) => state.user.current.data);
+  console.log(loggedInUser);
+
+  const isLoggedIn = !!loggedInUser.accessToken;
+  console.log(isLoggedIn);
+  const handleLogoutClick = () => {
+    const action = logout();
+    dispatch(action);
+  };
   return (
     <div>
       <AppBar position="fixed" className={classes.appBar}>
@@ -38,9 +50,18 @@ function Header(props) {
           <Typography className={classes.title} variant="h6" noWrap>
             Manager Dashboard
           </Typography>
-          <Typography className={classes.login} variant="h6" noWrap>
-            Login
-          </Typography>
+          {!isLoggedIn && (
+            <Link to="/login">
+              <Typography className={classes.login} variant="h6" noWrap>
+                Login
+              </Typography>
+            </Link>
+          )}
+          {isLoggedIn && (
+            <Typography className={classes.login} variant="h6" noWrap onClick={handleLogoutClick}>
+              Logout
+            </Typography>
+          )}
         </Toolbar>
       </AppBar>
     </div>
