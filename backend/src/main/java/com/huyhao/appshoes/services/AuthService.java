@@ -123,7 +123,7 @@ public class AuthService {
     public void updateUserById(Long id,RegistrationRequest request){
         Users user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Not found user from id"));
         user.setFullName(request.getFullName());
-        user.setPassword(request.getPassword());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
 
         userRepository.saveAndFlush(user);
     }
