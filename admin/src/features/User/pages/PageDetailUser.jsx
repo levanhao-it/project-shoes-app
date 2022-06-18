@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 PageDetailUser.propTypes = {};
 
 function PageDetailUser(props) {
-  return <div></div>;
+  return <div>ddd</div>;
 }
 
 export default PageDetailUser;

@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { Box, Button, makeStyles, Typography, withStyles } from '@material-ui/core';
+import { Box, Button, makeStyles, withStyles } from '@material-ui/core';
 import { purple } from '@material-ui/core/colors';
-import UserList from '../components/UserList';
-import { useHistory, useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
 import userApi from 'components/api/userApi';
+import { useEffect, useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import UserList from '../components/UserList';
 
 PageListUser.propTypes = {};
 
@@ -32,18 +30,27 @@ const useStyles = makeStyles((theme) => ({
   h1: {
     margin: '0 ',
   },
+  icon: {
+    float: 'right',
+    position: 'absolute',
+    top: '5px',
+    right: '5px',
+    cursor: 'pointer',
+    fontSize: '30px',
+  },
 }));
 
 function PageListUser(props) {
   const classes = useStyles();
+  const history = useHistory();
 
   const [userList, setUserList] = useState([]);
 
   useEffect(() => {
     (async () => {
       try {
-        const listUser = await userApi.getAllUser();
-        setUserList(listUser);
+        const { data } = await userApi.getAllUser();
+        setUserList(data);
       } catch (error) {
         console.log('Failed to fetch getAllUser list', error);
       }
@@ -54,11 +61,18 @@ function PageListUser(props) {
     <div className={classes.padding}>
       <Box className={classes.box}>
         <h1 className={classes.h1}>Customers</h1>
-        <ColorButton variant="contained" color="primary" className={classes.margin}>
+        <ColorButton
+          variant="contained"
+          color="primary"
+          className={classes.margin}
+          component={Link}
+          to="/users/add"
+        >
           + Add
         </ColorButton>
       </Box>
-      {/* <UserList data={userList} /> */}
+
+      <UserList data={userList} />
     </div>
   );
 }

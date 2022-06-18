@@ -35,10 +35,8 @@ function Header(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const loggedInUser = useSelector((state) => state.user.current.data);
-  console.log(loggedInUser);
 
   const isLoggedIn = !!loggedInUser.accessToken;
-  console.log(isLoggedIn);
   const handleLogoutClick = () => {
     const action = logout();
     dispatch(action);
@@ -51,11 +49,9 @@ function Header(props) {
             Manager Dashboard
           </Typography>
           {!isLoggedIn && (
-            <Link to="/login">
-              <Typography className={classes.login} variant="h6" noWrap>
-                Login
-              </Typography>
-            </Link>
+            <Typography className={classes.login} variant="h6" noWrap component={Link} to="/login">
+              Login
+            </Typography>
           )}
           {isLoggedIn && (
             <Typography className={classes.login} variant="h6" noWrap onClick={handleLogoutClick}>

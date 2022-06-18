@@ -18,9 +18,7 @@ function LogIn(props) {
       const action = login(values);
       const resultAction = await dispatch(action);
       unwrapResult(resultAction);
-
       history.push('/users');
-      console.log('User: ', resultAction);
       enqueueSnackbar('Login Success', { variant: 'success', autoHideDuration: 1000 });
     } catch (error) {
       enqueueSnackbar(error.message, { variant: 'error', autoHideDuration: 1000 });

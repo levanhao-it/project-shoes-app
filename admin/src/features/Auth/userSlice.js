@@ -12,6 +12,23 @@ export const login = createAsyncThunk('user/login', async (payload) => {
   return data;
 });
 
+export const register = createAsyncThunk('user/register', async (payload) => {
+  // call API to register user
+  const data = await userApi.register(payload);
+  // save data to cookie
+  //return user data
+  return data;
+});
+
+// export const edit = createAsyncThunk('user/edit', async (id, payload) => {
+//   console.log(id, payload);
+//   // call API to register user
+//   const data = await userApi.update(id, payload);
+//   // save data to cookie
+//   //return user data
+//   return data;
+// });
+
 const userSlice = createSlice({
   name: 'user',
   initialState: {

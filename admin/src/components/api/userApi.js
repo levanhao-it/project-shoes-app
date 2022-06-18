@@ -5,6 +5,10 @@ const userApi = {
     const url = '/admin/login';
     return axiosClient.post(url, data);
   },
+  register(data) {
+    const url = '/register';
+    return axiosClient.post(url, data);
+  },
   getAllUser() {
     const url = `/admin/users`;
     return axiosClient.get(url);
@@ -21,7 +25,7 @@ const userApi = {
 
   update(id, data) {
     const url = `/admin/users/${id}`;
-    return axiosClient.patch(url, data);
+    return axiosClient.put(url, data);
   },
 
   remove(id) {

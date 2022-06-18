@@ -1,14 +1,22 @@
-import React from 'react';
+import {
+  Button,
+  Fab,
+  makeStyles,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TablePagination,
+  TableRow,
+  Tooltip,
+} from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
+import userApi from 'components/api/userApi';
 import PropTypes from 'prop-types';
-import Paper from '@material-ui/core/Paper';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
-import { makeStyles } from '@material-ui/core';
+import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 UserList.propTypes = {
   data: PropTypes.array,
@@ -25,30 +33,12 @@ const columns = [
     label: 'CREATE BY',
     minWidth: 170,
     align: 'center',
-    format: (value) =>
-      new Intl.DateTimeFormat('en-US', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-      }).format(value),
   },
   {
-    id: 'create_modified',
-    label: 'CREATE MODIFIED',
+    id: 'quantityOrders',
+    label: 'QUANTITY ORDER',
     minWidth: 170,
     align: 'center',
-    format: (value) =>
-      new Intl.DateTimeFormat('en-US', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-      }).format(value),
   },
   {
     id: 'action',
@@ -58,10 +48,6 @@ const columns = [
   },
 ];
 
-function createData(full_name, email, create_by, create_modified) {
-  return { full_name, email, create_by, create_modified };
-}
-
 const useStyles = makeStyles({
   root: {
     width: '100%',
@@ -70,15 +56,35 @@ const useStyles = makeStyles({
     maxHeight: 440,
   },
 });
+
 function UserList(data) {
-  const rows = [
-    data.forEach((e) => {
-      createData(e.full_name, e.email, e.create_by, e.create_modified);
-    }),
-  ];
   const classes = useStyles();
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const history = useHistory();
+
+  const rows = [];
+  data.data.map((e) => {
+    rows.push({
+      id: e.idUser,
+      full_name: e.full_name,
+      email: e.email,
+      create_by: e.create_by,
+      quantityOrders: e.quantityOrders,
+      action: (
+        <div>
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.margin}
+            onClick={() => history.push(`/users/edit/${e.idUser}`)}
+          >
+            Edit
+          </Button>
+        </div>
+      ),
+    });
+  });
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);

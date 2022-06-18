@@ -29,7 +29,6 @@ function InputField(props) {
       error={!!hasError}
       helperText={errors[name]?.message}
       id="outlined-size-normal"
-      defaultValue="Normal"
     />
   );
 }

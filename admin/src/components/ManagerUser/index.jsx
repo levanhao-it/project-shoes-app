@@ -5,6 +5,7 @@ import { Box, Collapse } from '@material-ui/core';
 import { ExpandMore } from '@material-ui/icons';
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
+import { Link } from 'react-router-dom';
 
 ManagerUser.propTypes = {};
 const useStyles = makeStyles((theme) => ({
@@ -81,19 +82,14 @@ function ManagerUser(props) {
         </Box>
         <Collapse in={open} timeout="auto" unmountOnExit>
           <Box className={classes.content} disablePadding>
-            <ListItem button className={classes.nested}>
+            <ListItem button className={classes.nested} component={Link} to="/users">
               <Typography variant="body2" className={classes.li}>
                 List
               </Typography>
             </ListItem>
-            <ListItem button className={classes.nested}>
+            <ListItem button className={classes.nested} component={Link} to="/users/add">
               <Typography variant="body2" className={classes.li}>
                 Create
-              </Typography>
-            </ListItem>
-            <ListItem button className={classes.nested}>
-              <Typography variant="body2" className={classes.li}>
-                Edit
               </Typography>
             </ListItem>
           </Box>
