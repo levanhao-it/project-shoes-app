@@ -6,6 +6,7 @@ import UserFeature from "./features/User";
 import Header from "./components/Header";
 import NotFound from "./components/NotFound";
 import LoginFeature from "./features/Auth";
+import ProductFeature from "features/Product";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,6 +29,7 @@ function App() {
             <Redirect from="/home" to="/" exact />
             <Route path="/users" component={UserFeature} />
             <Route path="/login" component={LoginFeature} />
+            <Route path="/products" component={ProductFeature} />
             <Route component={NotFound} />
           </Switch>
         </div>

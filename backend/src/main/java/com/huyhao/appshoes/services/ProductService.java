@@ -39,7 +39,7 @@ public class ProductService {
             orders.add(new Order(getSortDirection(sort[1]), sort[0]));
         }
 
-        Pageable pageable = PageRequest.of(page, size, Sort.by(orders));
+        Pageable pageable = PageRequest.of(page - 1, size, Sort.by(orders));
         Page<Product> pageProducts;
 
         if(title == null){
