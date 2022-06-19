@@ -1,18 +1,43 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import EditUserForm from '../components/EditUserForm';
-import { useHistory, useRouteMatch } from 'react-router-dom';
-import useUserDetail from '../hooks/useUserDetail';
-import { useDispatch } from 'react-redux';
-import { useSnackbar } from 'notistack';
-import { unwrapResult } from '@reduxjs/toolkit';
-import { edit } from 'features/Auth/userSlice';
+import { Box, Container, makeStyles, Typography } from '@material-ui/core';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import userApi from 'components/api/userApi';
+import { useSnackbar } from 'notistack';
+import { useHistory, useRouteMatch } from 'react-router-dom';
+import EditUserForm from '../components/EditUserForm';
+import Profile from '../components/Profile';
+import useUserDetail from '../hooks/useUserDetail';
 
 PageEditUser.propTypes = {};
 
+const useStyles = makeStyles((theme) => ({
+  container: {
+    padding: '58px 24px 0px 24px',
+  },
+  box1: {
+    display: 'flex',
+    color: 'rgb(18 24 40)',
+    fontSize: '14px',
+    fontWeight: '500',
+    lineHeight: '1.5',
+    cursor: 'pointer',
+    textDecoration: 'none',
+    marginBottom: '32px',
+    '&:hover': {
+      textDecoration: 'underline',
+    },
+  },
+  box2: {
+    marginTop: '24px',
+    marginLeft: '24px',
+    marginRight: '24px',
+    marginBottom: '24px',
+    padding: '32px 24px',
+    boxSizing: 'border-box',
+    border: '1px solid rgb(233 241 249)',
+  },
+}));
+
 function PageEditUser(props) {
-  const dispatch = useDispatch();
   const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
   const {
@@ -28,6 +53,7 @@ function PageEditUser(props) {
       // const user = unwrapResult(resultAction);
       console.log(values);
       const { status, message } = await userApi.update(userId, values);
+      // ok then show user list
       if (status === 'OK') {
         setTimeout(() => {
           history.push('/users');
@@ -42,10 +68,20 @@ function PageEditUser(props) {
       enqueueSnackbar(error.message, { variant: 'error', autoHideDuration: 1000 });
     }
   };
+  const classes = useStyles();
 
   return (
     <div>
-      <EditUserForm user={userData} onSubmit={handleSubmit} />
+      <Container className={classes.container} maxWidth="md">
+        <a className={classes.box1} onClick={() => history.push('/users')}>
+          <ArrowBackIcon />
+          <Typography style={{ marginLeft: '10px' }}> Customers</Typography>
+        </a>
+        <Profile user={userData}></Profile>
+        <Box className={classes.box2}>
+          <EditUserForm user={userData} onSubmit={handleSubmit} />
+        </Box>
+      </Container>
     </div>
   );
 }

@@ -1,5 +1,14 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { LinearProgress, makeStyles, Typography } from '@material-ui/core';
+import {
+  Box,
+  Button,
+  Grid,
+  LinearProgress,
+  makeStyles,
+  Typography,
+  withStyles,
+} from '@material-ui/core';
+import { purple } from '@material-ui/core/colors';
 
 import ButtonActive from 'components/component-custom/ButtonActive';
 
@@ -37,7 +46,44 @@ const useStyles = makeStyles((theme) => ({
     top: '-18px',
     width: '479px',
   },
+  heading: {
+    fontSize: '18px',
+    marginBottom: '20px',
+    fontWeight: '600',
+  },
+  margin: {
+    marginTop: '20px',
+    '&:first-child': {
+      marginRight: '15px',
+    },
+  },
+  action: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
 }));
+
+const ColorBlueButton = withStyles((theme) => ({
+  root: {
+    color: theme.palette.getContrastText(purple[500]),
+    backgroundColor: '#5048e5',
+    '&:hover': {
+      backgroundColor: '#3832a0',
+    },
+    borderRadius: '5px',
+  },
+}))(Button);
+const ColorCancelButton = withStyles((theme) => ({
+  root: {
+    color: '#5048e5',
+    backgroundColor: ' #fff',
+    '&:hover': {
+      backgroundColor: '#5048e50a',
+    },
+    borderRadius: '5px',
+    border: '1px solid #5048e5',
+  },
+}))(Button);
 
 function EditUserForm({ user = {}, onSubmit = null }) {
   const schema = yup.object().shape({
@@ -88,20 +134,44 @@ function EditUserForm({ user = {}, onSubmit = null }) {
   }, [user]);
 
   return (
-    <div className={classes.root}>
-      {isSubmitting && <LinearProgress className={classes.processing} />}
-
-      <h2 className={classes.heading}>Edit Customer</h2>
-
-      <form onSubmit={form.handleSubmit(handleSubmit)}>
-        <InputField name="fullName" label="Full Name" form={form} />
-
-        <PasswordField name="password" label="Password" form={form} />
-        <PasswordField name="confirmPassword" label="Confirm Password" form={form} />
-
-        <ButtonActive disabled={isSubmitting} content="Update" type="submit" />
-      </form>
-    </div>
+    <form onSubmit={form.handleSubmit(handleSubmit)}>
+      <Typography variant="h6" className={classes.heading}>
+        Edit User
+      </Typography>
+      <hr />
+      <Grid container spacing={3}>
+        <Grid item xs={12} md={6} xl={12}>
+          <InputField name="fullName" label="Full Name" form={form} />
+        </Grid>
+        <Grid item xs={12} md={6} xl={12}>
+          <InputField name="email" label="Email Address" form={form} />
+        </Grid>
+        <Grid item xs={12} md={6} xl={12}>
+          <PasswordField name="password" label="Password" form={form} />
+        </Grid>
+        <Grid item xs={12} md={6} xl={12}>
+          <PasswordField name="confirmPassword" label="Confirm Password" form={form} />
+        </Grid>
+      </Grid>
+      <Box className={classes.action}>
+        <Box>
+          <ColorBlueButton
+            variant="contained"
+            color="primary"
+            className={classes.margin}
+            type="submit"
+          >
+            Update
+          </ColorBlueButton>
+          <ColorCancelButton variant="contained" color="primary" className={classes.margin}>
+            Cancel
+          </ColorCancelButton>
+        </Box>
+        <Button variant="outlined" className={classes.margin} color="secondary">
+          Delete User
+        </Button>
+      </Box>
+    </form>
   );
 }
 
