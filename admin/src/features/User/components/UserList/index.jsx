@@ -1,6 +1,5 @@
 import {
   Button,
-  Fab,
   makeStyles,
   Paper,
   Table,
@@ -10,10 +9,7 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  Tooltip,
 } from '@material-ui/core';
-import DeleteIcon from '@material-ui/icons/Delete';
-import userApi from 'components/api/userApi';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
@@ -48,14 +44,7 @@ const columns = [
   },
 ];
 
-const useStyles = makeStyles({
-  root: {
-    width: '100%',
-  },
-  container: {
-    maxHeight: 440,
-  },
-});
+const useStyles = makeStyles({});
 
 function UserList(data) {
   const classes = useStyles();
@@ -96,8 +85,8 @@ function UserList(data) {
   };
   return (
     <div>
-      <Paper className={classes.root}>
-        <TableContainer className={classes.container}>
+      <Paper>
+        <TableContainer>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>

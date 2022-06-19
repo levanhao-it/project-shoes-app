@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Box, makeStyles, Paper, Typography } from '@material-ui/core';
+import { Box, Button, makeStyles, Paper, Typography } from '@material-ui/core';
 
 DetailUser.propTypes = {};
 
@@ -8,7 +8,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     margin: '0 32px',
   },
-  paper: {},
+  paper: {
+    marginBottom: '20px',
+  },
   textHeading: {
     fontSize: '18px',
     fontWeight: '600',
@@ -18,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
   ul: {
     listStyle: 'none',
     padding: '0',
+    margin: '0',
   },
   li: {
     padding: '12px 24px',
@@ -39,6 +42,9 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '14px',
     fontWeight: '500',
     color: 'rgb(101 116 139)',
+  },
+  margin: {
+    float: 'right',
   },
 }));
 
@@ -71,6 +77,9 @@ function DetailUser(props) {
           </ul>
         </Box>
       </Paper>
+      <Button variant="outlined" className={classes.margin} color="secondary">
+        Delete User
+      </Button>
     </div>
   );
 }

@@ -19,6 +19,8 @@ import useUserDetail from '../hooks/useUserDetail';
 import { purple } from '@material-ui/core/colors';
 import EditIcon from '@material-ui/icons/Edit';
 import DetailUser from '../components/DetailUser';
+import AddressFeature from '../components/Address';
+import Invoice from '../components/Invoice';
 
 PageDetailUser.propTypes = {};
 function TabPanel(props) {
@@ -66,6 +68,7 @@ const useStyles = makeStyles((theme) => ({
   box2: {
     display: 'flex',
     justifyContent: 'space-between',
+    marginBottom: '32px',
   },
 }));
 
@@ -180,11 +183,17 @@ function PageDetailUser(props) {
       <Box>
         <StyledTabs value={value} onChange={handleChange} aria-label="styled tabs example">
           <StyledTab label="Detail" {...a11yProps(0)} />
-          <StyledTab label="Address" />
-          <StyledTab label="Invoice" />
+          <StyledTab label="Address" {...a11yProps(1)} />
+          <StyledTab label="Invoice" {...a11yProps(2)} />
         </StyledTabs>
         <TabPanel value={value} index={0}>
           <DetailUser></DetailUser>
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          <AddressFeature />
+        </TabPanel>
+        <TabPanel value={value} index={2}>
+          <Invoice />
         </TabPanel>
       </Box>
     </Container>

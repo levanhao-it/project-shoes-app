@@ -4,6 +4,7 @@ import userApi from 'components/api/userApi';
 import { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import UserList from '../components/UserList';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
 
 PageListUser.propTypes = {};
 
@@ -69,8 +70,9 @@ function PageListUser(props) {
           className={classes.margin}
           component={Link}
           to="/users/add"
+          startIcon={<PersonAddIcon />}
         >
-          + Add
+          Add
         </ColorButton>
       </Box>
 
