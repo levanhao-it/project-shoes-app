@@ -20,7 +20,7 @@ public class ProductController {
             @RequestParam(required = false) String title,
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "id,desc") String [] sort
+            @RequestParam(defaultValue = "id,asc") String [] sort
     ){
         try {
             return ResponseEntity.ok(ResponseCommon.success(productService.getProductList(title, page, size, sort)));

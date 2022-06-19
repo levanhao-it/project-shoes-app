@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import {
+  IconButton,
   makeStyles,
   Paper,
   Table,
@@ -11,6 +12,8 @@ import {
   TablePagination,
   TableRow,
 } from "@material-ui/core";
+import EditIcon from "@material-ui/icons/Edit";
+import { useHistory } from "react-router-dom";
 
 ProductList.propTypes = {
   data: PropTypes.object,
@@ -26,21 +29,19 @@ const useStyles = makeStyles({
 });
 
 const columns = [
-  { id: "expand", minWidth: 50 },
-  { id: "name", label: "Name", minWidth: 170 },
+  { id: "id", label: "#", minWidth: 50, align: "right" },
+  { id: "name", label: "Name", minWidth: 300 },
   { id: "stock", label: "Stock", minWidth: 100 },
   {
     id: "price",
     label: "Price",
     minWidth: 170,
-    align: "right",
     format: (value) => value.toLocaleString("en-US"),
   },
   {
     id: "category",
     label: "Category",
     minWidth: 170,
-    align: "right",
     format: (value) => value.toLocaleString("en-US"),
   },
   {
@@ -48,16 +49,15 @@ const columns = [
     label: "Actions",
     minWidth: 170,
     align: "right",
-    format: (value) => value.toFixed(2),
   },
 ];
 
 function ProductList({ data }) {
-  console.log(data);
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [productList, setProductList] = useState([]);
+  const history = useHistory();
   useEffect(() => {
     const productList1 = data.map((product) => {
       let totalQuantity = 0;
@@ -69,10 +69,11 @@ function ProductList({ data }) {
       }
 
       return {
+        id: product.id,
         name: product.name,
         stock: totalQuantity,
         price: product.originalPrice,
-        category: product.nameCategory,
+        category: product.categoryName,
       };
     });
     setProductList(productList1);
@@ -85,6 +86,10 @@ function ProductList({ data }) {
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
+  };
+
+  const handleActionProduct = (id) => {
+    history.push(`/products/${id}`);
   };
 
   return (
@@ -120,9 +125,16 @@ function ProductList({ data }) {
                         const value = row[column.id];
                         return (
                           <TableCell key={column.id} align={column.align}>
-                            {column.format && typeof value === "number"
-                              ? column.format(value)
-                              : value}
+                            {column.id === "actions" ? (
+                              <IconButton
+                                size="medium"
+                                onClick={() => handleActionProduct(row.id)}
+                              >
+                                <EditIcon fontSize="inherit" />
+                              </IconButton>
+                            ) : (
+                              value
+                            )}
                           </TableCell>
                         );
                       })}

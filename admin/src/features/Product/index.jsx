@@ -22,7 +22,7 @@ function ProductFeature(props) {
   return (
     <Box className={classes.box}>
       <Switch>
-        <Route path={match.url} component={ListPage} />
+        <Route path={match.url} component={ListPage} exact />
         <Route path={`${match.url}/:productId`} component={DetailPage} />
       </Switch>
     </Box>

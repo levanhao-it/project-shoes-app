@@ -67,7 +67,7 @@ public class AuthService {
             throw new IllegalArgumentException("Email already exits");
         }
 
-        Role role = rolesRepository.findByCode(AppConstant.CUSTOMER_ROLE);
+        Role role = rolesRepository.findByCode(AppConstant.ADMIN_ROLE);
 
         Users user = userRepository.save(Users.builder()
                 .email(registrationRequest.getEmail())

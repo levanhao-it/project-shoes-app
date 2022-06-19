@@ -13,7 +13,7 @@ const productDetailApi = {
 
   update(idProduct, id, data) {
     const url = `/admin/products/${idProduct}/productDetails/${id}`;
-    return axiosClient.patch(url, data);
+    return axiosClient.put(url, data);
   },
 
   remove(idProduct, id) {

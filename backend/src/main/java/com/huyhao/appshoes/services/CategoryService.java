@@ -43,7 +43,8 @@ public class CategoryService {
         List<Product> productList=productRepository.findAllByCategory(category);
         List<ProductResponse> productResponses = productList.stream().map(e -> ProductResponse.builder()
                     .id(e.getId())
-                    .nameCategory(e.getCategory().getName())
+                    .categoryId(e.getCategory().getId())
+                    .categoryName(e.getCategory().getName())
                     .description(e.getDescription())
                     .name(e.getName())
                     .originalPrice(e.getOriginalPrice())
@@ -66,9 +67,11 @@ public class CategoryService {
         for (Category c: categoryList
         ) {
             List<Product> productList=productRepository.findAllByCategory(c);
+
             List<ProductResponse> productResponses = productList.stream().map(e -> ProductResponse.builder()
                     .id(e.getId())
-                    .nameCategory(e.getCategory().getName())
+                    .categoryId(e.getCategory().getId())
+                    .categoryName(e.getCategory().getName())
                     .description(e.getDescription())
                     .name(e.getName())
                     .originalPrice(e.getOriginalPrice())

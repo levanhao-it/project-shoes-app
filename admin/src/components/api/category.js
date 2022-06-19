@@ -1,23 +1,23 @@
 import axiosClient from "./axiosClient";
 
-const productApi = {
-  getAll(params) {
-    const url = `/public/products`;
-    return axiosClient.get(url, { params });
+const categoryApi = {
+  getAll() {
+    const url = `/public/categories`;
+    return axiosClient.get(url);
   },
 
   getById(id) {
-    const url = `/public/products/${id}`;
+    const url = `/public/categories/${id}`;
     return axiosClient.get(url);
   },
 
   add(data) {
-    const url = "/admin/products";
+    const url = "/admin/categories";
     return axiosClient.post(url, data);
   },
 
   update(id, data) {
-    const url = `/admin/products/${id}`;
+    const url = `/admin/categories/${id}`;
     return axiosClient.put(url, data);
   },
 
@@ -26,4 +26,4 @@ const productApi = {
     return axiosClient.delete(url);
   },
 };
-export default productApi;
+export default categoryApi;
