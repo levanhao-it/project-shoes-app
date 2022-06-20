@@ -1,10 +1,8 @@
-import React from "react";
-import PropTypes from "prop-types";
 import { Box, makeStyles } from "@material-ui/core";
 import { Route, Switch, useRouteMatch } from "react-router-dom";
-import { Router } from "@material-ui/icons";
+import AddProductPage from "./pages/AddProductPage";
+import EditProductPage from "./pages/EditProductPage";
 import ListPage from "./pages/ListPage";
-import DetailPage from "./pages/DetailPage";
 
 ProductFeature.propTypes = {};
 
@@ -23,7 +21,11 @@ function ProductFeature(props) {
     <Box className={classes.box}>
       <Switch>
         <Route path={match.url} component={ListPage} exact />
-        <Route path={`${match.url}/:productId`} component={DetailPage} />
+        <Route
+          path={`${match.url}/edit/:productId`}
+          component={EditProductPage}
+        />
+        <Route path={`${match.url}/add`} component={AddProductPage} />
       </Switch>
     </Box>
   );

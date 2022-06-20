@@ -1,14 +1,12 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
 import { Box, makeStyles, Paper, Typography } from "@material-ui/core";
 import { purple } from "@material-ui/core/colors";
-import ProductEditForm from "../components/ProductEditForm";
 import productApi from "components/api/productApi";
-import { useHistory, useRouteMatch } from "react-router-dom";
 import { useSnackbar } from "notistack";
+import { useHistory, useRouteMatch } from "react-router-dom";
+import ProductAddForm from "../components/ProductAddForm";
 import useProduct from "../hooks/useProduct";
 
-DetailPage.propTypes = {};
+AddProductPage.propTypes = {};
 
 const useStyle = makeStyles((theme) => ({
   box: {
@@ -33,26 +31,21 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 
-function DetailPage(props) {
+function AddProductPage(props) {
   const classes = useStyle();
   const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
-  const {
-    params: { productId },
-    url,
-  } = useRouteMatch();
-  const { product } = useProduct(productId);
 
   const handleSubmit = async (values) => {
     try {
-      const { status, message } = await productApi.update(productId, values);
+      const { status, message } = await productApi.add(values);
       // ok then show user list
       if (status === "OK") {
         setTimeout(() => {
           history.push("/products");
         }, 1000);
         // do something here
-        enqueueSnackbar("Edit product success", {
+        enqueueSnackbar("Add product successfully", {
           variant: "success",
           autoHideDuration: 1000,
         });
@@ -60,7 +53,6 @@ function DetailPage(props) {
         enqueueSnackbar(message, { variant: "error", autoHideDuration: 1000 });
       }
     } catch (error) {
-      console.log("Faied to fetch product: ", error.message);
       enqueueSnackbar(error.message, {
         variant: "error",
         autoHideDuration: 1000,
@@ -72,14 +64,14 @@ function DetailPage(props) {
     <div className={classes.box}>
       <Box className={classes.header}>
         <Typography component="h1" variant="h4" className={classes.heading}>
-          Edit Product
+          Add Product
         </Typography>
       </Box>
       <Paper elevation={0}>
-        <ProductEditForm onSubmit={handleSubmit} product={product} />
+        <ProductAddForm onSubmit={handleSubmit} />
       </Paper>
     </div>
   );
 }
 
-export default DetailPage;
+export default AddProductPage;

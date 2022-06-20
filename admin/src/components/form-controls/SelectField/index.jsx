@@ -19,20 +19,11 @@ SelectField.propTypes = {
   disabled: PropTypes.bool,
 };
 
-const useStyles = makeStyles((theme) => ({
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-    maxWidth: 300,
-  },
-}));
-
 function SelectField(props) {
   const { form, name, label, disabled } = props;
   const { errors } = form;
   const hasError = errors[name];
   const [categories, setCategories] = useState([]);
-  const classes = useStyles();
 
   useEffect(() => {
     const fetchCategories = async () => {

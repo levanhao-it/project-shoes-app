@@ -89,7 +89,7 @@ function ProductList({ data }) {
   };
 
   const handleActionProduct = (id) => {
-    history.push(`/products/${id}`);
+    history.push(`/products/edit/${id}`);
   };
 
   return (

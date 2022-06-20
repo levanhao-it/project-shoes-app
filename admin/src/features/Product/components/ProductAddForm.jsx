@@ -10,11 +10,8 @@ import SelectField from "components/form-controls/SelectField";
 import PriceField from "components/form-controls/PriceField";
 import { useHistory } from "react-router-dom";
 
-ProductEditForm.propTypes = {
+ProductAddForm.propTypes = {
   onSubmit: PropTypes.func,
-  product: PropTypes.object,
-  onDelete: PropTypes.func,
-  onCancel: PropTypes.func,
 };
 
 const schema = yup.object().shape({
@@ -44,7 +41,7 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 
-function ProductEditForm({ onSubmit, product, onDelete }) {
+function ProductAddForm({ onSubmit }) {
   const classes = useStyle();
   const history = useHistory();
   const form = useForm({
@@ -58,13 +55,6 @@ function ProductEditForm({ onSubmit, product, onDelete }) {
     resolver: yupResolver(schema),
   });
 
-  useEffect(() => {
-    const fieldList = ["name", "description", "categoryId", "originalPrice"];
-    fieldList.forEach((element, i) => {
-      form.setValue(element, product[element]);
-    });
-  }, [product]);
-
   const handelSubmit = async (values) => {
     if (onSubmit) {
       values.categoryId = Number(values.categoryId);
@@ -72,12 +62,6 @@ function ProductEditForm({ onSubmit, product, onDelete }) {
     }
 
     form.reset();
-  };
-
-  const handleDelete = async (id) => {
-    if (onDelete) {
-      await onDelete(id);
-    }
   };
 
   const handleCancel = () => {
@@ -103,41 +87,30 @@ function ProductEditForm({ onSubmit, product, onDelete }) {
         </Grid>
       </Grid>
 
-      <Box className={classes.boxFooter}>
-        <Box>
-          <Button
-            variant="contained"
-            size="large"
-            color="primary"
-            className={classes.btn}
-            style={{ marginRight: "16px" }}
-            type="submit"
-          >
-            Update
-          </Button>
-
-          <Button
-            variant="outlined"
-            size="large"
-            color="primary"
-            className={classes.btn}
-            onClick={handleCancel}
-          >
-            Cancel
-          </Button>
-        </Box>
+      <Box mt={4}>
+        <Button
+          variant="contained"
+          size="large"
+          color="primary"
+          className={classes.btn}
+          style={{ marginRight: "16px" }}
+          type="submit"
+        >
+          Submit
+        </Button>
 
         <Button
+          variant="outlined"
           size="large"
-          color="secondary"
+          color="primary"
           className={classes.btn}
-          onClick={() => handleDelete(product.id)}
+          onClick={handleCancel}
         >
-          Delete product
+          Cancel
         </Button>
       </Box>
     </form>
   );
 }
 
-export default ProductEditForm;
+export default ProductAddForm;

@@ -37,6 +37,7 @@ const useStyle = makeStyles((theme) => ({
 function ListPage(props) {
   const classes = useStyle();
   const [productList, setProductList] = useState([]);
+  const history = useHistory();
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -46,6 +47,10 @@ function ListPage(props) {
 
     fetchProduct();
   }, []);
+
+  const handleAddProduct = () => {
+    history.push("/products/add");
+  };
 
   return (
     <div className={classes.box}>
@@ -57,6 +62,7 @@ function ListPage(props) {
           variant="contained"
           className={classes.button}
           startIcon={<AddIcon />}
+          onClick={handleAddProduct}
         >
           Add
         </Button>
