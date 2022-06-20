@@ -94,6 +94,10 @@ function EditUserForm({ user = {}, onSubmit = null }) {
         const words = value.split(' ');
         return words.length >= 2;
       }),
+    email: yup
+      .string()
+      .required('Please enter email address')
+      .email('Please enter a valid email address'),
 
     password: yup
       .string()
@@ -108,6 +112,7 @@ function EditUserForm({ user = {}, onSubmit = null }) {
     defaultValues: {
       fullName: '',
       password: '',
+      email: '',
       confirmPassword: '',
     },
     mode: 'onBlur',
@@ -126,8 +131,8 @@ function EditUserForm({ user = {}, onSubmit = null }) {
   const classes = useStyles();
 
   useEffect(() => {
-    const fieldList = ['fullName'];
-    const data = ['full_name'];
+    const fieldList = ['fullName', 'email'];
+    const data = ['full_name', 'email'];
     fieldList.forEach((element, i) => {
       form.setValue(element, user[data[i]]);
     });

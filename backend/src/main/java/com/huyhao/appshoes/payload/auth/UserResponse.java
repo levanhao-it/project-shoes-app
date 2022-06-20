@@ -15,5 +15,6 @@ public class UserResponse {
     private String email;
     private String create_by;
     private Date modify_date;
+    private String password;
     private int quantityOrders;
 }

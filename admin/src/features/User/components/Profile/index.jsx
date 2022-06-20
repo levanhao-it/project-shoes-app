@@ -38,17 +38,13 @@ function Profile({ user = {} }) {
         src="https://thelifetank.com/wp-content/uploads/2018/08/avatar-default-icon.png"
         className={classes.large}
       />
-      {/* <Box>
-        <h3> Full Name: {user['full_name']}</h3>
-        <p>Email: {user['email']}</p>
-      </Box> */}
       <Box className={classes.box}>
         <Typography variant="h5" className={classes.h5}>
-          Full Name: Test
+          Full Name: {user['full_name']}
         </Typography>
         <Typography variant="h6" className={classes.h6}>
           {' '}
-          Email: test@gmail.com
+          Email: {user['email']}
         </Typography>
       </Box>
     </div>

@@ -176,6 +176,7 @@ function PageDetailUser(props) {
           color="primary"
           className={classes.margin}
           endIcon={<EditIcon />}
+          onClick={() => history.push(`/users/edit/${userId}`)}
         >
           Edit
         </ColorButton>
@@ -187,13 +188,13 @@ function PageDetailUser(props) {
           <StyledTab label="Invoice" {...a11yProps(2)} />
         </StyledTabs>
         <TabPanel value={value} index={0}>
-          <DetailUser></DetailUser>
+          <DetailUser user={userData}></DetailUser>
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <AddressFeature />
+          <AddressFeature user={userData} />
         </TabPanel>
         <TabPanel value={value} index={2}>
-          <Invoice />
+          <Invoice user={userData} />
         </TabPanel>
       </Box>
     </Container>

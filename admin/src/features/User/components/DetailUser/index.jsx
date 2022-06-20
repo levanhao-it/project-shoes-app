@@ -1,8 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Box, Button, makeStyles, Paper, Typography } from '@material-ui/core';
+import userApi from 'components/api/userApi';
+import { useEffect } from 'react';
 
-DetailUser.propTypes = {};
+DetailUser.propTypes = {
+  user: PropTypes.object,
+};
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,8 +52,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function DetailUser(props) {
+function DetailUser({ user = {} }) {
   const classes = useStyles();
+
   return (
     <div className={classes.root}>
       <Paper variant="outlined" className={classes.paper}>
@@ -60,19 +65,19 @@ function DetailUser(props) {
           <ul className={classes.ul}>
             <li className={classes.li}>
               <Typography className={classes.title}>Id User:</Typography>
-              <Typography className={classes.value}> 1</Typography>
+              <Typography className={classes.value}> {user['idUser']}</Typography>
             </li>
             <li className={classes.li}>
               <Typography className={classes.title}>Full Name: </Typography>
-              <Typography className={classes.value}>Lee Van Hao</Typography>
+              <Typography className={classes.value}>{user['full_name']}</Typography>
             </li>
             <li className={classes.li}>
               <Typography className={classes.title}>Email:</Typography>
-              <Typography className={classes.value}>test@gmail.com</Typography>
+              <Typography className={classes.value}>{user['email']}</Typography>
             </li>
             <li className={classes.li}>
-              <Typography className={classes.title}>Password:</Typography>
-              <Typography className={classes.value}>123123</Typography>
+              <Typography className={classes.title}> Quantity Order:</Typography>
+              <Typography className={classes.value}>{user['quantityOrders']}</Typography>
             </li>
           </ul>
         </Box>

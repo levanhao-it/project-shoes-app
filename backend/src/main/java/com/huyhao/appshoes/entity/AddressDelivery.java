@@ -19,6 +19,7 @@ public class AddressDelivery extends BaseEntity{
     private String lastName;
     private String address;
     private String phoneNumber;
+    private boolean active;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "users_id", nullable = false)

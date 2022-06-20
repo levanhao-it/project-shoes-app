@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -18,6 +19,10 @@ public class OrderResponse {
     private int quantityItem;
     private double total;
     private double subtotal;
+    private boolean status;
+
+    private Date createDate;
+
     List<OrderItemResponse> orderItemResponseList;
 
 }

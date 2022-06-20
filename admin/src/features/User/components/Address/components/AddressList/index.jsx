@@ -1,14 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Address from '../Address';
+import { Box, Grid } from '@material-ui/core';
 
-AddressList.propTypes = {};
+AddressList.propTypes = { data: PropTypes.array };
 
-function AddressList(props) {
+AddressList.defaultProps = {
+  data: [],
+};
+
+function AddressList({ data }) {
   return (
     <div>
-      <Address />
-      <Address />
+      {data.map((address) => (
+        <Address address={address} />
+      ))}
     </div>
   );
 }

@@ -12,11 +12,12 @@ import {
   TableRow,
   Typography,
 } from '@material-ui/core';
+import ordersApi from 'components/api/orders';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-Invoice.propTypes = { data: PropTypes.array };
+Invoice.propTypes = { data: PropTypes.array, user: PropTypes.object };
 Invoice.defaultProps = {
   data: [],
 };
@@ -80,30 +81,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Invoice(data) {
+function Invoice({ data, user = {} }) {
   const classes = useStyles();
   const history = useHistory();
+  const { idUser } = user;
+
+  const [invoiceList, setInvoiceList] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data } = await ordersApi.getAllOrderByUser(idUser);
+        setInvoiceList(data);
+      } catch (error) {
+        console.log('Failed to fetch address list', error);
+      }
+    })();
+  }, []);
 
   const rows = [];
-  data.data.map((e) => {
+  invoiceList.map((e) => {
     rows.push({
-      id: e.idUser,
-      full_name: e.full_name,
-      email: e.email,
-      create_by: e.create_by,
-      quantityOrders: e.quantityOrders,
-      action: (
-        <div>
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.margin}
-            onClick={() => history.push(`/users/edit/${e.idUser}`)}
-          >
-            Edit
-          </Button>
-        </div>
-      ),
+      id: e.id,
+      date: e.createDate,
+      total: e.subtotal,
+      status: e.status ? 'Completed' : 'Pending',
     });
   });
   const [page, setPage] = useState(0);
@@ -117,6 +119,7 @@ function Invoice(data) {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
   return (
     <div className={classes.root}>
       <Paper variant="outlined" className={classes.paper}>

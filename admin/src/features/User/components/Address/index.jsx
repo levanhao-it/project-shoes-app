@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Dialog, makeStyles, withStyles } from '@material-ui/core';
 import AddLocationIcon from '@material-ui/icons/AddLocation';
 import AddressList from './components/AddressList';
 import { purple } from '@material-ui/core/colors';
 import AddAddress from './components/AddAddress';
+import addressApi from 'components/api/addressApi';
 
-AddressFeature.propTypes = {};
+AddressFeature.propTypes = {
+  user: PropTypes.object,
+};
 const ColorButton = withStyles((theme) => ({
   root: {
     color: theme.palette.getContrastText(purple[500]),
@@ -24,7 +27,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function AddressFeature(props) {
+function AddressFeature({ user = {} }) {
+  const { idUser } = user;
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -36,10 +40,23 @@ function AddressFeature(props) {
     setOpen(false);
   };
 
+  const [addressList, setAddressList] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data } = await addressApi.getAllAddressByUser(idUser);
+        setAddressList(data);
+      } catch (error) {
+        console.log('Failed to fetch address list', error);
+      }
+    })();
+  }, []);
+
   return (
     <div>
-      <AddressList />
-      <ColorButton
+      <AddressList data={addressList} />
+      {/* <ColorButton
         variant="contained"
         color="primary"
         className={classes.margin}
@@ -55,8 +72,8 @@ function AddressFeature(props) {
         aria-describedby="alert-dialog-description"
         fullWidth={true}
       >
-        <AddAddress />
-      </Dialog>
+        <AddAddress id={idUser} />
+      </Dialog> */}
     </div>
   );
 }

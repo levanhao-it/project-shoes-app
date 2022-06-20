@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/order")
+@RequestMapping("/api/orders")
 @RequiredArgsConstructor
 @Slf4j
 public class OrderController {
@@ -38,10 +38,10 @@ public class OrderController {
 
     }
 
-    @GetMapping("")
-    public ResponseEntity<?> getAllOrders(){
+    @GetMapping("/{idUser}")
+    public ResponseEntity<?> getAllOrders(@PathVariable Long idUser){
         try {
-            return ResponseEntity.ok(ResponseCommon.success(orderService.getAllOrderByUser()));
+            return ResponseEntity.ok(ResponseCommon.success(orderService.getAllOrderByUser(idUser)));
         } catch (Exception ex) {
             log.error("API /api/rate: ", ex);
             return ResponseEntity.badRequest().body(ErrorResponse.builder().message(ex.getMessage()).build());

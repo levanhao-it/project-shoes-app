@@ -86,6 +86,7 @@ public class OrderService {
                 .feeVoucher(orders.getVoucher().getDiscount())
                 .quantityItem(orders.getTotalQuantity())
                 .total(orders.getPrice())
+                .createDate(orders.getCreatedDate())
                 .subtotal(orders.getPrice() - orders.getPaymentMethod().getDiscount() - orders.getVoucher().getDiscount())
                 .orderItemResponseList(orderDetailList.stream().map(e->OrderItemResponse.builder()
                         .id(e.getId())
@@ -101,10 +102,9 @@ public class OrderService {
 
     }
 
-    public List<OrderResponse> getAllOrderByUser() {
-        String email = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
-        Users user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("Not found user from email"));
+    public List<OrderResponse> getAllOrderByUser(Long idUser) {
+        Users user = userRepository.findByIdAndActiveTrue(idUser)
+                .orElseThrow(() -> new IllegalArgumentException("Not found user from id"));
 
 
         List<Orders> ordersList = orderRepository.findAllByUsers(user);
@@ -131,6 +131,7 @@ public class OrderService {
                     .quantityItem(o.getTotalQuantity())
                     .total(o.getPrice())
                     .subtotal(o.getPrice() - o.getPaymentMethod().getDiscount() - o.getVoucher().getDiscount())
+                    .createDate(o.getCreatedDate())
                     .orderItemResponseList(orderDetailResponseList)
                     .build();
             orderResponseList.add(response);

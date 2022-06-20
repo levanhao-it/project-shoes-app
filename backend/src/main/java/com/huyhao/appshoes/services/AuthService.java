@@ -67,7 +67,7 @@ public class AuthService {
             throw new IllegalArgumentException("Email already exits");
         }
 
-        Role role = rolesRepository.findByCode(AppConstant.ADMIN_ROLE);
+        Role role = rolesRepository.findByCode(AppConstant.CUSTOMER_ROLE);
 
         Users user = userRepository.save(Users.builder()
                 .email(registrationRequest.getEmail())
@@ -87,7 +87,7 @@ public class AuthService {
         String email = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         Users user = userRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("Please login to continues!"));
 
-        List<Users> userList = userRepository.findAllByRoleCode(AppConstant.CUSTOMER_ROLE);
+        List<Users> userList = userRepository.findAllByRoleCodeAndActiveTrue(AppConstant.CUSTOMER_ROLE);
         List<UserResponse> userResponses = new ArrayList<>();
         for (Users u : userList
         ) {
@@ -99,6 +99,7 @@ public class AuthService {
                     .create_by(u.getCreatedBy())
                     .modify_date(u.getModifiedDate())
                     .quantityOrders(quantityOrder)
+                    .password(u.getPassword())
                     .build();
             userResponses.add(userResponse);
 
@@ -107,7 +108,7 @@ public class AuthService {
     }
 
     public UserResponse getUserById(Long id) {
-        Users user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Not found user from id"));
+        Users user = userRepository.findByIdAndActiveTrue(id).orElseThrow(() -> new IllegalArgumentException("Not found user from id"));
         int quantityOrder = orderRepository.findAllByUsers(user).size();
         return UserResponse.builder()
                 .idUser(user.getId())
@@ -116,12 +117,18 @@ public class AuthService {
                 .create_by(user.getCreatedBy())
                 .modify_date(user.getModifiedDate())
                 .quantityOrders(quantityOrder)
+                .password(user.getPassword())
                 .build();
 
     }
 
     public void updateUserById(Long id,RegistrationRequest request){
         Users user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Not found user from id"));
+        Users userApp = userRepository.findByEmailAndActiveTrue(request.getEmail()).orElse(null);
+        if (userApp != null&&userApp.getId()!=id) {
+            throw new IllegalArgumentException("Email already exits");
+        }
+        user.setEmail(request.getEmail());
         user.setFullName(request.getFullName());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
 
@@ -129,8 +136,10 @@ public class AuthService {
     }
 
     public void deleteUserById(Long id){
-        Users user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Not found user from id"));
-        userRepository.delete(user);
+        Users user = userRepository.findByIdAndActiveTrue(id).orElseThrow(() -> new IllegalArgumentException("Not found user from id"));
+        user.setActive(false);
+        userRepository.saveAndFlush(user);
+
     }
 
 

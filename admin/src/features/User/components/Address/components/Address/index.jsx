@@ -12,7 +12,9 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import EditAdrress from '../EditAddress';
 
-Address.propTypes = {};
+Address.propTypes = {
+  address: PropTypes.object,
+};
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: '0 32px',
@@ -76,7 +78,7 @@ const ColorButton = withStyles((theme) => ({
   },
 }))(Button);
 
-function Address(props) {
+function Address({ address }) {
   const classes = useStyles();
   const [openRemove, setOpenRemove] = React.useState(false);
   const [openEdit, setOpenEdit] = React.useState(false);
@@ -100,35 +102,36 @@ function Address(props) {
   return (
     <div className={classes.root}>
       <Paper variant="outlined" className={classes.paper}>
-        <ClearIcon className={classes.icon} onClick={handleClickOpenRemove} />
+        {/* <ClearIcon className={classes.icon} onClick={handleClickOpenRemove} />
         <EditIcon
           className={classes.icon}
           fontSize="small"
           onClick={handleClickOpenEdit}
-        ></EditIcon>
+        ></EditIcon> */}
         <Box className={classes.heading}>
-          <Typography className={classes.textHeading}>Address: 1</Typography>
+          <Typography className={classes.textHeading}>Address: {address.idAddress}</Typography>
         </Box>
         <Box>
           <ul className={classes.ul}>
             <li className={classes.li}>
               <Typography className={classes.title}>Full Name: </Typography>
-              <Typography className={classes.value}>Le Van Hao</Typography>
+              <Typography className={classes.value}>
+                {' '}
+                {address.firstName} {address.lastName}
+              </Typography>
             </li>
             <li className={classes.li}>
               <Typography className={classes.title}>Phone:</Typography>
-              <Typography className={classes.value}>0369750752</Typography>
+              <Typography className={classes.value}> {address.phoneNumber}</Typography>
             </li>
             <li className={classes.li}>
               <Typography className={classes.title}>Address:</Typography>
-              <Typography className={classes.value}>
-                Đại Học Nông Lâm, KP6, Phường Linh Trung, Quận Thủ Đức, TP. Hồ Chí Minh, Việt Nam
-              </Typography>
+              <Typography className={classes.value}>{address.address}</Typography>
             </li>
           </ul>
         </Box>
       </Paper>
-      <Dialog
+      {/* <Dialog
         open={openRemove}
         onClose={handleCloseRemove}
         aria-labelledby="alert-dialog-title"
@@ -155,7 +158,7 @@ function Address(props) {
         fullWidth={true}
       >
         <EditAdrress />
-      </Dialog>
+      </Dialog> */}
     </div>
   );
 }
