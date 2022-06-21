@@ -5,6 +5,7 @@ import { Box, Collapse } from '@material-ui/core';
 import { ExpandMore } from '@material-ui/icons';
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 import CategoryIcon from '@material-ui/icons/Category';
+import { Link } from 'react-router-dom';
 
 ManagerCategory.propTypes = {};
 const useStyles = makeStyles((theme) => ({
@@ -81,19 +82,9 @@ function ManagerCategory(props) {
         </Box>
         <Collapse in={open} timeout="auto" unmountOnExit>
           <Box className={classes.content} disablePadding>
-            <ListItem button className={classes.nested}>
+            <ListItem button className={classes.nested} component={Link} to="/categories">
               <Typography variant="body2" className={classes.li}>
                 List
-              </Typography>
-            </ListItem>
-            <ListItem button className={classes.nested}>
-              <Typography variant="body2" className={classes.li}>
-                Create
-              </Typography>
-            </ListItem>
-            <ListItem button className={classes.nested}>
-              <Typography variant="body2" className={classes.li}>
-                Edit
               </Typography>
             </ListItem>
           </Box>

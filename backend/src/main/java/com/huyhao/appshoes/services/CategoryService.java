@@ -92,7 +92,7 @@ public class CategoryService {
         if(existCategory != null){
             throw new IllegalArgumentException("Category already exists");
         }
-        category.setName(existCategory.getName());
+        category.setName(request.getName());
         category.setCode(request.getCode());
         categoryRepository.save(category);
     }

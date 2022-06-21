@@ -9,10 +9,14 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  withStyles,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import EditIcon from '@material-ui/icons/Edit';
+import DescriptionIcon from '@material-ui/icons/Description';
+import { purple } from '@material-ui/core/colors';
 
 UserList.propTypes = {
   data: PropTypes.array,
@@ -40,11 +44,27 @@ const columns = [
     id: 'action',
     label: 'ACTION',
     minWidth: 170,
-    align: 'right',
+    align: 'center',
   },
 ];
 
-const useStyles = makeStyles({});
+const useStyles = makeStyles({
+  margin: {
+    '&:first-child': {
+      marginRight: '15px',
+    },
+  },
+});
+
+const ColorButton = withStyles((theme) => ({
+  root: {
+    color: theme.palette.getContrastText(purple[500]),
+    backgroundColor: '#4caf50',
+    '&:hover': {
+      backgroundColor: '#43a047',
+    },
+  },
+}))(Button);
 
 function UserList(data) {
   const classes = useStyles();
@@ -60,13 +80,24 @@ function UserList(data) {
       quantityOrders: e.quantityOrders,
       action: (
         <div>
-          <Button
+          <ColorButton
             variant="contained"
             color="primary"
             className={classes.margin}
             onClick={() => history.push(`/users/edit/${e.idUser}`)}
+            endIcon={<EditIcon />}
           >
             Edit
+          </ColorButton>
+
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.margin}
+            onClick={() => history.push(`/users/detail/${e.idUser}`)}
+            endIcon={<DescriptionIcon />}
+          >
+            Detail
           </Button>
         </div>
       ),

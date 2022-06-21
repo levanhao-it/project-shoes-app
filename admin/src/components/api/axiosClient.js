@@ -41,6 +41,10 @@ axiosClient.interceptors.response.use(
       throw new Error(data.message);
     }
 
+    if (status === 404) {
+      throw new Error(data.message);
+    }
+
     // handle 403 error
     if (status === 403 && !refresh) {
       refresh = true;

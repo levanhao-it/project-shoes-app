@@ -21,7 +21,7 @@ public class CategoryController {
     @GetMapping()
     public ResponseEntity<?> listCategory(){
         try {
-            return ResponseEntity.ok(categoryService.getAllCategoryList());
+            return ResponseEntity.ok(ResponseCommon.success(categoryService.getAllCategoryList()));
         } catch (Exception ex) {
             log.error("API /api/category: ", ex);
             return ResponseEntity.badRequest().body(ErrorResponse.builder().message(ex.getMessage()).build());

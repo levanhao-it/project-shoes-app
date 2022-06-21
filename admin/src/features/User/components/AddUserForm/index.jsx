@@ -6,6 +6,7 @@ import ButtonActive from 'components/component-custom/ButtonActive';
 
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
+import { useHistory } from 'react-router-dom';
 import * as yup from 'yup';
 import InputField from '../../../../components/form-controls/InputField';
 import PasswordField from '../../../../components/form-controls/PasswordField';
@@ -114,6 +115,10 @@ function AddUserForm(props) {
   const { isSubmitting } = form.formState;
 
   const classes = useStyles();
+  let history = useHistory();
+  const goToPreviousPath = () => {
+    history.goBack();
+  };
 
   return (
     <form onSubmit={form.handleSubmit(handleSubmit)}>
@@ -143,7 +148,12 @@ function AddUserForm(props) {
         >
           Create
         </ColorBlueButton>
-        <ColorCancelButton variant="contained" color="primary" className={classes.margin}>
+        <ColorCancelButton
+          variant="contained"
+          color="primary"
+          className={classes.margin}
+          onClick={goToPreviousPath}
+        >
           Cancel
         </ColorCancelButton>
       </Box>

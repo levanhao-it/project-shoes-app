@@ -2,6 +2,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Box,
   Button,
+  Dialog,
+  DialogActions,
+  DialogTitle,
   Grid,
   LinearProgress,
   makeStyles,
@@ -9,12 +12,14 @@ import {
   withStyles,
 } from '@material-ui/core';
 import { purple } from '@material-ui/core/colors';
+import userApi from 'components/api/userApi';
 
 import ButtonActive from 'components/component-custom/ButtonActive';
 
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { useHistory } from 'react-router-dom';
 import * as yup from 'yup';
 import InputField from '../../../../components/form-controls/InputField';
 import PasswordField from '../../../../components/form-controls/PasswordField';
@@ -138,6 +143,25 @@ function EditUserForm({ user = {}, onSubmit = null }) {
     });
   }, [user]);
 
+  let history = useHistory();
+  const goToPreviousPath = () => {
+    history.goBack();
+  };
+
+  const [openRemove, setOpenRemove] = React.useState(false);
+  const handleClickOpenRemove = () => {
+    setOpenRemove(true);
+  };
+
+  const handleCloseRemove = () => {
+    setOpenRemove(false);
+  };
+
+  const handleRemove = async () => {
+    await userApi.remove(user.idUser);
+    goToPreviousPath();
+  };
+
   return (
     <form onSubmit={form.handleSubmit(handleSubmit)}>
       <Typography variant="h6" className={classes.heading}>
@@ -168,13 +192,44 @@ function EditUserForm({ user = {}, onSubmit = null }) {
           >
             Update
           </ColorBlueButton>
-          <ColorCancelButton variant="contained" color="primary" className={classes.margin}>
+          <ColorCancelButton
+            variant="contained"
+            color="primary"
+            className={classes.margin}
+            onClick={goToPreviousPath}
+          >
             Cancel
           </ColorCancelButton>
         </Box>
-        <Button variant="outlined" className={classes.margin} color="secondary">
+        <Button
+          variant="outlined"
+          className={classes.margin}
+          color="secondary"
+          onClick={handleClickOpenRemove}
+        >
           Delete User
         </Button>
+        <Dialog
+          open={openRemove}
+          onClose={handleCloseRemove}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+          disableEscapeKeyDown={true}
+          disableBackdropClick={true}
+        >
+          <DialogTitle id="alert-dialog-title">
+            {'Are you sure you want to delete this user?'}
+          </DialogTitle>
+
+          <DialogActions>
+            <Button onClick={handleRemove} variant="outlined" color="secondary" autoFocus>
+              Agree
+            </Button>
+            <Button onClick={handleCloseRemove} variant="outlined" color="primary">
+              Cancel
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Box>
     </form>
   );

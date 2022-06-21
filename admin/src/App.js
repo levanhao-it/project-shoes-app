@@ -8,6 +8,7 @@ import NotFound from './components/NotFound';
 import LoginFeature from './features/Auth';
 import ProductFeature from 'features/Product';
 import './App.css';
+import CategoryFeature from 'features/Category';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,6 +30,7 @@ function App() {
           <Switch>
             <Redirect from="/home" to="/" exact />
             <Route path="/users" component={UserFeature} />
+            <Route path="/categories" component={CategoryFeature} />
             <Route path="/login" component={LoginFeature} />
             <Route path="/products" component={ProductFeature} />
             <Route component={NotFound} />
