@@ -11,10 +11,10 @@ import {
 } from "@material-ui/core";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
-
+import ProductDetailItem from "./ProductDetailItem";
 import ProductItem from "./ProductItem";
 
-ProductList.propTypes = {
+ProductDetailList.propTypes = {
   data: PropTypes.object,
 };
 
@@ -28,19 +28,27 @@ const useStyles = makeStyles({
 });
 
 const columns = [
-  { id: "name", label: "Name", minWidth: 300 },
-  { id: "stock", label: "Stock", minWidth: 100 },
+  { id: "salePrice", label: "Sale price", minWidth: 100 },
   {
-    id: "price",
-    label: "Price",
+    id: "quantity",
+    label: "Quantity",
     minWidth: 170,
-    format: (value) => value.toLocaleString("en-US"),
   },
   {
-    id: "category",
-    label: "Category",
+    id: "size",
+    label: "Size",
     minWidth: 170,
-    format: (value) => value.toLocaleString("en-US"),
+  },
+
+  {
+    id: "color",
+    label: "Color",
+    minWidth: 170,
+  },
+  {
+    id: "status",
+    label: "status",
+    minWidth: 170,
   },
   {
     id: "actions",
@@ -50,34 +58,10 @@ const columns = [
   },
 ];
 
-function ProductList({ data }) {
+function ProductDetailList({ data }) {
   const classes = useStyles();
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [productList, setProductList] = useState([]);
-  useEffect(() => {
-    const productList1 = data.map((product) => {
-      let totalQuantity = 0;
-      if (product.productDetailList.length > 0) {
-        totalQuantity = product.productDetailList.reduce(
-          (total, number) => total + number.quantity,
-          0
-        );
-      }
-
-      return {
-        id: product.id,
-        name: product.name,
-        stock: totalQuantity,
-        price: product.originalPrice,
-        category: product.categoryName,
-      };
-    });
-    setProductList(productList1);
-  }, [data]);
-
-  console.log(data);
-
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -86,6 +70,8 @@ function ProductList({ data }) {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+  console.log(data);
 
   return (
     <div>
@@ -107,10 +93,10 @@ function ProductList({ data }) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {productList
+              {data
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => {
-                  return <ProductItem row={row} />;
+                  return <ProductDetailItem row={row} />;
                 })}
             </TableBody>
           </Table>
@@ -118,7 +104,7 @@ function ProductList({ data }) {
         <TablePagination
           rowsPerPageOptions={[5, 10]}
           component="div"
-          count={productList.length}
+          count={data.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
@@ -129,4 +115,4 @@ function ProductList({ data }) {
   );
 }
 
-export default ProductList;
+export default ProductDetailList;

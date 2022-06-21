@@ -11,16 +11,16 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-} from '@material-ui/core';
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
-import categoryApi from 'components/api/category';
-import useCategoryDetail from 'features/Category/hooks/useCategoryDetail';
-import { useSnackbar } from 'notistack';
-import PropTypes from 'prop-types';
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import CategoryForm from '../CategoryEditForm';
+} from "@material-ui/core";
+import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
+import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
+import categoryApi from "components/api/category";
+import useCategoryDetail from "features/Category/hooks/useCategoryDetail";
+import { useSnackbar } from "notistack";
+import PropTypes from "prop-types";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import CategoryForm from "../CategoryEditForm";
 
 CategoryList.propTypes = {
   data: PropTypes.array,
@@ -30,39 +30,39 @@ CategoryList.defaultProps = {
 };
 
 const columns = [
-  { id: 'id', label: 'ID', minWidth: 170 },
-  { id: 'name', label: 'NAME', minWidth: 100 },
+  { id: "id", label: "ID", minWidth: 170 },
+  { id: "name", label: "NAME", minWidth: 100 },
   {
-    id: 'code',
-    label: 'CODE',
+    id: "code",
+    label: "CODE",
     minWidth: 170,
   },
   {
-    id: 'action',
-    label: 'ACTION',
+    id: "action",
+    label: "ACTION",
     minWidth: 170,
-    align: 'center',
+    align: "center",
   },
   {
-    id: 'quantity_product',
-    label: 'QUANTiTY PRODUCT',
+    id: "quantity_product",
+    label: "QUANTiTY PRODUCT",
     minWidth: 170,
-    align: 'center',
+    align: "center",
   },
 ];
 
 const useStyles = makeStyles({
   margin: {
-    '&:first-child': {
-      marginRight: '15px',
+    "&:first-child": {
+      marginRight: "15px",
     },
   },
 });
 
 const useRowStyles = makeStyles({
   root: {
-    '& > *': {
-      borderBottom: 'unset',
+    "& > *": {
+      borderBottom: "unset",
     },
   },
 });
@@ -83,15 +83,21 @@ function Row(props) {
       console.log(values);
       const { status, message } = await categoryApi.update(row.id, values);
       // ok then show user list
-      if (status === 'OK') {
+      if (status === "OK") {
         // do something here
-        enqueueSnackbar('Edit Category Success', { variant: 'success', autoHideDuration: 1000 });
+        enqueueSnackbar("Edit Category Success", {
+          variant: "success",
+          autoHideDuration: 1000,
+        });
       } else {
-        enqueueSnackbar(message, { variant: 'error', autoHideDuration: 1000 });
+        enqueueSnackbar(message, { variant: "error", autoHideDuration: 1000 });
       }
     } catch (error) {
-      console.log('failed to Category : ', error.message);
-      enqueueSnackbar(error.message, { variant: 'error', autoHideDuration: 1000 });
+      console.log("failed to Category : ", error.message);
+      enqueueSnackbar(error.message, {
+        variant: "error",
+        autoHideDuration: 1000,
+      });
     }
   };
 
@@ -99,7 +105,11 @@ function Row(props) {
     <React.Fragment>
       <TableRow className={classes.root}>
         <TableCell>
-          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
+          <IconButton
+            aria-label="expand row"
+            size="small"
+            onClick={() => setOpen(!open)}
+          >
             {open ? <KeyboardArrowRightIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
@@ -163,7 +173,6 @@ function CategoryList(data) {
             <TableHead>
               <TableRow>
                 <TableCell />
-
                 <TableCell align="right">ID</TableCell>
                 <TableCell align="right">NAME</TableCell>
                 <TableCell align="right">CODE</TableCell>

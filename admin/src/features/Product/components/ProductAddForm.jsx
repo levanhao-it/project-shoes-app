@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
@@ -9,6 +9,7 @@ import { Box, Button, Grid, makeStyles } from "@material-ui/core";
 import SelectField from "components/form-controls/SelectField";
 import PriceField from "components/form-controls/PriceField";
 import { useHistory } from "react-router-dom";
+import categoryApi from "components/api/category";
 
 ProductAddForm.propTypes = {
   onSubmit: PropTypes.func,
@@ -43,6 +44,7 @@ const useStyle = makeStyles((theme) => ({
 
 function ProductAddForm({ onSubmit }) {
   const classes = useStyle();
+  const [categories, setCategories] = useState([]);
   const history = useHistory();
   const form = useForm({
     defaultValues: {
@@ -68,6 +70,23 @@ function ProductAddForm({ onSubmit }) {
     history.push("/products");
   };
 
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const categoriesList = await categoryApi.getAll();
+      const categoriesFormat = categoriesList.data.map((x) => {
+        return {
+          id: x.id,
+          name: x.name,
+          code: x.code,
+        };
+      });
+
+      setCategories(categoriesFormat);
+    };
+
+    fetchCategories();
+  }, []);
+
   return (
     <form onSubmit={form.handleSubmit(handelSubmit)}>
       <Grid container spacing={4}>
@@ -80,7 +99,12 @@ function ProductAddForm({ onSubmit }) {
         </Grid>
 
         <Grid item xs={6}>
-          <SelectField name="categoryId" label="Category" form={form} />
+          <SelectField
+            name="categoryId"
+            label="Category"
+            form={form}
+            values={categories}
+          />
         </Grid>
         <Grid item xs={6}>
           <PriceField name="originalPrice" label="Price" form={form} />

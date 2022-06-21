@@ -20,27 +20,10 @@ SelectField.propTypes = {
 };
 
 function SelectField(props) {
-  const { form, name, label, disabled } = props;
+  const { form, name, label, disabled, values } = props;
   const { errors } = form;
   const hasError = errors[name];
-  const [categories, setCategories] = useState([]);
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      const categoriesList = await categoryApi.getAll();
-      const categoriesFormat = categoriesList.map((x) => {
-        return {
-          id: x.id,
-          name: x.name,
-          code: x.code,
-        };
-      });
-
-      setCategories(categoriesFormat);
-    };
-
-    fetchCategories();
-  }, []);
   return (
     <FormControl error={hasError} fullWidth margin="normal" variant="outlined">
       <InputLabel htmlFor={name}>{label}</InputLabel>
@@ -49,7 +32,7 @@ function SelectField(props) {
         control={form.control}
         as={
           <Select>
-            {categories.map((x) => {
+            {values.map((x) => {
               return <MenuItem value={x.id}>{x.name}</MenuItem>;
             })}
           </Select>

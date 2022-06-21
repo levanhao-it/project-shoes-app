@@ -8,7 +8,7 @@ import { useHistory, useRouteMatch } from "react-router-dom";
 import { useSnackbar } from "notistack";
 import useProduct from "../hooks/useProduct";
 
-EditProductPage.propTypes = {};
+EditProductDetailPage.propTypes = {};
 
 const useStyle = makeStyles((theme) => ({
   box: {
@@ -33,24 +33,21 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 
-function EditProductPage(props) {
+function EditProductDetailPage({ row, onOpen }) {
   const classes = useStyle();
   const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
-  const {
-    params: { productId },
-    url,
-  } = useRouteMatch();
-  const { product } = useProduct(productId);
+
+  const { product } = useProduct(row.id);
 
   const handleSubmit = async (values) => {
     try {
-      const { status, message } = await productApi.update(productId, values);
+      const { status, message } = await productApi.update(row.id, values);
+      if (onOpen) {
+        onOpen(false);
+      }
       // ok then show user list
       if (status === "OK") {
-        setTimeout(() => {
-          history.push("/products");
-        }, 1000);
         // do something here
         enqueueSnackbar("Edit product success", {
           variant: "success",
@@ -70,13 +67,12 @@ function EditProductPage(props) {
 
   const handleDelete = async (id) => {
     try {
-      console.log(id);
       const { status, message } = await productApi.remove(id);
+      if (onOpen) {
+        onOpen(false);
+      }
       // ok then show user list
       if (status === "OK") {
-        setTimeout(() => {
-          history.push("/products");
-        }, 1000);
         // do something here
         enqueueSnackbar("Delete product successfully", {
           variant: "success",
@@ -96,11 +92,6 @@ function EditProductPage(props) {
 
   return (
     <div className={classes.box}>
-      <Box className={classes.header}>
-        <Typography component="h1" variant="h4" className={classes.heading}>
-          Edit Product
-        </Typography>
-      </Box>
       <Paper elevation={0}>
         <ProductEditForm
           onSubmit={handleSubmit}
@@ -112,4 +103,4 @@ function EditProductPage(props) {
   );
 }
 
-export default EditProductPage;
+export default EditProductDetailPage;
