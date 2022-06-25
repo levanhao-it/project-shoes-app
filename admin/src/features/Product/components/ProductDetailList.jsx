@@ -47,14 +47,8 @@ const columns = [
   },
   {
     id: "status",
-    label: "status",
+    label: "Status",
     minWidth: 170,
-  },
-  {
-    id: "actions",
-    label: "Actions",
-    minWidth: 170,
-    align: "right",
   },
 ];
 
@@ -70,8 +64,6 @@ function ProductDetailList({ data }) {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-
-  console.log(data);
 
   return (
     <div>
@@ -96,7 +88,7 @@ function ProductDetailList({ data }) {
               {data
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => {
-                  return <ProductDetailItem row={row} />;
+                  return <ProductDetailItem row={row} productId={data.id} />;
                 })}
             </TableBody>
           </Table>

@@ -76,8 +76,6 @@ function ProductList({ data }) {
     setProductList(productList1);
   }, [data]);
 
-  console.log(data);
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };

@@ -58,7 +58,9 @@ public class ProductService {
                     .salePrice(e.getSalePrice())
                     .quantity(e.getQuantity())
                     .status(e.getStatus())
+                    .colorId(e.getColor().getId())
                     .color(e.getColor().getName())
+                    .sizeId(e.getSize().getId())
                     .size(e.getSize().getName())
                     .build()).collect(Collectors.toList());
 
@@ -106,7 +108,9 @@ public class ProductService {
                         .salePrice(e.getSalePrice())
                         .quantity(e.getQuantity())
                         .status(e.getStatus())
+                        .colorId(e.getColor().getId())
                         .color(e.getColor().getName())
+                        .sizeId(e.getSize().getId())
                         .size(e.getSize().getName())
                         .build()).collect(Collectors.toList()))
                 .build();
@@ -205,10 +209,8 @@ public class ProductService {
             productDetail.setQuantity(quantity);
         }
 
-        Boolean status = productDetail.getStatus();
-        if( status != null && status != productDetail.getStatus() ){
-            productDetail.setStatus(status);
-        }
+        Boolean status = productDetailRequest.getStatus();
+        productDetail.setStatus(status);
 
         Long colorId = productDetailRequest.getColorId();
         if(colorId != null && colorId != productDetail.getColor().getId()){

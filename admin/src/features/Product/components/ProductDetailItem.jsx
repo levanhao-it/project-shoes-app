@@ -13,9 +13,10 @@ import EditIcon from "@material-ui/icons/Edit";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
 import productApi from "components/api/productApi";
+import productDetailApi from "components/api/productDetailApi";
 import { useSnackbar } from "notistack";
 import { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useRouteMatch } from "react-router-dom";
 import useProduct from "../hooks/useProduct";
 import EditProductDetailPage from "../pages/EditProductDeatilPage";
 import ProductDetailEditForm from "./ProductDetailEditForm";
@@ -55,23 +56,25 @@ const columns = [
 
 function ProductDetailItem({ row }) {
   const [open, setOpen] = useState(false);
-  const history = useHistory();
-  const handleAction = (id) => {
-    history.push(`/products/${id}`);
-  };
+  const {
+    params: { productId },
+  } = useRouteMatch();
 
   const { enqueueSnackbar } = useSnackbar();
 
-  const { product } = useProduct(row.id);
-
   const handleSubmit = async (values) => {
     try {
-      const { status, message } = await productApi.update(row.id, values);
+      console.log(values);
+      const { status, message } = await productDetailApi.update(
+        productId,
+        row.id,
+        values
+      );
       setOpen(false);
       // ok then show user list
       if (status === "OK") {
         // do something here
-        enqueueSnackbar("Edit product success", {
+        enqueueSnackbar("Edit product detail success", {
           variant: "success",
           autoHideDuration: 1000,
         });
@@ -89,7 +92,7 @@ function ProductDetailItem({ row }) {
 
   const handleDelete = async (id) => {
     try {
-      const { status, message } = await productApi.remove(id);
+      const { status, message } = await productDetailApi.remove(productId, id);
       setOpen(false);
       // ok then show user list
       if (status === "OK") {
@@ -122,7 +125,6 @@ function ProductDetailItem({ row }) {
             {open ? <KeyboardArrowRightIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-
         <TableCell>{row.salePrice}</TableCell>
         <TableCell>{row.quantity}</TableCell>
         <TableCell>{row.size}</TableCell>
@@ -133,12 +135,6 @@ function ProductDetailItem({ row }) {
           ) : (
             <Chip label="PRIVATE" color="secondary" />
           )}
-        </TableCell>
-
-        <TableCell align="right">
-          <IconButton size="medium" onClick={() => handleAction(row.id)}>
-            <EditIcon fontSize="inherit" />
-          </IconButton>
         </TableCell>
       </TableRow>
 

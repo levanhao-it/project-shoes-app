@@ -49,7 +49,7 @@ function ListPage(props) {
   }, []);
 
   const handleAddProduct = () => {
-    history.push("/products/add");
+    history.push(`/products/add`);
   };
 
   return (

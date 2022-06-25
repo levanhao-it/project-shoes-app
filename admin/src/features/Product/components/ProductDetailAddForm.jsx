@@ -15,16 +15,13 @@ import {
 
 import SelectField from "components/form-controls/SelectField";
 import PriceField from "components/form-controls/PriceField";
-import { useHistory } from "react-router-dom";
+import { useHistory, useRouteMatch } from "react-router-dom";
 import categoryApi from "components/api/category";
 import colorApi from "components/api/colorApi";
 import sizeApi from "components/api/sizeApi";
 
-ProductDetailEditForm.propTypes = {
+ProductDetailAddForm.propTypes = {
   onSubmit: PropTypes.func,
-  product: PropTypes.object,
-  onDelete: PropTypes.func,
-  onCancel: PropTypes.func,
 };
 
 const schema = yup.object().shape({
@@ -38,7 +35,6 @@ const schema = yup.object().shape({
     .min(1, "Price must be more than 0"),
 
   sizeId: yup.string().required("Please choose size"),
-
   colorId: yup.string().required("Please choose color"),
 });
 const useStyle = makeStyles((theme) => ({
@@ -54,25 +50,18 @@ const useStyle = makeStyles((theme) => ({
       textTransform: "capitalize",
     },
   },
-
-  boxPublic: {
-    margin: theme.spacing(2, 0, 0, 2),
-    "&  .MuiFormControlLabel-label": {
-      fontSize: "20x",
-    },
-  },
 }));
 
-function ProductDetailEditForm({ onSubmit, values, onDelete }) {
+function ProductDetailAddForm({ onSubmit }) {
   const classes = useStyle();
-  const [colors, setColors] = useState([]);
   const [sizes, setSizes] = useState([]);
-  const [checked, setChecked] = useState(values.status);
+  const [colors, setColors] = useState([]);
+  const [checked, setChecked] = useState(false);
+  const {
+    params: { productId },
+  } = useRouteMatch();
 
-  const handleChange = (event) => {
-    setChecked(event.target.checked);
-  };
-
+  const history = useHistory();
   const form = useForm({
     defaultValues: {
       salePrice: "",
@@ -83,13 +72,6 @@ function ProductDetailEditForm({ onSubmit, values, onDelete }) {
     mode: "onBlur",
     resolver: yupResolver(schema),
   });
-
-  useEffect(() => {
-    const fieldList = ["salePrice", "quantity", "sizeId", "colorId"];
-    fieldList.forEach((element, i) => {
-      form.setValue(element, values[element]);
-    });
-  }, [values]);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -106,17 +88,18 @@ function ProductDetailEditForm({ onSubmit, values, onDelete }) {
   const handelSubmit = async (values) => {
     if (onSubmit) {
       values.status = checked;
-
       await onSubmit(values);
     }
 
     form.reset();
   };
 
-  const handleDelete = async (id) => {
-    if (onDelete) {
-      await onDelete(id);
-    }
+  const handleCancel = () => {
+    history.push(`/products/${productId}`);
+  };
+
+  const handleChange = (event) => {
+    setChecked(event.target.checked);
   };
 
   return (
@@ -161,7 +144,7 @@ function ProductDetailEditForm({ onSubmit, values, onDelete }) {
         </Grid>
       </Grid>
 
-      <Box className={classes.boxFooter}>
+      <Box mt={4}>
         <Button
           variant="contained"
           size="large"
@@ -170,20 +153,21 @@ function ProductDetailEditForm({ onSubmit, values, onDelete }) {
           style={{ marginRight: "16px" }}
           type="submit"
         >
-          Update
+          Submit
         </Button>
 
         <Button
+          variant="outlined"
           size="large"
-          color="secondary"
+          color="primary"
           className={classes.btn}
-          onClick={() => handleDelete(values.id)}
+          onClick={handleCancel}
         >
-          Delete product
+          Cancel
         </Button>
       </Box>
     </form>
   );
 }
 
-export default ProductDetailEditForm;
+export default ProductDetailAddForm;

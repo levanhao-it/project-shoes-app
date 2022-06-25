@@ -70,15 +70,8 @@ function ProductEditForm({ onSubmit, product, onDelete }) {
   useEffect(() => {
     const fetchCategories = async () => {
       const categoriesList = await categoryApi.getAll();
-      const categoriesFormat = categoriesList.data.map((x) => {
-        return {
-          id: x.id,
-          name: x.name,
-          code: x.code,
-        };
-      });
 
-      setCategories(categoriesFormat);
+      setCategories(categoriesList.data);
     };
 
     fetchCategories();
@@ -86,7 +79,6 @@ function ProductEditForm({ onSubmit, product, onDelete }) {
 
   const handelSubmit = async (values) => {
     if (onSubmit) {
-      values.categoryId = Number(values.categoryId);
       await onSubmit(values);
     }
 

@@ -14,7 +14,9 @@ public class ProductDetailResponse {
     private double salePrice;
     private int quantity;
     private boolean status;
+    private Long sizeId;
     private String size;
+    private Long colorId;
     private String color;
 
 }

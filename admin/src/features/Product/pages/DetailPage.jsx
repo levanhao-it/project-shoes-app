@@ -10,10 +10,9 @@ import { purple } from "@material-ui/core/colors";
 import AddIcon from "@material-ui/icons/Add";
 import productApi from "components/api/productApi";
 import { useEffect, useState } from "react";
-import { useRouteMatch } from "react-router-dom";
+import { useHistory, useRouteMatch } from "react-router-dom";
 import ProductDetailList from "../components/ProductDetailList";
 import ProductFilters from "../components/ProductFilters";
-import useProduct from "../hooks/useProduct";
 
 DetailPage.propTypes = {};
 
@@ -48,6 +47,7 @@ function DetailPage(props) {
   const classes = useStyle();
   const [product, setProduct] = useState([]);
   const [productDetail, setProductDetail] = useState([]);
+  const history = useHistory();
   const {
     params: { productId },
   } = useRouteMatch();
@@ -65,6 +65,10 @@ function DetailPage(props) {
     })();
   }, [productId]);
 
+  const handleAddProductDetail = () => {
+    history.push(`/products/${productId}/add`);
+  };
+
   return (
     <div className={classes.box}>
       <Box className={classes.header}>
@@ -75,7 +79,7 @@ function DetailPage(props) {
           variant="contained"
           className={classes.button}
           startIcon={<AddIcon />}
-          // onClick={handleAddProduct}
+          onClick={handleAddProductDetail}
         >
           Add
         </Button>
