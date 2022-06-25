@@ -14,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 public class OrderResponse {
     private Long id;
+    private String email;
     private double feeDelivery;
     private double feeVoucher;
     private int quantityItem;

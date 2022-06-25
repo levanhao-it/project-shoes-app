@@ -15,7 +15,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 public class Orders extends BaseEntity{
-    private boolean status;
+    private String status;
     private String message;
     private int totalQuantity;
     private double price;

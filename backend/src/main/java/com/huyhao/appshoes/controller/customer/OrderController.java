@@ -22,7 +22,7 @@ public class OrderController {
             orderService.createOrder(request);
             return ResponseEntity.ok(ResponseCommon.success(""));
         } catch (Exception ex) {
-            log.error("API /api/rate: ", ex);
+            log.error("API /api/orders: ", ex);
             return ResponseEntity.badRequest().body(ErrorResponse.builder().message(ex.getMessage()).build());
         }
     }
@@ -30,20 +30,20 @@ public class OrderController {
     @GetMapping("/{idOrder}")
     public ResponseEntity<?> getOrderById(@PathVariable Long idOrder){
         try {
-            return ResponseEntity.ok(ResponseCommon.success(orderService.getOrderById(idOrder)));
+            return ResponseEntity.ok(ResponseCommon.success(orderService.getOrderUserById(idOrder)));
         } catch (Exception ex) {
-            log.error("API /api/rate: ", ex);
+            log.error("API /api/orders: ", ex);
             return ResponseEntity.badRequest().body(ErrorResponse.builder().message(ex.getMessage()).build());
         }
 
     }
 
-    @GetMapping("/{idUser}")
-    public ResponseEntity<?> getAllOrders(@PathVariable Long idUser){
+    @GetMapping("")
+    public ResponseEntity<?> getAllOrdersByUser(){
         try {
-            return ResponseEntity.ok(ResponseCommon.success(orderService.getAllOrderByUser(idUser)));
+            return ResponseEntity.ok(ResponseCommon.success(orderService.getAllOrderWithUser()));
         } catch (Exception ex) {
-            log.error("API /api/rate: ", ex);
+            log.error("API /api/orders: ", ex);
             return ResponseEntity.badRequest().body(ErrorResponse.builder().message(ex.getMessage()).build());
         }
 

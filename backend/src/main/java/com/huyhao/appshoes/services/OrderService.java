@@ -4,6 +4,7 @@ import com.huyhao.appshoes.entity.*;
 import com.huyhao.appshoes.payload.order.OrderItemResponse;
 import com.huyhao.appshoes.payload.order.OrderRequest;
 import com.huyhao.appshoes.payload.order.OrderResponse;
+import com.huyhao.appshoes.payload.order.StatusOrderRequest;
 import com.huyhao.appshoes.repositories.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -48,7 +49,7 @@ public class OrderService {
                 .users(user)
                 .addressDelivery(addressDelivery)
                 .message(request.getMessage())
-                .status(request.isStatus())
+                .status("Đang xử lí")
                 .paymentMethod(paymentMethod)
                 .voucher(voucher)
                 .totalQuantity(cart.getQuantity())
@@ -70,41 +71,10 @@ public class OrderService {
         }
     }
 
-    public OrderResponse getOrderById(Long idOrder) {
+    public List<OrderResponse> getAllOrderWithUser() {
         String email = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         Users user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("Not found user from email"));
-
-        Orders orders = orderRepository.findById(idOrder)
-                .orElseThrow(() -> new IllegalArgumentException("Not found orders from user"));
-
-        List<OrderDetail> orderDetailList = orderDetailRepository.findAllByOrdersId(orders.getId());
-        return OrderResponse
-                .builder()
-                .id(orders.getId())
-                .feeDelivery(orders.getPaymentMethod().getDiscount())
-                .feeVoucher(orders.getVoucher().getDiscount())
-                .quantityItem(orders.getTotalQuantity())
-                .total(orders.getPrice())
-                .createDate(orders.getCreatedDate())
-                .subtotal(orders.getPrice() - orders.getPaymentMethod().getDiscount() - orders.getVoucher().getDiscount())
-                .orderItemResponseList(orderDetailList.stream().map(e->OrderItemResponse.builder()
-                        .id(e.getId())
-                        .nameProduct(e.getProductDetail().getProduct().getName())
-                        .salePrice(e.getProductDetail().getSalePrice())
-                        .color(e.getProductDetail().getColor().getName())
-                        .size(e.getProductDetail().getSize().getName())
-                        .quantity(e.getQuantity())
-                        .totalPrice(e.getQuantity() * e.getProductDetail().getSalePrice())
-                        .build()).collect(Collectors.toList()))
-                .build();
-
-
-    }
-
-    public List<OrderResponse> getAllOrderByUser(Long idUser) {
-        Users user = userRepository.findByIdAndActiveTrue(idUser)
-                .orElseThrow(() -> new IllegalArgumentException("Not found user from id"));
 
 
         List<Orders> ordersList = orderRepository.findAllByUsers(user);
@@ -126,6 +96,7 @@ public class OrderService {
             OrderResponse response = OrderResponse
                     .builder()
                     .id(o.getId())
+                    .email(user.getEmail())
                     .feeDelivery(o.getPaymentMethod().getDiscount())
                     .feeVoucher(o.getVoucher().getDiscount())
                     .quantityItem(o.getTotalQuantity())
@@ -138,4 +109,108 @@ public class OrderService {
         }
         return orderResponseList;
     }
+
+    public OrderResponse getOrderUserById(Long idOrder) {
+        String email = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        Users user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("Not found user from email"));
+
+        Orders orders = orderRepository.findById(idOrder)
+                .orElseThrow(() -> new IllegalArgumentException("Not found orders from user"));
+
+        List<OrderDetail> orderDetailList = orderDetailRepository.findAllByOrdersId(orders.getId());
+        return OrderResponse
+                .builder()
+                .id(orders.getId())
+                .feeDelivery(orders.getPaymentMethod().getDiscount())
+                .feeVoucher(orders.getVoucher().getDiscount())
+                .quantityItem(orders.getTotalQuantity())
+                .total(orders.getPrice())
+                .email(user.getEmail())
+                .createDate(orders.getCreatedDate())
+                .subtotal(orders.getPrice() - orders.getPaymentMethod().getDiscount() - orders.getVoucher().getDiscount())
+                .orderItemResponseList(orderDetailList.stream().map(e->OrderItemResponse.builder()
+                        .id(e.getId())
+                        .nameProduct(e.getProductDetail().getProduct().getName())
+                        .salePrice(e.getProductDetail().getSalePrice())
+                        .color(e.getProductDetail().getColor().getName())
+                        .size(e.getProductDetail().getSize().getName())
+                        .quantity(e.getQuantity())
+                        .totalPrice(e.getQuantity() * e.getProductDetail().getSalePrice())
+                        .build()).collect(Collectors.toList()))
+                .build();
+
+
+    }
+
+    public List<OrderResponse> getAllOrder() {
+        List<Orders> ordersList = orderRepository.findAll();
+        List<OrderResponse> orderResponseList = new ArrayList<>();
+
+        for (Orders o : ordersList
+        ) {
+            List<OrderDetail> orderDetailList = orderDetailRepository.findAllByOrdersId(o.getId());
+            List<OrderItemResponse> orderDetailResponseList = orderDetailList.stream().map(e->OrderItemResponse.builder()
+                    .id(e.getId())
+                    .nameProduct(e.getProductDetail().getProduct().getName())
+                    .salePrice(e.getProductDetail().getSalePrice())
+                    .color(e.getProductDetail().getColor().getName())
+                    .size(e.getProductDetail().getSize().getName())
+                    .quantity(e.getQuantity())
+                    .totalPrice(e.getQuantity() * e.getProductDetail().getSalePrice())
+                    .build()).collect(Collectors.toList());
+
+            OrderResponse response = OrderResponse
+                    .builder()
+                    .id(o.getId())
+                    .email(o.getUsers().getEmail())
+                    .feeDelivery(o.getPaymentMethod().getDiscount())
+                    .feeVoucher(o.getVoucher().getDiscount())
+                    .quantityItem(o.getTotalQuantity())
+                    .total(o.getPrice())
+                    .subtotal(o.getPrice() - o.getPaymentMethod().getDiscount() - o.getVoucher().getDiscount())
+                    .createDate(o.getCreatedDate())
+                    .orderItemResponseList(orderDetailResponseList)
+                    .build();
+            orderResponseList.add(response);
+        }
+        return orderResponseList;
+    }
+
+    public OrderResponse getOrderById(Long idOrder) {
+        Orders orders = orderRepository.findById(idOrder)
+                .orElseThrow(() -> new IllegalArgumentException("Not found orders from user"));
+
+        List<OrderDetail> orderDetailList = orderDetailRepository.findAllByOrdersId(orders.getId());
+        return OrderResponse
+                .builder()
+                .id(orders.getId())
+                .feeDelivery(orders.getPaymentMethod().getDiscount())
+                .feeVoucher(orders.getVoucher().getDiscount())
+                .quantityItem(orders.getTotalQuantity())
+                .total(orders.getPrice())
+                .email(orders.getUsers().getEmail())
+                .createDate(orders.getCreatedDate())
+                .subtotal(orders.getPrice() - orders.getPaymentMethod().getDiscount() - orders.getVoucher().getDiscount())
+                .orderItemResponseList(orderDetailList.stream().map(e->OrderItemResponse.builder()
+                        .id(e.getId())
+                        .nameProduct(e.getProductDetail().getProduct().getName())
+                        .salePrice(e.getProductDetail().getSalePrice())
+                        .color(e.getProductDetail().getColor().getName())
+                        .size(e.getProductDetail().getSize().getName())
+                        .quantity(e.getQuantity())
+                        .totalPrice(e.getQuantity() * e.getProductDetail().getSalePrice())
+                        .build()).collect(Collectors.toList()))
+                .build();
+
+
+    }
+
+    public void updateOrderById(Long idOrder, StatusOrderRequest request){
+        Orders orders=orderRepository.findById(idOrder).orElseThrow(()-> new IllegalArgumentException("Not found idOrder"));
+        orders.setStatus(request.getStatus());
+        orderRepository.save(orders);
+    }
+
 }
+
