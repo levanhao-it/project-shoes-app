@@ -17,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 public class PaymentMethod extends BaseEntity{
     private String name;
-    private String status;
+    private boolean status;
     private double discount;
 
     @JsonIgnore
