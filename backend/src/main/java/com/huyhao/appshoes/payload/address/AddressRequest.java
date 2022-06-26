@@ -11,5 +11,6 @@ public class AddressRequest {
     private String address;
     private String phoneNumber;
     private Long idUser;
+    private boolean defaultAddress;
 
 }

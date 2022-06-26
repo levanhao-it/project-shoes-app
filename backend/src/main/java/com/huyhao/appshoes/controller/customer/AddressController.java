@@ -16,12 +16,22 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class AddressController {
     private final AddressService addressService;
-    private final UserRepository userRepository;
 
-    @GetMapping("/{idUser}")
-    public ResponseEntity<?> getAddressListByUser(@PathVariable Long idUser){
+
+    @GetMapping()
+    public ResponseEntity<?> getAddressListByUser(@RequestParam Long idUser){
         try {
             return ResponseEntity.ok(ResponseCommon.success(addressService.getAddressListByUser(idUser)));
+        } catch (Exception ex) {
+            log.error("API /api/address: ", ex);
+            return ResponseEntity.badRequest().body(ErrorResponse.builder().message(ex.getMessage()).build());
+        }
+    }
+
+    @GetMapping("/{idAddress}")
+    public ResponseEntity<?> getAddressById(@PathVariable Long idAddress){
+        try {
+            return ResponseEntity.ok(ResponseCommon.success(addressService.getAddressById(idAddress)));
         } catch (Exception ex) {
             log.error("API /api/address: ", ex);
             return ResponseEntity.badRequest().body(ErrorResponse.builder().message(ex.getMessage()).build());
@@ -51,9 +61,9 @@ public class AddressController {
     }
 
     @DeleteMapping("/{idAddress}")
-    public ResponseEntity<?> deleteAddressByUser(@PathVariable Long idAddress){
+    public ResponseEntity<?> deleteAddress(@PathVariable Long idAddress){
         try {
-            addressService.deleteAddressWithCustomer(idAddress);
+            addressService.deleteAddress(idAddress);
             return ResponseEntity.ok(ResponseCommon.success(""));
         } catch (Exception ex) {
             log.error("API /api/address: ", ex);

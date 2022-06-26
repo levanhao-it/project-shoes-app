@@ -10,6 +10,8 @@ import java.util.Optional;
 @Repository
 public interface AddressDeliveryRepository extends JpaRepository<AddressDelivery, Long> {
     Optional<AddressDelivery> findById(Long aLong);
-    Optional<AddressDelivery> findByIdAndUsersIdAndActiveTrue(Long idUser,Long idAddress);
+    Optional<AddressDelivery> findByIdAndUsersIdAndActiveTrue(Long addressId, Long idUser);
+
+    Optional<AddressDelivery> findByIdAndActiveTrue(Long addressId);
     List<AddressDelivery> findAllByActiveTrueAndUsersId(Long userId);
 }

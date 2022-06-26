@@ -7,5 +7,4 @@ import lombok.Setter;
 @Setter
 public class StatusOrderRequest {
     private String status;
-
 }

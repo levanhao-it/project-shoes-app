@@ -1,8 +1,9 @@
-import { Box, Collapse, makeStyles, Typography } from '@material-ui/core';
-import ListItem from '@material-ui/core/ListItem';
-import { KeyboardArrowRightIcon, ExpandMore } from '@material-ui/icons';
-import PropTypes from 'prop-types';
-import React from 'react';
+import { Box, Collapse, makeStyles, Typography } from "@material-ui/core";
+import ListItem from "@material-ui/core/ListItem";
+import { ExpandMore } from "@material-ui/icons";
+import ExpandLessIcon from "@material-ui/icons/ExpandLess";
+import PropTypes from "prop-types";
+import React from "react";
 
 FilterByCategory.propTypes = {
   onChange: PropTypes.func,
@@ -10,53 +11,53 @@ FilterByCategory.propTypes = {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    borderBottom: '1px solid #e5e5e5',
-    paddingBottom: '25px',
-    marginBottom: '25px',
+    borderBottom: "1px solid #e5e5e5",
+    paddingBottom: "25px",
+    marginBottom: "25px",
   },
 
   menu: {
     padding: 0,
     margin: 0,
-    listStyleType: 'none',
+    listStyleType: "none",
 
-    '& > li': {
+    "& > li": {
       marginTop: theme.spacing(1),
-      transition: 'all .25s',
+      transition: "all .25s",
 
-      '&:hover': {
+      "&:hover": {
         color: theme.palette.primary.dark,
-        cursor: 'pointer',
+        cursor: "pointer",
       },
     },
   },
   h5: {
     fontFamily: '"Archivo Narrow", sans-serif',
-    fontSize: '14px',
-    fontWeight: 'bold',
-    color: '#000',
-    textTransform: 'uppercase',
+    fontSize: "14px",
+    fontWeight: "bold",
+    color: "#000",
+    textTransform: "uppercase",
   },
   li: {
-    position: 'relative',
-    display: 'block',
-    fontSize: '14px',
-    color: '#313131',
-    marginBottom: '20px',
-    paddingLeft: '30px',
-    textTransform: 'uppercase',
-    '&:hover': {
-      color: '#2AC37D',
+    position: "relative",
+    display: "block",
+    fontSize: "14px",
+    color: "#313131",
+    marginBottom: "20px",
+    paddingLeft: "30px",
+    textTransform: "uppercase",
+    "&:hover": {
+      color: "#2AC37D",
     },
   },
   boxTitle: {
-    borderTop: 'none',
-    height: '20px',
-    padding: '20px',
-    cursor: 'pointer',
+    borderTop: "none",
+    height: "20px",
+    padding: "20px",
+    cursor: "pointer",
   },
   content: {
-    borderBottom: '1px solid #e5e5e5',
+    borderBottom: "1px solid #e5e5e5",
   },
 }));
 
@@ -81,7 +82,7 @@ function FilterByCategory(props) {
         <Typography variant="h5" className={classes.h5}>
           Category
         </Typography>
-        <Box>{open ? <KeyboardArrowRightIcon /> : <ExpandMore />}</Box>
+        <Box>{open ? <ExpandLessIcon /> : <ExpandMore />}</Box>
       </Box>
       <Collapse in={open} timeout="auto" unmountOnExit>
         <Box className={classes.content} disablePadding>

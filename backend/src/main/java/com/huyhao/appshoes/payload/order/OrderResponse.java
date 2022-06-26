@@ -15,13 +15,11 @@ import java.util.List;
 public class OrderResponse {
     private Long id;
     private String email;
-    private double feeDelivery;
     private double feeVoucher;
     private int quantityItem;
     private double total;
     private double subtotal;
     private boolean status;
-
     private Date createDate;
 
     List<OrderItemResponse> orderItemResponseList;

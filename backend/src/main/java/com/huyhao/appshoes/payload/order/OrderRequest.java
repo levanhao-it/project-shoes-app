@@ -8,7 +8,6 @@ import lombok.Setter;
 public class OrderRequest {
     private Long addressDeliveryId;
     private String voucherCode;
-    private Long paymentMethodId;
     private String message;
 
 }

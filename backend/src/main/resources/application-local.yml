@@ -14,7 +14,7 @@ spring:
 
 app-shoes:
   token:
-    accessLifetimeMinutes: 5
+    accessLifetimeMinutes: 1440
     refreshLifetimeMinutes: 1440
   rememberMe:
     expiredDays: 30

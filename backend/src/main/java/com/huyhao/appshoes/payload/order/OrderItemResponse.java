@@ -19,5 +19,4 @@ public class OrderItemResponse {
     private String color;
     private double totalPrice;
 
-
 }

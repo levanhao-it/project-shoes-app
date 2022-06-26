@@ -32,10 +32,6 @@ public class Orders extends BaseEntity{
     @JoinColumn(name = "voucher_id", nullable = false)
     private Voucher voucher;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "paymentMethod_id", nullable = false)
-    private PaymentMethod paymentMethod;
-
     @JsonIgnore
     @OneToMany(mappedBy = "orders")
     private List<OrderDetail> orderDetailList;

@@ -22,7 +22,6 @@ public class OrderService {
     private final OrderDetailRepository orderDetailRepository;
     private final AddressDeliveryRepository addressDeliveryRepository;
     private final VoucherRepository voucherRepository;
-    private final PaymentMethodRepository paymentMethodRepository;
     private final CartRepository cartRepository;
 
     public void createOrder(OrderRequest request) {
@@ -36,9 +35,6 @@ public class OrderService {
         Voucher voucher = voucherRepository.findByCodeAndActiveTrue(request.getVoucherCode())
                 .orElseThrow(() -> new IllegalArgumentException("Not found voucher from voucherCode"));
 
-        PaymentMethod paymentMethod = paymentMethodRepository.findById(request.getPaymentMethodId())
-                .orElseThrow(() -> new IllegalArgumentException("Not found paymentMethod from payment_method_Id"));
-
         Cart cart = cartRepository.findByUsersId(user.getId())
                 .orElseThrow(() -> new IllegalArgumentException("not found cart"));
 
@@ -50,7 +46,6 @@ public class OrderService {
                 .addressDelivery(addressDelivery)
                 .message(request.getMessage())
                 .status("Đang xử lí")
-                .paymentMethod(paymentMethod)
                 .voucher(voucher)
                 .totalQuantity(cart.getQuantity())
                 .price(cart.getPrice())
@@ -97,11 +92,10 @@ public class OrderService {
                     .builder()
                     .id(o.getId())
                     .email(user.getEmail())
-                    .feeDelivery(o.getPaymentMethod().getDiscount())
                     .feeVoucher(o.getVoucher().getDiscount())
                     .quantityItem(o.getTotalQuantity())
                     .total(o.getPrice())
-                    .subtotal(o.getPrice() - o.getPaymentMethod().getDiscount() - o.getVoucher().getDiscount())
+                    .subtotal(o.getPrice() - o.getVoucher().getDiscount())
                     .createDate(o.getCreatedDate())
                     .orderItemResponseList(orderDetailResponseList)
                     .build();
@@ -122,13 +116,12 @@ public class OrderService {
         return OrderResponse
                 .builder()
                 .id(orders.getId())
-                .feeDelivery(orders.getPaymentMethod().getDiscount())
                 .feeVoucher(orders.getVoucher().getDiscount())
                 .quantityItem(orders.getTotalQuantity())
                 .total(orders.getPrice())
                 .email(user.getEmail())
                 .createDate(orders.getCreatedDate())
-                .subtotal(orders.getPrice() - orders.getPaymentMethod().getDiscount() - orders.getVoucher().getDiscount())
+                .subtotal(orders.getPrice() - orders.getVoucher().getDiscount())
                 .orderItemResponseList(orderDetailList.stream().map(e->OrderItemResponse.builder()
                         .id(e.getId())
                         .nameProduct(e.getProductDetail().getProduct().getName())
@@ -164,11 +157,10 @@ public class OrderService {
                     .builder()
                     .id(o.getId())
                     .email(o.getUsers().getEmail())
-                    .feeDelivery(o.getPaymentMethod().getDiscount())
                     .feeVoucher(o.getVoucher().getDiscount())
                     .quantityItem(o.getTotalQuantity())
                     .total(o.getPrice())
-                    .subtotal(o.getPrice() - o.getPaymentMethod().getDiscount() - o.getVoucher().getDiscount())
+                    .subtotal(o.getPrice() - o.getVoucher().getDiscount())
                     .createDate(o.getCreatedDate())
                     .orderItemResponseList(orderDetailResponseList)
                     .build();
@@ -185,13 +177,12 @@ public class OrderService {
         return OrderResponse
                 .builder()
                 .id(orders.getId())
-                .feeDelivery(orders.getPaymentMethod().getDiscount())
                 .feeVoucher(orders.getVoucher().getDiscount())
                 .quantityItem(orders.getTotalQuantity())
                 .total(orders.getPrice())
                 .email(orders.getUsers().getEmail())
                 .createDate(orders.getCreatedDate())
-                .subtotal(orders.getPrice() - orders.getPaymentMethod().getDiscount() - orders.getVoucher().getDiscount())
+                .subtotal(orders.getPrice() - orders.getVoucher().getDiscount())
                 .orderItemResponseList(orderDetailList.stream().map(e->OrderItemResponse.builder()
                         .id(e.getId())
                         .nameProduct(e.getProductDetail().getProduct().getName())
