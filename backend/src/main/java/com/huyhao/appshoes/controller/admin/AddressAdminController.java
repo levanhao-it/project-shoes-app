@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.*;
 public class AddressAdminController {
     private final AddressService addressService;
 
-    @GetMapping("/{idUser}")
-    public ResponseEntity<?> getAddressListByUser(@PathVariable Long idUser){
+    @GetMapping()
+    public ResponseEntity<?> getAddressListByUser(@RequestParam Long idUser){
         try {
             return ResponseEntity.ok(ResponseCommon.success(addressService.getAddressListByUser(idUser)));
         } catch (Exception ex) {

@@ -1,22 +1,23 @@
-import Sidebar from './components/Sidebar';
+import Sidebar from "./components/Sidebar";
 
-import { makeStyles } from '@material-ui/core';
-import { Redirect, Route, Switch } from 'react-router-dom';
-import UserFeature from './features/User';
-import Header from './components/Header';
-import NotFound from './components/NotFound';
-import LoginFeature from './features/Auth';
-import ProductFeature from 'features/Product';
-import './App.css';
-import CategoryFeature from 'features/Category';
+import { makeStyles } from "@material-ui/core";
+import { Redirect, Route, Switch } from "react-router-dom";
+import UserFeature from "./features/User";
+import Header from "./components/Header";
+import NotFound from "./components/NotFound";
+import LoginFeature from "./features/Auth";
+import ProductFeature from "features/Product";
+import "./App.css";
+import CategoryFeature from "features/Category";
+import OrderFeature from "features/Order";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex',
+    display: "flex",
   },
   content: {
     flexGrow: 1,
-    marginTop: '64px',
+    marginTop: "64px",
   },
 }));
 function App() {
@@ -33,6 +34,7 @@ function App() {
             <Route path="/categories" component={CategoryFeature} />
             <Route path="/login" component={LoginFeature} />
             <Route path="/products" component={ProductFeature} />
+            <Route path="/orders" component={OrderFeature} />
             <Route component={NotFound} />
           </Switch>
         </div>
