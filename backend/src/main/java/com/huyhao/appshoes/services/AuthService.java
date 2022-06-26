@@ -91,7 +91,7 @@ public class AuthService {
         List<UserResponse> userResponses = new ArrayList<>();
         for (Users u : userList
         ) {
-            int quantityOrder = orderRepository.findAllByUsers(u).size();
+            int quantityOrder = orderRepository.findAllByUsersId(u.getId()).size();
             UserResponse userResponse = UserResponse.builder()
                     .idUser(u.getId())
                     .full_name(u.getFullName())
@@ -109,7 +109,7 @@ public class AuthService {
 
     public UserResponse getUserById(Long id) {
         Users user = userRepository.findByIdAndActiveTrue(id).orElseThrow(() -> new IllegalArgumentException("Not found user from id"));
-        int quantityOrder = orderRepository.findAllByUsers(user).size();
+        int quantityOrder = orderRepository.findAllByUsersId(user.getId()).size();
         return UserResponse.builder()
                 .idUser(user.getId())
                 .full_name(user.getFullName())

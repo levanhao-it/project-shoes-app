@@ -28,7 +28,7 @@ public class OrderAdminController {
     }
 
     @GetMapping("/{idOrder}")
-    public ResponseEntity<?> getAllOrders(@PathVariable Long idOrder){
+    public ResponseEntity<?> getOrdersById(@PathVariable Long idOrder){
         try {
             return ResponseEntity.ok(ResponseCommon.success(orderService.getOrderById(idOrder)));
         } catch (Exception ex) {

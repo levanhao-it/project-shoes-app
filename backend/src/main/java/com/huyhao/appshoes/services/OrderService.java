@@ -72,7 +72,7 @@ public class OrderService {
                 .orElseThrow(() -> new IllegalArgumentException("Not found user from email"));
 
 
-        List<Orders> ordersList = orderRepository.findAllByUsers(user);
+        List<Orders> ordersList = orderRepository.findAllByUsersId(user.getId());
         List<OrderResponse> orderResponseList = new ArrayList<>();
 
         for (Orders o : ordersList
@@ -104,34 +104,36 @@ public class OrderService {
         return orderResponseList;
     }
 
-    public OrderResponse getOrderUserById(Long idOrder) {
-        String email = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
-        Users user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("Not found user from email"));
+    public List<OrderResponse> getOrderUserById(Long idUser) {
+        List<Orders> orders = orderRepository.findAllByUsersId(idUser);
+        List<OrderResponse> orderResponseList = new ArrayList<>();
+        for (Orders o : orders
+        ) {
+            List<OrderDetail> orderDetailList = orderDetailRepository.findAllByOrdersId(o.getId());
+            List<OrderItemResponse> orderDetailResponseList = orderDetailList.stream().map(e->OrderItemResponse.builder()
+                    .id(e.getId())
+                    .nameProduct(e.getProductDetail().getProduct().getName())
+                    .salePrice(e.getProductDetail().getSalePrice())
+                    .color(e.getProductDetail().getColor().getName())
+                    .size(e.getProductDetail().getSize().getName())
+                    .quantity(e.getQuantity())
+                    .totalPrice(e.getQuantity() * e.getProductDetail().getSalePrice())
+                    .build()).collect(Collectors.toList());
 
-        Orders orders = orderRepository.findById(idOrder)
-                .orElseThrow(() -> new IllegalArgumentException("Not found orders from user"));
-
-        List<OrderDetail> orderDetailList = orderDetailRepository.findAllByOrdersId(orders.getId());
-        return OrderResponse
-                .builder()
-                .id(orders.getId())
-                .feeVoucher(orders.getVoucher().getDiscount())
-                .quantityItem(orders.getTotalQuantity())
-                .total(orders.getPrice())
-                .email(user.getEmail())
-                .createDate(orders.getCreatedDate())
-                .subtotal(orders.getPrice() - orders.getVoucher().getDiscount())
-                .orderItemResponseList(orderDetailList.stream().map(e->OrderItemResponse.builder()
-                        .id(e.getId())
-                        .nameProduct(e.getProductDetail().getProduct().getName())
-                        .salePrice(e.getProductDetail().getSalePrice())
-                        .color(e.getProductDetail().getColor().getName())
-                        .size(e.getProductDetail().getSize().getName())
-                        .quantity(e.getQuantity())
-                        .totalPrice(e.getQuantity() * e.getProductDetail().getSalePrice())
-                        .build()).collect(Collectors.toList()))
-                .build();
+            OrderResponse response = OrderResponse
+                    .builder()
+                    .id(o.getId())
+                    .email(o.getUsers().getEmail())
+                    .feeVoucher(o.getVoucher().getDiscount())
+                    .quantityItem(o.getTotalQuantity())
+                    .total(o.getPrice())
+                    .subtotal(o.getPrice() - o.getVoucher().getDiscount())
+                    .createDate(o.getCreatedDate())
+                    .orderItemResponseList(orderDetailResponseList)
+                    .build();
+            orderResponseList.add(response);
+        }
+        return orderResponseList;
 
 
     }

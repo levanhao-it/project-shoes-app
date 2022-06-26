@@ -2,7 +2,7 @@ import axiosClient from './axiosClient';
 
 const ordersApi = {
   getAllOrderByUser(id) {
-    const url = `/admin/orders/${id}`;
+    const url = `/public/orders/${id}`;
     return axiosClient.get(url);
   },
 };

@@ -10,13 +10,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/orders")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 @Slf4j
 public class OrderController {
     private final OrderService orderService;
 
-    @PostMapping()
+    @PostMapping("/orders")
     public ResponseEntity<?> createOrder(@RequestBody OrderRequest request){
         try {
             orderService.createOrder(request);
@@ -27,10 +27,10 @@ public class OrderController {
         }
     }
 
-    @GetMapping("/{idOrder}")
-    public ResponseEntity<?> getOrderById(@PathVariable Long idOrder){
+    @GetMapping("/public/orders/{idUser}")
+    public ResponseEntity<?> getOrderById(@PathVariable Long idUser){
         try {
-            return ResponseEntity.ok(ResponseCommon.success(orderService.getOrderUserById(idOrder)));
+            return ResponseEntity.ok(ResponseCommon.success(orderService.getOrderUserById(idUser)));
         } catch (Exception ex) {
             log.error("API /api/orders: ", ex);
             return ResponseEntity.badRequest().body(ErrorResponse.builder().message(ex.getMessage()).build());
@@ -38,8 +38,8 @@ public class OrderController {
 
     }
 
-    @GetMapping("")
-    public ResponseEntity<?> getAllOrdersByUser(){
+    @GetMapping("/public/orders")
+    public ResponseEntity<?> getAllOrders(){
         try {
             return ResponseEntity.ok(ResponseCommon.success(orderService.getAllOrderWithUser()));
         } catch (Exception ex) {
