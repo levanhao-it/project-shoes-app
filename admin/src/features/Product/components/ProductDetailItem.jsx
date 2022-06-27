@@ -3,22 +3,16 @@ import {
   Chip,
   Collapse,
   IconButton,
-  makeStyles,
   Paper,
   TableCell,
   TableRow,
 } from "@material-ui/core";
-import { purple } from "@material-ui/core/colors";
-import EditIcon from "@material-ui/icons/Edit";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
-import productApi from "components/api/productApi";
 import productDetailApi from "components/api/productDetailApi";
 import { useSnackbar } from "notistack";
 import { useState } from "react";
-import { useHistory, useRouteMatch } from "react-router-dom";
-import useProduct from "../hooks/useProduct";
-import EditProductDetailPage from "../pages/EditProductDeatilPage";
+import { useRouteMatch } from "react-router-dom";
 import ProductDetailEditForm from "./ProductDetailEditForm";
 
 ProductDetailItem.propTypes = {};

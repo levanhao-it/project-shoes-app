@@ -18,4 +18,12 @@ public class AppConstant {
 
     //check
     public static final String REFRESH_TOKEN_KEY= "shoes";
+
+    public static final String PROCESS_STATUS = "Đang xử lí";
+
+    public static final String RECEIVED_STATUS = "Đã nhận";
+
+    public static final String CANCELLED_STATUS = "Đã hủy";
+
+
 }

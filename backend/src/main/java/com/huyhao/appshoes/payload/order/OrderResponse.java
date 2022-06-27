@@ -19,7 +19,7 @@ public class OrderResponse {
     private int quantityItem;
     private double total;
     private double subtotal;
-    private boolean status;
+    private String status;
     private Date createDate;
 
     List<OrderItemResponse> orderItemResponseList;

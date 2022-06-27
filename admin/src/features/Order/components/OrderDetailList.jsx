@@ -11,9 +11,9 @@ import {
 } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { useState } from "react";
-import ProductDetailItem from "./ProductDetailItem";
+import OrderDetailItem from "./OrderDetailItem";
 
-ProductDetailList.propTypes = {
+OrderDetailList.propTypes = {
   data: PropTypes.object,
 };
 
@@ -27,31 +27,37 @@ const useStyles = makeStyles({
 });
 
 const columns = [
-  { id: "salePrice", label: "Sale price", minWidth: 100 },
-  {
-    id: "quantity",
-    label: "Quantity",
-    minWidth: 170,
-  },
+  { id: "nameProduct", label: "Name", minWidth: 150 },
   {
     id: "size",
     label: "Size",
-    minWidth: 170,
+    minWidth: 70,
   },
-
   {
     id: "color",
     label: "Color",
-    minWidth: 170,
+    minWidth: 70,
+  },
+
+  {
+    id: "salePrice",
+    label: "Price",
+    minWidth: 70,
   },
   {
-    id: "status",
-    label: "Status",
-    minWidth: 170,
+    id: "quantity",
+    label: "Quantity",
+    minWidth: 70,
+  },
+
+  {
+    id: "totalPrice",
+    label: "Total Price",
+    minWidth: 70,
   },
 ];
 
-function ProductDetailList({ data }) {
+function OrderDetailList({ data }) {
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -71,7 +77,6 @@ function ProductDetailList({ data }) {
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
-                <TableCell></TableCell>
                 {columns.map((column) => (
                   <TableCell
                     key={column.id}
@@ -87,7 +92,7 @@ function ProductDetailList({ data }) {
               {data
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => {
-                  return <ProductDetailItem row={row} productId={data.id} />;
+                  return <OrderDetailItem row={row} />;
                 })}
             </TableBody>
           </Table>
@@ -106,4 +111,4 @@ function ProductDetailList({ data }) {
   );
 }
 
-export default ProductDetailList;
+export default OrderDetailList;

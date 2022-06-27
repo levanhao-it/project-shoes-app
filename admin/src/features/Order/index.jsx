@@ -22,7 +22,7 @@ function OrderFeature(props) {
       <Switch>
         <Route path={match.url} component={ListOrderPage} exact />
         <Route path={`${match.url}/add`} component={AddOrderPage} exact />
-        <Route path={`${match.url}/:productId`} component={OrderDetailPage} />
+        <Route path={`${match.url}/:orderId`} component={OrderDetailPage} />
       </Switch>
     </Box>
   );

@@ -1,5 +1,6 @@
 package com.huyhao.appshoes.services;
 
+import com.huyhao.appshoes.common.AppConstant;
 import com.huyhao.appshoes.entity.*;
 import com.huyhao.appshoes.payload.order.OrderItemResponse;
 import com.huyhao.appshoes.payload.order.OrderRequest;
@@ -66,18 +67,19 @@ public class OrderService {
         }
     }
 
-    public List<OrderResponse> getAllOrderWithUser() {
-        String email = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
-        Users user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("Not found user from email"));
+    public List<OrderResponse> getOrderListInCustomer(Long idUser) {
 
+        Users user = userRepository.findByIdAndActiveTrue(idUser)
+                .orElseThrow(() -> new IllegalArgumentException("Not found user from idUser"));
 
-        List<Orders> ordersList = orderRepository.findAllByUsersId(user.getId());
+        List<Orders> ordersList = orderRepository.findAllByUsersId(idUser);
+
         List<OrderResponse> orderResponseList = new ArrayList<>();
 
         for (Orders o : ordersList
         ) {
             List<OrderDetail> orderDetailList = orderDetailRepository.findAllByOrdersId(o.getId());
+
             List<OrderItemResponse> orderDetailResponseList = orderDetailList.stream().map(e->OrderItemResponse.builder()
                     .id(e.getId())
                     .nameProduct(e.getProductDetail().getProduct().getName())
@@ -97,20 +99,23 @@ public class OrderService {
                     .total(o.getPrice())
                     .subtotal(o.getPrice() - o.getVoucher().getDiscount())
                     .createDate(o.getCreatedDate())
+                    .status(o.getStatus())
                     .orderItemResponseList(orderDetailResponseList)
                     .build();
+
             orderResponseList.add(response);
         }
+
         return orderResponseList;
     }
 
-    public List<OrderResponse> getOrderUserById(Long idUser) {
-        List<Orders> orders = orderRepository.findAllByUsersId(idUser);
-        List<OrderResponse> orderResponseList = new ArrayList<>();
-        for (Orders o : orders
-        ) {
-            List<OrderDetail> orderDetailList = orderDetailRepository.findAllByOrdersId(o.getId());
-            List<OrderItemResponse> orderDetailResponseList = orderDetailList.stream().map(e->OrderItemResponse.builder()
+    public OrderResponse getOrder(Long orderId) {
+        Orders orders = orderRepository.findById(orderId)
+                .orElseThrow(() -> new IllegalArgumentException("Not found order from order id"));
+
+            List<OrderDetail> orderDetailList = orderDetailRepository.findAllByOrdersId(orderId);
+
+            List<OrderItemResponse> orderDetailResponseList = orderDetailList.stream().map(e -> OrderItemResponse.builder()
                     .id(e.getId())
                     .nameProduct(e.getProductDetail().getProduct().getName())
                     .salePrice(e.getProductDetail().getSalePrice())
@@ -122,23 +127,23 @@ public class OrderService {
 
             OrderResponse response = OrderResponse
                     .builder()
-                    .id(o.getId())
-                    .email(o.getUsers().getEmail())
-                    .feeVoucher(o.getVoucher().getDiscount())
-                    .quantityItem(o.getTotalQuantity())
-                    .total(o.getPrice())
-                    .subtotal(o.getPrice() - o.getVoucher().getDiscount())
-                    .createDate(o.getCreatedDate())
+                    .id(orders.getId())
+                    .email(orders.getUsers().getEmail())
+                    .feeVoucher(orders.getVoucher().getDiscount())
+                    .quantityItem(orders.getTotalQuantity())
+                    .total(orders.getPrice())
+                    .subtotal(orders.getPrice() - orders.getVoucher().getDiscount())
+                    .createDate(orders.getCreatedDate())
+                    .status(orders.getStatus())
                     .orderItemResponseList(orderDetailResponseList)
                     .build();
-            orderResponseList.add(response);
-        }
-        return orderResponseList;
+
+            return response;
 
 
     }
 
-    public List<OrderResponse> getAllOrder() {
+    public List<OrderResponse> getOrderListInAdmin() {
         List<Orders> ordersList = orderRepository.findAll();
         List<OrderResponse> orderResponseList = new ArrayList<>();
 
@@ -164,6 +169,7 @@ public class OrderService {
                     .total(o.getPrice())
                     .subtotal(o.getPrice() - o.getVoucher().getDiscount())
                     .createDate(o.getCreatedDate())
+                    .status(o.getStatus())
                     .orderItemResponseList(orderDetailResponseList)
                     .build();
             orderResponseList.add(response);

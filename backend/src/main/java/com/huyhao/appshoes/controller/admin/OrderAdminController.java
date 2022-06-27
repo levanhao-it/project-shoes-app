@@ -19,7 +19,7 @@ public class OrderAdminController {
     @GetMapping("")
     public ResponseEntity<?> getAllOrders(){
         try {
-            return ResponseEntity.ok(ResponseCommon.success(orderService.getAllOrder()));
+            return ResponseEntity.ok(ResponseCommon.success(orderService.getOrderListInAdmin()));
         } catch (Exception ex) {
             log.error("API /api/orders: ", ex);
             return ResponseEntity.badRequest().body(ErrorResponse.builder().message(ex.getMessage()).build());
@@ -30,7 +30,7 @@ public class OrderAdminController {
     @GetMapping("/{idOrder}")
     public ResponseEntity<?> getOrdersById(@PathVariable Long idOrder){
         try {
-            return ResponseEntity.ok(ResponseCommon.success(orderService.getOrderById(idOrder)));
+            return ResponseEntity.ok(ResponseCommon.success(orderService.getOrder(idOrder)));
         } catch (Exception ex) {
             log.error("API /api/orders: ", ex);
             return ResponseEntity.badRequest().body(ErrorResponse.builder().message(ex.getMessage()).build());

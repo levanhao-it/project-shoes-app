@@ -46,6 +46,12 @@ const columns = [
   },
 
   {
+    id: "status",
+    label: "Status",
+    minWidth: 100,
+  },
+
+  {
     id: "actions",
     label: "Actions",
     minWidth: 50,
@@ -67,6 +73,8 @@ function OrderList({ data }) {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+  console.log(data);
 
   return (
     <div>

@@ -34,7 +34,6 @@ const useStyle = makeStyles((theme) => ({
 function ListOrderPage(props) {
   const classes = useStyle();
   const [orders, setOrders] = useState([]);
-  const history = useHistory();
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -45,23 +44,12 @@ function ListOrderPage(props) {
     fetchProduct();
   }, []);
 
-  const handleAddProduct = () => {
-    history.push(`/orders/add`);
-  };
   return (
     <div className={classes.box}>
       <Box className={classes.header}>
         <Typography component="h1" variant="h4" className={classes.heading}>
           Orders
         </Typography>
-        <Button
-          variant="contained"
-          className={classes.button}
-          startIcon={<AddIcon />}
-          onClick={handleAddProduct}
-        >
-          Add
-        </Button>
       </Box>
       {/* <Paper elevation={0}>
         <ProductFilters />

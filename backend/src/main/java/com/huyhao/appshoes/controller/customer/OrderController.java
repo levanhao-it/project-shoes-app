@@ -10,13 +10,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/orders")
 @RequiredArgsConstructor
 @Slf4j
 public class OrderController {
     private final OrderService orderService;
 
-    @PostMapping("/orders")
+    @PostMapping()
     public ResponseEntity<?> createOrder(@RequestBody OrderRequest request){
         try {
             orderService.createOrder(request);
@@ -27,21 +27,20 @@ public class OrderController {
         }
     }
 
-    @GetMapping("/public/orders/{idUser}")
-    public ResponseEntity<?> getOrderById(@PathVariable Long idUser){
+    @GetMapping("/{orderId}")
+    public ResponseEntity<?> getOrderById(@PathVariable Long orderId){
         try {
-            return ResponseEntity.ok(ResponseCommon.success(orderService.getOrderUserById(idUser)));
+            return ResponseEntity.ok(ResponseCommon.success(orderService.getOrder(orderId)));
         } catch (Exception ex) {
             log.error("API /api/orders: ", ex);
             return ResponseEntity.badRequest().body(ErrorResponse.builder().message(ex.getMessage()).build());
         }
-
     }
 
-    @GetMapping("/public/orders")
-    public ResponseEntity<?> getAllOrders(){
+    @GetMapping("")
+    public ResponseEntity<?> getOrderList(@RequestParam Long idUser){
         try {
-            return ResponseEntity.ok(ResponseCommon.success(orderService.getAllOrderWithUser()));
+            return ResponseEntity.ok(ResponseCommon.success(orderService.getOrderListInCustomer(idUser)));
         } catch (Exception ex) {
             log.error("API /api/orders: ", ex);
             return ResponseEntity.badRequest().body(ErrorResponse.builder().message(ex.getMessage()).build());
