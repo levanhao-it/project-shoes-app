@@ -1,4 +1,8 @@
 spring:
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
   datasource:
     url: jdbc:postgresql://localhost:5432/app-shoes
     username: postgres
@@ -14,7 +18,12 @@ spring:
 
 app-shoes:
   token:
-    accessLifetimeMinutes: 1440
+    accessLifetimeMinutes: 5
     refreshLifetimeMinutes: 1440
   rememberMe:
     expiredDays: 30
+amazonProperties:
+    endpointUrl: https://s3.ap-southeast-1.amazonaws.com
+    accessKey: AKIA2AQYRTPENBRXORQW
+    secretKey: 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
+    bucketName: myappshoes

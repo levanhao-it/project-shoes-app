@@ -7,7 +7,6 @@ import com.huyhao.appshoes.jwt.JwtProvider;
 import com.huyhao.appshoes.payload.auth.AuthRequest;
 import com.huyhao.appshoes.payload.auth.AuthResponse;
 import com.huyhao.appshoes.payload.auth.RegistrationRequest;
-import com.huyhao.appshoes.payload.common.ResponseObject;
 import com.huyhao.appshoes.services.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

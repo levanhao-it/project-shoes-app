@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,9 +30,9 @@ public class ProductAdminController {
     }
 
     @PostMapping("/{productId}")
-    public ResponseEntity<?> createProductDetail(@PathVariable Long productId, @RequestBody ProductDetailRequest productDetailRequest){
+    public ResponseEntity<?> createProductDetail(@PathVariable Long productId, @RequestPart(value = "productDetailRequest") String productDetailRequest, @RequestPart(value = "fileImg")MultipartFile fileImg){
         try {
-            productService.createProductDetail(productId, productDetailRequest);
+            productService.createProductDetail(productId, fileImg,productDetailRequest);
             return ResponseEntity.ok(ResponseCommon.success(""));
         } catch (Exception ex) {
             log.error("API /api/category: ", ex);

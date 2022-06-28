@@ -7,6 +7,8 @@ import com.huyhao.appshoes.payload.productDetail.ProductDetailResponse;
 import com.huyhao.appshoes.payload.product.ProductRequest;
 import com.huyhao.appshoes.payload.product.ProductResponse;
 import com.huyhao.appshoes.repositories.*;
+import com.huyhao.appshoes.utils.AmazonUtil;
+import com.huyhao.appshoes.utils.JsonUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,7 +16,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,6 +31,8 @@ public class ProductService {
     public final CategoryRepository categoryRepository;
     public final ColorRepository colorRepository;
     public final SizeRepository sizeRepository;
+
+    public final AmazonUtil amazonUtil;
 
     public ProductFilterResponse getProductList(String title, int page, int size, String[] sort) {
         List<Order> orders = new ArrayList<>();
@@ -62,6 +68,7 @@ public class ProductService {
                     .color(e.getColor().getName())
                     .sizeId(e.getSize().getId())
                     .size(e.getSize().getName())
+                    .linkImg(e.getImageLink())
                     .build()).collect(Collectors.toList());
 
             productResponses.add(ProductResponse.builder()
@@ -136,7 +143,10 @@ public class ProductService {
 
     }
 
-    public void createProductDetail(Long productId, ProductDetailRequest productDetailRequest) {
+    @Transactional
+    public void createProductDetail(Long productId, MultipartFile fileImg, String productDetailRequestJson) {
+        ProductDetailRequest productDetailRequest= JsonUtil.toObject(productDetailRequestJson,ProductDetailRequest.class);
+
         Product product = productRepository.findByIdAndActiveTrue(productId)
                 .orElseThrow(() -> new IllegalArgumentException("Not found product from productId"));
         Color color = colorRepository.findById(productDetailRequest.getColorId())
@@ -152,7 +162,7 @@ public class ProductService {
                     .product(product)
                     .color(color)
                     .size(size)
-                    .imageLink(productDetailRequest.getImageLink())
+                    .imageLink(amazonUtil.uploadFile(fileImg))
                     .active(true)
                     .build();
 

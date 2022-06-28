@@ -18,5 +18,6 @@ public class ProductDetailResponse {
     private String size;
     private Long colorId;
     private String color;
+    private String linkImg;
 
 }
