@@ -37,6 +37,16 @@ public class OrderAdminController {
         }
 
     }
+//    @GetMapping("")
+//    public ResponseEntity<?> getOrdersOfUser(@RequestParam Long idUser){
+//        try {
+//            return ResponseEntity.ok(ResponseCommon.success(orderService.getOrderListByUserInAdmin(idUser)));
+//        } catch (Exception ex) {
+//            log.error("API /api/orders: ", ex);
+//            return ResponseEntity.badRequest().body(ErrorResponse.builder().message(ex.getMessage()).build());
+//        }
+//
+//    }
     @PutMapping("/{idOrder}")
     public ResponseEntity<?> updateOrders(@PathVariable Long idOrder, @RequestBody StatusOrderRequest status){
         try {

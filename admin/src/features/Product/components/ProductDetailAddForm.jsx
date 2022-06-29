@@ -1,54 +1,48 @@
-import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
-import { useForm } from "react-hook-form";
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-import InputField from "components/form-controls/InputField";
-import {
-  Box,
-  Button,
-  Checkbox,
-  FormControlLabel,
-  Grid,
-  makeStyles,
-} from "@material-ui/core";
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Box, Button, Checkbox, FormControlLabel, Grid, makeStyles } from '@material-ui/core';
+import InputField from 'components/form-controls/InputField';
+import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import * as yup from 'yup';
 
-import SelectField from "components/form-controls/SelectField";
-import PriceField from "components/form-controls/PriceField";
-import { useHistory, useRouteMatch } from "react-router-dom";
-import categoryApi from "components/api/category";
-import colorApi from "components/api/colorApi";
-import sizeApi from "components/api/sizeApi";
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import colorApi from 'components/api/colorApi';
+import sizeApi from 'components/api/sizeApi';
+import { jsonToFormData } from 'components/constant';
+import PriceField from 'components/form-controls/PriceField';
+import SelectField from 'components/form-controls/SelectField';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 
 ProductDetailAddForm.propTypes = {
   onSubmit: PropTypes.func,
 };
 
 const schema = yup.object().shape({
-  salePrice: yup
-    .number()
-    .required("Please enter price")
-    .min(1, "Price must be more than 0"),
-  quantity: yup
-    .number()
-    .required("Please enter price")
-    .min(1, "Price must be more than 0"),
+  salePrice: yup.number().required('Please enter price').min(1, 'Price must be more than 0'),
+  quantity: yup.number().required('Please enter price').min(1, 'Price must be more than 0'),
 
-  sizeId: yup.string().required("Please choose size"),
-  colorId: yup.string().required("Please choose color"),
+  sizeId: yup.string().required('Please choose size'),
+  colorId: yup.string().required('Please choose color'),
 });
 const useStyle = makeStyles((theme) => ({
   boxFooter: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     margin: theme.spacing(4, 0),
   },
 
   btn: {
-    "& > span": {
-      textTransform: "capitalize",
+    '& > span': {
+      textTransform: 'capitalize',
     },
+  },
+  upload: {
+    margin: '25px',
+  },
+  input: {
+    display: 'none',
   },
 }));
 
@@ -57,6 +51,8 @@ function ProductDetailAddForm({ onSubmit }) {
   const [sizes, setSizes] = useState([]);
   const [colors, setColors] = useState([]);
   const [checked, setChecked] = useState(false);
+  const [image, setImage] = useState(null);
+
   const {
     params: { productId },
   } = useRouteMatch();
@@ -64,12 +60,12 @@ function ProductDetailAddForm({ onSubmit }) {
   const history = useHistory();
   const form = useForm({
     defaultValues: {
-      salePrice: "",
-      quantity: "",
-      sizeId: "",
-      colorId: "",
+      salePrice: '',
+      quantity: '',
+      sizeId: '',
+      colorId: '',
     },
-    mode: "onBlur",
+    mode: 'onBlur',
     resolver: yupResolver(schema),
   });
 
@@ -88,7 +84,12 @@ function ProductDetailAddForm({ onSubmit }) {
   const handelSubmit = async (values) => {
     if (onSubmit) {
       values.status = checked;
-      await onSubmit(values);
+      const jsonObject = {
+        fileImg: image,
+        productDetailRequest: JSON.stringify(values).trim(),
+      };
+      const formData = jsonToFormData(jsonObject);
+      await onSubmit(formData);
     }
 
     form.reset();
@@ -100,6 +101,10 @@ function ProductDetailAddForm({ onSubmit }) {
 
   const handleChange = (event) => {
     setChecked(event.target.checked);
+  };
+
+  const handleImageChange = (event) => {
+    setImage(event.target.files[0]);
   };
 
   return (
@@ -118,14 +123,29 @@ function ProductDetailAddForm({ onSubmit }) {
         </Grid>
 
         <Grid item xs={4}>
-          <SelectField
-            name="colorId"
-            label="Color"
-            form={form}
-            values={colors}
-          />
+          <SelectField name="colorId" label="Color" form={form} values={colors} />
         </Grid>
-
+        <Grid item xs={4}>
+          <input
+            accept="image/*"
+            className={classes.input}
+            id="icon-button-file"
+            type="file"
+            onChange={handleImageChange}
+          />
+          <label htmlFor="icon-button-file">
+            <Button
+              variant="contained"
+              color="default"
+              aria-label="upload picture"
+              component="span"
+              className={classes.upload}
+              startIcon={<CloudUploadIcon />}
+            >
+              Upload
+            </Button>
+          </label>
+        </Grid>
         <Grid item xs={4}>
           <Box className={classes.boxPublic}>
             <FormControlLabel
@@ -150,7 +170,7 @@ function ProductDetailAddForm({ onSubmit }) {
           size="large"
           color="primary"
           className={classes.btn}
-          style={{ marginRight: "16px" }}
+          style={{ marginRight: '16px' }}
           type="submit"
         >
           Submit

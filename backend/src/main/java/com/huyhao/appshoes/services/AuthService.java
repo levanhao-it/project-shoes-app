@@ -2,13 +2,15 @@ package com.huyhao.appshoes.services;
 
 import com.huyhao.appshoes.common.AppConstant;
 import com.huyhao.appshoes.entity.Cart;
+import com.huyhao.appshoes.entity.Orders;
 import com.huyhao.appshoes.entity.Role;
 import com.huyhao.appshoes.entity.Users;
 import com.huyhao.appshoes.jwt.JwtProvider;
-import com.huyhao.appshoes.payload.auth.AuthRequest;
-import com.huyhao.appshoes.payload.auth.AuthResponse;
-import com.huyhao.appshoes.payload.auth.RegistrationRequest;
-import com.huyhao.appshoes.payload.auth.UserResponse;
+import com.huyhao.appshoes.payload.productDetail.auth.AuthRequest;
+import com.huyhao.appshoes.payload.productDetail.auth.AuthResponse;
+import com.huyhao.appshoes.payload.productDetail.auth.RegistrationRequest;
+import com.huyhao.appshoes.payload.productDetail.auth.UserResponse;
+import com.huyhao.appshoes.payload.order.OrderResponse;
 import com.huyhao.appshoes.repositories.CartRepository;
 import com.huyhao.appshoes.repositories.OrderRepository;
 import com.huyhao.appshoes.repositories.RoleRepository;
@@ -20,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -110,6 +113,8 @@ public class AuthService {
     public UserResponse getUserById(Long id) {
         Users user = userRepository.findByIdAndActiveTrue(id).orElseThrow(() -> new IllegalArgumentException("Not found user from id"));
         int quantityOrder = orderRepository.findAllByUsersId(user.getId()).size();
+        List<Orders> ordersList = orderRepository.findAllByUsersId(id);
+
         return UserResponse.builder()
                 .idUser(user.getId())
                 .full_name(user.getFullName())
@@ -118,6 +123,12 @@ public class AuthService {
                 .modify_date(user.getModifiedDate())
                 .quantityOrders(quantityOrder)
                 .password(user.getPassword())
+                .orderResponseList(ordersList.stream().map(e -> OrderResponse.builder()
+                        .id(e.getId())
+                        .status(e.getStatus())
+                        .createDate(e.getCreatedDate())
+                        .subtotal(e.getPrice())
+                        .build()).collect(Collectors.toList()))
                 .build();
 
     }

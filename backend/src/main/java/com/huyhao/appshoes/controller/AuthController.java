@@ -4,9 +4,9 @@ import com.huyhao.appshoes.common.AppConstant;
 import com.huyhao.appshoes.common.ResponseCommon;
 import com.huyhao.appshoes.entity.Users;
 import com.huyhao.appshoes.jwt.JwtProvider;
-import com.huyhao.appshoes.payload.auth.AuthRequest;
-import com.huyhao.appshoes.payload.auth.AuthResponse;
-import com.huyhao.appshoes.payload.auth.RegistrationRequest;
+import com.huyhao.appshoes.payload.productDetail.auth.AuthRequest;
+import com.huyhao.appshoes.payload.productDetail.auth.AuthResponse;
+import com.huyhao.appshoes.payload.productDetail.auth.RegistrationRequest;
 import com.huyhao.appshoes.services.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -95,7 +95,11 @@ public class AuthController {
         String accessToken = jwtProvider.generateAccessToken(appUser);
         String refreshToken = jwtProvider.generateRefreshToken(appUser, isRemember);
         addRefreshTokenToCookie(response, refreshToken, jwtProvider.getRefreshTokenLifeTimeMinutes(isRemember) * 60);
-        return AuthResponse.builder().accessToken(accessToken).build();
+        return AuthResponse.builder()
+                .email(appUser.getEmail())
+                .userName(appUser.getFullName())
+                .role(appUser.getRole().getId()==1?"ADMIN":"CUSTOMER")
+                .accessToken(accessToken).build();
     }
 
     private void addRefreshTokenToCookie(HttpServletResponse response, String refreshToken, int maxAgeSeconds) {

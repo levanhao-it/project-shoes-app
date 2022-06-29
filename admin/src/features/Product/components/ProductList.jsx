@@ -8,11 +8,11 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-} from "@material-ui/core";
-import PropTypes from "prop-types";
-import React, { useEffect, useState } from "react";
+} from '@material-ui/core';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
 
-import ProductItem from "./ProductItem";
+import ProductItem from './ProductItem';
 
 ProductList.propTypes = {
   data: PropTypes.object,
@@ -20,7 +20,7 @@ ProductList.propTypes = {
 
 const useStyles = makeStyles({
   root: {
-    width: "100%",
+    width: '100%',
   },
   container: {
     maxHeight: 440,
@@ -28,25 +28,25 @@ const useStyles = makeStyles({
 });
 
 const columns = [
-  { id: "name", label: "Name", minWidth: 300 },
-  { id: "stock", label: "Stock", minWidth: 100 },
+  { id: 'name', label: 'Name', minWidth: 300 },
+  { id: 'stock', label: 'Stock', minWidth: 100 },
   {
-    id: "price",
-    label: "Price",
+    id: 'price',
+    label: 'Price',
     minWidth: 170,
-    format: (value) => value.toLocaleString("en-US"),
+    format: (value) => value.toLocaleString('en-US'),
   },
   {
-    id: "category",
-    label: "Category",
+    id: 'category',
+    label: 'Category',
     minWidth: 170,
-    format: (value) => value.toLocaleString("en-US"),
+    format: (value) => value.toLocaleString('en-US'),
   },
   {
-    id: "actions",
-    label: "Actions",
+    id: 'actions',
+    label: 'Actions',
     minWidth: 170,
-    align: "right",
+    align: 'right',
   },
 ];
 
@@ -64,6 +64,10 @@ function ProductList({ data }) {
           0
         );
       }
+      let imageList = [];
+      product.productDetailList.forEach((element) => {
+        imageList.push(element.linkImg);
+      });
 
       return {
         id: product.id,
@@ -71,6 +75,7 @@ function ProductList({ data }) {
         stock: totalQuantity,
         price: product.originalPrice,
         category: product.categoryName,
+        imageList: imageList,
       };
     });
     setProductList(productList1);
@@ -93,6 +98,7 @@ function ProductList({ data }) {
             <TableHead>
               <TableRow>
                 <TableCell></TableCell>
+                <TableCell style={{ minWidth: '150px' }}></TableCell>
                 {columns.map((column) => (
                   <TableCell
                     key={column.id}

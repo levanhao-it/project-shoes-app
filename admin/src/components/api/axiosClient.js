@@ -45,24 +45,24 @@ axiosClient.interceptors.response.use(
       throw new Error(data.message);
     }
 
-    // handle 401 error
-    if (status === 401 && !refresh) {
+    // handle 403
+    if (status === 403) {
       refresh = true;
       console.log(refresh);
       (async () => {
         try {
           const response = await axiosClient.get('http://localhost:8080/api/token/refresh');
           console.log(response);
-          if (response.status === 403) {
-            console.log(response);
+          // if (response.status === 403) {
+          //   console.log(response);
 
-            Cookies.set('access_token', response.data.access_token, { expires: 7, path: '/' });
-            axiosClient.defaults.headers.common[
-              'Authorization'
-            ] = `Bearer ${response.data.access_token}`;
-            console.log('token', Cookies.get('access_token'));
-            return axiosClient(error);
-          }
+          //   Cookies.set('access_token', response.data.access_token, { expires: 7, path: '/' });
+          //   axiosClient.defaults.headers.common[
+          //     'Authorization'
+          //   ] = `Bearer ${response.data.access_token}`;
+          //   console.log('token', Cookies.get('access_token'));
+          //   return axiosClient(error);
+          // }
         } catch (error) {}
       })();
     }

@@ -1,6 +1,5 @@
 package com.huyhao.appshoes.services;
 
-import com.huyhao.appshoes.common.AppConstant;
 import com.huyhao.appshoes.entity.*;
 import com.huyhao.appshoes.payload.order.OrderItemResponse;
 import com.huyhao.appshoes.payload.order.OrderRequest;
@@ -145,6 +144,40 @@ public class OrderService {
 
     public List<OrderResponse> getOrderListInAdmin() {
         List<Orders> ordersList = orderRepository.findAll();
+        List<OrderResponse> orderResponseList = new ArrayList<>();
+
+        for (Orders o : ordersList
+        ) {
+            List<OrderDetail> orderDetailList = orderDetailRepository.findAllByOrdersId(o.getId());
+            List<OrderItemResponse> orderDetailResponseList = orderDetailList.stream().map(e->OrderItemResponse.builder()
+                    .id(e.getId())
+                    .nameProduct(e.getProductDetail().getProduct().getName())
+                    .salePrice(e.getProductDetail().getSalePrice())
+                    .color(e.getProductDetail().getColor().getName())
+                    .size(e.getProductDetail().getSize().getName())
+                    .quantity(e.getQuantity())
+                    .totalPrice(e.getQuantity() * e.getProductDetail().getSalePrice())
+                    .build()).collect(Collectors.toList());
+
+            OrderResponse response = OrderResponse
+                    .builder()
+                    .id(o.getId())
+                    .email(o.getUsers().getEmail())
+                    .feeVoucher(o.getVoucher().getDiscount())
+                    .quantityItem(o.getTotalQuantity())
+                    .total(o.getPrice())
+                    .subtotal(o.getPrice() - o.getVoucher().getDiscount())
+                    .createDate(o.getCreatedDate())
+                    .status(o.getStatus())
+                    .orderItemResponseList(orderDetailResponseList)
+                    .build();
+            orderResponseList.add(response);
+        }
+        return orderResponseList;
+    }
+
+    public List<OrderResponse> getOrderListByUserInAdmin(Long idUser) {
+        List<Orders> ordersList = orderRepository.findAllByUsersId(idUser);
         List<OrderResponse> orderResponseList = new ArrayList<>();
 
         for (Orders o : ordersList

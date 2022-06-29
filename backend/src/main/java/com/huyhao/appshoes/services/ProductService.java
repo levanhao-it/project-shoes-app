@@ -119,6 +119,7 @@ public class ProductService {
                         .color(e.getColor().getName())
                         .sizeId(e.getSize().getId())
                         .size(e.getSize().getName())
+                        .linkImg(e.getImageLink())
                         .build()).collect(Collectors.toList()))
                 .build();
 
@@ -202,12 +203,14 @@ public class ProductService {
         productRepository.save(product);
     }
 
-    public void updateProductDetail(Long productId, Long productDetailId ,ProductDetailRequest productDetailRequest) {
+    public void updateProductDetail(Long productId, Long productDetailId ,MultipartFile fileImg,String productDetailRequestJson) {
         ProductDetail productDetail = productDetailRepository.findByIdAndActiveTrue(productDetailId)
                 .orElseThrow(() -> new IllegalArgumentException("Not found productDetail from productDetailId"));
 
         Product product = productRepository.findByIdAndActiveTrue(productId)
                 .orElseThrow(() -> new IllegalArgumentException("Not found product from productId"));
+
+        ProductDetailRequest productDetailRequest= JsonUtil.toObject(productDetailRequestJson,ProductDetailRequest.class);
 
         Double salePrice = productDetailRequest.getSalePrice();
         if( salePrice != null && salePrice != productDetail.getSalePrice()){
@@ -235,6 +238,8 @@ public class ProductService {
                     .orElseThrow(() -> new IllegalArgumentException("Not found size from sizeId"));
             productDetail.setSize(size);
         }
+
+        productDetail.setImageLink(amazonUtil.uploadFile(fileImg));
 
         productDetail.setProduct(product);
 

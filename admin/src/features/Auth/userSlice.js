@@ -34,8 +34,24 @@ const userSlice = createSlice({
   initialState: {
     current: { data: { accessToken: Cookies.get(StorageKeys.TOKEN) } } || {},
     settings: {},
+    loading: false,
+    error: false,
   },
   reducers: {
+    loginStart: (state) => {
+      state.loading = true;
+    },
+
+    loginSuccess: (state, action) => {
+      state.loading = false;
+      state.current = action.payload;
+      state.error = false;
+    },
+    loginFailure: (state, action) => {
+      state.loading = false;
+      state.error = true;
+    },
+
     logout(state) {
       // clear cookie
       Cookies.remove(StorageKeys.TOKEN);
@@ -54,5 +70,5 @@ const userSlice = createSlice({
   },
 });
 const { actions, reducer } = userSlice;
-export const { logout } = actions;
+export const { loginStart, loginSuccess, loginFailure, logout } = actions;
 export default reducer;

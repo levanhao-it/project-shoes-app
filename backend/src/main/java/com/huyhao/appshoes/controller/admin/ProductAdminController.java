@@ -3,7 +3,6 @@ package com.huyhao.appshoes.controller.admin;
 import com.huyhao.appshoes.common.ResponseCommon;
 import com.huyhao.appshoes.payload.common.ErrorResponse;
 import com.huyhao.appshoes.payload.product.ProductRequest;
-import com.huyhao.appshoes.payload.productDetail.ProductDetailRequest;
 import com.huyhao.appshoes.services.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -52,9 +51,9 @@ public class ProductAdminController {
     }
 
     @PutMapping("/{productId}/productDetails/{productDetailId}")
-    public ResponseEntity<?> updateProductDetail(@PathVariable Long productId, @PathVariable Long productDetailId, @RequestBody ProductDetailRequest productDetailRequest){
+    public ResponseEntity<?> updateProductDetail(@PathVariable Long productId, @PathVariable Long productDetailId, @RequestPart(value = "productDetailRequest") String productDetailRequest, @RequestPart(value = "fileImg")MultipartFile fileImg){
         try {
-            productService.updateProductDetail(productId, productDetailId, productDetailRequest);
+            productService.updateProductDetail(productId, productDetailId,fileImg, productDetailRequest);
             return ResponseEntity.ok(ResponseCommon.success(""));
         } catch (Exception ex) {
             log.error("API /api/category: ", ex);

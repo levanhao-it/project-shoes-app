@@ -1,24 +1,17 @@
-import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
-import { useForm } from "react-hook-form";
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-import InputField from "components/form-controls/InputField";
-import {
-  Box,
-  Button,
-  Checkbox,
-  FormControlLabel,
-  Grid,
-  makeStyles,
-} from "@material-ui/core";
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Box, Button, Checkbox, FormControlLabel, Grid, makeStyles } from '@material-ui/core';
+import InputField from 'components/form-controls/InputField';
+import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import * as yup from 'yup';
 
-import SelectField from "components/form-controls/SelectField";
-import PriceField from "components/form-controls/PriceField";
-import { useHistory } from "react-router-dom";
-import categoryApi from "components/api/category";
-import colorApi from "components/api/colorApi";
-import sizeApi from "components/api/sizeApi";
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import colorApi from 'components/api/colorApi';
+import sizeApi from 'components/api/sizeApi';
+import PriceField from 'components/form-controls/PriceField';
+import SelectField from 'components/form-controls/SelectField';
+import { jsonToFormData } from 'components/constant';
 
 ProductDetailEditForm.propTypes = {
   onSubmit: PropTypes.func,
@@ -28,38 +21,38 @@ ProductDetailEditForm.propTypes = {
 };
 
 const schema = yup.object().shape({
-  salePrice: yup
-    .number()
-    .required("Please enter price")
-    .min(1, "Price must be more than 0"),
-  quantity: yup
-    .number()
-    .required("Please enter price")
-    .min(1, "Price must be more than 0"),
+  salePrice: yup.number().required('Please enter price').min(1, 'Price must be more than 0'),
+  quantity: yup.number().required('Please enter price').min(1, 'Price must be more than 0'),
 
-  sizeId: yup.string().required("Please choose size"),
+  sizeId: yup.string().required('Please choose size'),
 
-  colorId: yup.string().required("Please choose color"),
+  colorId: yup.string().required('Please choose color'),
 });
 const useStyle = makeStyles((theme) => ({
   boxFooter: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     margin: theme.spacing(4, 0),
   },
 
   btn: {
-    "& > span": {
-      textTransform: "capitalize",
+    '& > span': {
+      textTransform: 'capitalize',
     },
   },
 
   boxPublic: {
     margin: theme.spacing(2, 0, 0, 2),
-    "&  .MuiFormControlLabel-label": {
-      fontSize: "20x",
+    '&  .MuiFormControlLabel-label': {
+      fontSize: '20x',
     },
+  },
+  upload: {
+    margin: '25px',
+  },
+  input: {
+    display: 'none',
   },
 }));
 
@@ -68,6 +61,7 @@ function ProductDetailEditForm({ onSubmit, values, onDelete }) {
   const [colors, setColors] = useState([]);
   const [sizes, setSizes] = useState([]);
   const [checked, setChecked] = useState(values.status);
+  const [image, setImage] = useState(null);
 
   const handleChange = (event) => {
     setChecked(event.target.checked);
@@ -75,17 +69,17 @@ function ProductDetailEditForm({ onSubmit, values, onDelete }) {
 
   const form = useForm({
     defaultValues: {
-      salePrice: "",
-      quantity: "",
-      sizeId: "",
-      colorId: "",
+      salePrice: '',
+      quantity: '',
+      sizeId: '',
+      colorId: '',
     },
-    mode: "onBlur",
+    mode: 'onBlur',
     resolver: yupResolver(schema),
   });
 
   useEffect(() => {
-    const fieldList = ["salePrice", "quantity", "sizeId", "colorId"];
+    const fieldList = ['salePrice', 'quantity', 'sizeId', 'colorId'];
     fieldList.forEach((element, i) => {
       form.setValue(element, values[element]);
     });
@@ -106,8 +100,12 @@ function ProductDetailEditForm({ onSubmit, values, onDelete }) {
   const handelSubmit = async (values) => {
     if (onSubmit) {
       values.status = checked;
-
-      await onSubmit(values);
+      const jsonObject = {
+        fileImg: image,
+        productDetailRequest: JSON.stringify(values).trim(),
+      };
+      const formData = jsonToFormData(jsonObject);
+      await onSubmit(formData);
     }
 
     form.reset();
@@ -117,6 +115,9 @@ function ProductDetailEditForm({ onSubmit, values, onDelete }) {
     if (onDelete) {
       await onDelete(id);
     }
+  };
+  const handleImageChange = (event) => {
+    setImage(event.target.files[0]);
   };
 
   return (
@@ -135,12 +136,28 @@ function ProductDetailEditForm({ onSubmit, values, onDelete }) {
         </Grid>
 
         <Grid item xs={4}>
-          <SelectField
-            name="colorId"
-            label="Color"
-            form={form}
-            values={colors}
+          <SelectField name="colorId" label="Color" form={form} values={colors} />
+        </Grid>
+        <Grid item xs={4}>
+          <input
+            accept="image/*"
+            className={classes.input}
+            id="icon-button-file"
+            type="file"
+            onChange={handleImageChange}
           />
+          <label htmlFor="icon-button-file">
+            <Button
+              variant="contained"
+              color="default"
+              aria-label="upload picture"
+              component="span"
+              className={classes.upload}
+              startIcon={<CloudUploadIcon />}
+            >
+              Upload
+            </Button>
+          </label>
         </Grid>
 
         <Grid item xs={4}>
@@ -167,7 +184,7 @@ function ProductDetailEditForm({ onSubmit, values, onDelete }) {
           size="large"
           color="primary"
           className={classes.btn}
-          style={{ marginRight: "16px" }}
+          style={{ marginRight: '16px' }}
           type="submit"
         >
           Update

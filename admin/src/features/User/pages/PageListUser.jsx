@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import UserList from '../components/UserList';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import { useSelector } from 'react-redux';
 
 PageListUser.propTypes = {};
 
@@ -46,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
 function PageListUser(props) {
   const classes = useStyles();
   const history = useHistory();
+  const loggedInUser = useSelector((state) => state.user.current.data);
 
   const [userList, setUserList] = useState([]);
 

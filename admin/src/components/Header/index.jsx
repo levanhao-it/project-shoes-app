@@ -54,9 +54,15 @@ function Header(props) {
             </Typography>
           )}
           {isLoggedIn && (
-            <Typography className={classes.login} variant="h6" noWrap onClick={handleLogoutClick}>
-              Logout
-            </Typography>
+            <>
+              <Typography>
+                {' '}
+                Hi, <span>{loggedInUser.userName}</span>
+              </Typography>
+              <Typography className={classes.login} variant="h6" noWrap onClick={handleLogoutClick}>
+                Logout
+              </Typography>
+            </>
           )}
         </Toolbar>
       </AppBar>

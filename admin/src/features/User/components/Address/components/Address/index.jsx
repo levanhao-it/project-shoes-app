@@ -109,7 +109,10 @@ function Address({ address }) {
           onClick={handleClickOpenEdit}
         ></EditIcon> */}
         <Box className={classes.heading}>
-          <Typography className={classes.textHeading}>Address: {address.idAddress}</Typography>
+          <Typography className={classes.textHeading}>
+            Address: {address.id}{' '}
+            {address.defaultAddress ? <span style={{ color: '#ccc' }}> ( Default )</span> : ''}
+          </Typography>
         </Box>
         <Box>
           <ul className={classes.ul}>

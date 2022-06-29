@@ -1,4 +1,4 @@
-package com.huyhao.appshoes.payload.auth;
+package com.huyhao.appshoes.payload.productDetail.auth;
 
 import lombok.Builder;
 import lombok.Getter;
