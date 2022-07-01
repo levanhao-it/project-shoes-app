@@ -18,8 +18,8 @@ spring:
 
 app-shoes:
   token:
-    accessLifetimeMinutes: 1
-    refreshLifetimeMinutes: 2
+    accessLifetimeMinutes: 5
+    refreshLifetimeMinutes: 1440
   rememberMe:
     expiredDays: 30
 amazonProperties:

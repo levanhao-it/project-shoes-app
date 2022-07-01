@@ -2,18 +2,11 @@ import axios from "axios";
 import StorageKeys from "components/constant/storage-keys";
 import jwt_decode from "jwt-decode";
 import dayjs from "dayjs";
+import axiosPrivate from "./axiosPrivate";
 
 const baseURL = "http://localhost:8080/api/";
 
 const axiosClient = axios.create({
-  baseURL,
-  headers: {
-    "Content-Type": "application/json",
-  },
-  withCredentials: true,
-});
-
-const axiosPrivate = axios.create({
   baseURL,
   headers: {
     "Content-Type": "application/json",
@@ -28,7 +21,8 @@ axiosClient.interceptors.request.use(
     // Do something before request is sent
     if (
       config.url.indexOf("/login") >= 0 ||
-      config.url.indexOf("/token/refresh") >= 0
+      config.url.indexOf("/token/refresh") >= 0 ||
+      config.url.indexOf("/logout") >= 0
     ) {
       return config;
     }
@@ -65,10 +59,10 @@ axiosClient.interceptors.request.use(
 // Xử lí data sau khi response tu server
 axiosClient.interceptors.response.use(
   function (response) {
-    // Do something with response data
     return response.data;
   },
   function (error) {
+    // console.log(error.reponse);
     return Promise.reject(error);
   }
 );

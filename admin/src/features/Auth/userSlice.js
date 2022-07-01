@@ -1,8 +1,8 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import userApi from '../../components/api/userApi';
-import StorageKeys from '../../components/constant/storage-keys';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import userApi from "../../components/api/userApi";
+import StorageKeys from "../../components/constant/storage-keys";
 
-export const login = createAsyncThunk('user/login', async (payload) => {
+export const login = createAsyncThunk("user/login", async (payload) => {
   // call API to register user
   const data = await userApi.login(payload);
   const user = {
@@ -20,7 +20,7 @@ export const login = createAsyncThunk('user/login', async (payload) => {
   return user;
 });
 
-export const register = createAsyncThunk('user/register', async (payload) => {
+export const register = createAsyncThunk("user/register", async (payload) => {
   // call API to register user
   const data = await userApi.register(payload);
   // save data to cookie
@@ -29,15 +29,15 @@ export const register = createAsyncThunk('user/register', async (payload) => {
   return data;
 });
 
-export const logout = createAsyncThunk('user/logout', async () => {
-  const data = await userApi.logout();
+export const logout = createAsyncThunk("user/logout", async () => {
   localStorage.removeItem(StorageKeys.TOKEN);
   localStorage.removeItem(StorageKeys.USER);
+  const data = await userApi.logout();
   return data;
 });
 
 const userSlice = createSlice({
-  name: 'user',
+  name: "user",
   initialState: {
     current: JSON.parse(localStorage.getItem(StorageKeys.USER)) || {},
     settings: {},
