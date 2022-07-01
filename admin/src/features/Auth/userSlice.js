@@ -1,18 +1,26 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import userApi from '../../components/api/userApi';
-import StorageKeys from '../../components/constant/storage-keys';
-import Cookies from 'js-cookie';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import userApi from "../../components/api/userApi";
+import StorageKeys from "../../components/constant/storage-keys";
 
-export const login = createAsyncThunk('user/login', async (payload) => {
+export const login = createAsyncThunk("user/login", async (payload) => {
   // call API to register user
   const data = await userApi.login(payload);
+  const user = {
+    userName: data.data.userName,
+    email: data.data.email,
+    avatar: data.data.avatar,
+    role: data.data.role,
+  };
+
+  console.log(data.data.accessToken);
   // save data to cookie
-  Cookies.set(StorageKeys.TOKEN, data.data.accessToken);
+  localStorage.setItem(StorageKeys.TOKEN, data.data.accessToken);
+  localStorage.setItem(StorageKeys.USER, JSON.stringify(user));
   //return user data
-  return data;
+  return user;
 });
 
-export const register = createAsyncThunk('user/register', async (payload) => {
+export const register = createAsyncThunk("user/register", async (payload) => {
   // call API to register user
   const data = await userApi.register(payload);
   // save data to cookie
@@ -20,47 +28,21 @@ export const register = createAsyncThunk('user/register', async (payload) => {
   return data;
 });
 
-// export const edit = createAsyncThunk('user/edit', async (id, payload) => {
-//   console.log(id, payload);
-//   // call API to register user
-//   const data = await userApi.update(id, payload);
-//   // save data to cookie
-//   //return user data
-//   return data;
-// });
-
 const userSlice = createSlice({
-  name: 'user',
+  name: "user",
   initialState: {
-    current: { data: { accessToken: Cookies.get(StorageKeys.TOKEN) } } || {},
+    current: JSON.parse(localStorage.getItem(StorageKeys.USER)) || {},
     settings: {},
     loading: false,
     error: false,
   },
+
   reducers: {
-    loginStart: (state) => {
-      state.loading = true;
-    },
-
-    loginSuccess: (state, action) => {
-      state.loading = false;
-      state.current = action.payload;
-      state.error = false;
-    },
-    loginFailure: (state, action) => {
-      state.loading = false;
-      state.error = true;
-    },
-
     logout(state) {
       // clear cookie
-      Cookies.remove(StorageKeys.TOKEN);
-
-      state.current = {
-        data: {
-          accessToken: null,
-        },
-      };
+      localStorage.removeItem(StorageKeys.TOKEN);
+      localStorage.removeItem(StorageKeys.USER);
+      state.current = {};
     },
   },
   extraReducers: {

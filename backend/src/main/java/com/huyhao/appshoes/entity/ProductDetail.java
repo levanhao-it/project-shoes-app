@@ -19,7 +19,6 @@ public class ProductDetail extends BaseEntity{
     private int quantity;
     private Boolean status;
     private boolean active;
-
     private String imageLink;
 
     @ManyToOne()

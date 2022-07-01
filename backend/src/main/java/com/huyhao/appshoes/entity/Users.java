@@ -20,11 +20,11 @@ public class Users extends BaseEntity{
     private String fullName;
     private String email;
     private boolean active;
+    private String avatar;
 
     @ManyToOne()
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
-
 
     @JsonIgnore
     @OneToMany(mappedBy = "users")

@@ -1,22 +1,59 @@
-import axios from 'axios';
-import Cookies from 'js-cookie';
+import axios from "axios";
+import StorageKeys from "components/constant/storage-keys";
+import jwt_decode from "jwt-decode";
+import dayjs from "dayjs";
+
+const baseURL = "http://localhost:8080/api/";
 
 const axiosClient = axios.create({
-  baseURL: 'http://localhost:8080/api/',
+  baseURL,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
+  withCredentials: true,
+});
+
+const axiosPrivate = axios.create({
+  baseURL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+  withCredentials: true,
 });
 
 // Interceptors
 // Add a request interceptor
 axiosClient.interceptors.request.use(
-  function (config) {
+  async function (config) {
     // Do something before request is sent
-    const token = Cookies.get('access_token');
+    if (
+      config.url.indexOf("/login") >= 0 ||
+      config.url.indexOf("/token/refresh") >= 0
+    ) {
+      return config;
+    }
+
+    const token = localStorage.getItem(StorageKeys.TOKEN) || null;
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+
+    const user = jwt_decode(token);
+
+    const isExprired = dayjs.unix(user.exp).diff(dayjs()) < 1;
+    if (!isExprired) return config;
+
+    try {
+      const response = await axiosPrivate.get("token/refresh");
+      if (response.status === 200) {
+        const newToken = response.data.data.accessToken;
+        localStorage.setItem(StorageKeys.TOKEN, newToken);
+        config.headers.Authorization = `Bearer ${newToken}`;
+      }
+    } catch (error) {
+      // console.log("loi");
+    }
+
     return config;
   },
   function (error) {
@@ -24,48 +61,14 @@ axiosClient.interceptors.request.use(
     return Promise.reject(error);
   }
 );
-// Add a response interceptor
 
-let refresh = false;
+// Xử lí data sau khi response tu server
 axiosClient.interceptors.response.use(
   function (response) {
     // Do something with response data
     return response.data;
   },
   function (error) {
-    // Do something with response error
-    const { config, status, data } = error.response;
-
-    const URLS = ['/admin/login'];
-    if (URLS.includes(config.url) && status === 400) {
-      throw new Error(data.message);
-    }
-
-    if (status === 404) {
-      throw new Error(data.message);
-    }
-
-    // handle 403
-    if (status === 403) {
-      refresh = true;
-      console.log(refresh);
-      (async () => {
-        try {
-          const response = await axiosClient.get('http://localhost:8080/api/token/refresh');
-          console.log(response);
-          // if (response.status === 403) {
-          //   console.log(response);
-
-          //   Cookies.set('access_token', response.data.access_token, { expires: 7, path: '/' });
-          //   axiosClient.defaults.headers.common[
-          //     'Authorization'
-          //   ] = `Bearer ${response.data.access_token}`;
-          //   console.log('token', Cookies.get('access_token'));
-          //   return axiosClient(error);
-          // }
-        } catch (error) {}
-      })();
-    }
     return Promise.reject(error);
   }
 );

@@ -1,8 +1,8 @@
-import axiosClient from './axiosClient';
+import axiosClient from "./axiosClient";
 
 const productDetailApi = {
   login(data) {
-    const url = '/admin/login';
+    const url = "/admin/login";
     return axiosClient.post(url, data);
   },
 
@@ -10,18 +10,14 @@ const productDetailApi = {
     const url = `/admin/products/${id}`;
     return axiosClient.post(url, data, {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        "Content-Type": "application/",
       },
     });
   },
 
   update(idProduct, id, data) {
     const url = `/admin/products/${idProduct}/productDetails/${id}`;
-    return axiosClient.put(url, data, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+    return axiosClient.put(url, data);
   },
 
   remove(idProduct, id) {

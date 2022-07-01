@@ -1,29 +1,30 @@
-import Sidebar from './components/Sidebar';
+import Sidebar from "./components/Sidebar";
 
-import { makeStyles } from '@material-ui/core';
-import { Redirect, Route, Switch } from 'react-router-dom';
-import UserFeature from './features/User';
-import Header from './components/Header';
-import NotFound from './components/NotFound';
-import LoginFeature from './features/Auth';
-import ProductFeature from 'features/Product';
-import './App.css';
-import CategoryFeature from 'features/Category';
-import OrderFeature from 'features/Order';
-import { useSelector } from 'react-redux';
+import { makeStyles } from "@material-ui/core";
+import { Redirect, Route, Switch } from "react-router-dom";
+import UserFeature from "./features/User";
+import Header from "./components/Header";
+import NotFound from "./components/NotFound";
+import LoginFeature from "./features/Auth";
+import ProductFeature from "features/Product";
+import "./App.css";
+import CategoryFeature from "features/Category";
+import OrderFeature from "features/Order";
+import { useSelector } from "react-redux";
+import StorageKeys from "components/constant/storage-keys";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex',
+    display: "flex",
   },
   content: {
     flexGrow: 1,
-    marginTop: '64px',
+    marginTop: "64px",
   },
 }));
 function App() {
   const classes = useStyles();
-  const loggedInUser = useSelector((state) => state.user.current.data);
+  const loggedInUser = useSelector((state) => state.user.current);
 
   return (
     <div className="App">
@@ -31,7 +32,7 @@ function App() {
         <Header />
         <Sidebar />
         <div className={classes.content}>
-          {loggedInUser.accessToken ? (
+          {loggedInUser ? (
             <Switch>
               <Redirect from="/home" to="/" exact />
               <Route path="/users" component={UserFeature} />

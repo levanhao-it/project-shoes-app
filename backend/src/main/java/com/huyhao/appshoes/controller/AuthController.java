@@ -79,7 +79,8 @@ public class AuthController {
     }
 
     @GetMapping("/token/refresh")
-    public ResponseEntity<Object> refreshToken(@CookieValue(value = AppConstant.REFRESH_TOKEN_KEY, required = false)Cookie tokeCookie){
+    public ResponseEntity<Object> refreshToken(@CookieValue(value = AppConstant.REFRESH_TOKEN_KEY, required = false) Cookie tokeCookie){
+        log.error(String.valueOf(tokeCookie));
         if(tokeCookie == null || jwtProvider.isNoneValidRefreshToken(tokeCookie.getValue())){
             log.error("Fail to refresh token");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

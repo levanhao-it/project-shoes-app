@@ -35,6 +35,7 @@ public class ProductService {
     public final AmazonUtil amazonUtil;
 
     public ProductFilterResponse getProductList(String title, int page, int size, String[] sort) {
+
         List<Order> orders = new ArrayList<>();
         if(sort[0].contains(",")){
             for(String sortOrder: sort){
