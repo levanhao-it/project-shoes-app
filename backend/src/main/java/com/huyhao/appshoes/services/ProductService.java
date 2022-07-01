@@ -32,6 +32,7 @@ public class ProductService {
     public final ColorRepository colorRepository;
     public final SizeRepository sizeRepository;
 
+    public final RateRepository rateRepository;
     public final AmazonUtil amazonUtil;
 
     public ProductFilterResponse getProductList(String title, int page, int size, String[] sort) {
@@ -104,6 +105,17 @@ public class ProductService {
 
         List<ProductDetail> productDetails = productDetailRepository.getProductDetailListByProductId(productId);
 
+        double ratingAvg=0;
+        double rateCount=0;
+        List<Rate> rateList=rateRepository.findAllByProduct(product);
+        for (Rate r:rateList){
+            rateCount+=r.getRating();
+        }
+        if (rateCount>0) {
+            ratingAvg = rateCount / rateList.size();
+        }
+
+
         return ProductResponse.builder()
                 .id(product.getId())
                 .name(product.getName())
@@ -111,6 +123,7 @@ public class ProductService {
                 .categoryId(product.getCategory().getId())
                 .categoryName(product.getCategory().getName())
                 .originalPrice(product.getOriginalPrice())
+                .rating(ratingAvg)
                 .productDetailList(productDetails.stream().map(e -> ProductDetailResponse.builder()
                         .id(e.getId())
                         .salePrice(e.getSalePrice())

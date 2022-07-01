@@ -20,4 +20,5 @@ public class ProductResponse {
     private String categoryName;
     private Double originalPrice;
     private List<ProductDetailResponse> productDetailList;
+    private double rating;
 }

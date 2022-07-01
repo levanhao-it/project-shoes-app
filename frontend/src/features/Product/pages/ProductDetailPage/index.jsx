@@ -5,6 +5,8 @@ import ProductInfo from '../../components/ProductInfo';
 import ProductRecomend from '../../components/ProductRecomend';
 import ProductSidebar from '../../components/ProductSidebar';
 import { Helmet } from 'react-helmet-async';
+import { useRouteMatch } from 'react-router-dom';
+import useProductDetail from 'features/Product/hooks/useProductDetail';
 
 ProductDetailPage.propTypes = {};
 
@@ -23,6 +25,12 @@ const useStyle = makeStyles((theme) => ({
 
 function ProductDetailPage(props) {
   const classes = useStyle();
+  const {
+    params: { productId },
+    url,
+  } = useRouteMatch();
+  const { product, loading } = useProductDetail(productId);
+
   return (
     <div className={classes.root}>
       <Helmet>
@@ -32,11 +40,11 @@ function ProductDetailPage(props) {
       <Hidden smDown>
         <Grid container spacing={0}>
           <Grid item xs={12} md={8} lg={8}>
-            <ProductInfo />
+            <ProductInfo product={product} />
           </Grid>
 
           <Grid item xs={12} md={4} lg={4}>
-            <ProductSidebar />
+            <ProductSidebar product={product} />
           </Grid>
 
           <Grid item xs={12} md={12} lg={12}>
@@ -49,7 +57,7 @@ function ProductDetailPage(props) {
       <Hidden mdUp>
         <Grid container spacing={0}>
           <Grid item xs={12} sm={12}>
-            <ProductSidebar />
+            <ProductSidebar product={product} />
           </Grid>
 
           <Box className={classes.tabsMobile}>

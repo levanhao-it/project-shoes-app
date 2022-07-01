@@ -51,7 +51,7 @@ function ProductDetailAddForm({ onSubmit }) {
   const [sizes, setSizes] = useState([]);
   const [colors, setColors] = useState([]);
   const [checked, setChecked] = useState(false);
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState({});
 
   const {
     params: { productId },
@@ -64,6 +64,7 @@ function ProductDetailAddForm({ onSubmit }) {
       quantity: '',
       sizeId: '',
       colorId: '',
+      file: '',
     },
     mode: 'onBlur',
     resolver: yupResolver(schema),
@@ -133,6 +134,7 @@ function ProductDetailAddForm({ onSubmit }) {
             type="file"
             onChange={handleImageChange}
           />
+
           <label htmlFor="icon-button-file">
             <Button
               variant="contained"
@@ -144,6 +146,7 @@ function ProductDetailAddForm({ onSubmit }) {
             >
               Upload
             </Button>
+            <span>{image.name}</span>
           </label>
         </Grid>
         <Grid item xs={4}>

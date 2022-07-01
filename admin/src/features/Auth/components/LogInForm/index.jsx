@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
     position: 'absolute',
     top: '25%',
-    left: '50%',
+    left: '42%',
     marginTop: '-50px',
     marginLeft: '-50px',
     boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',

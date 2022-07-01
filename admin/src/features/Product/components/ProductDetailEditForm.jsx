@@ -61,7 +61,7 @@ function ProductDetailEditForm({ onSubmit, values, onDelete }) {
   const [colors, setColors] = useState([]);
   const [sizes, setSizes] = useState([]);
   const [checked, setChecked] = useState(values.status);
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState({});
 
   const handleChange = (event) => {
     setChecked(event.target.checked);
@@ -157,6 +157,7 @@ function ProductDetailEditForm({ onSubmit, values, onDelete }) {
             >
               Upload
             </Button>
+            <span>{image.name}</span>
           </label>
         </Grid>
 

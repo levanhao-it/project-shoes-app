@@ -1,20 +1,21 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { Box, Grid, Typography, Button, makeStyles, IconButton, Hidden } from '@material-ui/core';
-import { Rating } from '@material-ui/lab';
-import StraightenIcon from '@material-ui/icons/Straighten';
+import { Box, Button, Hidden, makeStyles, Typography } from '@material-ui/core';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
+import StraightenIcon from '@material-ui/icons/Straighten';
+import { Rating } from '@material-ui/lab';
 import ButtonActive from 'components/component-custom/ButtonActive';
+import PropTypes from 'prop-types';
+import { useState } from 'react';
 import ProductSilder from '../ProductSlider';
-ProductSidebar.propTypes = {};
+ProductSidebar.propTypes = {
+  product: PropTypes.object,
+};
 
 const useStyle = makeStyles((theme) => ({
   root: {
     padding: '30px 0 0 40px',
     [theme.breakpoints.down('sm')]: {
       padding: '0',
-    }
+    },
   },
   productName: {
     margin: '20px 0 10px',
@@ -58,7 +59,7 @@ const useStyle = makeStyles((theme) => ({
       cursor: 'pointer',
       backgroundColor: '#000',
       color: '#fff',
-    }
+    },
   },
 
   buttonCart: {
@@ -69,10 +70,10 @@ const useStyle = makeStyles((theme) => ({
     fontSize: '16px',
     fontWeight: '600',
     '&:hover': {
-      backgroundColor: "#000",
+      backgroundColor: '#000',
       color: '#ccc',
-      opacity: '0.7'
-    }
+      opacity: '0.7',
+    },
   },
   buttonHeart: {
     width: '100%',
@@ -103,78 +104,63 @@ const useStyle = makeStyles((theme) => ({
     },
   },
   containerButton: {
-    margin: '15px 0 0 10px'
+    margin: '15px 0 0 10px',
   },
   wishList: {
-    fontWeight: 'bold'
-  }
+    fontWeight: 'bold',
+  },
 }));
 
-function ProductSidebar(props) {
+function ProductSidebar({ product = {} }) {
   const classes = useStyle();
-  const [value, setValue] = useState(2);
+
+  const listDetail = product.productDetailList;
   return (
     <div className={classes.root}>
       <Box display="flex" justifyContent="space-between">
         <Typography variant="body2" component="h3">
-          Basketball
+          {product.categoryName}
         </Typography>
-        <Rating
-          name="simple-controlled"
-          value={value}
-          readOnly
-          onChange={(event, newValue) => {
-            setValue(newValue);
-          }}
-        />
+        <Rating name="simple-controlled" value={product.rating} readOnly />
       </Box>
 
       <Box mt={2}>
         <Typography variant="h4" className={classes.productName}>
-          HARDEN VOL. 6 SHOES
+          {product.name}
         </Typography>
         <Typography variant="h5" className={classes.productPrice}>
-          $140
+          ${product.originalPrice}
         </Typography>
       </Box>
-      
+
       <Hidden mdUp>
         <ProductSilder />
       </Hidden>
-      
+
       <Hidden smDown>
         <Box>
           <Typography variant="p" className={classes.title} gutterBottom>
             Quick review
           </Typography>
           <Typography variant="p" className={classes.reviewDesc} gutterBottom>
-            The Nike Free RN 2017 Men's Running Shoe weighs less than previous versions and features
-            an updated knit material…
+            {product.description}
           </Typography>
         </Box>
       </Hidden>
-      
 
       <Box>
         <Typography variant="p" className={classes.title} gutterBottom>
           Choose your styles
         </Typography>
         <Box>
-          <img
-            src="http://nouthemes.net/html/trueshoes/images/shoe/sidebar/1.jpg"
-            className={classes.imgStyle}
-            alt=""
-          />
-          <img
-            src="http://nouthemes.net/html/trueshoes/images/shoe/sidebar/2.jpg"
-            className={classes.imgStyle}
-            alt=""
-          />
-          <img
-            src="http://nouthemes.net/html/trueshoes/images/shoe/sidebar/3.jpg"
-            className={classes.imgStyle}
-            alt=""
-          />
+          {listDetail.map((productDetail) => (
+            <img
+              key={productDetail.id}
+              src={productDetail.linkImg}
+              className={classes.imgStyle}
+              alt=""
+            />
+          ))}
         </Box>
       </Box>
 
@@ -191,28 +177,23 @@ function ProductSidebar(props) {
           </Box>
         </Box>
 
-        <Box component='ul' className={classes.listSize}>
-          <li className={classes.size}>4</li>
-          <li className={classes.size}>4.5</li>
-          <li className={classes.size}>5</li>
-          <li className={classes.size}>5.5</li>
-          <li className={classes.size}>6</li>
-          <li className={classes.size}>6.5</li>
-          <li className={classes.size}>7</li>
-          <li className={classes.size}>7.5</li>
-          <li className={classes.size}>8</li>
-          <li className={classes.size}>8.5</li>
-          <li className={classes.size}>9</li>
-          <li className={classes.size}>9.5</li>
+        <Box component="ul" className={classes.listSize}>
+          {listDetail.map((productDetail) => (
+            <li key={productDetail.id} className={classes.size}>
+              {productDetail.size}
+            </li>
+          ))}
         </Box>
       </Box>
 
       <Box mt={3}>
-          <ButtonActive content="Add to cart" className={classes.btnActive}/>
-          <Button variant="outlined" className={classes.buttonHeart} >
-            <Typography  variant='button' component='p' className={classes.wishList}>Add to wishList</Typography>
-            <FavoriteBorderIcon fontSize="large" />
-          </Button>
+        <ButtonActive content="Add to cart" className={classes.btnActive} />
+        <Button variant="outlined" className={classes.buttonHeart}>
+          <Typography variant="button" component="p" className={classes.wishList}>
+            Add to wishList
+          </Typography>
+          <FavoriteBorderIcon fontSize="large" />
+        </Button>
       </Box>
     </div>
   );
