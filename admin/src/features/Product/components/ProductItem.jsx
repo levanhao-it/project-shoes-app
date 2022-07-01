@@ -122,50 +122,6 @@ function ProductItem({ row }) {
             {open ? <KeyboardArrowRightIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell>
-          <Box>
-            <Swiper className="mySwiper">
-              {/* {row.imageList.map((x) => {
-              return (
-                <SwiperSlide>
-                  <Box className={classes.silderImg}>
-                    <img src={x} alt="" width="50px" height="50px" />
-                  </Box>
-                </SwiperSlide>
-              );
-            })} */}
-              <SwiperSlide>
-                <Box className={classes.silderImg}>
-                  <img
-                    src="http://nouthemes.net/html/trueshoes/images/shoe-detail/1.jpg"
-                    alt=""
-                    width="100%"
-                  />
-                </Box>
-              </SwiperSlide>
-
-              <SwiperSlide>
-                <Box className={classes.silderImg}>
-                  <img
-                    src="http://nouthemes.net/html/trueshoes/images/shoe-detail/2.jpg"
-                    alt=""
-                    width="100%"
-                  />
-                </Box>
-              </SwiperSlide>
-
-              <SwiperSlide>
-                <Box className={classes.silderImg}>
-                  <img
-                    src="http://nouthemes.net/html/trueshoes/images/shoe-detail/3.jpg"
-                    alt=""
-                    width="100%"
-                  />
-                </Box>
-              </SwiperSlide>
-            </Swiper>
-          </Box>
-        </TableCell>
         {columns.map((column) => {
           const value = row[column.id];
           return (

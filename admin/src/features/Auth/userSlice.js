@@ -1,8 +1,8 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import userApi from "../../components/api/userApi";
-import StorageKeys from "../../components/constant/storage-keys";
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import userApi from '../../components/api/userApi';
+import StorageKeys from '../../components/constant/storage-keys';
 
-export const login = createAsyncThunk("user/login", async (payload) => {
+export const login = createAsyncThunk('user/login', async (payload) => {
   // call API to register user
   const data = await userApi.login(payload);
   const user = {
@@ -20,37 +20,51 @@ export const login = createAsyncThunk("user/login", async (payload) => {
   return user;
 });
 
-export const register = createAsyncThunk("user/register", async (payload) => {
+export const register = createAsyncThunk('user/register', async (payload) => {
   // call API to register user
   const data = await userApi.register(payload);
   // save data to cookie
   //return user data
+
+  return data;
+});
+
+export const logout = createAsyncThunk('user/logout', async () => {
+  const data = await userApi.logout();
+  localStorage.removeItem(StorageKeys.TOKEN);
+  localStorage.removeItem(StorageKeys.USER);
   return data;
 });
 
 const userSlice = createSlice({
-  name: "user",
+  name: 'user',
   initialState: {
     current: JSON.parse(localStorage.getItem(StorageKeys.USER)) || {},
     settings: {},
+    isLoggedIn: !!localStorage.getItem(StorageKeys.TOKEN),
     loading: false,
     error: false,
   },
 
   reducers: {
-    logout(state) {
-      // clear cookie
-      localStorage.removeItem(StorageKeys.TOKEN);
-      localStorage.removeItem(StorageKeys.USER);
-      state.current = {};
-    },
+    // logout(state) {
+    //   // clear cookie
+    //   localStorage.removeItem(StorageKeys.TOKEN);
+    //   localStorage.removeItem(StorageKeys.USER);
+    //   state.current = {};
+    // },
   },
   extraReducers: {
     [login.fulfilled]: (state, action) => {
       state.current = action.payload;
+      state.isLoggedIn = true;
+    },
+    [logout.fulfilled]: (state, action) => {
+      state.current = {};
+      state.isLoggedIn = false;
     },
   },
 });
 const { actions, reducer } = userSlice;
-export const { loginStart, loginSuccess, loginFailure, logout } = actions;
+export const { loginStart, loginSuccess, loginFailure } = actions;
 export default reducer;

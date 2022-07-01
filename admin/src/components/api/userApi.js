@@ -32,5 +32,10 @@ const userApi = {
     const url = `/admin/users/${id}`;
     return axiosClient.delete(url);
   },
+
+  logout() {
+    const url = '/logout';
+    return axiosClient.get(url);
+  },
 };
 export default userApi;

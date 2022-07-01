@@ -98,7 +98,7 @@ function ProductList({ data }) {
             <TableHead>
               <TableRow>
                 <TableCell></TableCell>
-                <TableCell style={{ minWidth: '150px' }}></TableCell>
+
                 {columns.map((column) => (
                   <TableCell
                     key={column.id}
