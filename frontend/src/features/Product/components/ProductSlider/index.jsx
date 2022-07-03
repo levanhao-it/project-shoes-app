@@ -1,35 +1,38 @@
 import { Box, makeStyles } from '@material-ui/core';
 import React from 'react';
-import { Autoplay, Navigation, Pagination } from "swiper";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Navigation, Pagination } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import PropTypes from 'prop-types';
+
 import './styles.scss';
 
 ProductSilder.propTypes = {
-  
+  product: PropTypes.object,
 };
 
-const useStyle = makeStyles((theme)=> ({
+const useStyle = makeStyles((theme) => ({
   silderImg: {
     width: '600px',
     margin: 'auto',
     [theme.breakpoints.down('sm')]: {
-      width: '100%'
-    }
+      width: '100%',
+    },
   },
-}))
+}));
 
-function ProductSilder(props) {
+function ProductSilder({ product = {} }) {
+  const listDetail = product.productDetailList || [];
+
   const classes = useStyle();
   return (
-    <div className='product-slider'>
-       <Swiper
+    <div className="product-slider">
+      <Swiper
         slidesPerView={1}
         spaceBetween={30}
         loop={true}
         auto
         pagination={{
           clickable: true,
-          
         }}
         autoplay={{
           delay: 2000,
@@ -38,25 +41,14 @@ function ProductSilder(props) {
         navigation={true}
         modules={[Pagination, Navigation, Autoplay]}
         className="mySwiper"
-        
       >
-        <SwiperSlide>
-          <Box className={classes.silderImg}>
-            <img src="http://nouthemes.net/html/trueshoes/images/shoe-detail/1.jpg" alt="" width="100%"/>
-          </Box>
-        </SwiperSlide>
-
-        <SwiperSlide>
-          <Box className={classes.silderImg}>
-            <img src="http://nouthemes.net/html/trueshoes/images/shoe-detail/2.jpg" alt="" width="100%"/>
-          </Box>
-        </SwiperSlide>
-
-        <SwiperSlide>
-          <Box  className={classes.silderImg}>
-            <img src="http://nouthemes.net/html/trueshoes/images/shoe-detail/3.jpg" alt="" width="100%"/>
-          </Box>
-        </SwiperSlide>
+        {listDetail.map((item, index) => (
+          <SwiperSlide key={index}>
+            <Box className={classes.silderImg}>
+              <img src={item.linkImg} alt="" width="100%" />
+            </Box>
+          </SwiperSlide>
+        ))}
       </Swiper>
     </div>
   );

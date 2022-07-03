@@ -1,45 +1,45 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Accordion, AccordionDetails, AccordionSummary, Box, makeStyles, Typography } from '@material-ui/core';
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+  makeStyles,
+  Typography,
+} from '@material-ui/core';
 import ProductReviewList from './ProductReviewList';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 ProductTabsMobile.propTypes = {
-  
+  product: PropTypes.object,
 };
 
 const useStyle = makeStyles((theme) => ({
   heading: {
-    fontWeight: 'bold'
-  }
-}))
+    fontWeight: 'bold',
+  },
+}));
 
-function ProductTabsMobile(props) {
-  const classes = useStyle()
+function ProductTabsMobile({ product = {} }) {
+  const classes = useStyle();
 
   return (
     <Box>
       <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-        >
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography className={classes.heading}>OVERVIEW</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget.
-          </Typography>
+          <Typography>{product.description}</Typography>
         </AccordionDetails>
       </Accordion>
       <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-        >
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography className={classes.heading}>REVIEW</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <ProductReviewList />
+          <ProductReviewList product={product} />
         </AccordionDetails>
       </Accordion>
     </Box>

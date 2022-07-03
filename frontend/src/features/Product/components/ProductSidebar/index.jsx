@@ -113,15 +113,16 @@ const useStyle = makeStyles((theme) => ({
 
 function ProductSidebar({ product = {} }) {
   const classes = useStyle();
+  const listDetail = product.productDetailList || [];
 
-  const listDetail = product.productDetailList;
   return (
     <div className={classes.root}>
       <Box display="flex" justifyContent="space-between">
         <Typography variant="body2" component="h3">
           {product.categoryName}
         </Typography>
-        <Rating name="simple-controlled" value={product.rating} readOnly />
+        <p>{product.rating}</p>
+        <Rating name="read-only" value={product.rating} precision={0.5} readOnly size="medium" />
       </Box>
 
       <Box mt={2}>
@@ -134,7 +135,7 @@ function ProductSidebar({ product = {} }) {
       </Box>
 
       <Hidden mdUp>
-        <ProductSilder />
+        <ProductSilder product={product} />
       </Hidden>
 
       <Hidden smDown>
@@ -153,7 +154,7 @@ function ProductSidebar({ product = {} }) {
           Choose your styles
         </Typography>
         <Box>
-          {listDetail.map((productDetail) => (
+          {listDetail?.map((productDetail) => (
             <img
               key={productDetail.id}
               src={productDetail.linkImg}
@@ -178,7 +179,7 @@ function ProductSidebar({ product = {} }) {
         </Box>
 
         <Box component="ul" className={classes.listSize}>
-          {listDetail.map((productDetail) => (
+          {listDetail?.map((productDetail) => (
             <li key={productDetail.id} className={classes.size}>
               {productDetail.size}
             </li>

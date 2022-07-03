@@ -1,21 +1,53 @@
-import axios from "axios";
-import Cookies from "js-cookie";
+import axios from 'axios';
+
+import jwt_decode from 'jwt-decode';
+import dayjs from 'dayjs';
+import axiosPrivate from './axiosPrivate';
+import StorageKeys from 'constant/storage-keys';
 
 const axiosClient = axios.create({
-  baseURL: "http://localhost:8080/api/",
+  baseURL: 'http://localhost:8080/api/',
   headers: {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   },
+  // withCredentials: true,
 });
 
 // Interceptors
 // Add a request interceptor
 axiosClient.interceptors.request.use(
-  function (config) {
+  async function (config) {
     // Do something before request is sent
-    const token = Cookies.get("token");
+    if (
+      config.url.indexOf('login') >= 0 ||
+      config.url.indexOf('token/refresh') >= 0 ||
+      config.url.indexOf('logout') >= 0 ||
+      config.url.indexOf('public/products') >= 0 ||
+      config.url.indexOf('public/rate') >= 0 ||
+      config.url.indexOf('public/categories') >= 0
+    ) {
+      return config;
+    }
+
+    const token = localStorage.getItem(StorageKeys.TOKEN) || null;
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
+    }
+
+    const user = jwt_decode(token);
+
+    const isExprired = dayjs.unix(user.exp).diff(dayjs()) < 1;
+    if (!isExprired) return config;
+
+    try {
+      const response = await axiosPrivate.get('token/refresh');
+      if (response.status === 200) {
+        const newToken = response.data.data.accessToken;
+        localStorage.setItem(StorageKeys.TOKEN, newToken);
+        config.headers.Authorization = `Bearer ${newToken}`;
+      }
+    } catch (error) {
+      // console.log("loi");
     }
     return config;
   },
@@ -26,7 +58,6 @@ axiosClient.interceptors.request.use(
 );
 
 // Add a response interceptor
-let refresh = false;
 axiosClient.interceptors.response.use(
   function (response) {
     // Do something with response data
@@ -34,31 +65,10 @@ axiosClient.interceptors.response.use(
   },
   function (error) {
     // Do something with response error
-    const { config, status, data } = error.response;
-    console.log(data);
-    const URLS = ["/register", "/login"];
-    if (URLS.includes(config.url) && status === 400) {
-      throw new Error(data.message);
-    }
+    const { status, data } = error.response;
 
-    // handle 403 error
-    if (status === 403 && !refresh) {
-      refresh = true;
-      const token = Cookies.get("token");
-      const data = {
-        token,
-      };
-      return axiosClient
-        .post("/token/refresh", data)
-        .then((res) => {
-          Cookies.set("token", res.data.token);
-          refresh = false;
-          config.headers.Authorization = `Bearer ${res.data.token}`;
-          return axiosClient(config);
-        })
-        .catch((err) => {
-          throw new Error(err);
-        });
+    if (status === 400 || status === 404) {
+      throw new Error(data.message);
     }
     return Promise.reject(error);
   }

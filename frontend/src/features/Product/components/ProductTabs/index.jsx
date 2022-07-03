@@ -49,18 +49,18 @@ const useStyles = makeStyles((theme) => ({
     marginTop: '60px',
   },
   tabTitle: {
-      fontSize: '16px',
-      fontWeight: '700',
-      color: '#626262'
+    fontSize: '16px',
+    fontWeight: '700',
+    color: '#626262',
   },
   tabList: {
     boxShadow: 'none',
     backgroundColor: '#fff',
-    borderBottom: '1px solid #ccc'
+    borderBottom: '1px solid #ccc',
   },
   titleRating: {
     fontSize: '14px',
-    marginLeft: '10px'
+    marginLeft: '10px',
   },
   commentLink: {
     fontSize: '14px',
@@ -68,11 +68,15 @@ const useStyles = makeStyles((theme) => ({
     color: '#000',
     marginTop: '6px',
     cursor: 'pointer',
-    display: 'inline-block'
-  }
+    display: 'inline-block',
+  },
 }));
 
-export default function ProductTabs() {
+ProductTabs.propTypes = {
+  product: PropTypes.object,
+};
+
+export default function ProductTabs({ product = {} }) {
   const classes = useStyles();
   const [value, setValue] = useState(0);
 
@@ -100,13 +104,10 @@ export default function ProductTabs() {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        <Typography variant='body2'>
-        Caramels tootsie roll carrot cake sugar plum. Sweet roll jelly bear claw liquorice. Gingerbread lollipop dragée cake. Pie topping jelly-o. Fruitcake dragée candy canes tootsie roll. Pastry jelly-o cupcake. Bonbon brownie soufflé muffin.
-  Sweet roll soufflé oat cake apple pie croissant. Pie gummi bears jujubes cake lemon drops gummi bears croissant macaroon pie. Fruitcake tootsie roll chocolate cake Carrot cake cake bear claw jujubes topping cake apple pie. Jujubes gummi bears soufflé candy canes topping gummi bears cake soufflé cake. Cotton candy soufflé sugar plum pastry sweet roll..
-        </Typography>
+        <Typography variant="body2">{product.description}</Typography>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <ProductReviewList />
+        <ProductReviewList product={product} />
       </TabPanel>
       <TabPanel value={value} index={2}>
         Item Three
@@ -117,4 +118,3 @@ export default function ProductTabs() {
     </div>
   );
 }
-

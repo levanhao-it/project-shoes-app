@@ -16,6 +16,7 @@ import Register from 'features/Auth/components/Register';
 import { logout } from 'features/Auth/userSlice';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 HeaderAuthentic.propTypes = {};
 
@@ -87,12 +88,10 @@ const MODE = {
 
 function HeaderAuthentic(props) {
   const dispatch = useDispatch();
-  const loggedInUser = useSelector((state) => state.user.current.data);
-  console.log(loggedInUser);
+  const history = useHistory();
+  const loggedInUser = useSelector((state) => state.user.isLoggedIn);
 
-  const isLoggedIn = !!loggedInUser.accessToken;
-  console.log(isLoggedIn);
-
+  const isLoggedIn = !!loggedInUser;
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState(MODE.LOGIN);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -116,6 +115,7 @@ function HeaderAuthentic(props) {
   const handleLogoutClick = () => {
     const action = logout();
     dispatch(action);
+    history.push('/');
   };
 
   const handleClickLogin = () => {

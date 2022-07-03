@@ -1,18 +1,16 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import ProductSilder from '../ProductSlider';
 import ProductTabs from '../ProductTabs';
-import ProductRecomend from '../ProductRecomend';
 
 ProductInfo.propTypes = {
-  
+  product: PropTypes.object,
 };
 
-function ProductInfo(props) {
+function ProductInfo({ product = {} }) {
   return (
     <div>
-      <ProductSilder />
-      <ProductTabs />
+      <ProductSilder product={product} />
+      <ProductTabs product={product} />
     </div>
   );
 }

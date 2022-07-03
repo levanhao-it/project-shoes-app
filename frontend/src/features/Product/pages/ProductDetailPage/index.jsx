@@ -42,7 +42,6 @@ function ProductDetailPage(props) {
           <Grid item xs={12} md={8} lg={8}>
             <ProductInfo product={product} />
           </Grid>
-
           <Grid item xs={12} md={4} lg={4}>
             <ProductSidebar product={product} />
           </Grid>
