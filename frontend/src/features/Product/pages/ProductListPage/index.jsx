@@ -1,18 +1,13 @@
-import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
-import {
-  Box,
-  Container,
-  Grid,
-  makeStyles,
-  Typography,
-} from "@material-ui/core";
+import { Box, Container, makeStyles } from "@material-ui/core";
+import { useEffect, useState } from "react";
 
+import { Pagination } from "@material-ui/lab";
+import productApi from "api/productApi";
+import OfferBanner from "components/OfferBanner";
 import FilterAndSort from "features/Product/components/FilterAndSort";
 import ProductList from "features/Product/components/ProductList";
-import ProductPagination from "features/Product/components/ProductPagination";
-import OfferBanner from "components/OfferBanner";
-import productApi from "api/productApi";
+import ProductSkeletonList from "features/Product/components/ProductSkeletonList";
+import "./styles.scss";
 
 ProductListPage.propTypes = {};
 const useStyles = makeStyles((theme) => ({
@@ -28,9 +23,13 @@ const useStyles = makeStyles((theme) => ({
     flex: "1 1 0",
   },
 
-  boxPagination: {
-    width: "415px",
-    margin: " auto",
+  pagination: {
+    display: "flex",
+    flexFlow: "row nowrap",
+    justifyContent: "center",
+
+    marginTop: theme.spacing(5),
+    paddingBottom: theme.spacing(3),
   },
   filter: {
     float: "right",
@@ -41,28 +40,63 @@ const useStyles = makeStyles((theme) => ({
 function ProductListPage(props) {
   const classes = useStyles();
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [filters, setFilters] = useState({
+    size: 3,
+    page: 1,
+    sort: "createdDate,desc",
+  });
+  const [pagination, setPagination] = useState({
+    total: 10,
+    page: 1,
+  });
 
   useEffect(() => {
     (async () => {
       try {
-        const response = await productApi.getAll({ size: 10, page: 1 });
-        setProducts(response.data.products);
+        const { data } = await productApi.getAll(filters);
+        setProducts(data.products);
+        console.log(data.products);
+        setPagination({
+          total: data.totalPages,
+          page: data.currentPage,
+        });
       } catch (error) {
         console.log("Failed to fetch products", error);
       }
+      setLoading(false);
     })();
-  }, []);
+  }, [filters]);
+
+  const handlePageChange = (e, page) => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      page,
+    }));
+  };
+
+  const handleFiltersChange = (newFilters) => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      ...newFilters,
+    }));
+  };
 
   return (
     <Box className={classes.root}>
       <Container maxWidth="lg" fixed>
         <OfferBanner />
         <Box className={classes.filter}>
-          <FilterAndSort />
+          <FilterAndSort filters={filters} onChange={handleFiltersChange} />
         </Box>
-        <ProductList data={products} />
-        <Box paddingBottom={7} className={classes.boxPagination}>
-          <ProductPagination />
+        {loading ? <ProductSkeletonList /> : <ProductList data={products} />}
+        <Box className={classes.pagination}>
+          <Pagination
+            count={pagination.total}
+            page={pagination.page}
+            className="pagination"
+            onChange={handlePageChange}
+          />
         </Box>
       </Container>
     </Box>

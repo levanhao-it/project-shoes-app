@@ -156,7 +156,7 @@ function Product(props) {
                 component="p"
                 className={classes.banPrice}
               >
-                {data.originalPrice}$
+                ${data.originalPrice}
               </Typography>
 
               <Typography
@@ -164,12 +164,12 @@ function Product(props) {
                 component="p"
                 className={classes.salePrice}
               >
-                {priceSale}$
+                ${priceSale}
               </Typography>
             </>
           ) : (
             <Typography variant="p" component="p">
-              {data.originalPrice}$
+              ${data.originalPrice}
             </Typography>
           )}
         </Box>

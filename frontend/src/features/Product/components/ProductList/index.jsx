@@ -13,19 +13,17 @@ ProductList.defaultProps = {
 
 function ProductList({ data }) {
   return (
-    <div>
-      <Box paddingBottom={2}>
-        <Grid container>
-          {data.map((product) => {
-            return (
-              <Grid item xs={12} sm={6} md={4} lg={3} key={product.id}>
-                <Product data={product} />
-              </Grid>
-            );
-          })}
-        </Grid>
-      </Box>
-    </div>
+    <Box paddingBottom={2}>
+      <Grid container>
+        {data.map((product) => {
+          return (
+            <Grid item xs={12} sm={6} md={4} lg={3} key={product.id}>
+              <Product data={product} />
+            </Grid>
+          );
+        })}
+      </Grid>
+    </Box>
   );
 }
 

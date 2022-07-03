@@ -51,7 +51,12 @@ public class ProductAdminController {
     }
 
     @PutMapping("/{productId}/productDetails/{productDetailId}")
-    public ResponseEntity<?> updateProductDetail(@PathVariable Long productId, @PathVariable Long productDetailId, @RequestPart(value = "productDetailRequest") String productDetailRequest, @RequestPart(value = "fileImg")MultipartFile fileImg){
+    public ResponseEntity<?> updateProductDetail(
+            @PathVariable Long productId,
+            @PathVariable Long productDetailId,
+            @RequestPart(value = "productDetailRequest") String productDetailRequest,
+            @RequestPart(value = "fileImg", required = false) MultipartFile fileImg)
+    {
         try {
             productService.updateProductDetail(productId, productDetailId,fileImg, productDetailRequest);
             return ResponseEntity.ok(ResponseCommon.success(""));

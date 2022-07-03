@@ -252,8 +252,10 @@ public class ProductService {
                     .orElseThrow(() -> new IllegalArgumentException("Not found size from sizeId"));
             productDetail.setSize(size);
         }
+        if(fileImg != null){
+            productDetail.setImageLink(amazonUtil.uploadFile(fileImg));
+        }
 
-        productDetail.setImageLink(amazonUtil.uploadFile(fileImg));
 
         productDetail.setProduct(product);
 
