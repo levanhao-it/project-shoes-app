@@ -4,9 +4,10 @@ import { Rating } from '@material-ui/lab';
 import { Box, Link, makeStyles, Typography } from '@material-ui/core';
 import { useEffect } from 'react';
 import rateApi from 'api/rateApi';
+import moment from 'moment';
 
 ProductReview.propTypes = {
-  product: PropTypes.object,
+  rateList: PropTypes.array,
 };
 
 const useStyle = makeStyles((theme) => ({
@@ -32,19 +33,11 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 
-function ProductReview({ product = {} }) {
-  const [rateList, setRate] = useState([]);
-  useEffect(() => {
-    (async () => {
-      try {
-        const result = await rateApi.getById(product.id);
-        setRate(result.data);
-      } catch (error) {
-        console.log('Failed to fetch rate', error);
-      }
-    })();
-  }, [product.id]);
+function formatContent(content) {
+  return content.split('\n');
+}
 
+function ProductReview({ rateList = [] }) {
   const classes = useStyle();
   return (
     <div className={classes.root}>
@@ -57,12 +50,17 @@ function ProductReview({ product = {} }) {
               <Typography display="inline" variant="p" className={classes.commentName}>
                 {item.userName}
               </Typography>{' '}
-              {item.modifyDate}
+              {moment(item.modifyDate).format('LLLL')}
             </Typography>
           </Box>
 
           <Typography variant="p" className={classes.commentContent} gutterBottom>
-            {item.content}
+            {formatContent(item.content).map((item, index) => (
+              <span key={index}>
+                {item}
+                <br />
+              </span>
+            ))}
           </Typography>
         </Box>
       ))}

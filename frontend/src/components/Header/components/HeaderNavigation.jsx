@@ -1,4 +1,14 @@
-import { Badge, Box, Divider, Drawer, Hidden, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
+import {
+  Badge,
+  Box,
+  Divider,
+  Drawer,
+  Hidden,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+} from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import InputBase from '@material-ui/core/InputBase';
 import { makeStyles } from '@material-ui/core/styles';
@@ -14,6 +24,8 @@ import ReceiptIcon from '@material-ui/icons/Receipt';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import CloseIcon from '@material-ui/icons/Close';
+import { useSelector } from 'react-redux';
+import { cartItemsCountSelector } from 'features/Cart/selector';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,18 +36,18 @@ const useStyles = makeStyles((theme) => ({
 
     padding: theme.spacing(0, 4),
     [theme.breakpoints.down('sm')]: {
-      padding: theme.spacing(0,2)
+      padding: theme.spacing(0, 2),
     },
 
     [theme.breakpoints.up('xs')]: {
-      padding: theme.spacing(0,2)
+      padding: theme.spacing(0, 2),
     },
-    height: `${HEADER_NAVIGATION}`
+    height: `${HEADER_NAVIGATION}`,
   },
 
   drawer: {
     width: '320px',
-    maxWidth: '100%'
+    maxWidth: '100%',
   },
 
   right: {
@@ -45,24 +57,24 @@ const useStyles = makeStyles((theme) => ({
   },
 
   logo: {
-    width: '150px'
+    width: '150px',
   },
   link: {
     listStyleType: 'none',
     color: '#000',
-    padding: theme.spacing(2,3),
+    padding: theme.spacing(2, 3),
     textDecoration: 'none',
 
     '&:hover': {
-      borderBottom: '2px solid #000'
-    }
+      borderBottom: '2px solid #000',
+    },
   },
 
   mobileLink: {
     paddingLeft: '56px',
-    '& > span' : {
+    '& > span': {
       fontWeight: 'bold',
-    }
+    },
   },
 
   mobileList: {
@@ -118,70 +130,76 @@ export default function HeaderNavigation() {
   const [openDrawer, setOpenDrawer] = useState(false);
 
   const toggleDrawer = (isOpen) => {
-    setOpenDrawer(isOpen)
-  }
+    setOpenDrawer(isOpen);
+  };
+
+  const cartItemsCount = useSelector(cartItemsCountSelector);
 
   return (
-    <Box className={classes.root} >
+    <Box className={classes.root}>
       <Hidden mdUp>
         <>
           <IconButton onClick={() => toggleDrawer(true)}>
-            <MenuIcon fontSize='large'/>
+            <MenuIcon fontSize="large" />
           </IconButton>
-          
+
           <Drawer open={openDrawer} onClose={() => toggleDrawer(false)}>
-            <Box display="flex" justifyContent='right'>
-                <IconButton color="default" aria-label="add to shopping cart" onClick={() => toggleDrawer(false)}>
-                  <CloseIcon size='large'/>
-                </IconButton>
+            <Box display="flex" justifyContent="right">
+              <IconButton
+                color="default"
+                aria-label="add to shopping cart"
+                onClick={() => toggleDrawer(false)}
+              >
+                <CloseIcon size="large" />
+              </IconButton>
             </Box>
-         
+
             <Box className={classes.mobileList} onClick={() => toggleDrawer(false)}>
               <List component="nav" aria-label="main mailbox folders">
-                <ListItem button component={Link} to='/' >
+                <ListItem button component={Link} to="/">
                   <ListItemIcon>
                     <HomeIcon />
                   </ListItemIcon>
                   <ListItemText primary="Home" />
                 </ListItem>
 
-                <ListItem button component={Link} to='/products/men' >
+                <ListItem button component={Link} to="/products/men">
                   <ListItemText primary="Men" className={classes.mobileLink} />
                 </ListItem>
 
-                <ListItem button component={Link} to='/products/woman' >
-                  <ListItemText primary="Woman" className={classes.mobileLink}/>
+                <ListItem button component={Link} to="/products/woman">
+                  <ListItemText primary="Woman" className={classes.mobileLink} />
                 </ListItem>
 
-                <ListItem button component={Link} to='/produts/kids' >
-                  <ListItemText primary="Kids" className={classes.mobileLink}/>
+                <ListItem button component={Link} to="/produts/kids">
+                  <ListItemText primary="Kids" className={classes.mobileLink} />
                 </ListItem>
               </List>
-            <Divider />
+              <Divider />
 
-            <List component="nav" aria-label="main mailbox folders">
-                <ListItem button component={Link} to='/user'>
+              <List component="nav" aria-label="main mailbox folders">
+                <ListItem button component={Link} to="/user">
                   <ListItemIcon>
                     <PersonIcon />
                   </ListItemIcon>
                   <ListItemText primary="Account" />
                 </ListItem>
 
-                <ListItem button component={Link} to='/user/order'>
+                <ListItem button component={Link} to="/user/order">
                   <ListItemIcon>
                     <ReceiptIcon />
                   </ListItemIcon>
                   <ListItemText primary="My orders" />
                 </ListItem>
 
-                <ListItem button component={Link} to='/user/wishList'>
+                <ListItem button component={Link} to="/user/wishList">
                   <ListItemIcon>
                     <FavoriteIcon />
                   </ListItemIcon>
                   <ListItemText primary="My wish list" />
                 </ListItem>
 
-                <ListItem button component={Link} to='/login' >
+                <ListItem button component={Link} to="/login">
                   <ListItemIcon>
                     <ExitToAppIcon />
                   </ListItemIcon>
@@ -195,57 +213,68 @@ export default function HeaderNavigation() {
                   <ListItemText primary="Log out" className={classes.mobileLink} />
                 </ListItem> */}
               </List>
-
             </Box>
           </Drawer>
         </>
       </Hidden>
-          <Box className={classes.left}>
-            <Link to="/">
-              <img src="http://nouthemes.net/html/trueshoes/images/logo.png" alt=""  className={classes.logo}/>
-            </Link>
-          </Box>
-          <Hidden smDown>
-            <Box className={classes.nav}>
-              <Link to='/' className={classes.link}>Home</Link>
-              <Link to='/products/men' className={classes.link}>Men</Link>
-              <Link to='/products/woman'className={classes.link} >Woman</Link>
-              <Link to='/products/kids' className={classes.link}>Kids</Link>
-              <Link to='/contact' className={classes.link}>Contact</Link>
-            </Box>
-          </Hidden>
-          
+      <Box className={classes.left}>
+        <Link to="/">
+          <img
+            src="http://nouthemes.net/html/trueshoes/images/logo.png"
+            alt=""
+            className={classes.logo}
+          />
+        </Link>
+      </Box>
+      <Hidden smDown>
+        <Box className={classes.nav}>
+          <Link to="/" className={classes.link}>
+            Home
+          </Link>
+          <Link to="/products/men" className={classes.link}>
+            Men
+          </Link>
+          <Link to="/products/woman" className={classes.link}>
+            Woman
+          </Link>
+          <Link to="/products/kids" className={classes.link}>
+            Kids
+          </Link>
+          <Link to="/contact" className={classes.link}>
+            Contact
+          </Link>
+        </Box>
+      </Hidden>
 
-          <Box className={classes.right}>
-            <Hidden smDown>
-            <div className={classes.search}>
-              <div className={classes.searchIcon}>
-                <SearchIcon />
-              </div>
-              <InputBase
-                placeholder="Search…"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-                inputProps={{ 'aria-label': 'search' }}
-              />
+      <Box className={classes.right}>
+        <Hidden smDown>
+          <div className={classes.search}>
+            <div className={classes.searchIcon}>
+              <SearchIcon />
             </div>
-            </Hidden>
-            
-            
-            <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge badgeContent={1} color="primary" >
-                <FavoriteBorder />
-              </Badge>
-            </IconButton>
+            <InputBase
+              placeholder="Search…"
+              classes={{
+                root: classes.inputRoot,
+                input: classes.inputInput,
+              }}
+              inputProps={{ 'aria-label': 'search' }}
+            />
+          </div>
+        </Hidden>
 
-            <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge badgeContent={1} color="primary" >
-                <ShoppingCartOutlined/>
-              </Badge>
-            </IconButton>
-          </Box>
+        <IconButton aria-label="show 17 new notifications" color="inherit">
+          <Badge badgeContent={1} color="primary">
+            <FavoriteBorder />
+          </Badge>
+        </IconButton>
+
+        <IconButton aria-label="show 17 new notifications" color="inherit">
+          <Badge badgeContent={cartItemsCount} color="primary">
+            <ShoppingCartOutlined />
+          </Badge>
+        </IconButton>
+      </Box>
     </Box>
   );
 }

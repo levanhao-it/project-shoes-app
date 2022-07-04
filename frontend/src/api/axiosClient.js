@@ -10,7 +10,7 @@ const axiosClient = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  // withCredentials: true,
+  withCredentials: true,
 });
 
 // Interceptors
@@ -47,7 +47,7 @@ axiosClient.interceptors.request.use(
         config.headers.Authorization = `Bearer ${newToken}`;
       }
     } catch (error) {
-      // console.log("loi");
+      // console.log('loi');
     }
     return config;
   },

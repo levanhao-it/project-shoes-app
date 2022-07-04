@@ -124,6 +124,7 @@ public class ProductService {
                 .categoryName(product.getCategory().getName())
                 .originalPrice(product.getOriginalPrice())
                 .rating(ratingAvg)
+                .quantityRate(rateList.size())
                 .productDetailList(productDetails.stream().map(e -> ProductDetailResponse.builder()
                         .id(e.getId())
                         .salePrice(e.getSalePrice())

@@ -29,6 +29,7 @@ export const login = createAsyncThunk('user/login', async (payload) => {
 export const logout = createAsyncThunk('user/logout', async () => {
   localStorage.removeItem(StorageKeys.TOKEN);
   localStorage.removeItem(StorageKeys.USER);
+
   const data = await userApi.logout();
   return data;
 });

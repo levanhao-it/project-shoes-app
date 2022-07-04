@@ -1,5 +1,5 @@
 import { Typography } from '@material-ui/core';
-import React from 'react';
+import React, { useState } from 'react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -7,8 +7,17 @@ import { Pagination, Navigation } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Product from '../Product';
 import { makeStyles } from '@material-ui/core';
-import './styles.scss'
-ProductRecomend.propTypes = {};
+import PropTypes from 'prop-types';
+
+import './styles.scss';
+import { useEffect } from 'react';
+import categoryApi from 'api/categoryApi';
+ProductRecomend.propTypes = {
+  product: PropTypes.object.isRequired,
+};
+ProductRecomend.defaultProps = {
+  product: {},
+};
 
 const useStyle = makeStyles((theme) => ({
   root: {
@@ -20,15 +29,29 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 
-function ProductRecomend(props) {
+function ProductRecomend({ product }) {
   const classes = useStyle();
+  const categoryId = product.categoryId;
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const result = await categoryApi.getById(categoryId);
+        setProducts(result.data.productList);
+      } catch (error) {
+        console.log('Failed to fetch categories', error);
+      }
+    })();
+  }, [categoryId]);
+
   return (
     <div className={`${classes.root} slider-recommed`}>
       <Typography variant="h3" component="h3" className={classes.title}>
         OTHERS ALSO BOUGHT
       </Typography>
       <Swiper
-        slidesPerView={"auto"}
+        slidesPerView={'auto'}
         spaceBetween={30}
         slidesPerGroup={3}
         loop={true}
@@ -42,65 +65,28 @@ function ProductRecomend(props) {
         breakpoints={{
           0: {
             slidesPerView: 1,
-            spaceBetween: 20
+            spaceBetween: 20,
           },
 
           450: {
             slidesPerView: 2,
-            spaceBetween: 20
+            spaceBetween: 20,
           },
           600: {
-            slidesPerView:2,
-            spaceBetween: 20
+            slidesPerView: 2,
+            spaceBetween: 20,
           },
           960: {
             slidesPerView: 4,
-            spaceBetween: 20
-          }
-        }}  
+            spaceBetween: 20,
+          },
+        }}
       >
-        <SwiperSlide>
-          <Product
-            imageProduct="http://nouthemes.net/html/trueshoes/images/shoe/2.jpg"
-            nameProduct="Air Jordan 7 Retro"
-            priceProduct="499"
-          />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Product
-            imageProduct="http://nouthemes.net/html/trueshoes/images/shoe/1.jpg"
-            nameProduct="Air Jordan 7 Retro TrueToSize"
-            priceProduct="699"
-          />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Product
-            imageProduct="http://nouthemes.net/html/trueshoes/images/shoe/3.jpg"
-            nameProduct="Air Jordan 3 Retro"
-            priceProduct="429"
-          />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Product
-            imageProduct="http://nouthemes.net/html/trueshoes/images/shoe/4.jpg"
-            nameProduct="Air Jordan 4 Retro"
-            priceProduct="329"
-          />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Product
-            imageProduct="http://nouthemes.net/html/trueshoes/images/shoe/5.jpg"
-            nameProduct="Air Jordan 5 Retro"
-            priceProduct="429"
-          />
-        </SwiperSlide>
-        <SwiperSlide>
-          <Product
-            imageProduct="http://nouthemes.net/html/trueshoes/images/shoe/6.jpg"
-            nameProduct="Air Jordan 3 Retro"
-            priceProduct="429"
-          />
-        </SwiperSlide>
+        {products.map((product) => (
+          <SwiperSlide key={product.id}>
+            <Product data={product} />
+          </SwiperSlide>
+        ))}
       </Swiper>
     </div>
   );

@@ -47,7 +47,7 @@ function ProductDetailPage(props) {
           </Grid>
 
           <Grid item xs={12} md={12} lg={12}>
-            <ProductRecomend />
+            <ProductRecomend product={product} />
           </Grid>
         </Grid>
       </Hidden>
@@ -60,11 +60,11 @@ function ProductDetailPage(props) {
           </Grid>
 
           <Box className={classes.tabsMobile}>
-            <ProductTabsMobile />
+            <ProductTabsMobile product={product} />
           </Box>
 
           <Grid item xs={12} sm={12}>
-            <ProductRecomend />
+            <ProductRecomend product={product} />
           </Grid>
         </Grid>
       </Hidden>

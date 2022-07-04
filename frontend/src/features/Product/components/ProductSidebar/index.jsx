@@ -3,11 +3,17 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import StraightenIcon from '@material-ui/icons/Straighten';
 import { Rating } from '@material-ui/lab';
 import ButtonActive from 'components/component-custom/ButtonActive';
+import { addToCart } from 'features/Cart/cartSlice';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import ProductSilder from '../ProductSlider';
 ProductSidebar.propTypes = {
-  product: PropTypes.object,
+  product: PropTypes.object.isRequired,
+};
+// prop default value
+ProductSidebar.defaultProps = {
+  product: {},
 };
 
 const useStyle = makeStyles((theme) => ({
@@ -115,14 +121,43 @@ function ProductSidebar({ product = {} }) {
   const classes = useStyle();
   const listDetail = product.productDetailList || [];
 
+  const [productDetail, setProductDetail] = useState(listDetail[0]);
+
+  const colorList = [...new Set(listDetail.map((item) => item.color))];
+  const productWithImageList = [];
+  colorList.forEach((item, index) => {
+    const productWithImage = listDetail.find((item, idx) => item.color === colorList[index]);
+    productWithImageList.push(productWithImage);
+  });
+
+  const [listProductByColor, setListProductByColor] = useState([]);
+
+  const handleStylesClick = (colorProductDetail) => {
+    setListProductByColor(listDetail.filter((item) => item.color === colorProductDetail));
+  };
+
+  const handleSelectSize = (productDetail) => {
+    setProductDetail(productDetail);
+  };
+
+  const dispatch = useDispatch();
+  const handleSubmitAddToCart = () => {
+    const action = addToCart({
+      productDetailId: productDetail.id,
+      productDetail: productDetail,
+      product: product,
+      quantity: 1,
+    });
+    dispatch(action);
+  };
+
   return (
     <div className={classes.root}>
       <Box display="flex" justifyContent="space-between">
         <Typography variant="body2" component="h3">
           {product.categoryName}
         </Typography>
-        <p>{product.rating}</p>
-        <Rating name="read-only" value={product.rating} precision={0.5} readOnly size="medium" />
+        <p>({product.quantityRate} reivews )</p>
       </Box>
 
       <Box mt={2}>
@@ -154,12 +189,15 @@ function ProductSidebar({ product = {} }) {
           Choose your styles
         </Typography>
         <Box>
-          {listDetail?.map((productDetail) => (
+          {productWithImageList?.map((productDetail, index) => (
             <img
               key={productDetail.id}
               src={productDetail.linkImg}
               className={classes.imgStyle}
               alt=""
+              onClick={() => {
+                handleStylesClick(productDetail.color);
+              }}
             />
           ))}
         </Box>
@@ -179,8 +217,12 @@ function ProductSidebar({ product = {} }) {
         </Box>
 
         <Box component="ul" className={classes.listSize}>
-          {listDetail?.map((productDetail) => (
-            <li key={productDetail.id} className={classes.size}>
+          {listProductByColor?.map((productDetail) => (
+            <li
+              key={productDetail.id}
+              className={classes.size}
+              onClick={() => handleSelectSize(productDetail)}
+            >
               {productDetail.size}
             </li>
           ))}
@@ -189,7 +231,7 @@ function ProductSidebar({ product = {} }) {
 
       <Box mt={3}>
         <ButtonActive content="Add to cart" className={classes.btnActive} />
-        <Button variant="outlined" className={classes.buttonHeart}>
+        <Button variant="outlined" className={classes.buttonHeart} onClick={handleSubmitAddToCart}>
           <Typography variant="button" component="p" className={classes.wishList}>
             Add to wishList
           </Typography>

@@ -5,8 +5,15 @@ import { Box, Button, makeStyles, Typography } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import CartList from '../CartList';
 import ButtonActive from 'components/component-custom/ButtonActive';
+import { useSelector } from 'react-redux';
+import { cartItemsCountSelector, cartTotalPriceSelector } from 'features/Cart/selector';
 
-CartDetail.propTypes = {};
+CartDetail.propTypes = {
+  data: PropTypes.array,
+};
+CartDetail.propsDefault = {
+  data: [],
+};
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,15 +60,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function CartDetail(props) {
+function CartDetail({ data, count }) {
   const classes = useStyles();
+  const cartItemsCount = useSelector(cartItemsCountSelector);
+  const cartTotalPrice = useSelector(cartTotalPriceSelector);
   return (
     <Box className={classes.root}>
       <Typography variant="h3" className={classes.title}>
         Your Bag
       </Typography>
-      <Typography variant="h6"> TOTAL (2 products) 9,5$</Typography>
-      <CartList />
+      <Typography variant="h6">
+        {' '}
+        TOTAL ({cartItemsCount} products) {cartTotalPrice}$
+      </Typography>
+      <CartList data={data} />
       <Box mt={3}>
         <ButtonActive content="Shopping Continue" />
       </Box>

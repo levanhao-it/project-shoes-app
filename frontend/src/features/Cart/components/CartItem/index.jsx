@@ -2,6 +2,10 @@ import {
   Box,
   Button,
   ButtonGroup,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   Grid,
   InputBase,
   makeStyles,
@@ -14,8 +18,15 @@ import NativeSelect from '@material-ui/core/NativeSelect';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import CloseIcon from '@material-ui/icons/Close';
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import CartQuantityForm from '../CartQuantityForm';
+import { useDispatch } from 'react-redux';
+import { removeFromCart, setQuantity } from '../../cartSlice';
+import RemoveShoppingCartIcon from '@material-ui/icons/RemoveShoppingCart';
 
-CartItem.propTypes = {};
+CartItem.propTypes = {
+  item: PropTypes.object.isRequired,
+};
 
 const BootstrapInput = withStyles((theme) => ({
   root: {
@@ -93,61 +104,110 @@ const useStyle = makeStyles((theme) => ({
     fontSize: '18px',
     padding: '10px 0px 10px 20px',
   },
+  salePrice: {
+    color: '#e32b2b',
+    marginLeft: '8px',
+  },
+  banPrice: {
+    textDecoration: 'line-through',
+  },
 }));
 
-function CartItem(props) {
+function CartItem({ item = {} }) {
   const classes = useStyle();
-  const { imageProduct, nameProduct, priceProduct, sizeProduct, colorProduct, quantityProduct } =
-    props;
+  const [openRemoveConfirm, setOpenRemoveConfirm] = useState(false);
 
-  const [quantity, setQuantity] = useState(quantityProduct);
-  // const handleInCreaseQuantity = (event) => {
-  //   setQuantity(quantityProduct + 1);
-  // };
+  const dispatch = useDispatch();
+  const productDetailId = item.productDetailId;
+  const handleSetQuantitySubmit = ({ quantity }) => {
+    const newQuantity = quantity;
+    dispatch(setQuantity({ productDetailId, quantity: newQuantity }));
+  };
 
-  // const handleDecreaseQuantity = (event) => {
-  //   setQuantity(quantityProduct - 1);
-  // };
+  const handleRemoveClick = () => {
+    setOpenRemoveConfirm(true);
+  };
+
+  const handleRemoveOk = () => {
+    dispatch(removeFromCart(productDetailId));
+  };
 
   return (
     <Box>
       <Grid container className={classes.root}>
         <Grid item xs={4} sm={4} md={4} lg={4} xl={4}>
-          <img className={classes.img} src={imageProduct} alt="Day la anh"></img>
+          <img
+            className={classes.img}
+            src={item.productDetail.linkImg}
+            alt={item.productDetail.name}
+          ></img>
         </Grid>
         <Grid item xs={8} sm={8} md={8} lg={8} xl={8} className={classes.parent}>
           <Grid container className={classes.header}>
             <Grid item xs={11} sm={11} md={11} lg={11} xl={11}>
               <Typography className={classes.title}>
-                <span>Product:</span> {nameProduct}
+                <span>Product :</span> {item.product.name}
               </Typography>
-              <Typography className={classes.title}>
-                <span>Price: </span> {priceProduct}$
-              </Typography>
+              {item.product.originalPrice > item.productDetail.salePrice ? (
+                <>
+                  <span variant="p" component="p" className={classes.banPrice}>
+                    {item.product.originalPrice * item.quantity}$
+                  </span>
+
+                  <span variant="p" component="p" className={classes.salePrice}>
+                    {item.productDetail.salePrice * item.quantity}$
+                  </span>
+                </>
+              ) : (
+                <span variant="p" component="p">
+                  {item.productDetail.salePrice * item.quantity}$
+                </span>
+              )}
             </Grid>
             <Grid item xs={1} sm={1} md={1} lg={1} xl={1}>
               <Box>
-                <CloseIcon className={classes.icon} />
+                <CloseIcon className={classes.icon} onClick={handleRemoveClick} />
               </Box>
               <FavoriteBorderIcon className={classes.icon} />
               <Box></Box>
             </Grid>
           </Grid>
           <Typography className={classes.title}>
-            <span>color: </span> {colorProduct}
+            <span>color: </span> {item.productDetail.color}
           </Typography>
           <Typography className={classes.title}>
-            <span>size: </span> {sizeProduct}
+            <span>size: </span> {item.productDetail.size}
           </Typography>
-          <Box className={classes.form}>
-            <ButtonGroup variant="contained" color="inherit">
-              <Button>-</Button>
-              <Typography className={classes.quantity}>{quantity}</Typography>
-              <Button>+</Button>
-            </ButtonGroup>
-          </Box>
+          <CartQuantityForm value={item.quantity} onSubmit={handleSetQuantitySubmit} />
         </Grid>
       </Grid>
+      <Dialog
+        open={openRemoveConfirm}
+        onClose={() => setOpenRemoveConfirm(false)}
+        aria-labelledby="confirm-dialog"
+        disableEscapeKeyDown
+        disableBackdropClick
+      >
+        <DialogTitle id="confirm-dialog">
+          <RemoveShoppingCartIcon style={{ marginRight: '10px' }} />
+          <Typography variant="span">Are you sure you want to remove this item?</Typography>
+        </DialogTitle>
+        <DialogActions>
+          <Button variant="outlined" onClick={() => setOpenRemoveConfirm(false)} color="primary">
+            No
+          </Button>
+          <Button
+            variant="contained"
+            onClick={() => {
+              handleRemoveOk();
+              setOpenRemoveConfirm(false);
+            }}
+            color="secondary"
+          >
+            Yes
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }

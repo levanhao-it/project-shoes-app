@@ -21,4 +21,5 @@ public class ProductResponse {
     private Double originalPrice;
     private List<ProductDetailResponse> productDetailList;
     private double rating;
+    private double quantityRate;
 }
