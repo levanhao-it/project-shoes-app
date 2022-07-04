@@ -25,12 +25,17 @@ const useStyle = makeStyles((theme) => ({
 }));
 
 function ButtonActive(props) {
-  const { content, widthBtn, type, disabled } = props;
+  const { content, widthBtn, type, disabled, onClick } = props;
   const classes = useStyle(props);
   return (
     <div className="btn-primary" style={{ width: `${widthBtn}` }}>
-      <Button className={`${classes.root} btn-primary__root`} type={type} disabled={disabled}>
-        {content} <ArrowRightAltIcon fontSize="large"  />
+      <Button
+        className={`${classes.root} btn-primary__root`}
+        type={type}
+        disabled={disabled}
+        onClick={onClick}
+      >
+        {content} <ArrowRightAltIcon fontSize="large" />
       </Button>
 
       <Box className="btn-primary__border"></Box>

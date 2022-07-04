@@ -230,8 +230,12 @@ function ProductSidebar({ product = {} }) {
       </Box>
 
       <Box mt={3}>
-        <ButtonActive content="Add to cart" className={classes.btnActive} />
-        <Button variant="outlined" className={classes.buttonHeart} onClick={handleSubmitAddToCart}>
+        <ButtonActive
+          content="Add to cart"
+          className={classes.btnActive}
+          onClick={handleSubmitAddToCart}
+        />
+        <Button variant="outlined" className={classes.buttonHeart}>
           <Typography variant="button" component="p" className={classes.wishList}>
             Add to wishList
           </Typography>
