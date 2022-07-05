@@ -56,7 +56,6 @@ function ProductListPage(props) {
       try {
         const { data } = await productApi.getAll(filters);
         setProducts(data.products);
-        console.log(data.products);
         setPagination({
           total: data.totalPages,
           page: data.currentPage,

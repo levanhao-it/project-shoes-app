@@ -1,22 +1,22 @@
-import { Box, Container, Grid, Hidden, makeStyles } from '@material-ui/core';
-import React from 'react';
-import { Route, Switch, useRouteMatch } from 'react-router-dom';
-import UserSidebar from './components/UserSidebar';
-import AccountPage from './pages/AccountPage';
-import OrderListPage from './pages/OrderListPage';
-import WishListPage from './pages/WishListPage';
+import { Box, Container, Grid, Hidden, makeStyles } from "@material-ui/core";
+import React from "react";
+import { Route, Switch, useRouteMatch } from "react-router-dom";
+import UserSidebar from "./components/UserSidebar";
+import AccountPage from "./pages/AccountPage";
+import OrderListPage from "./pages/OrderListPage";
+import WishListPage from "./pages/WishListPage";
 
 UserFeature.propTypes = {};
 
 const useStyle = makeStyles((theme) => ({
   root: {
-    backgroundColor: '#f7f7f7',
+    backgroundColor: "#f7f7f7",
   },
   container: {
-    padding: '80px 0',
-    [theme.breakpoints.down('sm')]: {
-      padding: '40px 0'
-    }
+    padding: "80px 0",
+    [theme.breakpoints.down("sm")]: {
+      padding: "40px 0",
+    },
   },
   // ml: {
   //   marginLeft: '14px',
@@ -34,15 +34,23 @@ function UserFeature(props) {
       <Container className={classes.container}>
         <Grid container>
           <Hidden smDown>
-            <Grid item xs={12} sm={12} md={3} lg={3} >
+            <Grid item xs={12} sm={12} md={3} lg={3}>
               <UserSidebar />
             </Grid>
           </Hidden>
-          <Grid item xs={12} sm={12} md={9} lg={9} >
+          <Grid item xs={12} sm={12} md={9} lg={9}>
             <Switch>
               <Route path={`${match.url}`} exact component={AccountPage} />
-              <Route path={`${match.url}/order`} exact component={OrderListPage} />
-              <Route path={`${match.url}/wishList`} extact component={WishListPage} />
+              <Route
+                path={`${match.url}/order`}
+                exact
+                component={OrderListPage}
+              />
+              <Route
+                path={`${match.url}/wishList`}
+                exact
+                component={WishListPage}
+              />
             </Switch>
           </Grid>
         </Grid>

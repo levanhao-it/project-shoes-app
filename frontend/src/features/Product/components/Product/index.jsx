@@ -1,7 +1,12 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import { Box, Typography, makeStyles, Button } from "@material-ui/core";
+import { Box, makeStyles, Typography } from "@material-ui/core";
+import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import { unwrapResult } from "@reduxjs/toolkit";
+import StorageKeys from "constant/storage-keys";
+import { addWishList, removeWishList } from "features/Wishlist/wishListSlice";
+import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import "./styles.scss";
 
 Product.propTypes = {
@@ -66,8 +71,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   favorite: {
-    color: "#2AC37D",
-    fontSize: "20px",
     position: "absolute",
     top: "20px",
     right: "18px",
@@ -75,7 +78,6 @@ const useStyles = makeStyles((theme) => ({
     width: "40px",
     height: "40px",
     zIndex: "2",
-    backgroundColor: "#4d4d4d",
     webkitBorderRadius: "50%",
     mozBorderRadius: "50%",
     msBorderRadius: "50%",
@@ -84,20 +86,16 @@ const useStyles = makeStyles((theme) => ({
     mozTransition: "all 0.4s ease",
     transition: "all 0.4s ease",
     cursor: "pointer",
-
-    "&:hover": {
-      backgroundColor: "#2AC37D",
-      color: "#fff",
-    },
   },
   icon: {
     position: "absolute",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    color: "#fff",
+    color: "#000",
     fontSize: "20px",
   },
+
   price: {
     position: "absolute",
     left: "14px",
@@ -119,10 +117,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Product(props) {
-  const { data } = props;
+function Product({ data }) {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const loggedInUser = useSelector((state) => state.user.isLoggedIn);
+  const isLoggedIn = !!loggedInUser;
+  const wishList = useSelector((state) => state.wishList.current);
+
   const [image, setImage] = useState(data.productDetailList[0].linkImg);
+  const [favourite, setFavourite] = useState(() => {
+    return wishList.some((x) => x.product.id === data.id);
+  });
+  useEffect(() => {
+    setFavourite(() => {
+      return wishList.some((x) => x.product.id === data.id);
+    });
+  }, [wishList]);
+
   const [priceSale, setPriceSale] = useState(
     data.productDetailList[0].salePrice
   );
@@ -134,12 +145,61 @@ function Product(props) {
     setImage(img);
     setPriceSale(salePrice);
   };
+
+  const handleAddWishList = async (productId) => {
+    if (!isLoggedIn) return; //show dialog login
+
+    const email = JSON.parse(localStorage.getItem(StorageKeys.USER)).email;
+
+    try {
+      const actionWishList = addWishList({ email, productId });
+      const resultActionWishList = await dispatch(actionWishList);
+      unwrapResult(resultActionWishList);
+      console.log(resultActionWishList);
+    } catch (error) {
+      console.log("Cannot add wishList");
+    }
+
+    setFavourite(true);
+  };
+
+  const handleRemoveWishList = async (productId) => {
+    if (!isLoggedIn) return; //show dialog login
+
+    const item = wishList.find((x) => x.product.id === productId);
+    const id = item.idWishList;
+    const email = JSON.parse(localStorage.getItem(StorageKeys.USER)).email;
+    try {
+      const actionWishList = removeWishList({ email, id });
+      const resultActionWishList = await dispatch(actionWishList);
+      unwrapResult(resultActionWishList);
+      console.log(resultActionWishList);
+    } catch (error) {
+      console.log("Cannot remove wishList");
+    }
+    setFavourite(false);
+  };
+
   return (
     <Box padding={1} className={`${classes.box} product-root`}>
       <Box minHeight="215px" className={classes.container}>
-        <Box className={classes.favorite}>
-          <FavoriteBorderIcon className={classes.icon} />
-        </Box>
+        {favourite ? (
+          <Box
+            className={classes.favorite}
+            onClick={() => handleRemoveWishList(data.id)}
+          >
+            <FavoriteIcon
+              className={`${classes.icon} ${classes.iconFavourite}`}
+            />
+          </Box>
+        ) : (
+          <Box
+            className={classes.favorite}
+            onClick={() => handleAddWishList(data.id)}
+          >
+            <FavoriteBorderIcon className={classes.icon} />
+          </Box>
+        )}
 
         <img src={image} alt={data.name} className={classes.img} />
 

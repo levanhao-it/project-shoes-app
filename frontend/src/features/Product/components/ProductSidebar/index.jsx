@@ -1,13 +1,18 @@
-import { Box, Button, Hidden, makeStyles, Typography } from '@material-ui/core';
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import StraightenIcon from '@material-ui/icons/Straighten';
-import { Rating } from '@material-ui/lab';
-import ButtonActive from 'components/component-custom/ButtonActive';
-import { addToCart } from 'features/Cart/cartSlice';
-import PropTypes from 'prop-types';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import ProductSilder from '../ProductSlider';
+import { Box, Button, Hidden, makeStyles, Typography } from "@material-ui/core";
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import StraightenIcon from "@material-ui/icons/Straighten";
+import { Rating } from "@material-ui/lab";
+import ButtonActive from "components/component-custom/ButtonActive";
+import { addToCart } from "features/Cart/cartSlice";
+import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import ProductSilder from "../ProductSlider";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import StorageKeys from "constant/storage-keys";
+import { addWishList, removeWishList } from "features/Wishlist/wishListSlice";
+import { unwrapResult } from "@reduxjs/toolkit";
+import { useRouteMatch } from "react-router-dom";
 ProductSidebar.propTypes = {
   product: PropTypes.object.isRequired,
 };
@@ -18,122 +23,138 @@ ProductSidebar.defaultProps = {
 
 const useStyle = makeStyles((theme) => ({
   root: {
-    padding: '30px 0 0 40px',
-    [theme.breakpoints.down('sm')]: {
-      padding: '0',
+    padding: "30px 0 0 40px",
+    [theme.breakpoints.down("sm")]: {
+      padding: "0",
     },
   },
   productName: {
-    margin: '20px 0 10px',
-    fontWeight: 'bold',
+    margin: "20px 0 10px",
+    fontWeight: "bold",
   },
   productPrice: {
-    fontWeight: 'bold',
-    fontSize: '24px',
+    fontWeight: "bold",
+    fontSize: "24px",
     fontFamily: '"Archivo Narrow"',
   },
   title: {
-    textTransform: 'uppercase',
-    fontSize: '18px',
-    color: '#313131',
-    borderBottom: '1px solid #e5e5e5',
-    display: 'block',
-    paddingBottom: '10px',
-    margin: '30px 0 10px',
-    fontWeight: '500',
+    textTransform: "uppercase",
+    fontSize: "18px",
+    color: "#313131",
+    borderBottom: "1px solid #e5e5e5",
+    display: "block",
+    paddingBottom: "10px",
+    margin: "30px 0 10px",
+    fontWeight: "500",
   },
   reviewDesc: {
-    fontSize: '14px',
+    fontSize: "14px",
   },
 
   listSize: {
-    display: 'flex',
-    flexFlow: 'row wrap',
-    padding: '0',
-    listStyle: 'none',
+    display: "flex",
+    flexFlow: "row wrap",
+    padding: "0",
+    listStyle: "none",
   },
 
   size: {
-    width: '50px',
-    height: '50px',
-    border: '1px solid #e9ecef',
-    marginBottom: '-1px',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    '&:hover': {
-      cursor: 'pointer',
-      backgroundColor: '#000',
-      color: '#fff',
+    width: "50px",
+    height: "50px",
+    border: "1px solid #e9ecef",
+    marginBottom: "-1px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    "&:hover": {
+      cursor: "pointer",
+      backgroundColor: "#000",
+      color: "#fff",
     },
   },
 
   buttonCart: {
-    width: '80%',
-    backgroundColor: '#000',
-    color: '#fff',
-    height: '50px',
-    fontSize: '16px',
-    fontWeight: '600',
-    '&:hover': {
-      backgroundColor: '#000',
-      color: '#ccc',
-      opacity: '0.7',
+    width: "80%",
+    backgroundColor: "#000",
+    color: "#fff",
+    height: "50px",
+    fontSize: "16px",
+    fontWeight: "600",
+    "&:hover": {
+      backgroundColor: "#000",
+      color: "#ccc",
+      opacity: "0.7",
     },
   },
   buttonHeart: {
-    width: '100%',
-    height: '50px',
-    border: '2px solid #000',
-    marginTop: '10px',
-    borderRadius: '0 !important',
+    width: "100%",
+    height: "50px",
+    border: "2px solid #000",
+    marginTop: "10px",
+    borderRadius: "0 !important",
   },
   subTitle: {
-    fontSize: '14px',
-    fontStyle: 'italic',
-    textDecoration: 'underline',
+    fontSize: "14px",
+    fontStyle: "italic",
+    textDecoration: "underline",
   },
   subTitleIcon: {
-    margin: '4px 4px 0 0',
+    margin: "4px 4px 0 0",
   },
   buttonTitle: {
-    fontSize: '16px',
-    fontWeight: '600',
+    fontSize: "16px",
+    fontWeight: "600",
   },
   imgStyle: {
-    width: '54px',
-    border: '2px solid #ccc',
-    marginRight: '10px',
-    cursor: 'pointer',
-    '&:hover': {
-      border: '2px solid #2AC37D',
+    width: "54px",
+    border: "2px solid #ccc",
+    marginRight: "10px",
+    cursor: "pointer",
+    "&:hover": {
+      border: "2px solid #2AC37D",
     },
   },
   containerButton: {
-    margin: '15px 0 0 10px',
+    margin: "15px 0 0 10px",
   },
   wishList: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 }));
 
-function ProductSidebar({ product = {} }) {
+function ProductSidebar({ product }) {
   const classes = useStyle();
   const listDetail = product.productDetailList || [];
+  const wishList = useSelector((state) => state.wishList.current);
+  const {
+    params: { productId },
+  } = useRouteMatch();
+
+  const [favourite, setFavourite] = useState(false);
+
+  useEffect(() => {
+    const isFavorite = wishList.some((x) => x.product.id === product.id);
+    setFavourite(isFavorite);
+  });
 
   const [productDetail, setProductDetail] = useState(listDetail[0]);
-
+  const loggedInUser = useSelector((state) => state.user.isLoggedIn);
+  const isLoggedIn = !!loggedInUser;
   const colorList = [...new Set(listDetail.map((item) => item.color))];
   const productWithImageList = [];
   colorList.forEach((item, index) => {
-    const productWithImage = listDetail.find((item, idx) => item.color === colorList[index]);
+    const productWithImage = listDetail.find(
+      (item, idx) => item.color === colorList[index]
+    );
     productWithImageList.push(productWithImage);
   });
 
   const [listProductByColor, setListProductByColor] = useState([]);
 
   const handleStylesClick = (colorProductDetail) => {
-    setListProductByColor(listDetail.filter((item) => item.color === colorProductDetail));
+    setListProductByColor(
+      listDetail.filter((item) => item.color === colorProductDetail)
+    );
   };
 
   const handleSelectSize = (productDetail) => {
@@ -149,6 +170,40 @@ function ProductSidebar({ product = {} }) {
       quantity: 1,
     });
     dispatch(action);
+  };
+
+  const handleAddWishList = async (productId) => {
+    if (!isLoggedIn) return; //show dialog login
+
+    const email = JSON.parse(localStorage.getItem(StorageKeys.USER)).email;
+
+    try {
+      const actionWishList = addWishList({ email, productId });
+      const resultActionWishList = await dispatch(actionWishList);
+      unwrapResult(resultActionWishList);
+      console.log(resultActionWishList);
+    } catch (error) {
+      console.log("Cannot add wishList");
+    }
+
+    setFavourite(true);
+  };
+
+  const handleRemoveWishList = async (productId) => {
+    if (!isLoggedIn) return; //show dialog login
+
+    const item = wishList.find((x) => x.product.id === productId);
+    const id = item.idWishList;
+    const email = JSON.parse(localStorage.getItem(StorageKeys.USER)).email;
+    try {
+      const actionWishList = removeWishList({ email, id });
+      const resultActionWishList = await dispatch(actionWishList);
+      unwrapResult(resultActionWishList);
+      console.log(resultActionWishList);
+    } catch (error) {
+      console.log("Cannot remove wishList");
+    }
+    setFavourite(false);
   };
 
   return (
@@ -208,9 +263,20 @@ function ProductSidebar({ product = {} }) {
           <Typography variant="p" className={classes.title} gutterBottom>
             Available sizes
           </Typography>
-          <Box position="absolute" right="0" top={5} display="flex" alignItems="center">
+          <Box
+            position="absolute"
+            right="0"
+            top={5}
+            display="flex"
+            alignItems="center"
+          >
             <StraightenIcon className={classes.subTitleIcon} />
-            <Typography variant="p" component="a" position="absolute" className={classes.subTitle}>
+            <Typography
+              variant="p"
+              component="a"
+              position="absolute"
+              className={classes.subTitle}
+            >
               Size guide
             </Typography>
           </Box>
@@ -235,12 +301,37 @@ function ProductSidebar({ product = {} }) {
           className={classes.btnActive}
           onClick={handleSubmitAddToCart}
         />
-        <Button variant="outlined" className={classes.buttonHeart}>
-          <Typography variant="button" component="p" className={classes.wishList}>
-            Add to wishList
-          </Typography>
-          <FavoriteBorderIcon fontSize="large" />
-        </Button>
+        {favourite ? (
+          <Button
+            variant="outlined"
+            className={classes.buttonHeart}
+            onClick={() => handleRemoveWishList(product.id)}
+          >
+            <Typography
+              variant="button"
+              component="p"
+              className={classes.wishList}
+            >
+              Add to wishList
+            </Typography>
+            <FavoriteIcon />
+          </Button>
+        ) : (
+          <Button
+            variant="outlined"
+            className={classes.buttonHeart}
+            onClick={() => handleAddWishList(product.id)}
+          >
+            <Typography
+              variant="button"
+              component="p"
+              className={classes.wishList}
+            >
+              Add to wishList
+            </Typography>
+            <FavoriteBorderIcon />
+          </Button>
+        )}
       </Box>
     </div>
   );

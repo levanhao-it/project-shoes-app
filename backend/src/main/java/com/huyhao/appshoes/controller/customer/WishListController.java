@@ -19,8 +19,7 @@ public class WishListController {
     @PostMapping()
     public ResponseEntity<?> addToWishList(@RequestBody WishListRequest wishListRequest){
         try {
-            wishListService.createWishList(wishListRequest);
-            return ResponseEntity.ok(ResponseCommon.success(""));
+            return ResponseEntity.ok(ResponseCommon.success(wishListService.createWishList(wishListRequest)));
         } catch (Exception ex) {
             log.error("API /api/wishList: ", ex);
             return ResponseEntity.badRequest().body(ErrorResponse.builder().message(ex.getMessage()).build());
@@ -40,10 +39,9 @@ public class WishListController {
 
 
     @DeleteMapping("/{productDetailId}")
-    public ResponseEntity<?> deleteWishList(@PathVariable Long productDetailId){
-        try {
-            wishListService.deleteWishList(productDetailId);
-            return ResponseEntity.ok(ResponseCommon.success(""));
+    public ResponseEntity<?> deleteWishList(@PathVariable Long productDetailId, @RequestParam String email){
+        try{
+            return ResponseEntity.ok(ResponseCommon.success(wishListService.deleteWishList(productDetailId, email)));
         } catch (Exception ex) {
             log.error("API /api/wishList: ", ex);
             return ResponseEntity.badRequest().body(ErrorResponse.builder().message(ex.getMessage()).build());

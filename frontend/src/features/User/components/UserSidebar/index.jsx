@@ -1,38 +1,38 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Box, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
-import { Link } from 'react-router-dom';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import { NavLink } from 'react-router-dom';
-import './style.scss';
+import React from "react";
+import PropTypes from "prop-types";
+import { Box, Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/styles";
+import { Link } from "react-router-dom";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import { NavLink } from "react-router-dom";
+import "./style.scss";
 
 UserSidebar.propTypes = {};
 
 const useStyle = makeStyles((theme) => ({
   root: {
-    margin: '0 20px',
+    margin: "0 20px",
   },
   title: {
-    fontSize: '20px',
-    fontWeight: 'bold',
+    fontSize: "20px",
+    fontWeight: "bold",
   },
   menuList: {
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   link: {
-    display: 'flex',
-    textDecoration: 'none',
-    color: '#000',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: '17px 15px',
-    transition: 'all 0.3 ease',
-    '&:hover': {
-      backgroundColor: '#000',
-      color: '#fff',
-      fontWeight: 'bold',
-      textDecoration: 'underline',
+    display: "flex",
+    textDecoration: "none",
+    color: "#000",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: "17px 15px",
+    transition: "all 0.3 ease",
+    "&:hover": {
+      backgroundColor: "#000",
+      color: "#fff",
+      fontWeight: "bold",
+      textDecoration: "underline",
     },
   },
 }));
@@ -47,21 +47,33 @@ function UserSidebar(props) {
 
       <Box className={classes.menuList} mt={4}>
         <Box>
-          <NavLink to="/user" className={classes.link} activeClassName="active-menu">
+          <NavLink
+            to="/user"
+            className={classes.link}
+            activeClassName="active-menu"
+          >
             Personal Information
             <ChevronRightIcon />
           </NavLink>
         </Box>
 
         <Box>
-          <NavLink to="/user/whishList" className={classes.link} activeClassName="active-menu">
+          <NavLink
+            to="/user/wishList"
+            className={classes.link}
+            activeClassName="active-menu"
+          >
             My WishList
             <ChevronRightIcon />
           </NavLink>
         </Box>
 
         <Box>
-          <NavLink to="/user/order" className={classes.link} activeClassName="active-menu">
+          <NavLink
+            to="/user/order"
+            className={classes.link}
+            activeClassName="active-menu"
+          >
             My orders
             <ChevronRightIcon />
           </NavLink>

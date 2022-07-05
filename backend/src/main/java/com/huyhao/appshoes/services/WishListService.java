@@ -27,7 +27,7 @@ public class WishListService {
     private final ProductService productService;
 
 
-    public void createWishList(WishListRequest wishListRequest) {
+    public List<WishListResponse> createWishList(WishListRequest wishListRequest) {
         String currentMail = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         if(!currentMail.equals(wishListRequest.getEmail())){
             throw new IllegalArgumentException("Email not must be current email");
@@ -46,6 +46,7 @@ public class WishListService {
                 .build();
 
         wishListRepository.save(wishList);
+        return getWishList(wishListRequest.getEmail());
     }
 
     public List<WishListResponse> getWishList(String email) {
@@ -73,11 +74,13 @@ public class WishListService {
     }
 
 
-    public void deleteWishList(Long productDetailId) {
-        WishList wishList = wishListRepository.findById(productDetailId)
+    public List<WishListResponse> deleteWishList(Long wishlistId, String email) {
+        WishList wishList = wishListRepository.findById(wishlistId)
                 .orElseThrow(() -> new IllegalArgumentException("Not found wishList from wishListId"));
 
         wishList.setActive(false);
         wishListRepository.save(wishList);
+
+        return getWishList(email);
     }
 }
