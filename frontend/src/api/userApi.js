@@ -13,5 +13,17 @@ const userApi = {
     const url = '/logout';
     return axiosClient.get(url);
   },
+  getUser() {
+    const url = '/user';
+    return axiosClient.get(url);
+  },
+  update(data) {
+    const url = '/user';
+    return axiosClient.put(url, data, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  },
 };
 export default userApi;

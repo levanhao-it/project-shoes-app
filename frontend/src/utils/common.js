@@ -22,3 +22,11 @@ export function numberParsePositiveInt(string = '', defaultValue = 1) {
   const parsed = Number.parseInt(string);
   return parsed ? parsed : defaultValue;
 }
+
+export const jsonToFormData = (json) => {
+  const formData = new FormData();
+  for (let key in json) {
+    formData.set(key, json[key]);
+  }
+  return formData;
+};

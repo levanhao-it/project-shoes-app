@@ -1,4 +1,4 @@
-package com.huyhao.appshoes.payload.productDetail.auth;
+package com.huyhao.appshoes.payload.auth;
 
 import com.huyhao.appshoes.payload.order.OrderResponse;
 import lombok.Builder;
@@ -19,5 +19,6 @@ public class UserResponse {
     private Date modify_date;
     private String password;
     private int quantityOrders;
+    private String avatar;
     private List<OrderResponse> orderResponseList;
 }

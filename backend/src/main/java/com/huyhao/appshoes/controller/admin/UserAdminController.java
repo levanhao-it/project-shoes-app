@@ -1,7 +1,7 @@
 package com.huyhao.appshoes.controller.admin;
 
 import com.huyhao.appshoes.common.ResponseCommon;
-import com.huyhao.appshoes.payload.productDetail.auth.RegistrationRequest;
+import com.huyhao.appshoes.payload.auth.RegistrationRequest;
 import com.huyhao.appshoes.payload.common.ErrorResponse;
 import com.huyhao.appshoes.services.AuthService;
 import lombok.RequiredArgsConstructor;

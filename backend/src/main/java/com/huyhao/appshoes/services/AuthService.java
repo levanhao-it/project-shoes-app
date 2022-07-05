@@ -6,19 +6,22 @@ import com.huyhao.appshoes.entity.Orders;
 import com.huyhao.appshoes.entity.Role;
 import com.huyhao.appshoes.entity.Users;
 import com.huyhao.appshoes.jwt.JwtProvider;
-import com.huyhao.appshoes.payload.productDetail.auth.AuthRequest;
-import com.huyhao.appshoes.payload.productDetail.auth.AuthResponse;
-import com.huyhao.appshoes.payload.productDetail.auth.RegistrationRequest;
-import com.huyhao.appshoes.payload.productDetail.auth.UserResponse;
+import com.huyhao.appshoes.payload.auth.AuthRequest;
+import com.huyhao.appshoes.payload.auth.AuthResponse;
+import com.huyhao.appshoes.payload.auth.RegistrationRequest;
+import com.huyhao.appshoes.payload.auth.UserResponse;
 import com.huyhao.appshoes.payload.order.OrderResponse;
 import com.huyhao.appshoes.repositories.CartRepository;
 import com.huyhao.appshoes.repositories.OrderRepository;
 import com.huyhao.appshoes.repositories.RoleRepository;
 import com.huyhao.appshoes.repositories.UserRepository;
+import com.huyhao.appshoes.utils.AmazonUtil;
+import com.huyhao.appshoes.utils.JsonUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +37,8 @@ public class AuthService {
 
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
+    public final AmazonUtil amazonUtil;
+
 
     public Users checkLoginCustomer(AuthRequest loginRequest) {
         Users user = userRepository.findByEmailAndActiveTrue(loginRequest.getEmail()).orElse(null);
@@ -123,6 +128,7 @@ public class AuthService {
                 .modify_date(user.getModifiedDate())
                 .quantityOrders(quantityOrder)
                 .password(user.getPassword())
+                .avatar(user.getAvatar())
                 .orderResponseList(ordersList.stream().map(e -> OrderResponse.builder()
                         .id(e.getId())
                         .status(e.getStatus())
@@ -153,5 +159,58 @@ public class AuthService {
 
     }
 
+    // customer
+    public UserResponse getUserByEmail() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        Users user = userRepository.findByEmailAndActiveTrue(email).orElseThrow(() -> new IllegalArgumentException("Not found user from id"));
+        int quantityOrder = orderRepository.findAllByUsersId(user.getId()).size();
+        List<Orders> ordersList = orderRepository.findAllByUsersId(user.getId());
 
+        return UserResponse.builder()
+                .idUser(user.getId())
+                .full_name(user.getFullName())
+                .email(user.getEmail())
+                .create_by(user.getCreatedBy())
+                .modify_date(user.getModifiedDate())
+                .quantityOrders(quantityOrder)
+                .password(user.getPassword())
+                .avatar(user.getAvatar())
+                .orderResponseList(ordersList.stream().map(e -> OrderResponse.builder()
+                        .id(e.getId())
+                        .status(e.getStatus())
+                        .createDate(e.getCreatedDate())
+                        .subtotal(e.getPrice())
+                        .build()).collect(Collectors.toList()))
+                .build();
+
+    }
+
+    public void updateUser(String userRequest, MultipartFile file){
+        System.out.println(userRequest);
+        RegistrationRequest userReq= JsonUtil.toObject(userRequest,RegistrationRequest.class);
+        System.out.println(userReq);
+
+        String email = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        Users user = userRepository.findByEmailAndActiveTrue(email).orElseThrow(() -> new IllegalArgumentException("Not found user from id"));
+        Users userApp = userRepository.findByEmailAndActiveTrue(user.getEmail()).orElse(null);
+        if (userApp != null&&userApp.getId()!=user.getId()) {
+            throw new IllegalArgumentException("Email already exits");
+        }
+        if(userReq.getFullName()!=null){
+            user.setFullName(userReq.getFullName());
+
+        }
+        System.out.println(userReq.getFullName());
+        if(userReq.getEmail()!=null){
+            user.setEmail(userReq.getEmail());
+        }
+
+        if(userReq.getPassword()!=null){
+            user.setPassword(userReq.getPassword());
+        }
+        if(file != null){
+            user.setAvatar(amazonUtil.uploadFile(file));
+        }
+        userRepository.saveAndFlush(user);
+    }
 }

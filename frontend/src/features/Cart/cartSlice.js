@@ -32,7 +32,6 @@ const cartSlice = createSlice({
       const itemIndex = state.cartItems.findIndex(
         (item) => item.productDetailId === productDetailId
       );
-      console.log(itemIndex);
       if (itemIndex >= 0) {
         state.cartItems[itemIndex].quantity = quantity;
       }

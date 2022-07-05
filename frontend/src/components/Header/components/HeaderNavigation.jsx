@@ -286,7 +286,12 @@ export default function HeaderNavigation() {
           </Badge>
         </IconButton>
 
-        <IconButton aria-label="show 17 new notifications" color="inherit">
+        <IconButton
+          aria-label="show 17 new notifications"
+          color="inherit"
+          component={Link}
+          to="/cart"
+        >
           <Badge badgeContent={cartItemsCount} color="primary">
             <ShoppingCartOutlined />
           </Badge>
