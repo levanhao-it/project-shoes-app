@@ -60,5 +60,4 @@ const userSlice = createSlice({
 const { actions, reducer } = userSlice;
 
 export const { reset } = actions;
-console.log(reset);
 export default reducer;
