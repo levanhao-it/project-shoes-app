@@ -22,6 +22,7 @@ import { useSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
+import { jsonToFormData } from 'utils';
 
 AccountPage.propTypes = {};
 
@@ -204,10 +205,14 @@ function AccountPage(props) {
 
   const handleSaveAvatar = async () => {
     try {
+      console.log(image);
       const jsonObject = {
         fileImg: image,
+        userRequest: JSON.stringify({}).trim(),
       };
-      const { status, message } = await userApi.update(jsonObject);
+      const data = jsonToFormData(jsonObject);
+      console.log(data);
+      const { status, message } = await userApi.update(data);
       if (status === 'OK') {
         enqueueSnackbar('Change avatar successfully', {
           variant: 'success',
