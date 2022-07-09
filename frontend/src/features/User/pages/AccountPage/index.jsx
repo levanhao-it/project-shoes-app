@@ -205,13 +205,11 @@ function AccountPage(props) {
 
   const handleSaveAvatar = async () => {
     try {
-      console.log(image);
       const jsonObject = {
         fileImg: image,
         userRequest: JSON.stringify({}).trim(),
       };
       const data = jsonToFormData(jsonObject);
-      console.log(data);
       const { status, message } = await userApi.update(data);
       if (status === 'OK') {
         enqueueSnackbar('Change avatar successfully', {
@@ -227,6 +225,11 @@ function AccountPage(props) {
         autoHideDuration: 1000,
       });
     }
+  };
+
+  const handleChangeInfor = async (data) => {
+    setUser(data);
+    handleClose();
   };
 
   return (
@@ -417,7 +420,7 @@ function AccountPage(props) {
         </IconButton>
 
         <DialogContent>
-          {mode === MODE.INFORMATION && <UserDetail />}
+          {mode === MODE.INFORMATION && <UserDetail handelSubmitSuccess={handleChangeInfor} />}
           {mode === MODE.EMAIL && <UserEmail />}
           {mode === MODE.PASSWORD && <UserPassword />}
         </DialogContent>

@@ -135,7 +135,6 @@ function ProductReviewList({ product = {} }) {
       console.log(values);
 
       const result = await rateApi.add(values);
-      console.log('Rate: ', result);
       if (result.status === 'OK') {
         const resultRate = await rateApi.getById(product.id);
         setRate(resultRate.data);

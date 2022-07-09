@@ -6,10 +6,7 @@ import com.huyhao.appshoes.entity.Orders;
 import com.huyhao.appshoes.entity.Role;
 import com.huyhao.appshoes.entity.Users;
 import com.huyhao.appshoes.jwt.JwtProvider;
-import com.huyhao.appshoes.payload.auth.AuthRequest;
-import com.huyhao.appshoes.payload.auth.AuthResponse;
-import com.huyhao.appshoes.payload.auth.RegistrationRequest;
-import com.huyhao.appshoes.payload.auth.UserResponse;
+import com.huyhao.appshoes.payload.auth.*;
 import com.huyhao.appshoes.payload.order.OrderResponse;
 import com.huyhao.appshoes.repositories.CartRepository;
 import com.huyhao.appshoes.repositories.OrderRepository;
@@ -186,31 +183,38 @@ public class AuthService {
     }
 
     public void updateUser(String userRequest, MultipartFile file){
-        System.out.println(userRequest);
-        RegistrationRequest userReq= JsonUtil.toObject(userRequest,RegistrationRequest.class);
-        System.out.println(userReq);
+        UpdateUserRequest userReq= JsonUtil.toObject(userRequest,UpdateUserRequest.class);
 
         String email = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         Users user = userRepository.findByEmailAndActiveTrue(email).orElseThrow(() -> new IllegalArgumentException("Not found user from id"));
-        Users userApp = userRepository.findByEmailAndActiveTrue(user.getEmail()).orElse(null);
-        if (userApp != null&&userApp.getId()!=user.getId()) {
-            throw new IllegalArgumentException("Email already exits");
-        }
+        Users userApp = userRepository.findByEmailAndActiveTrue(userReq.getEmail()).orElse(null);
+
         if(userReq.getFullName()!=null){
             user.setFullName(userReq.getFullName());
 
         }
-        System.out.println(userReq.getFullName());
         if(userReq.getEmail()!=null){
-            user.setEmail(userReq.getEmail());
+            if (userApp != null&&userApp.getId()!=user.getId()) {
+                throw new IllegalArgumentException("Email already exits");
+            }
+            else{
+                user.setEmail(userReq.getEmail());
+
+            }
+        }
+        if(userReq.getNewPassword()!=null&&userReq.getOldPassword()!=null){
+            if(passwordEncoder.matches(userReq.getOldPassword(),user.getPassword())){
+                user.setPassword(passwordEncoder.encode(userReq.getNewPassword()));
+            }
+            else {
+                throw new IllegalArgumentException("Password is incorrect");
+            }
         }
 
-        if(userReq.getPassword()!=null){
-            user.setPassword(userReq.getPassword());
-        }
         if(file != null){
             user.setAvatar(amazonUtil.uploadFile(file));
         }
+
         userRepository.saveAndFlush(user);
     }
 }

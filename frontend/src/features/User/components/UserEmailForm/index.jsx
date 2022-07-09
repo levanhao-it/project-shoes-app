@@ -1,12 +1,11 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  Box, Grid, makeStyles,
-  Typography
-} from '@material-ui/core';
+import { Box, Grid, makeStyles, Typography } from '@material-ui/core';
 import ButtonActive from 'components/component-custom/ButtonActive';
 import ButtonSecondary from 'components/component-custom/ButtonSecondary';
+import PasswordField from 'components/form-controls/PasswordField';
+import StorageKeys from 'constant/storage-keys';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import InputField from '../../../../components/form-controls/InputField';
@@ -17,7 +16,14 @@ UserEmailForm.propTypes = {
 
 const schema = yup.object().shape({
   email: yup.string().required('Please enter email').email('Please enter valid email'),
-  
+  oldPassword: yup
+    .string()
+    .required('Please enter password')
+    .min(6, 'Title must be at least 6 characters'),
+  newPassword: yup
+    .string()
+    .required('Please enter password')
+    .min(6, 'Title must be at least 6 characters'),
 });
 
 const useStyles = makeStyles((theme) => ({
@@ -27,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     textTransform: 'uppercase',
     fontSize: '26px',
     fontWeight: '750',
-    width: '100%'
+    width: '100%',
   },
   title: {
     textAlign: 'left',
@@ -37,9 +43,9 @@ const useStyles = makeStyles((theme) => ({
     marginTop: '16px',
   },
   containerBtn: {
-    width: "100%",
-    float: 'left'
-  }
+    width: '100%',
+    float: 'left',
+  },
 }));
 
 function UserEmailForm(props) {
@@ -48,6 +54,8 @@ function UserEmailForm(props) {
   const form = useForm({
     defaultValues: {
       email: '',
+      oldPassword: '',
+      newPassword: '',
     },
     mode: 'onBlur',
     resolver: yupResolver(schema),
@@ -62,6 +70,12 @@ function UserEmailForm(props) {
 
     form.reset();
   };
+  useEffect(() => {
+    const fieldList = ['email'];
+    fieldList.forEach((element, i) => {
+      form.setValue(element, JSON.parse(localStorage.getItem(StorageKeys.USER)).email);
+    });
+  }, []);
 
   return (
     <Box align="center" className={classes.root}>
@@ -71,9 +85,11 @@ function UserEmailForm(props) {
 
       <form onSubmit={form.handleSubmit(handelSubmit)}>
         <InputField name="email" label="Email *" form={form} />
+        <PasswordField name="oldPassword" label="Old Password *" form={form} />
+        <PasswordField name="newPassword" label="New Password *" form={form} />
 
         <Box className={classes.containerBtn}>
-          <ButtonActive content="Save Changes" type="submit"/>
+          <ButtonActive content="Save Changes" type="submit" />
           <ButtonSecondary content="Cancel" />
         </Box>
       </form>

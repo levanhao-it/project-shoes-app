@@ -1,10 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  Box, Grid,
-  Link,
-  makeStyles,
-  Typography
-} from '@material-ui/core';
+import { Box, Grid, Link, makeStyles, Typography } from '@material-ui/core';
 import ButtonActive from 'components/component-custom/ButtonActive';
 import ButtonSecondary from 'components/component-custom/ButtonSecondary';
 import PropTypes from 'prop-types';
@@ -20,7 +15,6 @@ UserDetailForm.propTypes = {
 const schema = yup.object().shape({
   firstName: yup.string().required('Please enter first name'),
   lastName: yup.string().required('Please enter last name'),
-  
 });
 
 const useStyles = makeStyles((theme) => ({
@@ -37,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '18px',
     fontWeight: '700',
     marginTop: '16px',
-  }
+  },
 }));
 
 function UserDetailForm(props) {
@@ -75,7 +69,7 @@ function UserDetailForm(props) {
         <InputField name="firstName" label="First Name *" form={form} />
         <InputField name="lastName" label="Last Name *" form={form} />
 
-        <Typography component="p" variant='p' className={classes.title}>Date of Birth</Typography>
+        {/* <Typography component="p" variant='p' className={classes.title}>Date of Birth</Typography>
         <Grid container spacing={2}>
           <Grid item xs={4}>
             <InputField name="monthBirth" label="MM *" form={form} />
@@ -88,12 +82,10 @@ function UserDetailForm(props) {
           <Grid item xs={4}>
             <InputField name="yearBirth" label="YYYY *" form={form} />
           </Grid>
-        </Grid>
+        </Grid> */}
 
-        <ButtonActive content="Update details" type="submit"/>
+        <ButtonActive content="Update details" type="submit" />
         <ButtonSecondary content="Cancel" />
-
-  
       </form>
     </Box>
   );
