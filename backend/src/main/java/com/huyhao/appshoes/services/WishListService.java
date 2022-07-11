@@ -9,7 +9,6 @@ import com.huyhao.appshoes.repositories.ProductRepository;
 import com.huyhao.appshoes.repositories.UserRepository;
 import com.huyhao.appshoes.repositories.WishListRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +32,7 @@ public class WishListService {
             throw new IllegalArgumentException("Email not must be current email");
         }
 
-        Users userApp = userRepository.findByEmail(wishListRequest.getEmail())
+        Users userApp = userRepository.findByEmailAndActiveTrue(wishListRequest.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("Not found user from email"));
 
         Product product = productRepository.findByIdAndActiveTrue(wishListRequest.getProductId())
@@ -55,7 +54,7 @@ public class WishListService {
             throw new IllegalArgumentException("Email not must be current email");
         }
 
-        Users userApp = userRepository.findByEmail(email)
+        Users userApp = userRepository.findByEmailAndActiveTrue(email)
                 .orElseThrow(() -> new IllegalArgumentException("Not found user from email"));
 
         List<WishList> wishLists = wishListRepository.findByUsersIdAndActiveTrue(userApp.getId());

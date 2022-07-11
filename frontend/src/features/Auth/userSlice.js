@@ -13,6 +13,7 @@ export const register = createAsyncThunk('user/register', async (payload) => {
 export const login = createAsyncThunk('user/login', async (payload) => {
   // call API to register user
   const data = await userApi.login(payload);
+  console.log(data);
   const user = {
     userName: data.data.userName,
     email: data.data.email,

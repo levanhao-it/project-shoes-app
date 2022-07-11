@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Box,
   Dialog,
   DialogContent,
@@ -8,14 +9,16 @@ import {
   MenuItem,
   Typography,
 } from '@material-ui/core';
+import { deepOrange } from '@material-ui/core/colors';
 import { AccountCircle } from '@material-ui/icons';
 import Close from '@material-ui/icons/Close';
+import userApi from 'api/userApi';
 import { HEADER_AUTHENTIC } from 'constant';
 import LogIn from 'features/Auth/components/LogIn';
 import Register from 'features/Auth/components/Register';
 import { logout } from 'features/Auth/userSlice';
 import { reset } from 'features/Wishlist/wishListSlice';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 
@@ -80,6 +83,16 @@ const useStyles = makeStyles((theme) => ({
   menu: {
     paddingTop: '40px',
   },
+  avatar: {
+    width: '25px',
+    height: '25px',
+    borderRadius: '50%',
+    color: '#fff',
+    backgroundColor: deepOrange[500],
+    '&:hover': {
+      cursor: 'pointer',
+    },
+  },
 }));
 
 const MODE = {
@@ -133,6 +146,9 @@ function HeaderAuthentic(props) {
   };
 
   const classes = useStyles();
+  const user = useSelector((state) => state.user.current);
+  console.log(user);
+
   return (
     <>
       <Box className={classes.root}>
@@ -150,7 +166,14 @@ function HeaderAuthentic(props) {
           {isLoggedIn && (
             <li>
               <IconButton style={{ padding: '0px' }} color="inherit" onMouseOver={handleUserClick}>
-                <AccountCircle />
+                {/* <AccountCircle /> */}
+                {user.avatar ? (
+                  <Avatar id="avatar" src={user.avatar} className={classes.avatar}></Avatar>
+                ) : (
+                  <Avatar id="avatar" className={classes.avatar}>
+                    {user.userName.charAt(0)}
+                  </Avatar>
+                )}
               </IconButton>
             </li>
           )}

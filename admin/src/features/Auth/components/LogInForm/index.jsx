@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core';
 
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import InputField from '../../../../components/form-controls/InputField';
@@ -70,6 +70,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function LogInForm(props) {
+  const [checked, setChecked] = useState(false);
+
   const classes = useStyles();
 
   const form = useForm({
@@ -84,12 +86,18 @@ function LogInForm(props) {
   const handelSubmit = async (values) => {
     const { onSubmit } = props;
     if (onSubmit) {
+      values.remember = checked;
+
       await onSubmit(values);
     }
 
     form.reset();
   };
   const { isSubmitting } = form.formState;
+
+  const handleChangeChecked = (event) => {
+    setChecked(event.target.checked);
+  };
 
   return (
     <Box align="center" className={classes.root}>
@@ -104,7 +112,10 @@ function LogInForm(props) {
         <InputField name="email" label="Admin" form={form} />
         <PasswordField name="password" label="Password" form={form} />
         <Box justifyContent={'space-between'} alignItems={'center'} display="flex">
-          <FormControlLabel control={<Checkbox />} label="Keep me signed in" />
+          <FormControlLabel
+            control={<Checkbox defaultChecked onChange={handleChangeChecked} checked={checked} />}
+            label="Keep me signed in"
+          />
         </Box>
 
         <Box>

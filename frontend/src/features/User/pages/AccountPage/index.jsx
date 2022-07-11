@@ -7,6 +7,7 @@ import {
   useMediaQuery,
   useTheme,
 } from '@material-ui/core';
+import { deepOrange, yellow } from '@material-ui/core/colors';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import { Close } from '@material-ui/icons';
@@ -26,7 +27,7 @@ import { jsonToFormData } from 'utils';
 
 AccountPage.propTypes = {};
 
-const useStyle = makeStyles(() => ({
+const useStyle = makeStyles((theme) => ({
   root: {
     backgroundColor: '#fff',
     padding: '32px 16px',
@@ -96,6 +97,9 @@ const useStyle = makeStyles(() => ({
   avatar: {
     width: '250px',
     height: '250px',
+    color: '#fff',
+    backgroundColor: deepOrange[500],
+    fontSize: '150px',
   },
   editImage: {
     display: 'inline-block',
@@ -231,6 +235,7 @@ function AccountPage(props) {
     setUser(data);
     handleClose();
   };
+  const name = user.avatar ? '' : user.full_name?.slice(0, 1).toUpperCase();
 
   return (
     <div>
@@ -278,7 +283,16 @@ function AccountPage(props) {
               />
               <label htmlFor="upload">
                 <IconButton color="primary" aria-label="upload picture" component="span">
-                  <Avatar id="avatar" src={file} className={classes.avatar} />
+                  {/* <Avatar id="avatar" src={file} className={classes.avatar}>
+                    N
+                  </Avatar> */}
+                  {user.avatar ? (
+                    <Avatar id="avatar" src={user.avatar} className={classes.avatar}></Avatar>
+                  ) : (
+                    <Avatar id="avatar" className={classes.avatar}>
+                      {name}
+                    </Avatar>
+                  )}
                 </IconButton>
                 {/* <Typography variant="p" component="span" className={classes.editImage}>
                   Choose Image
@@ -324,24 +338,6 @@ function AccountPage(props) {
                 Edit
               </Typography>
             </Box>
-
-            {/* <Box className={classes.containerItem}>
-              <Typography variant="p" component="p" className={classes.headingTitle}>
-                Password
-              </Typography>
-              <Typography variant="p" component="p" className={classes.content}>
-                ***********
-              </Typography>
-              <Typography
-                variant="p"
-                component="span"
-                className={classes.edit}
-                onClick={handleOpenPassword}
-              >
-                Edit
-              </Typography>
-            </Box> */}
-
             <Box className={classes.containerItem}>
               <Typography variant="p" component="p" className={classes.headingTitle}>
                 LOG OUT FROM ALL WEB BROWSERS

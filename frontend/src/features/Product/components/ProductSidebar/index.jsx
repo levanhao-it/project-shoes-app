@@ -74,6 +74,10 @@ const useStyle = makeStyles((theme) => ({
       color: '#fff',
     },
   },
+  sizeActive: {
+    backgroundColor: '#000',
+    color: '#fff',
+  },
 
   buttonCart: {
     width: '80%',
@@ -116,6 +120,10 @@ const useStyle = makeStyles((theme) => ({
       border: '2px solid #2AC37D',
     },
   },
+  imgStyleActive: {
+    border: '2px solid #2AC37D',
+  },
+
   containerButton: {
     margin: '15px 0 0 10px',
   },
@@ -135,6 +143,8 @@ function ProductSidebar({ product }) {
   } = useRouteMatch();
 
   const [favourite, setFavourite] = useState(false);
+  const [activeImg, setActiveImg] = useState(null);
+  const [activeSize, setActiveSize] = useState(null);
 
   useEffect(() => {
     const isFavorite = wishList.some((x) => x.product.id === product.id);
@@ -153,12 +163,14 @@ function ProductSidebar({ product }) {
 
   const [listProductByColor, setListProductByColor] = useState([]);
 
-  const handleStylesClick = (colorProductDetail) => {
+  const handleStylesClick = (idproductDetail, colorProductDetail) => {
     setListProductByColor(listDetail.filter((item) => item.color === colorProductDetail));
+    setActiveImg(idproductDetail);
   };
 
   const handleSelectSize = (productDetail) => {
     setProductDetail(productDetail);
+    setActiveSize(productDetail.id);
   };
 
   const dispatch = useDispatch();
@@ -252,10 +264,14 @@ function ProductSidebar({ product }) {
             <img
               key={productDetail.id}
               src={productDetail.linkImg}
-              className={classes.imgStyle}
+              className={
+                classes.imgStyle +
+                ' ' +
+                (activeImg === productDetail.id ? classes.imgStyleActive : '')
+              }
               alt=""
               onClick={() => {
-                handleStylesClick(productDetail.color);
+                handleStylesClick(productDetail.id, productDetail.color);
               }}
             />
           ))}
@@ -279,7 +295,9 @@ function ProductSidebar({ product }) {
           {listProductByColor?.map((productDetail) => (
             <li
               key={productDetail.id}
-              className={classes.size}
+              className={
+                classes.size + ' ' + (activeSize === productDetail.id ? classes.sizeActive : '')
+              }
               onClick={() => handleSelectSize(productDetail)}
             >
               {productDetail.size}

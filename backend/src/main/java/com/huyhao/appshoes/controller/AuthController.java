@@ -98,6 +98,7 @@ public class AuthController {
         addRefreshTokenToCookie(response, refreshToken, jwtProvider.getRefreshTokenLifeTimeMinutes(isRemember) * 60);
         return AuthResponse.builder()
                 .email(appUser.getEmail())
+                .avatar(appUser.getAvatar())
                 .userName(appUser.getFullName())
                 .role(appUser.getRole().getId()==1?"ADMIN":"CUSTOMER")
                 .accessToken(accessToken).build();

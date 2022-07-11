@@ -22,6 +22,12 @@ const useStyle = makeStyles((theme) => ({
 
 function ProductSilder({ product = {} }) {
   const listDetail = product.productDetailList || [];
+  const colorList = [...new Set(listDetail.map((item) => item.color))];
+  const productWithImageList = [];
+  colorList.forEach((item, index) => {
+    const productWithImage = listDetail.find((item, idx) => item.color === colorList[index]);
+    productWithImageList.push(productWithImage);
+  });
 
   const classes = useStyle();
   return (
@@ -42,7 +48,7 @@ function ProductSilder({ product = {} }) {
         modules={[Pagination, Navigation, Autoplay]}
         className="mySwiper"
       >
-        {listDetail.map((item, index) => (
+        {productWithImageList.map((item, index) => (
           <SwiperSlide key={index}>
             <Box className={classes.silderImg}>
               <img src={item.linkImg} alt="" width="100%" />
