@@ -13,7 +13,6 @@ export const register = createAsyncThunk('user/register', async (payload) => {
 export const login = createAsyncThunk('user/login', async (payload) => {
   // call API to register user
   const data = await userApi.login(payload);
-  console.log(data);
   const user = {
     userName: data.data.userName,
     email: data.data.email,
@@ -35,6 +34,19 @@ export const logout = createAsyncThunk('user/logout', async () => {
   return data;
 });
 
+export const updateUser = createAsyncThunk('user/update', async (payload) => {
+  await userApi.update(payload);
+  const { data } = await userApi.getUser();
+  const user = {
+    userName: data.full_name,
+    email: data.email,
+    avatar: data.avatar,
+    role: data.role,
+  };
+  localStorage.setItem(StorageKeys.USER, JSON.stringify(user));
+
+  return user;
+});
 const userSlice = createSlice({
   name: 'user',
   initialState: {
@@ -56,6 +68,10 @@ const userSlice = createSlice({
     [logout.fulfilled]: (state, action) => {
       state.current = {};
       state.isLoggedIn = false;
+    },
+    [updateUser.fulfilled]: (state, action) => {
+      state.current = action.payload;
+      state.isLoggedIn = true;
     },
   },
 });

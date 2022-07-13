@@ -1,5 +1,5 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import {
   Avatar,
@@ -9,135 +9,135 @@ import {
   Typography,
   useMediaQuery,
   useTheme,
-} from "@material-ui/core";
-import { deepOrange, yellow } from "@material-ui/core/colors";
-import Dialog from "@material-ui/core/Dialog";
-import DialogContent from "@material-ui/core/DialogContent";
-import { Close } from "@material-ui/icons";
-import { makeStyles } from "@material-ui/styles";
-import userApi from "api/userApi";
-import ButtonSecondary from "components/component-custom/ButtonSecondary";
-import { logout } from "features/Auth/userSlice";
-import UserDetail from "features/User/components/UserDetail";
-import UserEmail from "features/User/components/UserEmail";
-import UserPassword from "features/User/components/UserPassword";
-import moment from "moment";
-import { useSnackbar } from "notistack";
-import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
-import { jsonToFormData } from "utils";
+} from '@material-ui/core';
+import { deepOrange, yellow } from '@material-ui/core/colors';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import { Close } from '@material-ui/icons';
+import { makeStyles } from '@material-ui/styles';
+import userApi from 'api/userApi';
+import ButtonSecondary from 'components/component-custom/ButtonSecondary';
+import { logout } from 'features/Auth/userSlice';
+import UserDetail from 'features/User/components/UserDetail';
+import UserEmail from 'features/User/components/UserEmail';
+import UserPassword from 'features/User/components/UserPassword';
+import moment from 'moment';
+import { useSnackbar } from 'notistack';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
+import { jsonToFormData } from 'utils';
 
 UserAccount.propTypes = {};
 
 const useStyle = makeStyles((theme) => ({
   root: {
-    backgroundColor: "#fff",
-    padding: "32px 16px",
-    marginBottom: "30px",
+    backgroundColor: '#fff',
+    padding: '32px 16px',
+    marginBottom: '30px',
   },
   heading: {
-    fontSize: "30px",
-    marginTop: "15px",
-    textTransform: "uppercase",
-    fontWeight: "700",
+    fontSize: '30px',
+    marginTop: '15px',
+    textTransform: 'uppercase',
+    fontWeight: '700',
   },
   subHeding: {
-    fontSize: "16px",
-    marginTop: "10px",
+    fontSize: '16px',
+    marginTop: '10px',
   },
   container: {
-    marginTop: "60px",
+    marginTop: '60px',
   },
   content: {
-    fontSize: "15px",
-    textTransform: "uppercase",
-    marginTop: "10px",
+    fontSize: '15px',
+    textTransform: 'uppercase',
+    marginTop: '10px',
   },
   edit: {
-    display: "inline-block",
-    fontSize: "15px",
-    textTransform: "uppercase",
-    marginTop: "10px",
-    textDecoration: "underline",
-    fontWeight: "bold",
-    "&:hover": {
-      backgroundColor: "#000",
-      color: "#fff",
-      cursor: "pointer",
+    display: 'inline-block',
+    fontSize: '15px',
+    textTransform: 'uppercase',
+    marginTop: '10px',
+    textDecoration: 'underline',
+    fontWeight: 'bold',
+    '&:hover': {
+      backgroundColor: '#000',
+      color: '#fff',
+      cursor: 'pointer',
     },
   },
   headingTitle: {
-    fontSize: "20px",
-    textTransform: "uppercase",
-    fontWeight: "bold",
+    fontSize: '20px',
+    textTransform: 'uppercase',
+    fontWeight: 'bold',
   },
   containerItem: {
-    marginTop: "40px",
+    marginTop: '40px',
   },
   link: {
-    display: "block",
-    textDecoration: "none",
-    marginBottom: "5px",
-    color: "#000",
-    "&:hover": {
-      backgroundColor: "#000",
-      color: "#fff",
+    display: 'block',
+    textDecoration: 'none',
+    marginBottom: '5px',
+    color: '#000',
+    '&:hover': {
+      backgroundColor: '#000',
+      color: '#fff',
     },
   },
   closeButton: {
-    position: "absolute",
-    top: "2px",
-    right: "2px",
-    zIndex: "1",
+    position: 'absolute',
+    top: '2px',
+    right: '2px',
+    zIndex: '1',
   },
 
   box1: {
-    display: "flex",
-    justifyContent: "space-between",
-    marginTop: "15px",
+    display: 'flex',
+    justifyContent: 'space-between',
+    marginTop: '15px',
   },
   avatar: {
-    width: "250px",
-    height: "250px",
-    color: "#fff",
+    width: '250px',
+    height: '250px',
+    color: '#fff',
     backgroundColor: deepOrange[500],
-    fontSize: "150px",
+    fontSize: '150px',
   },
   editImage: {
-    display: "inline-block",
-    fontSize: "15px",
-    textTransform: "uppercase",
-    marginTop: "10px",
-    marginLeft: "80px",
-    textDecoration: "underline",
-    fontWeight: "bold",
-    "&:hover": {
-      backgroundColor: "#000",
-      color: "#fff",
-      cursor: "pointer",
+    display: 'inline-block',
+    fontSize: '15px',
+    textTransform: 'uppercase',
+    marginTop: '10px',
+    marginLeft: '80px',
+    textDecoration: 'underline',
+    fontWeight: 'bold',
+    '&:hover': {
+      backgroundColor: '#000',
+      color: '#fff',
+      cursor: 'pointer',
     },
   },
   saveImage: {
-    display: "inline-block",
-    fontSize: "15px",
-    textTransform: "uppercase",
-    marginTop: "10px",
-    marginLeft: "125px",
-    textDecoration: "underline",
-    fontWeight: "bold",
-    "&:hover": {
-      backgroundColor: "#000",
-      color: "#fff",
-      cursor: "pointer",
+    display: 'inline-block',
+    fontSize: '15px',
+    textTransform: 'uppercase',
+    marginTop: '10px',
+    marginLeft: '125px',
+    textDecoration: 'underline',
+    fontWeight: 'bold',
+    '&:hover': {
+      backgroundColor: '#000',
+      color: '#fff',
+      cursor: 'pointer',
     },
   },
 }));
 
 const MODE = {
-  INFORMATION: "infomation",
-  EMAIL: "email",
-  PASSWORD: "password",
+  INFORMATION: 'infomation',
+  EMAIL: 'email',
+  PASSWORD: 'password',
 };
 
 function UserAccount(props) {
@@ -147,7 +147,7 @@ function UserAccount(props) {
 
   const history = useHistory();
   const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.down("xs"));
+  const matches = useMediaQuery(theme.breakpoints.down('xs'));
 
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState(MODE.INFORMATION);
@@ -176,11 +176,11 @@ function UserAccount(props) {
   };
 
   const handleLogoutClick = () => {
-    console.log("vo chua ba");
+    console.log('vo chua ba');
 
     const action = logout();
     dispatch(action);
-    history.push("/");
+    history.push('/');
   };
 
   const [user, setUser] = useState({});
@@ -194,7 +194,7 @@ function UserAccount(props) {
         setUser(data.data);
         setFile(data.data.avatar);
       } catch (error) {
-        console.log("Failed to fetch user: ", error);
+        console.log('Failed to fetch user: ', error);
       }
     })();
   }, []);
@@ -218,17 +218,17 @@ function UserAccount(props) {
       };
       const data = jsonToFormData(jsonObject);
       const { status, message } = await userApi.update(data);
-      if (status === "OK") {
-        enqueueSnackbar("Change avatar successfully", {
-          variant: "success",
+      if (status === 'OK') {
+        enqueueSnackbar('Change avatar successfully', {
+          variant: 'success',
           autoHideDuration: 1000,
         });
       } else {
-        enqueueSnackbar(message, { variant: "error", autoHideDuration: 1000 });
+        enqueueSnackbar(message, { variant: 'error', autoHideDuration: 1000 });
       }
     } catch (error) {
       enqueueSnackbar(error.message, {
-        variant: "error",
+        variant: 'error',
         autoHideDuration: 1000,
       });
     }
@@ -238,7 +238,7 @@ function UserAccount(props) {
     setUser(data);
     handleClose();
   };
-  const name = user.avatar ? "" : user.full_name?.slice(0, 1).toUpperCase();
+  const name = user.avatar ? '' : user.full_name?.slice(0, 1).toUpperCase();
 
   return (
     <div>
@@ -246,48 +246,23 @@ function UserAccount(props) {
         <Box className={classes.root}>
           <Box className={classes.box1}>
             <Box>
-              <Typography
-                variant="h5"
-                component="h5"
-                className={classes.heading}
-              >
+              <Typography variant="h5" component="h5" className={classes.heading}>
                 My details
               </Typography>
-              <Typography
-                variant="p"
-                component="p"
-                className={classes.subHeding}
-              >
-                Feel free to edit any of your details below so your account is
-                up to date.
+              <Typography variant="p" component="p" className={classes.subHeding}>
+                Feel free to edit any of your details below so your account is up to date.
               </Typography>
               <Box className={classes.container}>
-                <Typography
-                  variant="h5"
-                  component="h5"
-                  className={classes.heading}
-                >
+                <Typography variant="h5" component="h5" className={classes.heading}>
                   DETAILS
                 </Typography>
-                <Typography
-                  variant="p"
-                  component="p"
-                  className={classes.content}
-                >
+                <Typography variant="p" component="p" className={classes.content}>
                   Full Name: {user.full_name}
                 </Typography>
 
-                <Typography
-                  variant="p"
-                  component="p"
-                  className={classes.content}
-                >
-                  Create Date: {moment(user.modify_date).format("LLLL")}
-                  <Typography
-                    variant="p"
-                    component="p"
-                    className={classes.content}
-                  >
+                <Typography variant="p" component="p" className={classes.content}>
+                  Create Date: {moment(user.modify_date).format('LLLL')}
+                  <Typography variant="p" component="p" className={classes.content}>
                     Quantity Order: {user.quantityOrders}
                   </Typography>
                 </Typography>
@@ -301,29 +276,21 @@ function UserAccount(props) {
                 </Typography>
               </Box>
             </Box>
-            <Box style={{ width: "300px" }}>
+            <Box style={{ width: '300px' }}>
               <input
                 type="file"
                 onChange={handleChange}
                 id="upload"
                 accept="image/*"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
               />
               <label htmlFor="upload">
-                <IconButton
-                  color="primary"
-                  aria-label="upload picture"
-                  component="span"
-                >
+                <IconButton color="primary" aria-label="upload picture" component="span">
                   {/* <Avatar id="avatar" src={file} className={classes.avatar}>
                     N
                   </Avatar> */}
                   {user.avatar ? (
-                    <Avatar
-                      id="avatar"
-                      src={user.avatar}
-                      className={classes.avatar}
-                    ></Avatar>
+                    <Avatar id="avatar" src={user.avatar} className={classes.avatar}></Avatar>
                   ) : (
                     <Avatar id="avatar" className={classes.avatar}>
                       {name}
@@ -334,11 +301,7 @@ function UserAccount(props) {
                   Choose Image
                 </Typography> */}
                 {!flag && (
-                  <Typography
-                    variant="p"
-                    component="span"
-                    className={classes.editImage}
-                  >
+                  <Typography variant="p" component="span" className={classes.editImage}>
                     Change Image
                   </Typography>
                 )}
@@ -363,11 +326,7 @@ function UserAccount(props) {
             </Typography>
 
             <Box className={classes.containerItem}>
-              <Typography
-                variant="p"
-                component="p"
-                className={classes.headingTitle}
-              >
+              <Typography variant="p" component="p" className={classes.headingTitle}>
                 Email
               </Typography>
               <Typography variant="p" component="p">
@@ -383,59 +342,34 @@ function UserAccount(props) {
               </Typography>
             </Box>
             <Box className={classes.containerItem}>
-              <Typography
-                variant="p"
-                component="p"
-                className={classes.headingTitle}
-              >
+              <Typography variant="p" component="p" className={classes.headingTitle}>
                 LOG OUT FROM ALL WEB BROWSERS
               </Typography>
-              <Typography
-                variant="p"
-                component="p"
-                className={classes.subHeding}
-              >
-                This will log you out from all web browsers you have used to
-                access the adidas website. To log in again, you'll have to enter
-                your credentials.
+              <Typography variant="p" component="p" className={classes.subHeding}>
+                This will log you out from all web browsers you have used to access the adidas
+                website. To log in again, you'll have to enter your credentials.
               </Typography>
               <ButtonSecondary
                 content="Log me out"
-                widthBtn={matches ? "100%" : "50%"}
+                widthBtn={matches ? '100%' : '50%'}
                 onClick={handleLogoutClick}
               />
             </Box>
 
             <Box className={classes.containerItem}>
-              <Typography
-                variant="p"
-                component="p"
-                className={classes.headingTitle}
-              >
+              <Typography variant="p" component="p" className={classes.headingTitle}>
                 MANAGE ACCOUNT
               </Typography>
-              <ButtonSecondary
-                content="Delete account"
-                widthBtn={matches ? "100%" : "50%"}
-              />
-              <Typography
-                variant="p"
-                component="p"
-                className={classes.subHeding}
-              >
-                By deleting your account you will no longer be a member of the
-                adidas adiClub.
+              <ButtonSecondary content="Delete account" widthBtn={matches ? '100%' : '50%'} />
+              <Typography variant="p" component="p" className={classes.subHeding}>
+                By deleting your account you will no longer be a member of the adidas adiClub.
               </Typography>
             </Box>
           </Box>
         </Box>
 
         <Box className={classes.footer}>
-          <Typography
-            variant="p"
-            component="p"
-            className={classes.headingTitle}
-          >
+          <Typography variant="p" component="p" className={classes.headingTitle}>
             Need help ?
           </Typography>
 
@@ -485,9 +419,7 @@ function UserAccount(props) {
         </IconButton>
 
         <DialogContent>
-          {mode === MODE.INFORMATION && (
-            <UserDetail handelSubmitSuccess={handleChangeInfor} />
-          )}
+          {mode === MODE.INFORMATION && <UserDetail handelSubmitSuccess={handleChangeInfor} />}
           {mode === MODE.EMAIL && <UserEmail />}
           {mode === MODE.PASSWORD && <UserPassword />}
         </DialogContent>
