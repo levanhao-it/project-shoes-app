@@ -46,6 +46,9 @@ const useStyle = makeStyles((theme) => ({
   btnCancel: {
     marginLeft: theme.spacing(1),
   },
+  boxBtn: {
+    textAlign: "right",
+  },
 }));
 
 function AddressAddForm({ onSubmit, closeDialog }) {
@@ -103,7 +106,7 @@ function AddressAddForm({ onSubmit, closeDialog }) {
           }
           label="Set as default address"
         />
-        <Box>
+        <Box className={classes.boxBtn}>
           <Button variant="contained" color="primary" type="submit">
             Submit
           </Button>

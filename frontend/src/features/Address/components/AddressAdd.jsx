@@ -10,7 +10,7 @@ AddressAdd.propTypes = {
 
 function AddressAdd({ closeDialog }) {
   const { enqueueSnackbar } = useSnackbar();
-  const handleSubmit = async (values) => {
+  const handleSubmit = (values) => {
     try {
       const fetchAddress = async () => {
         await addressApi.add(values);
