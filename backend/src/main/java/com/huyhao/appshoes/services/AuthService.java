@@ -74,7 +74,7 @@ public class AuthService {
     }
 
     public AuthResponse register(RegistrationRequest registrationRequest) throws MessagingException, UnsupportedEncodingException {
-        Users userApp = userRepository.findByEmail(registrationRequest.getEmail()).orElse(null);
+        Users userApp = userRepository.findByEmailAndActiveTrue(registrationRequest.getEmail()).orElse(null);
         if (userApp != null) {
             throw new IllegalArgumentException("Email already exits");
         }

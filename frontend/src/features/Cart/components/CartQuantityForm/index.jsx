@@ -7,13 +7,16 @@ import * as yup from 'yup';
 
 CartQuantityForm.propTypes = {
   onSubmit: PropTypes.func,
+  value: PropTypes.number,
+  quantityMax: PropTypes.number,
 };
 
-function CartQuantityForm({ onSubmit = null, value: initialQuantity }) {
+function CartQuantityForm({ onSubmit = null, value: initialQuantity, quantityMax = 0 }) {
   const schema = yup.object().shape({
     quantity: yup
       .number()
       .required('Please enter quantity')
+      .max(quantityMax, 'Maximum value is ' + quantityMax)
       .min(1, 'Minimum value is 1')
       .integer('Quantity must be a valid number')
       .typeError('Please enter a number'),
@@ -34,7 +37,12 @@ function CartQuantityForm({ onSubmit = null, value: initialQuantity }) {
 
   return (
     <form onSubmit={submitCallback} onBlur={submitCallback}>
-      <QuantityField name="quantity" form={form} submitCallback={submitCallback} />
+      <QuantityField
+        name="quantity"
+        form={form}
+        submitCallback={submitCallback}
+        quantityMax={quantityMax}
+      />
     </form>
   );
 }

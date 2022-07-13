@@ -17,7 +17,7 @@ import { Close } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
 import userApi from 'api/userApi';
 import ButtonSecondary from 'components/component-custom/ButtonSecondary';
-import { logout } from 'features/Auth/userSlice';
+import { logout, updateUser } from 'features/Auth/userSlice';
 import UserDetail from 'features/User/components/UserDetail';
 import UserEmail from 'features/User/components/UserEmail';
 import UserPassword from 'features/User/components/UserPassword';
@@ -27,6 +27,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { jsonToFormData } from 'utils';
+import { unwrapResult } from '@reduxjs/toolkit';
 
 UserAccount.propTypes = {};
 
@@ -170,14 +171,7 @@ function UserAccount(props) {
     handleClickOpen();
   };
 
-  const handleOpenPassword = () => {
-    setMode(MODE.PASSWORD);
-    handleClickOpen();
-  };
-
   const handleLogoutClick = () => {
-    console.log('vo chua ba');
-
     const action = logout();
     dispatch(action);
     history.push('/');
@@ -203,8 +197,8 @@ function UserAccount(props) {
 
   const handleChange = function loadFile(event) {
     if (event.target.files.length > 0) {
-      const file = URL.createObjectURL(event.target.files[0]);
-      setFile(file);
+      const fileSelected = URL.createObjectURL(event.target.files[0]);
+      setFile(fileSelected);
       setImage(event.target.files[0]);
       setFlag(true);
     }
@@ -217,14 +211,16 @@ function UserAccount(props) {
         userRequest: JSON.stringify({}).trim(),
       };
       const data = jsonToFormData(jsonObject);
-      const { status, message } = await userApi.update(data);
-      if (status === 'OK') {
-        enqueueSnackbar('Change avatar successfully', {
+      const { payload } = await dispatch(updateUser(data));
+      unwrapResult(payload);
+      if (typeof payload.email !== 'undefined') {
+        setFlag(false);
+        enqueueSnackbar('Change information user successfully', {
           variant: 'success',
           autoHideDuration: 1000,
         });
-      } else {
-        enqueueSnackbar(message, { variant: 'error', autoHideDuration: 1000 });
+        // else {
+        // enqueueSnackbar(message, { variant: 'error', autoHideDuration: 1000 });
       }
     } catch (error) {
       enqueueSnackbar(error.message, {
@@ -290,7 +286,7 @@ function UserAccount(props) {
                     N
                   </Avatar> */}
                   {user.avatar ? (
-                    <Avatar id="avatar" src={user.avatar} className={classes.avatar}></Avatar>
+                    <Avatar id="avatar" src={file} className={classes.avatar}></Avatar>
                   ) : (
                     <Avatar id="avatar" className={classes.avatar}>
                       {name}

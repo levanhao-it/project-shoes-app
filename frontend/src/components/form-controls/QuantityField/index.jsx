@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   FormControl,
+  FormHelperText,
   makeStyles,
   OutlinedInput,
   Typography,
@@ -62,8 +63,9 @@ const AdjustButton = withStyles({
 
 function QuantityField(props) {
   const classes = useStyles();
-  const { form, name, label, disabled } = props;
-  const { hasError /* , errorMessage */ } = getErrorMessageRHF(form, name);
+  const { form, name, label, disabled, quantityMax } = props;
+  console.log(quantityMax);
+  const { hasError, errorMessage } = getErrorMessageRHF(form, name);
 
   const addQuantity = (value, add) => {
     const newValue = numberParsePositiveInt(value) + add;
@@ -101,7 +103,7 @@ function QuantityField(props) {
                   input: classes.input,
                 }}
                 id={name}
-                type="number"
+                type="text"
                 disabled={disabled}
                 // bind render props of Controller
                 value={productQuantityClamp(parsedValue)}
@@ -111,7 +113,7 @@ function QuantityField(props) {
 
               <AdjustButton
                 className={classes.right}
-                disabled={disabled || value >= MAX_PRODUCT_QUANTITY}
+                disabled={disabled || value >= quantityMax}
                 onClick={() => addQuantity(value, +1)}
               >
                 <Add />
@@ -120,6 +122,7 @@ function QuantityField(props) {
           );
         }}
       />
+      <FormHelperText>{errorMessage}</FormHelperText>
     </FormControl>
   );
 }

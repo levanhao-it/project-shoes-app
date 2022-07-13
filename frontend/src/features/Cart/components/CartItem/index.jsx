@@ -1,10 +1,8 @@
 import {
   Box,
   Button,
-  ButtonGroup,
   Dialog,
   DialogActions,
-  DialogContent,
   DialogTitle,
   Grid,
   InputBase,
@@ -12,17 +10,14 @@ import {
   Typography,
   withStyles,
 } from '@material-ui/core';
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import NativeSelect from '@material-ui/core/NativeSelect';
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import CloseIcon from '@material-ui/icons/Close';
-import React, { useState } from 'react';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import RemoveShoppingCartIcon from '@material-ui/icons/RemoveShoppingCart';
 import PropTypes from 'prop-types';
-import CartQuantityForm from '../CartQuantityForm';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { removeFromCart, setQuantity } from '../../cartSlice';
-import RemoveShoppingCartIcon from '@material-ui/icons/RemoveShoppingCart';
+import CartQuantityForm from '../CartQuantityForm';
 
 CartItem.propTypes = {
   item: PropTypes.object.isRequired,
@@ -100,16 +95,19 @@ const useStyle = makeStyles((theme) => ({
   header: {
     marginBottom: '10px',
   },
-  quantity: {
-    fontSize: '18px',
-    padding: '10px 0px 10px 20px',
-  },
   salePrice: {
     color: '#e32b2b',
     marginLeft: '8px',
   },
   banPrice: {
     textDecoration: 'line-through',
+  },
+  quantity: {
+    fontSize: '18px',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: '10px 0px 10px 0px',
   },
 }));
 
@@ -131,6 +129,7 @@ function CartItem({ item = {} }) {
   const handleRemoveOk = () => {
     dispatch(removeFromCart(productDetailId));
   };
+  console.log(item.productDetail.quantity);
 
   return (
     <Box>
@@ -178,7 +177,16 @@ function CartItem({ item = {} }) {
           <Typography className={classes.title}>
             <span>size: </span> {item.productDetail.size}
           </Typography>
-          <CartQuantityForm value={item.quantity} onSubmit={handleSetQuantitySubmit} />
+          <Box className={classes.quantity}>
+            <CartQuantityForm
+              value={item.quantity}
+              onSubmit={handleSetQuantitySubmit}
+              quantityMax={item.productDetail.quantity}
+            />
+            <span style={{ marginLeft: '10px' }}>
+              {item.productDetail.quantity} products are available
+            </span>
+          </Box>
         </Grid>
       </Grid>
       <Dialog
