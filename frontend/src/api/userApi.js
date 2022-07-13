@@ -25,5 +25,12 @@ const userApi = {
       },
     });
   },
+
+  verify(data) {
+    const url = `/verify`;
+    return axiosClient.post(url, null, {
+      params: data,
+    });
+  },
 };
 export default userApi;

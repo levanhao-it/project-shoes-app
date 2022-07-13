@@ -15,7 +15,17 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
     show-sql: true
-
+  mail:
+    port: 587
+    host: smtp.gmail.com
+    username: shoesapp2022@gmail.com
+    password: foohtjhtazdwrdlj
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 app-shoes:
   token:
     accessLifetimeMinutes: 5

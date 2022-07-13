@@ -10,12 +10,15 @@ import com.huyhao.appshoes.payload.auth.RegistrationRequest;
 import com.huyhao.appshoes.services.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
 
 @Slf4j
 @RestController
@@ -67,14 +70,32 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegistrationRequest request, HttpServletResponse response) {
+    public ResponseEntity<?> register(@RequestBody RegistrationRequest registrationRequest) {
         try {
 
-            authService.register(request);
+            authService.register(registrationRequest);
 
             return ResponseEntity.status(HttpStatus.OK).body(ResponseCommon.success(""));
         } catch (IllegalArgumentException ex) {
+            log.error("API /register: {}", ex.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseCommon.fail(ex.getMessage()));
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseCommon.fail(e.getMessage()));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ResponseCommon.fail(e.getMessage()));
+        }
+    }
+
+    @PostMapping("/verify")
+    public ResponseEntity<?> verifyUser(@Param("code") String code) {
+        try {
+            authService.verify(code);
+            return ResponseEntity.status(HttpStatus.OK).body(ResponseCommon.success(""));
+        }
+        catch (IllegalArgumentException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseCommon.fail(e.getMessage()));
         }
     }
 

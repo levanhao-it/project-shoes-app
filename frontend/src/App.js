@@ -1,23 +1,24 @@
-import { Collapse, Fade, makeStyles } from "@material-ui/core";
-import { WIDTH_HEADER } from "constant";
-import UserFeature from "features/User";
-import { useEffect, useState } from "react";
-import { Redirect, Route, Switch } from "react-router-dom";
-import "./App.css";
-import Footer from "./components/Footer";
-import Header from "./components/Header";
-import Home from "./components/Home";
-import NotFound from "./components/NotFound";
-import CartFeature from "./features/Cart";
-import PaymentFeature from "./features/Payment";
-import ProductFeature from "./features/Product";
+import { Collapse, Fade, makeStyles } from '@material-ui/core';
+import { WIDTH_HEADER } from 'constant';
+import Verify from 'features/Auth/components/Verify';
+import UserFeature from 'features/User';
+import { useEffect, useState } from 'react';
+import { Redirect, Route, Switch } from 'react-router-dom';
+import './App.css';
+import Footer from './components/Footer';
+import Header from './components/Header';
+import Home from './components/Home';
+import NotFound from './components/NotFound';
+import CartFeature from './features/Cart';
+import PaymentFeature from './features/Payment';
+import ProductFeature from './features/Product';
 
 const drawerWidth = 240;
 const useStyle = makeStyles((theme) => ({
   root: {
-    marginTop: "180px",
-    [theme.breakpoints.down("sm")]: {
-      marginTop: "90px",
+    marginTop: '180px',
+    [theme.breakpoints.down('sm')]: {
+      marginTop: '90px',
     },
   },
 }));
@@ -36,9 +37,9 @@ function App() {
   };
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
 
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, [lastScrollY]);
 
   return (
@@ -55,7 +56,7 @@ function App() {
           <Route path="/cart" component={CartFeature} />
           <Route path="/payment" component={PaymentFeature} />
           <Route path="/user" component={UserFeature} />
-
+          <Route path="/verify" component={Verify} />
           <Route component={NotFound} />
         </Switch>
       </div>

@@ -21,6 +21,8 @@ public class Users extends BaseEntity{
     private String email;
     private boolean active;
     private String avatar;
+    @Column(name = "verification_code", length = 64)
+    private String verificationCode;
 
     @ManyToOne()
     @JoinColumn(name = "role_id", nullable = false)

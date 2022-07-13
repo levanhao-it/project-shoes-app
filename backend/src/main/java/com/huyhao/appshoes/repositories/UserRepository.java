@@ -17,4 +17,6 @@ public interface UserRepository extends JpaRepository<Users, Long> {
 
     boolean existsByIdAndActiveTrue(Long id);
 
+    Optional<Users> findByVerificationCode(String code);
+
 }

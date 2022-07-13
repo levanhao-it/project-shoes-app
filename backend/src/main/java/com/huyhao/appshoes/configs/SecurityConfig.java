@@ -11,11 +11,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
@@ -51,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeHttpRequests()
                 .antMatchers("/api/login/**", "/api/admin/login/**", "/api/logout/**").permitAll()
-                .antMatchers("/api/token/refresh/**", "/api/register/**").permitAll()
+                .antMatchers("/api/token/refresh/**", "/api/register/**","/api/verify/**").permitAll()
                 .antMatchers("/api/public/**").permitAll()
                 .antMatchers("/api/admin/**").hasAuthority(AppConstant.ADMIN_ROLE)
                 .antMatchers("/api/**").hasAuthority(AppConstant.CUSTOMER_ROLE)

@@ -20,6 +20,8 @@ axiosClient.interceptors.request.use(
     // Do something before request is sent
     if (
       config.url.indexOf('login') >= 0 ||
+      config.url.indexOf('register') >= 0 ||
+      config.url.indexOf('verify') >= 0 ||
       config.url.indexOf('token/refresh') >= 0 ||
       config.url.indexOf('logout') >= 0 ||
       config.url.indexOf('public/products') >= 0 ||
@@ -66,7 +68,6 @@ axiosClient.interceptors.response.use(
   function (error) {
     // Do something with response error
     const { status, data } = error.response;
-
     if (status === 400 || status === 404) {
       throw new Error(data.message);
     }

@@ -1,7 +1,6 @@
 package com.huyhao.appshoes.services;
 
 import com.huyhao.appshoes.common.AppConstant;
-import com.huyhao.appshoes.entity.Cart;
 import com.huyhao.appshoes.entity.Orders;
 import com.huyhao.appshoes.entity.Role;
 import com.huyhao.appshoes.entity.Users;
@@ -15,11 +14,17 @@ import com.huyhao.appshoes.repositories.UserRepository;
 import com.huyhao.appshoes.utils.AmazonUtil;
 import com.huyhao.appshoes.utils.JsonUtil;
 import lombok.RequiredArgsConstructor;
+import net.bytebuddy.utility.RandomString;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,6 +40,8 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtProvider jwtProvider;
     public final AmazonUtil amazonUtil;
+
+    public final JavaMailSender mailSender;
 
 
     public Users checkLoginCustomer(AuthRequest loginRequest) {
@@ -66,11 +73,12 @@ public class AuthService {
         }
     }
 
-    public AuthResponse register(RegistrationRequest registrationRequest) {
-        Users userApp = userRepository.findByEmailAndActiveTrue(registrationRequest.getEmail()).orElse(null);
+    public AuthResponse register(RegistrationRequest registrationRequest) throws MessagingException, UnsupportedEncodingException {
+        Users userApp = userRepository.findByEmail(registrationRequest.getEmail()).orElse(null);
         if (userApp != null) {
             throw new IllegalArgumentException("Email already exits");
         }
+        String randomCode = RandomString.make(64);
 
         Role role = rolesRepository.findByCode(AppConstant.CUSTOMER_ROLE);
 
@@ -79,13 +87,24 @@ public class AuthService {
                 .password(passwordEncoder.encode(registrationRequest.getPassword()))
                 .fullName(registrationRequest.getFullName())
                 .role(role)
-                .active(true)
+                .verificationCode(randomCode)
+                .active(false)
                 .build());
-
-        Cart cart = Cart.builder().users(user).build();
-        cartRepository.save(cart);
-
+        sendVerificationEmail(user);
         return AuthResponse.builder().accessToken(jwtProvider.generateAccessToken(user)).build();
+    }
+
+    public void verify(String verificationCode) {
+        Users user = userRepository.findByVerificationCode(verificationCode).orElseThrow(()-> new IllegalArgumentException("Not found user by verificationCode"));
+
+        if (user.isActive()) {
+            throw new IllegalArgumentException("user is active");
+        } else {
+            user.setVerificationCode(null);
+            user.setActive(true);
+            userRepository.save(user);
+        }
+
     }
 
     public List<UserResponse> getAllUser() {
@@ -216,5 +235,36 @@ public class AuthService {
         }
 
         userRepository.saveAndFlush(user);
+    }
+
+    private void sendVerificationEmail(Users user)
+            throws MessagingException, UnsupportedEncodingException {
+        String toAddress = user.getEmail();
+        String fromAddress = "shoesapp2022@gmail.com";
+        String senderName = "Shoes Shop";
+        String subject = "Please verify your registration";
+        String content = "Dear [[name]],<br>"
+                + "Please click the link below to verify your registration:<br>"
+                + "<h3><a href=\"[[http://localhost:3000/]]\" target=\"_self\">VERIFY</a></h3>"
+                + "Thank you,<br>"
+                + "Shoes Shop.";
+
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+
+        helper.setFrom(fromAddress, senderName);
+        helper.setTo(toAddress);
+        helper.setSubject(subject);
+
+        content = content.replace("[[name]]", user.getFullName());
+        String verifyURL = "http://localhost:3000/verify?code=" + user.getVerificationCode();
+
+        content = content.replace("[[http://localhost:3000/]]", verifyURL);
+
+        helper.setText(content, true);
+
+        mailSender.send(message);
+
+        System.out.println("Email has been sent");
     }
 }
