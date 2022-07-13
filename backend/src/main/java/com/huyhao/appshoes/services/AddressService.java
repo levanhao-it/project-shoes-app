@@ -20,20 +20,16 @@ public class AddressService {
     private final UserRepository userRepository;
 
 
-    public List<AddressResponse> getAddressListByUser(Long userId) {
-        boolean hasUser = userRepository.existsByIdAndActiveTrue(userId);
-
-        if(!hasUser){
-            throw new IllegalArgumentException("Not found user from userId");
-        }
+    public List<AddressResponse> getAddressListByUser(String email) {
+        Users user = userRepository.findByEmailAndActiveTrue(email)
+                .orElseThrow(() -> new IllegalArgumentException("Not found user"));
 
 
-        List<AddressDelivery> addressDeliveryList = addressDeliveryRepository.findAllByActiveTrueAndUsersId(userId);
+        List<AddressDelivery> addressDeliveryList = addressDeliveryRepository.findAllByActiveTrueAndUsersId(user.getId());
 
         List<AddressResponse> addressResponses = addressDeliveryList.stream().map(e -> AddressResponse.builder()
                 .id(e.getId())
-                .firstName(e.getFirstName())
-                .lastName(e.getLastName())
+                .fullName(e.getFullName())
                 .address(e.getAddress())
                 .phoneNumber(e.getPhoneNumber())
                 .defaultAddress(e.isDefaultAddress())
@@ -51,8 +47,7 @@ public class AddressService {
 
         return AddressResponse.builder()
                 .id(addressDelivery.getId())
-                .firstName(addressDelivery.getFirstName())
-                .lastName(addressDelivery.getLastName())
+                .fullName(addressDelivery.getFullName())
                 .address(addressDelivery.getAddress())
                 .phoneNumber(addressDelivery.getPhoneNumber())
                 .defaultAddress(addressDelivery.isDefaultAddress())
@@ -60,10 +55,10 @@ public class AddressService {
     }
 
     public void createAddress(AddressRequest request) {
-        Users user = userRepository.findByIdAndActiveTrue(request.getIdUser())
+        Users user = userRepository.findByEmailAndActiveTrue(request.getEmail())
                 .orElseThrow(()->new IllegalArgumentException("Not found user"));
 
-        List<AddressDelivery> addressList = addressDeliveryRepository.findAllByActiveTrueAndUsersId(request.getIdUser());
+        List<AddressDelivery> addressList = addressDeliveryRepository.findAllByActiveTrueAndUsersId(user.getId());
 
         if(request.isDefaultAddress()){
             for(AddressDelivery a : addressList) {
@@ -74,8 +69,7 @@ public class AddressService {
 
         AddressDelivery addressDelivery = AddressDelivery.builder()
                 .address(request.getAddress())
-                .firstName(request.getFirstName())
-                .lastName(request.getLastName())
+                .fullName(request.getFullName())
                 .phoneNumber(request.getPhoneNumber())
                 .users(user)
                 .defaultAddress(request.isDefaultAddress())
@@ -86,22 +80,21 @@ public class AddressService {
     }
 
     public void updateAddress(Long idAddress, AddressRequest request) {
+        Users user = userRepository.findByEmailAndActiveTrue(request.getEmail())
+                .orElseThrow(() -> new IllegalArgumentException("Not found user"));
+
         AddressDelivery addressDelivery = addressDeliveryRepository
-                .findByIdAndUsersIdAndActiveTrue(idAddress, request.getIdUser())
+                .findByIdAndUsersIdAndActiveTrue(idAddress, user.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Not found address from address id"));
 
         List<AddressDelivery> addressDeliveryList = addressDeliveryRepository
-                .findAllByActiveTrueAndUsersId(request.getIdUser());
+                .findAllByActiveTrueAndUsersId(user.getId());
 
 
-        String firstName = request.getFirstName();
-        if(firstName != null && firstName.length() > 0 ){
-            addressDelivery.setFirstName(firstName);
-        }
 
-        String lastName = request.getLastName();
-        if(lastName != null && lastName.length() > 0 ){
-            addressDelivery.setLastName(lastName);
+        String fullName = request.getFullName();
+        if(fullName != null && fullName.length() > 0 ){
+            addressDelivery.setFullName(fullName);
         }
 
         String address = request.getAddress();

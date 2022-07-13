@@ -16,9 +16,9 @@ public class AddressAdminController {
     private final AddressService addressService;
 
     @GetMapping()
-    public ResponseEntity<?> getAddressListByUser(@RequestParam Long idUser){
+    public ResponseEntity<?> getAddressListByUser(@RequestParam String mail){
         try {
-            return ResponseEntity.ok(ResponseCommon.success(addressService.getAddressListByUser(idUser)));
+            return ResponseEntity.ok(ResponseCommon.success(addressService.getAddressListByUser(mail)));
         } catch (Exception ex) {
             log.error("API /api/address: ", ex);
             return ResponseEntity.badRequest().body(ErrorResponse.builder().message(ex.getMessage()).build());

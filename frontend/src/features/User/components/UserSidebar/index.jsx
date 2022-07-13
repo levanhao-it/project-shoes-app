@@ -63,7 +63,7 @@ function UserSidebar(props) {
             className={classes.link}
             activeClassName="active-menu"
           >
-            My WishList
+            My wishList
             <ChevronRightIcon />
           </NavLink>
         </Box>
@@ -75,6 +75,17 @@ function UserSidebar(props) {
             activeClassName="active-menu"
           >
             My orders
+            <ChevronRightIcon />
+          </NavLink>
+        </Box>
+
+        <Box>
+          <NavLink
+            to="/user/address"
+            className={classes.link}
+            activeClassName="active-menu"
+          >
+            My address
             <ChevronRightIcon />
           </NavLink>
         </Box>

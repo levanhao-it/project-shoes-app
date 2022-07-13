@@ -15,8 +15,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 public class AddressDelivery extends BaseEntity{
-    private String firstName;
-    private String lastName;
+    private String fullName;
     private String address;
     private String phoneNumber;
     private boolean defaultAddress;

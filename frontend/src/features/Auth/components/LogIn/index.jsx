@@ -15,7 +15,6 @@ function LogIn(props) {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
 
-  useEffect(() => {}, []);
   const handleSubmit = async (values) => {
     let email = "";
     try {

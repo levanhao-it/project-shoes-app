@@ -1,10 +1,10 @@
-import { Box, Container, Grid, Hidden, makeStyles } from "@material-ui/core";
-import React from "react";
+import { Container, Grid, Hidden, makeStyles } from "@material-ui/core";
+import AddressFeauture from "features/Address";
+import OrderFeauture from "features/Order";
+import WishlistFeauture from "features/Wishlist";
 import { Route, Switch, useRouteMatch } from "react-router-dom";
+import UserAccount from "./components/UserAccount";
 import UserSidebar from "./components/UserSidebar";
-import AccountPage from "./pages/AccountPage";
-import OrderListPage from "./pages/OrderListPage";
-import WishListPage from "./pages/WishListPage";
 
 UserFeature.propTypes = {};
 
@@ -18,12 +18,6 @@ const useStyle = makeStyles((theme) => ({
       padding: "40px 0",
     },
   },
-  // ml: {
-  //   marginLeft: '14px',
-  // },
-  // mr: {
-  //   marginRight: '14px',
-  // },
 }));
 
 function UserFeature(props) {
@@ -40,16 +34,22 @@ function UserFeature(props) {
           </Hidden>
           <Grid item xs={12} sm={12} md={9} lg={9}>
             <Switch>
-              <Route path={`${match.url}`} exact component={AccountPage} />
+              <Route path={`${match.url}`} exact component={UserAccount} />
               <Route
                 path={`${match.url}/order`}
                 exact
-                component={OrderListPage}
+                component={OrderFeauture}
               />
               <Route
                 path={`${match.url}/wishList`}
                 exact
-                component={WishListPage}
+                component={WishlistFeauture}
+              />
+
+              <Route
+                path={`${match.url}/address`}
+                exact
+                component={AddressFeauture}
               />
             </Switch>
           </Grid>

@@ -6,11 +6,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class AddressRequest {
-    private String firstName;
-    private String lastName;
+    private String fullName;
     private String address;
     private String phoneNumber;
-    private Long idUser;
+    private String email;
     private boolean defaultAddress;
 
 }
