@@ -2,8 +2,9 @@ import { Box, Collapse, makeStyles, Typography } from "@material-ui/core";
 import ListItem from "@material-ui/core/ListItem";
 import { ExpandMore } from "@material-ui/icons";
 import ExpandLessIcon from "@material-ui/icons/ExpandLess";
+import categoryApi from "api/categoryApi";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 FilterByCategory.propTypes = {
   onChange: PropTypes.func,
@@ -61,14 +62,30 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function FilterByCategory(props) {
-  const handleCategoryClick = (category) => {};
-
+function FilterByCategory({ onChange }) {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = useState(true);
+  const [categoryList, setCategoryList] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data } = await categoryApi.getAll();
+        setCategoryList(data);
+      } catch (error) {
+        console.log("Fail to fetch categories list", error);
+      }
+    })();
+  }, []);
 
   const handleClick = () => {
     setOpen(!open);
+  };
+
+  const handleCategoryClick = (category) => {
+    if (onChange) {
+      onChange(category.id);
+    }
   };
 
   return (
@@ -86,31 +103,18 @@ function FilterByCategory(props) {
       </Box>
       <Collapse in={open} timeout="auto" unmountOnExit>
         <Box className={classes.content} disablePadding>
-          <ListItem button className={classes.nested}>
-            <Typography variant="body2" className={classes.li}>
-              Life (512)
-            </Typography>
-          </ListItem>
-          <ListItem button className={classes.nested}>
-            <Typography variant="body2" className={classes.li}>
-              Running (90)
-            </Typography>
-          </ListItem>
-          <ListItem button className={classes.nested}>
-            <Typography variant="body2" className={classes.li}>
-              Baseball (44)
-            </Typography>
-          </ListItem>
-          <ListItem button className={classes.nested}>
-            <Typography variant="body2" className={classes.li}>
-              Football (112)
-            </Typography>
-          </ListItem>
-          <ListItem button className={classes.nested}>
-            <Typography variant="body2" className={classes.li}>
-              Soccer (33)
-            </Typography>
-          </ListItem>
+          {categoryList.map((category) => (
+            <ListItem
+              button
+              className={classes.nested}
+              key={category.id}
+              onClick={() => handleCategoryClick(category)}
+            >
+              <Typography variant="body2" className={classes.li}>
+                {category.name} ({category.productList.length || 0})
+              </Typography>
+            </ListItem>
+          ))}
         </Box>
       </Collapse>
     </Box>

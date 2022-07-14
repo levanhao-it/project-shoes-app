@@ -75,6 +75,15 @@ function FilterAndSort({ filters, onChange }) {
     onChange(newFilters);
   };
 
+  const handleCategoryChange = (newCategoryId) => {
+    if (!onChange) return;
+    const newFilters = {
+      ...filters,
+      categoryId: newCategoryId,
+    };
+    onChange(newFilters);
+  };
+
   return (
     <div className="sideBar">
       <Button onClick={toggleDrawer("right", true)} className={classes.btn}>
@@ -103,10 +112,8 @@ function FilterAndSort({ filters, onChange }) {
             />
           </Box>
           <ProductSort onChange={handleSortChange} currentSort={filters.sort} />
-          <FilterByCategory />
+          <FilterByCategory onChange={handleCategoryChange} />
           <FilterByPrice />
-          <FilterByBrand />
-          <FilterByWidth />
           <FilterBySize />
           <FilterByColor />
         </List>

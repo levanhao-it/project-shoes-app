@@ -10,6 +10,7 @@ import com.huyhao.appshoes.repositories.*;
 import com.huyhao.appshoes.utils.AmazonUtil;
 import com.huyhao.appshoes.utils.JsonUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +25,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class ProductService {
     public final ProductRepository productRepository;
@@ -35,13 +37,13 @@ public class ProductService {
     public final RateRepository rateRepository;
     public final AmazonUtil amazonUtil;
 
-    public ProductFilterResponse getProductList(String title, int page, int size, String[] sort) {
+    public ProductFilterResponse getProductList(String title, long categoryId, int price_gte, int price_lte, String color, int page, int size, String[] sort) {
 
         List<Order> orders = new ArrayList<>();
         if(sort[0].contains(",")){
             for(String sortOrder: sort){
                 String [] _sort = sortOrder.split(",");
-                orders.add(new Order(getSortDirection(_sort[1]), _sort[0] ));
+                orders.add(new Order(getSortDirection(_sort[1]), _sort[0]));
             }
         }else {
             orders.add(new Order(getSortDirection(sort[1]), sort[0]));
@@ -50,10 +52,13 @@ public class ProductService {
         Pageable pageable = PageRequest.of(page - 1, size, Sort.by(orders));
         Page<Product> pageProducts;
 
-        if(title == null){
-            pageProducts = productRepository.findByActiveTrue(pageable);
-        }else {
+        if(categoryId != 0){
+            pageProducts = productRepository.findByCategoryIdAndActiveTrue(categoryId, pageable);
+        }else
+         if(title != null){
             pageProducts = productRepository.findByActiveTrueAndNameContaining(title, pageable);
+        }else {
+            pageProducts = productRepository.findByActiveTrue(pageable);
         }
 
         List<Product> productList = pageProducts.getContent();
@@ -91,6 +96,14 @@ public class ProductService {
                 .currentPage(pageProducts.getNumber() + 1)
                 .build();
     }
+
+//    private Page<Product> getProductListPage(
+//            String title, long categoryId, int price_gte, int price_lte, String color, Pageable pageable
+//    ) {
+//
+//
+//    }
+
 
     private Sort.Direction getSortDirection(String s) {
         if(s.equals("desc"))

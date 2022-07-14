@@ -36,10 +36,5 @@ public class CategoryController {
             log.error("API /api/rate: ", ex);
             return ResponseEntity.badRequest().body(ErrorResponse.builder().message(ex.getMessage()).build());
         }
-
     }
-
-
-
-
 }

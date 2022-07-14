@@ -19,5 +19,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> , Paging
 
     Page<Product> findByActiveTrue(Pageable pageable);
 
+    Page<Product> findByCategoryIdAndActiveTrue(long id, Pageable pageable);
+
     Page<Product> findByActiveTrueAndNameContaining(String title, Pageable pageable);
 }
