@@ -16,6 +16,17 @@ import org.springframework.web.bind.annotation.*;
 public class VoucherController {
     private final VoucherService voucherService;
 
+
+    @GetMapping("/list")
+    public ResponseEntity<?> getVoucherList(){
+        try {
+            return ResponseEntity.ok(ResponseCommon.success(voucherService.getVoucherList()));
+        } catch (Exception ex) {
+            log.error("API /api/wishList: ", ex);
+            return ResponseEntity.badRequest().body(ErrorResponse.builder().message(ex.getMessage()).build());
+        }
+    }
+
     @GetMapping()
     public ResponseEntity<?> getVoucherByCode(@RequestParam String code){
         try {
@@ -25,5 +36,7 @@ public class VoucherController {
             return ResponseEntity.badRequest().body(ErrorResponse.builder().message(ex.getMessage()).build());
         }
     }
+
+
 
 }

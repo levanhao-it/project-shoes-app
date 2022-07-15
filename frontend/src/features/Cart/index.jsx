@@ -1,31 +1,44 @@
-import { Box, Container, Grid, makeStyles } from '@material-ui/core';
-import { useSelector } from 'react-redux';
-import CartDetail from './components/CartDetail';
-import CartSummary from './components/CartSummary';
-import { cartItemsCountSelector } from './selector';
+import { Box, Container, Grid, makeStyles } from "@material-ui/core";
+import ButtonActive from "components/component-custom/ButtonActive";
+import OrderSumary from "components/OrderSumary";
+import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import CartDetail from "./components/CartDetail";
+import CartSummary from "./components/CartSummary";
+import CartVoucher from "./components/CartVoucher";
+import { cartItemsCountSelector } from "./selector";
 
 CartFeature.propTypes = {};
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: '70px 0',
+    padding: "70px 0",
   },
-  thread: {},
-  box: {},
+  btn: {
+    marginBottom: theme.spacing(4),
+  },
 }));
 
 function CartFeature(props) {
   const classes = useStyles();
   const cartItems = useSelector((state) => state.cart.cartItems);
+  const history = useHistory();
+  const handleCheckout = () => {
+    history.push();
+  };
 
   return (
     <Container maxWidth="lg" className={classes.root}>
       <Box>
         <Grid container>
-          <Grid item xs={12} sm={12} md={8} lg={8} xl={8} className={classes.thread}>
+          <Grid item xs={12} sm={12} md={8} lg={8} xl={8}>
             <CartDetail data={cartItems} />
           </Grid>
-          <Grid item xs={12} sm={12} md={4} lg={4} xl={4} className={classes.box}>
-            <CartSummary />
+          <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
+            <Box className={classes.btn}>
+              <ButtonActive content="Checkout" onClick={handleCheckout} />
+            </Box>
+            <OrderSumary />
+            <CartVoucher />
           </Grid>
         </Grid>
       </Box>

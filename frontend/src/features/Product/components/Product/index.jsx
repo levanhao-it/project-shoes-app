@@ -7,6 +7,7 @@ import { addWishList, removeWishList } from "features/Wishlist/wishListSlice";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import "./styles.scss";
 
 Product.propTypes = {
@@ -123,6 +124,7 @@ function Product({ data }) {
   const loggedInUser = useSelector((state) => state.user.isLoggedIn);
   const isLoggedIn = !!loggedInUser;
   const wishList = useSelector((state) => state.wishList.current);
+  const history = useHistory();
 
   const [image, setImage] = useState(data.productDetailList[0].linkImg);
   const [favourite, setFavourite] = useState(() => {
@@ -179,9 +181,16 @@ function Product({ data }) {
     }
     setFavourite(false);
   };
+  const handleClick = () => {
+    history.push(`/products/${data.id}`);
+  };
 
   return (
-    <Box padding={1} className={`${classes.box} product-root`}>
+    <Box
+      padding={1}
+      className={`${classes.box} product-root`}
+      onClick={handleClick}
+    >
       <Box minHeight="215px" className={classes.container}>
         {favourite ? (
           <Box

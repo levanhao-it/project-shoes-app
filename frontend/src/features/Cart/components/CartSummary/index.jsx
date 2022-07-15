@@ -1,66 +1,73 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Box, Button, InputAdornment, makeStyles, TextField, Typography } from '@material-ui/core';
-import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
-import './styles.scss';
-import CodeIcon from '@material-ui/icons/Code';
-import { Grid } from '@material-ui/core';
-import ButtonActive from '../../../../components/component-custom/ButtonActive';
+import React from "react";
+import PropTypes from "prop-types";
+import {
+  Box,
+  Button,
+  InputAdornment,
+  makeStyles,
+  TextField,
+  Typography,
+} from "@material-ui/core";
+import ArrowRightAltIcon from "@material-ui/icons/ArrowRightAlt";
+import "./styles.scss";
+import CodeIcon from "@material-ui/icons/Code";
+import { Grid } from "@material-ui/core";
+import ButtonActive from "../../../../components/component-custom/ButtonActive";
 
 CartSummary.propTypes = {};
 
 const useStyles = makeStyles((theme) => ({
   buttonCart: {
-    width: '100%',
-    backgroundColor: '#000',
-    color: '#fff',
-    height: '50px',
-    fontSize: '16px',
-    fontWeight: '600',
-    '&:hover': {
-      backgroundColor: '#000',
-      color: '#ccc',
-      opacity: '0.7',
-      transition: 'all 0.3s ease-in-out',
+    width: "100%",
+    backgroundColor: "#000",
+    color: "#fff",
+    height: "50px",
+    fontSize: "16px",
+    fontWeight: "600",
+    "&:hover": {
+      backgroundColor: "#000",
+      color: "#ccc",
+      opacity: "0.7",
+      transition: "all 0.3s ease-in-out",
     },
   },
   buttonHeart: {
-    width: 'calc(20% - 5px)',
-    marginLeft: '5px',
-    height: '50px',
-    border: '2px solid #000',
+    width: "calc(20% - 5px)",
+    marginLeft: "5px",
+    height: "50px",
+    border: "2px solid #000",
   },
   buttonTitle: {
-    fontSize: '16px',
-    fontWeight: '600',
+    fontSize: "16px",
+    fontWeight: "600",
   },
   box: {
-    border: '1px solid #e9ecef',
-    marginTop: '30px',
-    padding: '2.4rem 1.5rem',
+    border: "1px solid #e9ecef",
+    marginTop: "30px",
+    padding: "2.4rem 1.5rem",
   },
   headingTitle: {
-    textTransform: 'uppercase',
-    fontWeight: 'bold',
+    textTransform: "uppercase",
+    fontWeight: "bold",
   },
   title: {
-    textTransform: 'uppercase',
-    fontSize: '14px',
+    textTransform: "uppercase",
+    fontSize: "14px",
   },
   titleActive: {
-    textTransform: 'uppercase',
-    fontSize: '14px',
-    fontWeight: 'bold',
+    textTransform: "uppercase",
+    fontSize: "14px",
+    fontWeight: "bold",
   },
   h4: {
-    fontSize: '16px',
-    lineHeight: '20px',
-    textTransform: 'uppercase',
-    fontWeight: '600',
-    marginTop: '1rem',
+    fontSize: "16px",
+    lineHeight: "20px",
+    textTransform: "uppercase",
+    fontWeight: "600",
+    marginTop: "1rem",
   },
   icon: {
-    fontSize: '47px',
+    fontSize: "47px",
   },
 }));
 
@@ -69,9 +76,6 @@ function CartSummary(props) {
 
   return (
     <Box className="summary">
-      <Box>
-        <ButtonActive content="Checkout" />
-      </Box>
       <Box className={classes.box}>
         <Typography variant="h4" className={classes.headingTitle}>
           Order summary
@@ -121,23 +125,6 @@ function CartSummary(props) {
             $262.00
           </Typography>
         </Box>
-      </Box>
-      <Box className={classes.box}>
-        <Grid container spacing={1} alignItems="flex-end">
-          <Grid item xs={8} sm={8} md={8} lg={8}>
-            <TextField
-              id="input-with-icon-grid"
-              label="Enter your promo code"
-              variant="outlined"
-              color="primary"
-              fullWidth
-              size="medium"
-            />
-          </Grid>
-          <Grid item xs={4} sm={4} md={4} lg={4}>
-            <ButtonActive content="Apply" />
-          </Grid>
-        </Grid>
       </Box>
     </Box>
   );
