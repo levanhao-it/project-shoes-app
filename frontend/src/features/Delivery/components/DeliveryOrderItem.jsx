@@ -2,7 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Box, makeStyles, Typography } from "@material-ui/core";
 
-DeliveryOrderItem.propTypes = {};
+DeliveryOrderItem.propTypes = {
+  data: PropTypes.object,
+};
 
 const useStyle = makeStyles((theme) => ({
   root: {
@@ -20,42 +22,44 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 
-function DeliveryOrderItem(props) {
+function DeliveryOrderItem({ data }) {
   const classes = useStyle();
   return (
     <div className={classes.root}>
       <Box display="flex">
         <img
-          src="https://assets.adidas.com/images/w_280,h_280,f_auto,q_auto:sensitive/b6d8b1beb4214b0fb5aead4a00a3ffb9_9366/GV7699_580_GV7699_01_standard.jpg.jpg?sh=364&strip=false&sw=364"
-          alt="giay"
+          src={data.productDetail.linkImg}
+          alt={data.product.name}
           className={classes.imgProduct}
         />
 
         <Box className={classes.containerInfo}>
           <Box>
             <Typography variant="p" className={classes.title}>
-              ZX 5K BOOST Shoes
+              {data.product.name}
             </Typography>
           </Box>
 
           <Box>
             <Typography variant="p" className={classes.title}>
               {" "}
-              COLOR: <Typography variant="p">Semi Screaming Green </Typography>
+              COLOR:{" "}
+              <Typography variant="p">{data.productDetail.color} </Typography>
             </Typography>
           </Box>
 
           <Box>
             <Typography variant="p" className={classes.title}>
               {" "}
-              SIZE: <Typography variant="p">6.5</Typography>/ Quanlity:{" "}
-              <Typography variant="p">1</Typography>
+              SIZE:{" "}
+              <Typography variant="p">{data.productDetail.size}</Typography>/
+              Quanlity: <Typography variant="p">{data.quantity}</Typography>
             </Typography>
           </Box>
 
           <Box>
             <Typography variant="p" className={classes.title}>
-              $150
+              ${data.productDetail.salePrice}
             </Typography>
           </Box>
         </Box>

@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Box, makeStyles, Typography } from "@material-ui/core";
 import OrderSumary from "components/OrderSumary";
 import DeliveryOrderItem from "./DeliveryOrderItem";
+import { useSelector } from "react-redux";
 
 DeliveryOrder.propTypes = {};
 
@@ -22,6 +23,8 @@ const useStyle = makeStyles((theme) => ({
 
 function DeliveryOrder(props) {
   const classes = useStyle();
+  const orderList = useSelector((state) => state.cart.cartItems);
+
   return (
     <div className={classes.root}>
       <OrderSumary />
@@ -29,7 +32,9 @@ function DeliveryOrder(props) {
         <Typography variant="h4" className={classes.headingTitle}>
           Order details
         </Typography>
-        <DeliveryOrderItem />
+        {orderList.map((order, index) => (
+          <DeliveryOrderItem key={index} data={order} />
+        ))}
       </Box>
     </div>
   );

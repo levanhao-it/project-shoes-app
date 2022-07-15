@@ -1,6 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Grid, Typography, useMediaQuery, useTheme } from "@material-ui/core";
+import {
+  Box,
+  Grid,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 
 import { useForm } from "react-hook-form";
@@ -16,7 +22,6 @@ const useStyle = makeStyles((theme) => ({
   headingTitle: {
     textTransform: "uppercase",
     fontWeight: "bold",
-    margin: "40px 0 15px",
     fontSize: "26px",
   },
   subHeading: {
@@ -31,8 +36,7 @@ function DeliveryForm(props) {
   const classes = useStyle();
   const form = useForm({
     defaultValues: {
-      firstName: "",
-      lastName: "",
+      fullName: "",
       address: "",
       email: "",
       phone: "",
@@ -44,69 +48,54 @@ function DeliveryForm(props) {
 
   return (
     <form>
-      <Typography variant="h3" className={classes.headingTitle}>
-        Shipping Adrress
-      </Typography>
+      <Box mt={4}>
+        <Typography variant="h3" className={classes.headingTitle}>
+          Shipping Adrress
+        </Typography>
+        <InputField name="fullName" label="Full Name *" form={form} />
+        <InputField name="address" label="Delivery address *" form={form} />
+      </Box>
 
-      <Grid container spacing={matches ? 0 : 2}>
-        <Grid item xs={12} md={6}>
-          <InputField name="firstName" label="First Name *" form={form} />
+      <Box mt={4}>
+        <Typography variant="h3" className={classes.headingTitle}>
+          Contact details
+        </Typography>
+        <Typography variant="p" className={classes.subHeading}>
+          We'll use these details to keep you informed on your delivery.
+        </Typography>
+        <Grid container spacing={matches ? 0 : 2}>
+          <Grid item xs={12} md={6}>
+            <InputField name="email" label="Email *" form={form} />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <InputField name="phone" label="Phone *" form={form} />
+          </Grid>
         </Grid>
-        <Grid item xs={12} md={6}>
-          <InputField name="lastName" label="Last Name *" form={form} />
-        </Grid>
-      </Grid>
+      </Box>
 
-      <InputField name="address" label="Find delivery address *" form={form} />
+      <Box mt={4}>
+        <Typography variant="h3" className={classes.headingTitle}>
+          Delivery options
+        </Typography>
 
-      <Typography variant="h3" className={classes.headingTitle}>
-        Delivery options
-      </Typography>
-      <DeliveryOption
-        titleDelivery="Standard Delivery"
-        descDelivery="Enter your address to see when you'll get your order"
-        icon={<AirportShuttleOutlinedIcon className={classes.iconDelivery} />}
-        active
-      />
-      <DeliveryOption
-        titleDelivery="Pick up a order at the store"
-        descDelivery="Pay now and find a store near you"
-        icon={
-          <StoreMallDirectoryOutlinedIcon className={classes.iconDelivery} />
-        }
-      />
-
-      <Typography variant="h3" className={classes.headingTitle}>
-        Near by store
-      </Typography>
-      <Typography variant="p" className={classes.subHeading}>
-        Please provide a location to find the most convenient store:
-      </Typography>
-      <InputField name="locationStore" label="Location *" form={form} />
-
-      <ButtonActive
-        content="search for store"
-        widthBtn={matches ? "100%" : "50%"}
-      />
-
-      <Typography variant="h3" className={classes.headingTitle}>
-        Contact details
-      </Typography>
-      <Typography variant="p" className={classes.subHeading}>
-        We'll use these details to keep you informed on your delivery.
-      </Typography>
-      <Grid container spacing={matches ? 0 : 2}>
-        <Grid item xs={12} md={6}>
-          <InputField name="email" label="Email *" form={form} />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <InputField name="phone" label="Phone *" form={form} />
-        </Grid>
-      </Grid>
-
+        <DeliveryOption
+          titleDelivery="Standard Delivery"
+          descDelivery="Enter your address to see when you'll get your order"
+          icon={<AirportShuttleOutlinedIcon className={classes.iconDelivery} />}
+          active
+        />
+        <DeliveryOption
+          titleDelivery="Pick up a order at the store"
+          descDelivery="Pay now and find a store near you"
+          icon={
+            <StoreMallDirectoryOutlinedIcon className={classes.iconDelivery} />
+          }
+        />
+      </Box>
       <ButtonActive
         content="Review and pay"
         widthBtn={matches ? "100%" : "50%"}
+        type="submit"
       />
     </form>
   );

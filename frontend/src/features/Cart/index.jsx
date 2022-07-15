@@ -23,7 +23,7 @@ function CartFeature(props) {
   const cartItems = useSelector((state) => state.cart.cartItems);
   const history = useHistory();
   const handleCheckout = () => {
-    history.push();
+    history.push("/delivery");
   };
 
   return (
