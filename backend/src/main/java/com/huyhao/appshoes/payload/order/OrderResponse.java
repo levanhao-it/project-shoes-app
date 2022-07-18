@@ -16,6 +16,9 @@ public class OrderResponse {
     private Long id;
     private String email;
     private double feeVoucher;
+    private int quantityItem;
+    private double total;
+    private double subtotal;
     private String status;
     private Date createDate;
 

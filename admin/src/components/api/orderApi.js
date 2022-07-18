@@ -1,4 +1,4 @@
-import axiosClient from './axiosClient';
+import axiosClient from "./axiosClient";
 
 const orderApi = {
   getById(id) {
@@ -7,7 +7,7 @@ const orderApi = {
   },
 
   getAll() {
-    const url = `/admin/orders`;
+    const url = `/admin/orders/list`;
     return axiosClient.get(url);
   },
 

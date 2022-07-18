@@ -100,10 +100,21 @@ public class OrderService {
                     .image(e.getProductDetail().getImageLink())
                     .build()).collect(Collectors.toList());
 
+            int quantityITem = 0;
+            long total = 0;
+
+            for(OrderItemResponse i : orderDetailResponseList){
+                quantityITem += i.getQuantity();
+                total += i.getQuantity() * i.getSalePrice();
+            }
+
             OrderResponse response = OrderResponse
                     .builder()
                     .id(o.getId())
                     .email(user.getEmail())
+                    .quantityItem(quantityITem)
+                    .total(total)
+                    .subtotal(total - o.getVoucher().getDiscount())
                     .feeVoucher(o.getVoucher().getDiscount())
                     .createDate(o.getCreatedDate())
                     .status(o.getStatus())
@@ -131,10 +142,21 @@ public class OrderService {
                     .image(e.getProductDetail().getImageLink())
                     .build()).collect(Collectors.toList());
 
+        int quantityITem = 0;
+        long total = 0;
+
+        for(OrderItemResponse i : orderDetailResponseList){
+            quantityITem += i.getQuantity();
+            total += i.getQuantity() * i.getSalePrice();
+        }
+
             OrderResponse response = OrderResponse
                     .builder()
                     .id(orders.getId())
                     .email(orders.getUsers().getEmail())
+                    .quantityItem(quantityITem)
+                    .total(total)
+                    .subtotal(total - orders.getVoucher().getDiscount())
                     .feeVoucher(orders.getVoucher().getDiscount())
                     .createDate(orders.getCreatedDate())
                     .status(orders.getStatus())
@@ -145,108 +167,56 @@ public class OrderService {
 
 
     }
-//
-//    public List<OrderResponse> getOrderListInAdmin() {
-//        List<Orders> ordersList = orderRepository.findAll();
-//        List<OrderResponse> orderResponseList = new ArrayList<>();
-//
-//        for (Orders o : ordersList
-//        ) {
-//            List<OrderDetail> orderDetailList = orderDetailRepository.findAllByOrdersId(o.getId());
-//            List<OrderItemResponse> orderDetailResponseList = orderDetailList.stream().map(e->OrderItemResponse.builder()
-//                    .id(e.getId())
-//                    .nameProduct(e.getProductDetail().getProduct().getName())
-//                    .salePrice(e.getProductDetail().getSalePrice())
-//                    .color(e.getProductDetail().getColor().getName())
-//                    .size(e.getProductDetail().getSize().getName())
-//                    .quantity(e.getQuantity())
-//                    .totalPrice(e.getQuantity() * e.getProductDetail().getSalePrice())
-//                    .build()).collect(Collectors.toList());
-//
-//            OrderResponse response = OrderResponse
-//                    .builder()
-//                    .id(o.getId())
-//                    .email(o.getUsers().getEmail())
-//                    .feeVoucher(o.getVoucher().getDiscount())
-//                    .quantityItem(o.getTotalQuantity())
-//                    .total(o.getPrice())
-//                    .subtotal(o.getPrice() - o.getVoucher().getDiscount())
-//                    .createDate(o.getCreatedDate())
-//                    .status(o.getStatus())
-//                    .orderItemResponseList(orderDetailResponseList)
-//                    .build();
-//            orderResponseList.add(response);
-//        }
-//        return orderResponseList;
-//    }
-//
-//    public List<OrderResponse> getOrderListByUserInAdmin(Long idUser) {
-//        List<Orders> ordersList = orderRepository.findAllByUsersId(idUser);
-//        List<OrderResponse> orderResponseList = new ArrayList<>();
-//
-//        for (Orders o : ordersList
-//        ) {
-//            List<OrderDetail> orderDetailList = orderDetailRepository.findAllByOrdersId(o.getId());
-//            List<OrderItemResponse> orderDetailResponseList = orderDetailList.stream().map(e->OrderItemResponse.builder()
-//                    .id(e.getId())
-//                    .nameProduct(e.getProductDetail().getProduct().getName())
-//                    .salePrice(e.getProductDetail().getSalePrice())
-//                    .color(e.getProductDetail().getColor().getName())
-//                    .size(e.getProductDetail().getSize().getName())
-//                    .quantity(e.getQuantity())
-//                    .totalPrice(e.getQuantity() * e.getProductDetail().getSalePrice())
-//                    .build()).collect(Collectors.toList());
-//
-//            OrderResponse response = OrderResponse
-//                    .builder()
-//                    .id(o.getId())
-//                    .email(o.getUsers().getEmail())
-//                    .feeVoucher(o.getVoucher().getDiscount())
-//                    .quantityItem(o.getTotalQuantity())
-//                    .total(o.getPrice())
-//                    .subtotal(o.getPrice() - o.getVoucher().getDiscount())
-//                    .createDate(o.getCreatedDate())
-//                    .status(o.getStatus())
-//                    .orderItemResponseList(orderDetailResponseList)
-//                    .build();
-//            orderResponseList.add(response);
-//        }
-//        return orderResponseList;
-//    }
-//
-//    public OrderResponse getOrderById(Long idOrder) {
-//        Orders orders = orderRepository.findById(idOrder)
-//                .orElseThrow(() -> new IllegalArgumentException("Not found orders from user"));
-//
-//        List<OrderDetail> orderDetailList = orderDetailRepository.findAllByOrdersId(orders.getId());
-//        return OrderResponse
-//                .builder()
-//                .id(orders.getId())
-//                .feeVoucher(orders.getVoucher().getDiscount())
-//                .quantityItem(orders.getTotalQuantity())
-//                .total(orders.getPrice())
-//                .email(orders.getUsers().getEmail())
-//                .createDate(orders.getCreatedDate())
-//                .subtotal(orders.getPrice() - orders.getVoucher().getDiscount())
-//                .orderItemResponseList(orderDetailList.stream().map(e->OrderItemResponse.builder()
-//                        .id(e.getId())
-//                        .nameProduct(e.getProductDetail().getProduct().getName())
-//                        .salePrice(e.getProductDetail().getSalePrice())
-//                        .color(e.getProductDetail().getColor().getName())
-//                        .size(e.getProductDetail().getSize().getName())
-//                        .quantity(e.getQuantity())
-//                        .totalPrice(e.getQuantity() * e.getProductDetail().getSalePrice())
-//                        .build()).collect(Collectors.toList()))
-//                .build();
-//
-//
-//    }
-//
-//    public void updateOrderById(Long idOrder, StatusOrderRequest request){
-//        Orders orders=orderRepository.findById(idOrder).orElseThrow(()-> new IllegalArgumentException("Not found idOrder"));
-//        orders.setStatus(request.getStatus());
-//        orderRepository.save(orders);
-//    }
-//
+
+    public List<OrderResponse> getOrderListInAdmin() {
+        List<Orders> ordersList = orderRepository.findAll();
+        List<OrderResponse> orderResponseList = new ArrayList<>();
+
+        for (Orders o : ordersList
+        ) {
+            List<OrderDetail> orderDetailList = orderDetailRepository.findAllByOrdersId(o.getId());
+
+            List<OrderItemResponse> orderDetailResponseList = orderDetailList.stream().map(e->OrderItemResponse.builder()
+                    .id(e.getId())
+                    .nameProduct(e.getProductDetail().getProduct().getName())
+                    .salePrice(e.getProductDetail().getSalePrice())
+                    .color(e.getProductDetail().getColor().getName())
+                    .size(e.getProductDetail().getSize().getName())
+                    .quantity(e.getQuantity())
+                    .image(e.getProductDetail().getImageLink())
+                    .build()).collect(Collectors.toList());
+
+            int quantityITem = 0;
+            long total = 0;
+
+            for(OrderItemResponse i : orderDetailResponseList){
+                quantityITem += i.getQuantity();
+                total += i.getQuantity() * i.getSalePrice();
+            }
+
+
+            OrderResponse response = OrderResponse
+                    .builder()
+                    .id(o.getId())
+                    .email(o.getUsers().getEmail())
+                    .quantityItem(quantityITem)
+                    .total(total)
+                    .subtotal(total - o.getVoucher().getDiscount())
+                    .feeVoucher(o.getVoucher().getDiscount())
+                    .createDate(o.getCreatedDate())
+                    .status(o.getStatus())
+                    .orderItemResponseList(orderDetailResponseList)
+                    .build();
+            orderResponseList.add(response);
+        }
+        return orderResponseList;
+    }
+
+    public void updateOrderById(Long idOrder, StatusOrderRequest request){
+        Orders orders=orderRepository.findById(idOrder).orElseThrow(()-> new IllegalArgumentException("Not found idOrder"));
+        orders.setStatus(request.getStatus());
+        orderRepository.save(orders);
+    }
+
 }
 

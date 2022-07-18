@@ -63,7 +63,6 @@ function OrderList({ data }) {
   const classes = useStyles();
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(0);
-  // const [orders, setOrders] = useState([]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -73,7 +72,6 @@ function OrderList({ data }) {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-
   console.log(data);
 
   return (
