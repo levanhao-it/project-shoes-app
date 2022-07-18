@@ -97,14 +97,6 @@ public class ProductService {
                 .build();
     }
 
-//    private Page<Product> getProductListPage(
-//            String title, long categoryId, int price_gte, int price_lte, String color, Pageable pageable
-//    ) {
-//
-//
-//    }
-
-
     private Sort.Direction getSortDirection(String s) {
         if(s.equals("desc"))
             return Sort.Direction.DESC;

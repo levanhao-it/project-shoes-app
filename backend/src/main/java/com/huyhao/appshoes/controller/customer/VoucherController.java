@@ -20,7 +20,7 @@ public class VoucherController {
     @GetMapping("/list")
     public ResponseEntity<?> getVoucherList(){
         try {
-            return ResponseEntity.ok(ResponseCommon.success(voucherService.getVoucherList()));
+            return ResponseEntity.ok(ResponseCommon.success(voucherService.getVoucherListInCustomer()));
         } catch (Exception ex) {
             log.error("API /api/wishList: ", ex);
             return ResponseEntity.badRequest().body(ErrorResponse.builder().message(ex.getMessage()).build());

@@ -37,10 +37,11 @@ public class OrderController {
         }
     }
 
+
     @GetMapping("")
-    public ResponseEntity<?> getOrderList(@RequestParam Long idUser){
+    public ResponseEntity<?> getOrderList(@RequestParam String email){
         try {
-            return ResponseEntity.ok(ResponseCommon.success(orderService.getOrderListInCustomer(idUser)));
+            return ResponseEntity.ok(ResponseCommon.success(orderService.getOrderListInCustomer(email)));
         } catch (Exception ex) {
             log.error("API /api/orders: ", ex);
             return ResponseEntity.badRequest().body(ErrorResponse.builder().message(ex.getMessage()).build());

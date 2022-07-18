@@ -35,9 +35,5 @@ public class ProductDetail extends BaseEntity{
 
     @JsonIgnore
     @OneToMany(mappedBy = "productDetail")
-    private List<CartItem> cartItemList;
-
-    @JsonIgnore
-    @OneToMany(mappedBy = "productDetail")
     private List<OrderDetail> orderDetailList;
 }

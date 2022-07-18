@@ -17,8 +17,6 @@ import java.util.List;
 public class Orders extends BaseEntity{
     private String status;
     private String message;
-    private int totalQuantity;
-    private double price;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "users_id", nullable = false)

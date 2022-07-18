@@ -7,7 +7,6 @@ import com.huyhao.appshoes.entity.Users;
 import com.huyhao.appshoes.jwt.JwtProvider;
 import com.huyhao.appshoes.payload.auth.*;
 import com.huyhao.appshoes.payload.order.OrderResponse;
-import com.huyhao.appshoes.repositories.CartRepository;
 import com.huyhao.appshoes.repositories.OrderRepository;
 import com.huyhao.appshoes.repositories.RoleRepository;
 import com.huyhao.appshoes.repositories.UserRepository;
@@ -34,7 +33,6 @@ import java.util.stream.Collectors;
 public class AuthService {
     private final UserRepository userRepository;
     private final RoleRepository rolesRepository;
-    private final CartRepository cartRepository;
     private final OrderRepository orderRepository;
 
     private final PasswordEncoder passwordEncoder;
@@ -134,7 +132,6 @@ public class AuthService {
     public UserResponse getUserById(Long id) {
         Users user = userRepository.findByIdAndActiveTrue(id).orElseThrow(() -> new IllegalArgumentException("Not found user from id"));
         int quantityOrder = orderRepository.findAllByUsersId(user.getId()).size();
-        List<Orders> ordersList = orderRepository.findAllByUsersId(id);
 
         return UserResponse.builder()
                 .idUser(user.getId())
@@ -145,12 +142,6 @@ public class AuthService {
                 .quantityOrders(quantityOrder)
                 .password(user.getPassword())
                 .avatar(user.getAvatar())
-                .orderResponseList(ordersList.stream().map(e -> OrderResponse.builder()
-                        .id(e.getId())
-                        .status(e.getStatus())
-                        .createDate(e.getCreatedDate())
-                        .subtotal(e.getPrice())
-                        .build()).collect(Collectors.toList()))
                 .build();
 
     }
@@ -191,12 +182,6 @@ public class AuthService {
                 .quantityOrders(quantityOrder)
                 .password(user.getPassword())
                 .avatar(user.getAvatar())
-                .orderResponseList(ordersList.stream().map(e -> OrderResponse.builder()
-                        .id(e.getId())
-                        .status(e.getStatus())
-                        .createDate(e.getCreatedDate())
-                        .subtotal(e.getPrice())
-                        .build()).collect(Collectors.toList()))
                 .build();
 
     }

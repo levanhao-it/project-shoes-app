@@ -19,7 +19,7 @@ public class VoucherAdminController {
     @GetMapping()
     public ResponseEntity<?> getVoucherList(){
         try {
-            return ResponseEntity.ok(ResponseCommon.success(voucherService.getVoucherList()));
+            return ResponseEntity.ok(ResponseCommon.success(voucherService.getVoucherListInAdmin()));
         } catch (Exception ex) {
             log.error("API /api/wishList: ", ex);
             return ResponseEntity.badRequest().body(ErrorResponse.builder().message(ex.getMessage()).build());

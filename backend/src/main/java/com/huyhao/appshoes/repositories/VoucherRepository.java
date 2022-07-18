@@ -15,4 +15,6 @@ public interface VoucherRepository extends JpaRepository<Voucher, Long> {
 
     List<Voucher> findAllByActiveTrue();
 
+    List<Voucher> findAllByActiveTrueAndStatusTrue();
+
 }

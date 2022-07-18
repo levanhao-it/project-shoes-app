@@ -28,9 +28,15 @@ public class VoucherService {
                 .code(voucherRequest.getCode())
                 .priceConditional(voucherRequest.getPriceCondition())
                 .discount(voucherRequest.getDiscount())
-                .quantity(voucherRequest.getQuantity())
-                .active(true)
                 .build();
+
+        if(voucher.getQuantity() == 0){
+            voucher.setQuantity(0);
+            voucher.setStatus(false);
+        }else{
+            voucher.setQuantity(voucherRequest.getQuantity());
+            voucher.setStatus(true);
+        }
 
         voucherRepository.save(voucher);
     }
@@ -77,7 +83,7 @@ public class VoucherService {
         voucherRepository.save(voucher);
     }
 
-    public List<VoucherResponse> getVoucherList() {
+    public List<VoucherResponse> getVoucherListInAdmin() {
         List<Voucher> voucherList = voucherRepository.findAllByActiveTrue();
 
         List<VoucherResponse> voucherResponses = voucherList.stream().map(e -> VoucherResponse.builder()
@@ -87,11 +93,28 @@ public class VoucherService {
                         .priceCondition(e.getPriceConditional())
                         .discount(e.getDiscount())
                         .quantity(e.getQuantity())
+                        .status(e.getStatus())
                         .build()
                 ).collect(Collectors.toList());
 
         return voucherResponses;
+    }
 
+    public List<VoucherResponse> getVoucherListInCustomer() {
+        List<Voucher> voucherList = voucherRepository.findAllByActiveTrueAndStatusTrue();
+
+        List<VoucherResponse> voucherResponses = voucherList.stream().map(e -> VoucherResponse.builder()
+                .id(e.getId())
+                .name(e.getName())
+                .code(e.getCode())
+                .priceCondition(e.getPriceConditional())
+                .discount(e.getDiscount())
+                .quantity(e.getQuantity())
+                .status(e.getStatus())
+                .build()
+        ).collect(Collectors.toList());
+
+        return voucherResponses;
     }
 
     public VoucherResponse getVoucherByCode(String code) {

@@ -17,6 +17,6 @@ public class OrderItemResponse {
     private double salePrice;
     private String size;
     private String color;
-    private double totalPrice;
+    private String image;
 
 }

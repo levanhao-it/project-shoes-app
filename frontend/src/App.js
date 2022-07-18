@@ -1,6 +1,7 @@
 import { Collapse, makeStyles } from "@material-ui/core";
 import { WIDTH_HEADER } from "constant";
 import Verify from "features/Auth/components/Verify";
+import CheckoutFeature from "features/Checkout";
 import DeliveryFeauture from "features/Delivery";
 import UserFeature from "features/User";
 import { useEffect, useState } from "react";
@@ -56,6 +57,7 @@ function App() {
           <Route path="/products" component={ProductFeature} />
           <Route path="/cart" component={CartFeature} />
           <Route path="/delivery" component={DeliveryFeauture} />
+          <Route path="/checkout" component={CheckoutFeature} />
           <Route path="/user" component={UserFeature} />
           <Route path="/verify" component={Verify} />
           <Route component={NotFound} />

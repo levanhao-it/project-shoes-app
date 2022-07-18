@@ -32,9 +32,6 @@ public class Users extends BaseEntity{
     @OneToMany(mappedBy = "users")
     private List<WishList> wishList;
 
-    @OneToOne(mappedBy = "users")
-    private Cart cart;
-
     @JsonIgnore
     @OneToMany(mappedBy = "users")
     private List<Rate> rateList;

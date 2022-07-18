@@ -22,6 +22,8 @@ public class Voucher extends BaseEntity{
     private Double discount;
     private Integer quantity;
 
+    private Boolean status;
+
     private Boolean active;
 
     @JsonIgnore
