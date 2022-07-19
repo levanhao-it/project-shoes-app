@@ -1,33 +1,35 @@
-import React from "react";
-import PropTypes from "prop-types";
-import AddressEditForm from "./AddressEditForm";
-import { useSnackbar } from "notistack";
-import addressApi from "api/addressApi";
+import React from 'react';
+import PropTypes from 'prop-types';
+import AddressEditForm from './AddressEditForm';
+import { useSnackbar } from 'notistack';
+import addressApi from 'api/addressApi';
+import StorageKeys from 'constant/storage-keys';
 
 AddressEdit.propTypes = {
   closeDialog: PropTypes.func,
+  handelSubmitSuccess: PropTypes.func,
 };
 
-function AddressEdit({ data, closeDialog }) {
+function AddressEdit({ data, closeDialog, handelSubmitSuccess }) {
   const { enqueueSnackbar } = useSnackbar();
-  const handleSubmit = (id, values) => {
+  const handleSubmit = async (id, values) => {
     try {
-      const fetchAddress = async () => {
-        await addressApi.update(id, values);
-      };
+      await addressApi.update(id, values);
 
-      fetchAddress();
       if (closeDialog) {
+        const email = JSON.parse(localStorage.getItem(StorageKeys.USER)).email || '';
+        const { data } = await addressApi.getAll({ email });
         closeDialog();
+        handelSubmitSuccess(data);
       }
-      enqueueSnackbar("Edit your address successfully!", {
-        variant: "success",
+      enqueueSnackbar('Edit your address successfully!', {
+        variant: 'success',
         autoHideDuration: 1000,
       });
     } catch (error) {
-      console.log("Fail to edit your address: ", error.message);
+      console.log('Fail to edit your address: ', error.message);
       enqueueSnackbar(error.message, {
-        variant: "error",
+        variant: 'error',
         autoHideDuration: 1000,
       });
     }
@@ -35,11 +37,7 @@ function AddressEdit({ data, closeDialog }) {
 
   return (
     <div>
-      <AddressEditForm
-        onSubmit={handleSubmit}
-        data={data}
-        closeDialog={closeDialog}
-      />
+      <AddressEditForm onSubmit={handleSubmit} data={data} closeDialog={closeDialog} />
     </div>
   );
 }

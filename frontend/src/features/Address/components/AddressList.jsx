@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import {
   Box,
   Button,
@@ -8,24 +8,24 @@ import {
   makeStyles,
   Paper,
   Typography,
-} from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
-import addressApi from "api/addressApi";
-import StorageKeys from "constant/storage-keys";
-import AddressDetail from "./AddressDetail";
-import AddressAdd from "./AddressAdd";
+} from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
+import addressApi from 'api/addressApi';
+import StorageKeys from 'constant/storage-keys';
+import AddressDetail from './AddressDetail';
+import AddressAdd from './AddressAdd';
 
 AddressList.propTypes = {};
 
 const useStyle = makeStyles((theme) => ({
   header: {
-    display: "flex",
-    justifyContent: "space-between",
+    display: 'flex',
+    justifyContent: 'space-between',
     padding: theme.spacing(2),
   },
   btn: {
-    "& > span": {
-      textTransform: "capitalize",
+    '& > span': {
+      textTransform: 'capitalize',
     },
   },
 }));
@@ -43,15 +43,18 @@ function AddressList(props) {
     setOpen(false);
   };
 
+  const handleChangeAddress = (data) => {
+    setAddressList(data);
+  };
+
   useEffect(() => {
     (async () => {
       try {
-        const email =
-          JSON.parse(localStorage.getItem(StorageKeys.USER)).email || "";
+        const email = JSON.parse(localStorage.getItem(StorageKeys.USER)).email || '';
         const { data } = await addressApi.getAll({ email });
         setAddressList(data);
       } catch (error) {
-        console.log("Failed to fetch products", error);
+        console.log('Failed to fetch products', error);
       }
     })();
   }, []);
@@ -75,12 +78,12 @@ function AddressList(props) {
         </Box>
 
         {addressList.map((address) => {
-          return <AddressDetail data={address} />;
+          return <AddressDetail data={address} onUpdate={handleChangeAddress} />;
         })}
       </Box>
       <Dialog open={open} onClose={handleClose} disableEscapeKeyDown>
         <DialogContent>
-          <AddressAdd closeDialog={handleClose} />
+          <AddressAdd closeDialog={handleClose} handelSubmitSuccess={handleChangeAddress} />
         </DialogContent>
       </Dialog>
     </Paper>
