@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from "react";
+import PropTypes from "prop-types";
 import {
   Box,
   Button,
@@ -10,12 +10,13 @@ import {
   Grid,
   makeStyles,
   Typography,
-} from '@material-ui/core';
-import { Close } from '@material-ui/icons';
-import AddressEdit from './AddressEdit';
-import { useSnackbar } from 'notistack';
-import addressApi from 'api/addressApi';
-import StorageKeys from 'constant/storage-keys';
+} from "@material-ui/core";
+import { Close } from "@material-ui/icons";
+import AddressEdit from "./AddressEdit";
+import { useSnackbar } from "notistack";
+import addressApi from "api/addressApi";
+import StorageKeys from "constant/storage-keys";
+import AddressDelete from "./AddressDelete";
 
 AddressDetail.propTypes = {
   data: PropTypes.object,
@@ -28,21 +29,21 @@ const useStyle = makeStyles((theme) => ({
     padding: theme.spacing(4),
   },
   title: {
-    width: '120px',
-    color: '#aa9c90',
-    fontSize: '14px',
+    width: "120px",
+    color: "#aa9c90",
+    fontSize: "14px",
   },
   box: {
-    display: 'flex',
-    alignItems: 'center',
-    marginBottom: '6px',
+    display: "flex",
+    alignItems: "center",
+    marginBottom: "6px",
   },
   chip: {
     marginLeft: theme.spacing(1),
   },
   btn: {
-    '& > span': {
-      textTransform: 'capitalize',
+    "& > span": {
+      textTransform: "capitalize",
     },
   },
 
@@ -55,19 +56,19 @@ const useStyle = makeStyles((theme) => ({
   },
 
   boxBtn: {
-    textAlign: 'right',
+    textAlign: "right",
   },
 }));
 
 const MODE = {
-  DELETE: 'delete',
-  UPDATE: 'update',
+  DELETE: "delete",
+  UPDATE: "update",
 };
 
 function AddressDetail({ data, onDelete, onUpdate }) {
   const classes = useStyle();
   const [open, setOpen] = useState(false);
-  const [mode, setMode] = useState(MODE.LOGIN);
+  const [mode, setMode] = useState(MODE.UPDATE);
   const { enqueueSnackbar } = useSnackbar();
 
   const handleClickOpen = () => {
@@ -88,47 +89,27 @@ function AddressDetail({ data, onDelete, onUpdate }) {
     handleClickOpen();
   };
 
-  const handleDeleteAddress = async () => {
-    try {
-      await addressApi.remove(data.id);
-
-      const email = JSON.parse(localStorage.getItem(StorageKeys.USER)).email || '';
-      const result = await addressApi.getAll({ email });
-
-      onUpdate(result.data);
-      enqueueSnackbar('Delete my address successfully!', {
-        variant: 'success',
-        autoHideDuration: 1000,
-      });
-    } catch (error) {
-      console.log('Fail to delete address: ', error.message);
-      enqueueSnackbar(error.message, {
-        variant: 'error',
-        autoHideDuration: 1000,
-      });
-    }
-  };
-
   const handleSetDefault = async () => {
     try {
       const values = {
         defaultAddress: true,
-        email: JSON.parse(localStorage.getItem(StorageKeys.USER)).email || '',
+        email: JSON.parse(localStorage.getItem(StorageKeys.USER)).email || "",
       };
       await addressApi.update(data.id, values);
 
-      const email = JSON.parse(localStorage.getItem(StorageKeys.USER)).email || '';
+      const email =
+        JSON.parse(localStorage.getItem(StorageKeys.USER)).email || "";
       const result = await addressApi.getAll({ email });
 
       onUpdate(result.data);
-      enqueueSnackbar('Set default for your address successfully!', {
-        variant: 'success',
+      enqueueSnackbar("Set default for your address successfully!", {
+        variant: "success",
         autoHideDuration: 1000,
       });
     } catch (error) {
-      console.log('Fail to set default for your address: ', error.message);
+      console.log("Fail to set default for your address: ", error.message);
       enqueueSnackbar(error.message, {
-        variant: 'error',
+        variant: "error",
         autoHideDuration: 1000,
       });
     }
@@ -145,7 +126,11 @@ function AddressDetail({ data, onDelete, onUpdate }) {
         <Grid container>
           <Grid xs={12} sm={10} md={10} lg={10} item>
             <Box className={classes.box}>
-              <Typography component="p" variant="span" className={classes.title}>
+              <Typography
+                component="p"
+                variant="span"
+                className={classes.title}
+              >
                 Full Name
               </Typography>
 
@@ -155,7 +140,12 @@ function AddressDetail({ data, onDelete, onUpdate }) {
 
               {data.defaultAddress && (
                 <>
-                  <Chip label="Default" size="small" color="primary" className={classes.chip} />
+                  <Chip
+                    label="Default"
+                    size="small"
+                    color="primary"
+                    className={classes.chip}
+                  />
                   <Chip
                     label="Pickup"
                     variant="outlined"
@@ -175,7 +165,11 @@ function AddressDetail({ data, onDelete, onUpdate }) {
             </Box>
 
             <Box className={classes.box}>
-              <Typography component="p" variant="span" className={classes.title}>
+              <Typography
+                component="p"
+                variant="span"
+                className={classes.title}
+              >
                 Phone
               </Typography>
 
@@ -185,7 +179,11 @@ function AddressDetail({ data, onDelete, onUpdate }) {
             </Box>
 
             <Box className={classes.box}>
-              <Typography component="p" variant="span" className={classes.title}>
+              <Typography
+                component="p"
+                variant="span"
+                className={classes.title}
+              >
                 Address
               </Typography>
 
@@ -243,29 +241,11 @@ function AddressDetail({ data, onDelete, onUpdate }) {
 
           {mode === MODE.DELETE && (
             <>
-              <Box>
-                <Typography component="h2" variant="h6" className={classes.titleDialog}>
-                  Delete address ?
-                </Typography>
-                <Box className={classes.boxBtn}>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    type="submit"
-                    onClick={handleDeleteAddress}
-                  >
-                    Delete
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    color="default"
-                    className={classes.btnCancel}
-                    onClick={handleClose}
-                  >
-                    Cancel
-                  </Button>
-                </Box>
-              </Box>
+              <AddressDelete
+                data={data}
+                closeDialog={handleClose}
+                handelSubmitSuccess={handleChangeEditAddress}
+              />
             </>
           )}
         </DialogContent>

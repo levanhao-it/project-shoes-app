@@ -148,7 +148,8 @@ function Product({ data }) {
     setPriceSale(salePrice);
   };
 
-  const handleAddWishList = async (productId) => {
+  const handleAddWishList = async (productId, e) => {
+    e.stopPropagation();
     if (!isLoggedIn) return; //show dialog login
 
     const email = JSON.parse(localStorage.getItem(StorageKeys.USER)).email;
@@ -165,7 +166,8 @@ function Product({ data }) {
     setFavourite(true);
   };
 
-  const handleRemoveWishList = async (productId) => {
+  const handleRemoveWishList = async (productId, e) => {
+    e.stopPropagation();
     if (!isLoggedIn) return; //show dialog login
 
     const item = wishList.find((x) => x.product.id === productId);
@@ -195,7 +197,7 @@ function Product({ data }) {
         {favourite ? (
           <Box
             className={classes.favorite}
-            onClick={() => handleRemoveWishList(data.id)}
+            onClick={(e) => handleRemoveWishList(data.id, e)}
           >
             <FavoriteIcon
               className={`${classes.icon} ${classes.iconFavourite}`}
@@ -204,7 +206,7 @@ function Product({ data }) {
         ) : (
           <Box
             className={classes.favorite}
-            onClick={() => handleAddWishList(data.id)}
+            onClick={(e) => handleAddWishList(data.id, e)}
           >
             <FavoriteBorderIcon className={classes.icon} />
           </Box>
