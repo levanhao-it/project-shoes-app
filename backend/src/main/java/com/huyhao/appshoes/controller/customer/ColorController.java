@@ -19,8 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class ColorController {
     private final ColorService colorService;
-
-
     @GetMapping()
     public ResponseEntity<?> getColorList(){
         try {

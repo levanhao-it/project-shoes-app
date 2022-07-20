@@ -33,4 +33,8 @@ public class Orders extends BaseEntity{
     @JsonIgnore
     @OneToMany(mappedBy = "orders")
     private List<OrderDetail> orderDetailList;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "optionDelivery_id", nullable = false)
+    private OptionalDelivery optionDelivery;
 }
