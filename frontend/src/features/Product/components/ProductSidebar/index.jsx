@@ -1,19 +1,29 @@
-import { Box, Button, Hidden, makeStyles, Typography } from '@material-ui/core';
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Hidden,
+  makeStyles,
+  Typography,
+} from '@material-ui/core';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import StraightenIcon from '@material-ui/icons/Straighten';
-import { Rating } from '@material-ui/lab';
-import ButtonActive from 'components/component-custom/ButtonActive';
-import { addToCart } from 'features/Cart/cartSlice';
-import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import ProductSilder from '../ProductSlider';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import StorageKeys from 'constant/storage-keys';
-import { addWishList, removeWishList } from 'features/Wishlist/wishListSlice';
 import { unwrapResult } from '@reduxjs/toolkit';
-import { useRouteMatch } from 'react-router-dom';
+import ButtonActive from 'components/component-custom/ButtonActive';
+import GuideSize from 'components/GuideSize';
+import StorageKeys from 'constant/storage-keys';
+import { addToCart } from 'features/Cart/cartSlice';
+import { addWishList, removeWishList } from 'features/Wishlist/wishListSlice';
 import { useSnackbar } from 'notistack';
+import PropTypes from 'prop-types';
+import { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useRouteMatch } from 'react-router-dom';
+import ProductSilder from '../ProductSlider';
 
 ProductSidebar.propTypes = {
   product: PropTypes.object.isRequired,
@@ -103,6 +113,11 @@ const useStyle = makeStyles((theme) => ({
     fontSize: '14px',
     fontStyle: 'italic',
     textDecoration: 'underline',
+    cursor: 'pointer',
+    '&:hover': {
+      backgroundColor: '#000',
+      color: '#fff',
+    },
   },
   subTitleIcon: {
     margin: '4px 4px 0 0',
@@ -134,6 +149,8 @@ const useStyle = makeStyles((theme) => ({
 
 function ProductSidebar({ product }) {
   const classes = useStyle();
+  const [open, setOpen] = useState(false);
+  const [scroll, setScroll] = useState('paper');
   const { enqueueSnackbar } = useSnackbar();
 
   const listDetail = product.productDetailList || [];
@@ -222,6 +239,25 @@ function ProductSidebar({ product }) {
     setFavourite(false);
   };
 
+  const handleClickOpen = (scrollType) => () => {
+    setOpen(true);
+    setScroll(scrollType);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const descriptionElementRef = useRef(null);
+  useEffect(() => {
+    if (open) {
+      const { current: descriptionElement } = descriptionElementRef;
+      if (descriptionElement !== null) {
+        descriptionElement.focus();
+      }
+    }
+  }, [open]);
+
   return (
     <div className={classes.root}>
       <Box display="flex" justifyContent="space-between">
@@ -285,7 +321,13 @@ function ProductSidebar({ product }) {
           </Typography>
           <Box position="absolute" right="0" top={5} display="flex" alignItems="center">
             <StraightenIcon className={classes.subTitleIcon} />
-            <Typography variant="p" component="a" position="absolute" className={classes.subTitle}>
+            <Typography
+              variant="p"
+              component="a"
+              position="absolute"
+              className={classes.subTitle}
+              onClick={handleClickOpen('paper')}
+            >
               Size guide
             </Typography>
           </Box>
@@ -336,6 +378,20 @@ function ProductSidebar({ product }) {
           </Button>
         )}
       </Box>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        scroll={scroll}
+        aria-labelledby="scroll-dialog-title"
+        aria-describedby="scroll-dialog-description"
+      >
+        <DialogTitle id="scroll-dialog-title">
+          <p className={classes.productPrice}> MEN'S AND WOMEN'S FOOTWEAR SIZING</p>
+        </DialogTitle>
+        <DialogContent dividers={scroll === 'paper'}>
+          <GuideSize></GuideSize>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

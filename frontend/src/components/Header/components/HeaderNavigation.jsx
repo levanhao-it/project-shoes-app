@@ -8,119 +8,119 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-} from "@material-ui/core";
-import IconButton from "@material-ui/core/IconButton";
-import InputBase from "@material-ui/core/InputBase";
-import { makeStyles } from "@material-ui/core/styles";
-import { FavoriteBorder, ShoppingCartOutlined } from "@material-ui/icons";
-import MenuIcon from "@material-ui/icons/Menu";
-import SearchIcon from "@material-ui/icons/Search";
-import { HEADER_NAVIGATION } from "constant";
-import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
-import HomeIcon from "@material-ui/icons/Home";
-import PersonIcon from "@material-ui/icons/Person";
-import ReceiptIcon from "@material-ui/icons/Receipt";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import CloseIcon from "@material-ui/icons/Close";
-import { useSelector } from "react-redux";
-import { cartItemsCountSelector } from "features/Cart/selector";
-import { wishlistCountSelector } from "features/Wishlist/selector";
+} from '@material-ui/core';
+import IconButton from '@material-ui/core/IconButton';
+import InputBase from '@material-ui/core/InputBase';
+import { makeStyles } from '@material-ui/core/styles';
+import { FavoriteBorder, ShoppingCartOutlined } from '@material-ui/icons';
+import MenuIcon from '@material-ui/icons/Menu';
+import SearchIcon from '@material-ui/icons/Search';
+import { HEADER_NAVIGATION } from 'constant';
+import React, { useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import HomeIcon from '@material-ui/icons/Home';
+import PersonIcon from '@material-ui/icons/Person';
+import ReceiptIcon from '@material-ui/icons/Receipt';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import CloseIcon from '@material-ui/icons/Close';
+import { useSelector } from 'react-redux';
+import { cartItemsCountSelector } from 'features/Cart/selector';
+import { wishlistCountSelector } from 'features/Wishlist/selector';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    position: "relative",
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    position: 'relative',
 
     padding: theme.spacing(0, 4),
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down('sm')]: {
       padding: theme.spacing(0, 2),
     },
 
-    [theme.breakpoints.up("xs")]: {
+    [theme.breakpoints.up('xs')]: {
       padding: theme.spacing(0, 2),
     },
     height: `${HEADER_NAVIGATION}`,
   },
 
   drawer: {
-    width: "320px",
-    maxWidth: "100%",
+    width: '320px',
+    maxWidth: '100%',
   },
 
   right: {
-    display: "flex",
-    flexFlow: "row nowrap",
-    alignItems: "center",
+    display: 'flex',
+    flexFlow: 'row nowrap',
+    alignItems: 'center',
   },
 
   logo: {
-    width: "150px",
+    width: '150px',
   },
   link: {
-    listStyleType: "none",
-    color: "#000",
+    listStyleType: 'none',
+    color: '#000',
     padding: theme.spacing(2, 3),
-    textDecoration: "none",
+    textDecoration: 'none',
 
-    "&:hover": {
-      borderBottom: "2px solid #000",
+    '&:hover': {
+      borderBottom: '2px solid #000',
     },
   },
 
   mobileLink: {
-    paddingLeft: "56px",
-    "& > span": {
-      fontWeight: "bold",
+    paddingLeft: '56px',
+    '& > span': {
+      fontWeight: 'bold',
     },
   },
 
   mobileList: {
-    width: "320px",
-    padding: "0 20px",
-    maxWidth: "100%",
+    width: '320px',
+    padding: '0 20px',
+    maxWidth: '100%',
   },
 
   search: {
-    position: "absolute",
-    top: "28px",
-    right: "130px",
+    position: 'absolute',
+    top: '28px',
+    right: '130px',
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: "#f5f5f5",
-    "&:hover": {
-      backgroundColor: "#e5e5e5",
+    backgroundColor: '#f5f5f5',
+    '&:hover': {
+      backgroundColor: '#e5e5e5',
     },
     marginLeft: 0,
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing(1),
-      width: "auto",
+      width: 'auto',
     },
   },
   searchIcon: {
     padding: theme.spacing(0, 2),
-    height: "100%",
-    position: "absolute",
-    pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   inputRoot: {
-    color: "inherit",
+    color: 'inherit',
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      width: "12ch",
-      "&:focus": {
-        width: "20ch",
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      width: '12ch',
+      '&:focus': {
+        width: '20ch',
       },
     },
   },
@@ -139,7 +139,7 @@ export default function HeaderNavigation() {
   const wishlistCount = useSelector(wishlistCountSelector);
 
   const handleWishlist = () => {
-    history.push("/user/wishList");
+    history.push('/user/wishList');
   };
 
   return (
@@ -161,10 +161,7 @@ export default function HeaderNavigation() {
               </IconButton>
             </Box>
 
-            <Box
-              className={classes.mobileList}
-              onClick={() => toggleDrawer(false)}
-            >
+            <Box className={classes.mobileList} onClick={() => toggleDrawer(false)}>
               <List component="nav" aria-label="main mailbox folders">
                 <ListItem button component={Link} to="/">
                   <ListItemIcon>
@@ -178,10 +175,7 @@ export default function HeaderNavigation() {
                 </ListItem>
 
                 <ListItem button component={Link} to="/products/woman">
-                  <ListItemText
-                    primary="Woman"
-                    className={classes.mobileLink}
-                  />
+                  <ListItemText primary="Woman" className={classes.mobileLink} />
                 </ListItem>
 
                 <ListItem button component={Link} to="/produts/kids">
@@ -271,16 +265,12 @@ export default function HeaderNavigation() {
                 root: classes.inputRoot,
                 input: classes.inputInput,
               }}
-              inputProps={{ "aria-label": "search" }}
+              inputProps={{ 'aria-label': 'search' }}
             />
           </div>
         </Hidden>
 
-        <IconButton
-          aria-label="show 17 new notifications"
-          color="inherit"
-          onClick={handleWishlist}
-        >
+        <IconButton aria-label="show 17 new notifications" color="inherit" onClick={handleWishlist}>
           <Badge badgeContent={wishlistCount} color="primary">
             <FavoriteBorder />
           </Badge>

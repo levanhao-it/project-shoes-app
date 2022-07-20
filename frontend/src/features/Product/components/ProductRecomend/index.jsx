@@ -12,6 +12,7 @@ import PropTypes from 'prop-types';
 import './styles.scss';
 import { useEffect } from 'react';
 import categoryApi from 'api/categoryApi';
+import { useHistory } from 'react-router-dom';
 ProductRecomend.propTypes = {
   product: PropTypes.object.isRequired,
 };
@@ -33,6 +34,7 @@ function ProductRecomend({ product }) {
   const classes = useStyle();
   const categoryId = product.categoryId;
   const [products, setProducts] = useState([]);
+  const history = useHistory();
 
   useEffect(() => {
     (async () => {
@@ -44,6 +46,10 @@ function ProductRecomend({ product }) {
       }
     })();
   }, [categoryId]);
+
+  const handleClick = (id) => {
+    history.push(`/products/${id}`);
+  };
 
   return (
     <div className={`${classes.root} slider-recommed`}>
@@ -83,7 +89,7 @@ function ProductRecomend({ product }) {
         }}
       >
         {products.map((product) => (
-          <SwiperSlide key={product.id}>
+          <SwiperSlide key={product.id} onClick={() => handleClick(product.id)}>
             <Product data={product} />
           </SwiperSlide>
         ))}

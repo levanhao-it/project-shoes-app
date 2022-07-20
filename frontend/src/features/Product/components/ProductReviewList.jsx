@@ -164,7 +164,7 @@ function ProductReviewList({ product = {} }) {
       <Box display="flex" alignItems="center">
         <Rating name="read-only" value={product.rating} precision={0.5} readOnly size="medium" />
         <Typography variant="p" className={classes.titleRating}>
-          {product.rating} stars
+          {product.rating.toFixed(1)} stars
         </Typography>
       </Box>
 

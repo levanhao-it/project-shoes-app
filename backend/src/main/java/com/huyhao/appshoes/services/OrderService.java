@@ -4,12 +4,15 @@ import com.huyhao.appshoes.entity.*;
 import com.huyhao.appshoes.payload.order.*;
 import com.huyhao.appshoes.repositories.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,8 +27,10 @@ public class OrderService {
     private final ProductDetailRepository productDetailRepository;
 
     private final OptionalDeliveryRepository optionalDeliveryRepository;
+    public final JavaMailSender mailSender;
 
-    public OrderResponse createOrder(OrderRequest request) {
+
+    public OrderResponse createOrder(OrderRequest request) throws MessagingException, UnsupportedEncodingException {
 
         Users user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("Not found user from email"));
@@ -78,6 +83,7 @@ public class OrderService {
                     .build();
             orderDetailRepository.save(orderDetail);
         }
+        sendEmailConfirmOrder(user,orders.getId());
         return getOrder(orders.getId());
     }
 
@@ -236,5 +242,34 @@ public class OrderService {
         orderRepository.save(orders);
     }
 
+    private void sendEmailConfirmOrder(Users user,Long idOrder)
+            throws MessagingException, UnsupportedEncodingException {
+        String toAddress = user.getEmail();
+        String fromAddress = "shoesapp2022@gmail.com";
+        String senderName = "Shoes Shop";
+        String subject = "Order Confirmation ";
+        String content = "Dear [[name]],"
+                + "<h3><a href=\"[[URL]]\" target=\"_self\">Tình trạng đơn hàng</a></h3>"
+                + "Thank you,<br>"
+                + "Shoes Shop.";
+
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+
+        helper.setFrom(fromAddress, senderName);
+        helper.setTo(toAddress);
+        helper.setSubject(subject);
+
+        content = content.replace("[[name]]", user.getFullName());
+        String checkoutURL = "http://localhost:3000/checkout/" + idOrder;
+
+        content = content.replace("[[URL]]", checkoutURL);
+
+        helper.setText(content, true);
+
+        mailSender.send(message);
+
+        System.out.println("Email has been sent");
+    }
 }
 
