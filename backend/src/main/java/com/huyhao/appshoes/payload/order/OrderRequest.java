@@ -11,6 +11,6 @@ public class OrderRequest {
     private String email;
     private Long addressDeliveryId;
     private String voucherCode;
-    private String message;
+    private Long optionalDeliveryId;
     private List<OrderDetailRequest> orderDetailRequestList;
 }

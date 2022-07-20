@@ -9,15 +9,15 @@ import {
   makeStyles,
   Typography,
   withStyles,
-} from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import RemoveShoppingCartIcon from '@material-ui/icons/RemoveShoppingCart';
-import PropTypes from 'prop-types';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { removeFromCart, setQuantity } from '../../cartSlice';
-import CartQuantityForm from '../CartQuantityForm';
+} from "@material-ui/core";
+import CloseIcon from "@material-ui/icons/Close";
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import RemoveShoppingCartIcon from "@material-ui/icons/RemoveShoppingCart";
+import PropTypes from "prop-types";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { removeFromCart, setQuantity } from "../../cartSlice";
+import CartQuantityForm from "../CartQuantityForm";
 
 CartItem.propTypes = {
   item: PropTypes.object.isRequired,
@@ -25,89 +25,89 @@ CartItem.propTypes = {
 
 const BootstrapInput = withStyles((theme) => ({
   root: {
-    'label + &': {
-      marginTop: '10px',
+    "label + &": {
+      marginTop: "10px",
     },
   },
   input: {
-    position: 'relative',
+    position: "relative",
     backgroundColor: theme.palette.background.paper,
-    border: '1px solid #000',
-    fontSize: '18px',
-    padding: '10px 26px 10px 36px',
-    transition: theme.transitions.create(['border-color', 'box-shadow']),
+    border: "1px solid #000",
+    fontSize: "18px",
+    padding: "10px 26px 10px 36px",
+    transition: theme.transitions.create(["border-color", "box-shadow"]),
     // Use the system font instead of the default Roboto font.
     fontFamily: [
-      '-apple-system',
-      'BlinkMacSystemFont',
+      "-apple-system",
+      "BlinkMacSystemFont",
       '"Segoe UI"',
-      'Roboto',
+      "Roboto",
       '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
+      "Arial",
+      "sans-serif",
       '"Apple Color Emoji"',
       '"Segoe UI Emoji"',
       '"Segoe UI Symbol"',
-    ].join(','),
-    '&:focus': {
-      borderColor: '#000',
-      boxShadow: '0 0 0 2px rgba(0,123,255,.25)',
+    ].join(","),
+    "&:focus": {
+      borderColor: "#000",
+      boxShadow: "0 0 0 2px rgba(0,123,255,.25)",
     },
   },
 }))(InputBase);
 
 const useStyle = makeStyles((theme) => ({
   root: {
-    border: '1px solid black',
-    width: '100%',
-    margin: '35px 0',
+    border: "1px solid black",
+    width: "100%",
+    margin: "35px 0",
   },
   img: {
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
   },
   title: {
-    fontSize: '16px',
-    textTransform: 'uppercase',
-    color: '#000',
-    '& span': {
-      fontWeight: 'bold',
+    fontSize: "16px",
+    textTransform: "uppercase",
+    color: "#000",
+    "& span": {
+      fontWeight: "bold",
     },
   },
   icon: {
-    fontSize: '22px',
-    color: '#000',
-    '&:hover': {
-      color: '#2AC37D',
+    fontSize: "22px",
+    color: "#000",
+    "&:hover": {
+      color: "#2AC37D",
     },
   },
   parent: {
-    display: 'flex',
-    flexDirection: 'column',
-    paddingTop: '20px',
-    paddingLeft: '15px',
+    display: "flex",
+    flexDirection: "column",
+    paddingTop: "20px",
+    paddingLeft: "15px",
   },
   form: {
-    marginTop: 'auto',
-    marginBottom: '20px',
-    width: '90px',
+    marginTop: "auto",
+    marginBottom: "20px",
+    width: "90px",
   },
   header: {
-    marginBottom: '10px',
+    marginBottom: "10px",
   },
   salePrice: {
-    color: '#e32b2b',
-    marginLeft: '8px',
+    color: "#e32b2b",
+    marginLeft: "8px",
   },
   banPrice: {
-    textDecoration: 'line-through',
+    textDecoration: "line-through",
   },
   quantity: {
-    fontSize: '18px',
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: '10px 0px 10px 0px',
+    fontSize: "18px",
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    padding: "10px 0px 10px 0px",
   },
 }));
 
@@ -141,7 +141,15 @@ function CartItem({ item = {} }) {
             alt={item.productDetail.name}
           ></img>
         </Grid>
-        <Grid item xs={8} sm={8} md={8} lg={8} xl={8} className={classes.parent}>
+        <Grid
+          item
+          xs={8}
+          sm={8}
+          md={8}
+          lg={8}
+          xl={8}
+          className={classes.parent}
+        >
           <Grid container className={classes.header}>
             <Grid item xs={11} sm={11} md={11} lg={11} xl={11}>
               <Typography className={classes.title}>
@@ -165,7 +173,10 @@ function CartItem({ item = {} }) {
             </Grid>
             <Grid item xs={1} sm={1} md={1} lg={1} xl={1}>
               <Box>
-                <CloseIcon className={classes.icon} onClick={handleRemoveClick} />
+                <CloseIcon
+                  className={classes.icon}
+                  onClick={handleRemoveClick}
+                />
               </Box>
               <FavoriteBorderIcon className={classes.icon} />
               <Box></Box>
@@ -183,7 +194,7 @@ function CartItem({ item = {} }) {
               onSubmit={handleSetQuantitySubmit}
               quantityMax={item.productDetail.quantity}
             />
-            <span style={{ marginLeft: '10px' }}>
+            <span style={{ marginLeft: "10px" }}>
               {item.productDetail.quantity} products are available
             </span>
           </Box>
@@ -197,11 +208,17 @@ function CartItem({ item = {} }) {
         disableBackdropClick
       >
         <DialogTitle id="confirm-dialog">
-          <RemoveShoppingCartIcon style={{ marginRight: '10px' }} />
-          <Typography variant="span">Are you sure you want to remove this item?</Typography>
+          <RemoveShoppingCartIcon style={{ marginRight: "10px" }} />
+          <Typography variant="span">
+            Are you sure you want to remove this item?
+          </Typography>
         </DialogTitle>
         <DialogActions>
-          <Button variant="outlined" onClick={() => setOpenRemoveConfirm(false)} color="primary">
+          <Button
+            variant="outlined"
+            onClick={() => setOpenRemoveConfirm(false)}
+            color="primary"
+          >
             No
           </Button>
           <Button

@@ -19,8 +19,8 @@ public class OrderController {
     @PostMapping()
     public ResponseEntity<?> createOrder(@RequestBody OrderRequest request){
         try {
-            orderService.createOrder(request);
-            return ResponseEntity.ok(ResponseCommon.success(""));
+
+            return ResponseEntity.ok(ResponseCommon.success(orderService.createOrder(request)));
         } catch (Exception ex) {
             log.error("API /api/orders: ", ex);
             return ResponseEntity.badRequest().body(ErrorResponse.builder().message(ex.getMessage()).build());

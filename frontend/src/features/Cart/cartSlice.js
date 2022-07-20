@@ -1,9 +1,9 @@
-import StorageKeys from 'constant/storage-keys';
+import StorageKeys from "constant/storage-keys";
 
-const { createSlice } = require('@reduxjs/toolkit');
+const { createSlice } = require("@reduxjs/toolkit");
 
 const cartSlice = createSlice({
-  name: 'cart',
+  name: "cart",
   initialState: {
     showMiniCart: false,
     cartItems: JSON.parse(localStorage.getItem(StorageKeys.CART)) || [],
@@ -39,12 +39,25 @@ const cartSlice = createSlice({
     },
     removeFromCart: (state, action) => {
       const idNeedToRemove = action.payload;
-      state.cartItems = state.cartItems.filter((item) => item.productDetailId !== idNeedToRemove);
+      state.cartItems = state.cartItems.filter(
+        (item) => item.productDetailId !== idNeedToRemove
+      );
+      localStorage.setItem(StorageKeys.CART, JSON.stringify(state.cartItems));
+    },
+
+    resetCart: (state, action) => {
+      state.cartItems = [];
       localStorage.setItem(StorageKeys.CART, JSON.stringify(state.cartItems));
     },
   },
 });
 
 const { actions, reducer } = cartSlice;
-export const { toggleMiniCart, addToCart, setQuantity, removeFromCart } = actions;
+export const {
+  toggleMiniCart,
+  addToCart,
+  setQuantity,
+  removeFromCart,
+  resetCart,
+} = actions;
 export default reducer;

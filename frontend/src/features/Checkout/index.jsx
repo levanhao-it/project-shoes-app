@@ -12,7 +12,7 @@ function CheckoutFeature(props) {
   return (
     <Box>
       <Switch>
-        <Route path={match.url} component={CheckoutPage} exact />
+        <Route path={`${match.url}/:orderId`} component={CheckoutPage} exact />
         <Route component={NotFound} />
       </Switch>
     </Box>

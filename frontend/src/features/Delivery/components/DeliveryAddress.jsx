@@ -28,6 +28,11 @@ import AddressEdit from "features/Address/components/AddressEdit";
 import AddressAdd from "features/Address/components/AddressAdd";
 import CheckCircleSharpIcon from "@material-ui/icons/CheckCircleSharp";
 import { useSnackbar } from "notistack";
+import optionalDeliveryApi from "api/optionalDeliveryApi";
+import { useDispatch, useSelector } from "react-redux";
+import orderApi from "api/orderApi";
+import { useHistory } from "react-router-dom";
+import { resetCart } from "features/Cart/cartSlice";
 
 DeliveryAddress.propTypes = {};
 
@@ -101,7 +106,12 @@ function DeliveryAddress(props) {
   const [mode, setMode] = useState(MODE.ADD);
   const [addressList, setAddressList] = useState([]);
   const [address, setAddress] = useState({});
-  const { enqueueSnackbar } = useSnackbar();
+  const [optionalDeliveryList, setOptionalDeliveryList] = useState([]);
+  const [optionalDelivey, setOptionalDelivery] = useState({});
+  const voucher = useSelector((state) => state.voucher);
+  const orderList = useSelector((state) => state.cart.cartItems);
+  const history = useHistory();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     (async () => {
@@ -118,8 +128,44 @@ function DeliveryAddress(props) {
     })();
   }, []);
 
-  const handleSubmit = async (values) => {
-    console.log(values);
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data } = await optionalDeliveryApi.getAll();
+        setOptionalDeliveryList(data);
+        setOptionalDelivery(data[0]);
+      } catch (error) {
+        console.log("Failed to fetch products", error);
+      }
+    })();
+  }, []);
+
+  const handleSubmit = async () => {
+    const orderDetailRequestList = orderList.map((x) => {
+      return {
+        productDetailId: x.productDetailId,
+        quantity: x.quantity,
+      };
+    });
+    const voucherCode = voucher.code || "NO_VOUCHER";
+    const payload = {
+      email: JSON.parse(localStorage.getItem(StorageKeys.USER)).email || "",
+      addressDeliveryId: address.id,
+      voucherCode,
+      optionalDeliveryId: optionalDelivey.id,
+      orderDetailRequestList,
+    };
+
+    const { data } = await orderApi.add(payload);
+
+    history.push(`/checkout/${data.id}`);
+
+    dispatch(resetCart());
+
+    try {
+    } catch (error) {
+      console.log("Fail to set default for your address: ", error.message);
+    }
   };
 
   const handleClickOpen = () => {
@@ -167,17 +213,13 @@ function DeliveryAddress(props) {
 
       setAddressList(data);
       setAddress(address);
-      enqueueSnackbar("Set default for your address successfully!", {
-        variant: "success",
-        autoHideDuration: 1000,
-      });
     } catch (error) {
       console.log("Fail to set default for your address: ", error.message);
-      enqueueSnackbar(error.message, {
-        variant: "error",
-        autoHideDuration: 1000,
-      });
     }
+  };
+
+  const handleChangeOptionalDelivery = (x) => {
+    setOptionalDelivery(x);
   };
 
   return (
@@ -249,20 +291,19 @@ function DeliveryAddress(props) {
         <Typography variant="h3" className={classes.headingTitle}>
           Delivery options
         </Typography>
-
-        <DeliveryOption
-          titleDelivery="Standard Delivery"
-          descDelivery="Enter your address to see when you'll get your order"
-          icon={<AirportShuttleOutlinedIcon className={classes.iconDelivery} />}
-          active
-        />
-        <DeliveryOption
-          titleDelivery="Pick up a order at the store"
-          descDelivery="Pay now and find a store near you"
-          icon={
-            <StoreMallDirectoryOutlinedIcon className={classes.iconDelivery} />
-          }
-        />
+        {optionalDeliveryList.map((x) => (
+          <Box onClick={() => handleChangeOptionalDelivery(x)}>
+            <DeliveryOption
+              key={x.id}
+              titleDelivery={x.name}
+              descDelivery={x.description}
+              icon={
+                <AirportShuttleOutlinedIcon className={classes.iconDelivery} />
+              }
+              active={x.id === optionalDelivey.id}
+            />
+          </Box>
+        ))}
       </Box>
 
       <ButtonActive

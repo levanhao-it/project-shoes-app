@@ -2,7 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Box, Divider, makeStyles, Typography } from "@material-ui/core";
 
-CheckoutDetail.propTypes = {};
+CheckoutDetail.propTypes = {
+  data: PropTypes.object,
+};
 
 const useStyle = makeStyles((theme) => ({
   root: {
@@ -45,7 +47,7 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 
-function CheckoutDetail(props) {
+function CheckoutDetail({ data }) {
   const classes = useStyle();
 
   return (
@@ -62,13 +64,13 @@ function CheckoutDetail(props) {
         <Typography component="p" gutterBottom>
           Order Number:
           <Typography component="span" className={classes.numberId}>
-            AD1212998778
+            {data.id}
           </Typography>
         </Typography>
 
         <Typography gutterBottom>
-          Hi Huy, thanks for shopping with adidas! We will send a confirmation
-          email to your email. Please confirm your order
+          Hi {data.nameDelivery}, thanks for shopping with adidas! We will send
+          a confirmation email to your email. Please confirm your order
         </Typography>
       </Box>
 
@@ -81,7 +83,7 @@ function CheckoutDetail(props) {
             <Typography component="span" className={classes.titleInfo}>
               Order Number:{" "}
             </Typography>
-            <Typography component="span">AD1212998778</Typography>
+            <Typography component="span">{data.id}</Typography>
           </Box>
 
           <Divider />
@@ -89,9 +91,9 @@ function CheckoutDetail(props) {
             <Typography className={classes.titleInfo}>
               Shipping address
             </Typography>
-            <Typography>Huy le</Typography>
-            <Typography>23 Nguyen Thi Minh Khai</Typography>
-            <Typography>03455567</Typography>
+            <Typography>{data.nameDelivery}</Typography>
+            <Typography>{data.addressDelivery}</Typography>
+            <Typography>{data.phoneDelivery}</Typography>
           </Box>
 
           <Divider />
@@ -99,14 +101,16 @@ function CheckoutDetail(props) {
             <Typography className={classes.titleInfo} component="span">
               Delivery Option:{" "}
             </Typography>
-            <Typography component="span">STANDARD DELIVERY</Typography>
+            <Typography component="span">
+              {data.nameOptionalDelivery}
+            </Typography>
           </Box>
           <Divider />
           <Box mt={2}>
             <Typography className={classes.titleInfo} component="span">
               Delivery date:{" "}
             </Typography>
-            <Typography component={"span"}>23/7/2022</Typography>
+            <Typography component={"span"}>{data.createDate}</Typography>
           </Box>
           <Divider />
           <Box mt={2}>

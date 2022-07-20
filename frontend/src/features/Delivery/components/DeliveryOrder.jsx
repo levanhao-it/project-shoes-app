@@ -5,7 +5,9 @@ import OrderSumary from "components/OrderSumary";
 import DeliveryOrderItem from "./DeliveryOrderItem";
 import { useSelector } from "react-redux";
 
-DeliveryOrder.propTypes = {};
+DeliveryOrder.propTypes = {
+  data: PropTypes.object,
+};
 
 const useStyle = makeStyles((theme) => ({
   root: {

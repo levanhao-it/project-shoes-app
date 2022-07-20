@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,7 +23,9 @@ public class OrderService {
 
     private final ProductDetailRepository productDetailRepository;
 
-    public void createOrder(OrderRequest request) {
+    private final OptionalDeliveryRepository optionalDeliveryRepository;
+
+    public OrderResponse createOrder(OrderRequest request) {
 
         Users user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("Not found user from email"));
@@ -30,9 +33,12 @@ public class OrderService {
         AddressDelivery addressDelivery = addressDeliveryRepository.findById(request.getAddressDeliveryId())
                 .orElseThrow(() -> new IllegalArgumentException("Not found address from addressID"));
 
+        OptionalDelivery optionalDelivery = optionalDeliveryRepository.findByIdAndActiveTrue(request.getOptionalDeliveryId())
+                .orElseThrow(() -> new IllegalArgumentException("Not found optional delivery from id"));
+
         Voucher voucher;
 
-        if (request.getVoucherCode() != null){
+        if (!request.getVoucherCode().equals("NO_VOUCHER")){
             voucher = voucherRepository.findByCodeAndActiveTrue(request.getVoucherCode())
                     .orElseThrow(() -> new IllegalArgumentException("Not found voucher from voucherCode"));
             voucher.setQuantity(voucher.getQuantity() - 1);
@@ -46,9 +52,9 @@ public class OrderService {
         Orders orders = Orders.builder()
                 .users(user)
                 .addressDelivery(addressDelivery)
-                .message(request.getMessage())
                 .status("Đang xử lí")
                 .voucher(voucher)
+                .optionDelivery(optionalDelivery)
                 .build();
 
         orderRepository.save(orders);
@@ -72,7 +78,7 @@ public class OrderService {
                     .build();
             orderDetailRepository.save(orderDetail);
         }
-
+        return getOrder(orders.getId());
     }
 
 
@@ -113,12 +119,16 @@ public class OrderService {
                     .id(o.getId())
                     .email(user.getEmail())
                     .quantityItem(quantityITem)
-                    .total(total)
-                    .subtotal(total - o.getVoucher().getDiscount())
+                    .subtotal(total)
+                    .total(total - o.getVoucher().getDiscount())
                     .feeVoucher(o.getVoucher().getDiscount())
                     .createDate(o.getCreatedDate())
                     .status(o.getStatus())
+                    .nameOptionalDelivery(o.getOptionDelivery().getName())
                     .orderItemResponseList(orderDetailResponseList)
+                    .nameDelivery(o.getAddressDelivery().getFullName())
+                    .addressDelivery(o.getAddressDelivery().getAddress())
+                    .phoneDelivery(o.getAddressDelivery().getPhoneNumber())
                     .build();
             orderResponseList.add(response);
         }
@@ -155,12 +165,16 @@ public class OrderService {
                     .id(orders.getId())
                     .email(orders.getUsers().getEmail())
                     .quantityItem(quantityITem)
-                    .total(total)
-                    .subtotal(total - orders.getVoucher().getDiscount())
+                    .subtotal(total)
+                    .total(total - orders.getVoucher().getDiscount())
                     .feeVoucher(orders.getVoucher().getDiscount())
                     .createDate(orders.getCreatedDate())
                     .status(orders.getStatus())
+                    .nameOptionalDelivery(orders.getOptionDelivery().getName())
                     .orderItemResponseList(orderDetailResponseList)
+                    .nameDelivery(orders.getAddressDelivery().getFullName())
+                    .addressDelivery(orders.getAddressDelivery().getAddress())
+                    .phoneDelivery(orders.getAddressDelivery().getPhoneNumber())
                     .build();
 
             return response;
@@ -200,12 +214,16 @@ public class OrderService {
                     .id(o.getId())
                     .email(o.getUsers().getEmail())
                     .quantityItem(quantityITem)
-                    .total(total)
-                    .subtotal(total - o.getVoucher().getDiscount())
+                    .subtotal(total)
+                    .total(total - o.getVoucher().getDiscount())
                     .feeVoucher(o.getVoucher().getDiscount())
                     .createDate(o.getCreatedDate())
                     .status(o.getStatus())
+                    .nameOptionalDelivery(o.getOptionDelivery().getName())
                     .orderItemResponseList(orderDetailResponseList)
+                    .nameDelivery(o.getAddressDelivery().getFullName())
+                    .addressDelivery(o.getAddressDelivery().getAddress())
+                    .phoneDelivery(o.getAddressDelivery().getPhoneNumber())
                     .build();
             orderResponseList.add(response);
         }

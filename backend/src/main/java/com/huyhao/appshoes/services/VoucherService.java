@@ -28,9 +28,10 @@ public class VoucherService {
                 .code(voucherRequest.getCode())
                 .priceConditional(voucherRequest.getPriceCondition())
                 .discount(voucherRequest.getDiscount())
+                .active(true)
                 .build();
 
-        if(voucher.getQuantity() == 0){
+        if(voucherRequest.getQuantity().intValue() == 0){
             voucher.setQuantity(0);
             voucher.setStatus(false);
         }else{

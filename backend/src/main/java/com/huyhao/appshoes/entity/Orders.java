@@ -16,7 +16,6 @@ import java.util.List;
 @AllArgsConstructor
 public class Orders extends BaseEntity{
     private String status;
-    private String message;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "users_id", nullable = false)

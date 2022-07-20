@@ -21,6 +21,10 @@ public class OrderResponse {
     private double subtotal;
     private String status;
     private Date createDate;
+    private String nameOptionalDelivery;
+    private String nameDelivery;
+    private String addressDelivery;
+    private String phoneDelivery;
 
     List<OrderItemResponse> orderItemResponseList;
 
