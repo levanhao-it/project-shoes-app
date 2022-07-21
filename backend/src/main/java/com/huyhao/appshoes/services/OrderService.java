@@ -47,7 +47,7 @@ public class OrderService {
             voucher = voucherRepository.findByCodeAndActiveTrue(request.getVoucherCode())
                     .orElseThrow(() -> new IllegalArgumentException("Not found voucher from voucherCode"));
             voucher.setQuantity(voucher.getQuantity() - 1);
-            voucher.setStatus((voucher.getQuantity() - 1) != 0 );
+            voucher.setStatus(voucher.getQuantity()  != 0 );
             voucherRepository.save(voucher);
         }else{
             voucher = voucherRepository.findByCodeAndActiveTrue("NO_VOUCHER")

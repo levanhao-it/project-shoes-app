@@ -9,11 +9,12 @@ WishlistPage.propTypes = {};
 
 const useStyle = makeStyles((theme) => ({
   root: {
-    minHeight: "500px",
+    minHeight: "300px",
+    padding: "32px 16px",
   },
 
   title: {
-    fontSize: "26px",
+    fontSize: "30px",
     textTransform: "uppercase",
     color: "#000",
     fontWeight: "700",
@@ -33,7 +34,7 @@ function WishlistPage(props) {
   const wishlistCount = useSelector(wishlistCountSelector);
   return (
     <Paper variant={0}>
-      <Box padding={2} className={classes.root}>
+      <Box className={classes.root}>
         <Typography className={classes.title}>My wishlist</Typography>
         <Typography component="p" variant="h6" className={classes.titleCount}>
           {wishlistCount} Items

@@ -178,8 +178,6 @@ function CartItem({ item = {} }) {
                   onClick={handleRemoveClick}
                 />
               </Box>
-              <FavoriteBorderIcon className={classes.icon} />
-              <Box></Box>
             </Grid>
           </Grid>
           <Typography className={classes.title}>

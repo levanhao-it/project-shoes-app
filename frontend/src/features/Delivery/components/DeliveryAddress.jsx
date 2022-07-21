@@ -110,8 +110,10 @@ function DeliveryAddress(props) {
   const [optionalDelivey, setOptionalDelivery] = useState({});
   const voucher = useSelector((state) => state.voucher);
   const orderList = useSelector((state) => state.cart.cartItems);
+  const [disableBtn, setDisableBtn] = useState(false);
   const history = useHistory();
   const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     (async () => {
@@ -141,29 +143,39 @@ function DeliveryAddress(props) {
   }, []);
 
   const handleSubmit = async () => {
-    const orderDetailRequestList = orderList.map((x) => {
-      return {
-        productDetailId: x.productDetailId,
-        quantity: x.quantity,
-      };
-    });
-    const voucherCode = voucher.code || "NO_VOUCHER";
-    const payload = {
-      email: JSON.parse(localStorage.getItem(StorageKeys.USER)).email || "",
-      addressDeliveryId: address.id,
-      voucherCode,
-      optionalDeliveryId: optionalDelivey.id,
-      orderDetailRequestList,
-    };
-
-    const { data } = await orderApi.add(payload);
-
-    history.push(`/checkout/${data.id}`);
-    dispatch(resetCart());
-
     try {
+      const orderDetailRequestList = orderList.map((x) => {
+        return {
+          productDetailId: x.productDetailId,
+          quantity: x.quantity,
+        };
+      });
+      if (address.id && optionalDelivey.id) {
+        setDisableBtn(true);
+      }
+
+      const voucherCode = voucher.code || "NO_VOUCHER";
+
+      const payload = {
+        email: JSON.parse(localStorage.getItem(StorageKeys.USER)).email || "",
+        addressDeliveryId: address.id,
+        voucherCode,
+        optionalDeliveryId: optionalDelivey.id,
+        orderDetailRequestList,
+      };
+
+      const { data } = await orderApi.add(payload);
+
+      history.push(`/checkout/${data.id}`);
+      dispatch(resetCart());
     } catch (error) {
-      console.log("Fail to set default for your address: ", error.message);
+      enqueueSnackbar(
+        "Please add new address delivery or select address delivery",
+        {
+          variant: "error",
+          autoHideDuration: 2000,
+        }
+      );
     }
   };
 
@@ -309,6 +321,7 @@ function DeliveryAddress(props) {
         content="Review and pay"
         widthBtn={matches ? "100%" : "50%"}
         onClick={handleSubmit}
+        disabled={disableBtn}
       />
 
       <Dialog open={open} onClose={handleClose} disableEscapeKeyDown>

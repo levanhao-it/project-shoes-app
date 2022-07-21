@@ -9,7 +9,7 @@ AddressFeauture.propTypes = {};
 function AddressFeauture(props) {
   const match = useRouteMatch();
   return (
-    <Box pt={4}>
+    <Box>
       <Switch>
         <Route path={match.url} exact component={AddressList} />
       </Switch>

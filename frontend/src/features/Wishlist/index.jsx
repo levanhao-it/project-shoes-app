@@ -8,7 +8,7 @@ WishlistFeauture.propTypes = {};
 function WishlistFeauture(props) {
   const match = useRouteMatch();
   return (
-    <Box pt={4}>
+    <Box>
       <Switch>
         <Route path={match.url} exact component={WishlistPage} />
       </Switch>
