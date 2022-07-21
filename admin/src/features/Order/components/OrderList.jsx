@@ -15,6 +15,7 @@ import OrderItem from "./OrderItem";
 
 OrderList.propTypes = {
   data: PropTypes.object,
+  onChangeData: PropTypes.func,
 };
 
 const useStyles = makeStyles({

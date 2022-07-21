@@ -16,7 +16,6 @@ import java.util.List;
 @AllArgsConstructor
 public class Orders extends BaseEntity{
     private String status;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "users_id", nullable = false)
     private Users users;
@@ -24,7 +23,6 @@ public class Orders extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "addressDelivery_id", nullable = false)
     private AddressDelivery addressDelivery;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "voucher_id", nullable = false)
     private Voucher voucher;

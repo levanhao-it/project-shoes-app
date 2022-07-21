@@ -51,9 +51,7 @@ function ListOrderPage(props) {
           Orders
         </Typography>
       </Box>
-      {/* <Paper elevation={0}>
-        <ProductFilters />
-      </Paper> */}
+
       <OrderList data={orders} />
     </div>
   );

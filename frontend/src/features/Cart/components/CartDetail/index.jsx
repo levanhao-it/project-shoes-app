@@ -62,6 +62,13 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bold",
     paddingBottom: "20px ",
   },
+  titleEmpty: {
+    fontSize: "36px",
+    textTransform: "uppercase",
+    color: "#000",
+    fontWeight: "bold",
+    paddingBottom: "20px ",
+  },
 }));
 
 function CartDetail({ data, count }) {
@@ -74,16 +81,34 @@ function CartDetail({ data, count }) {
   };
   return (
     <Box className={classes.root}>
-      <Typography variant="h3" className={classes.title}>
-        Your Bag
-      </Typography>
-      <Typography variant="h6">
-        {" "}
-        TOTAL ({cartItemsCount} products) {cartTotalPrice}$
-      </Typography>
-      <CartList data={data} />
+      {cartItemsCount > 0 ? (
+        <Box>
+          <Typography variant="h3" className={classes.title}>
+            Your Bag
+          </Typography>
+          <Typography variant="h6">
+            {" "}
+            TOTAL ({cartItemsCount} products) {cartTotalPrice}$
+          </Typography>
+          <CartList data={data} />
+        </Box>
+      ) : (
+        <Box>
+          <Typography variant="h3" className={classes.titleEmpty}>
+            Your Bag is empty
+          </Typography>
+          <Typography>
+            Once you add something to your bag, it will appear here. Ready to
+            get started?
+          </Typography>
+        </Box>
+      )}
+
       <Box mt={3}>
-        <ButtonActive content="Shopping Continue" onClick={handleClick} />
+        <ButtonActive
+          content={cartItemsCount > 0 ? "Shopping continute" : "Get started"}
+          onClick={handleClick}
+        />
       </Box>
     </Box>
   );

@@ -69,7 +69,6 @@ function OrderDetailPage(props) {
   const [orderDetail, setOrderDetail] = useState([]);
   const [open, setOpen] = React.useState(false);
   const [statusOrder, setStatusOrder] = React.useState(STATUS.PROCESS);
-  const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
   const {
     params: { orderId },
@@ -87,10 +86,6 @@ function OrderDetailPage(props) {
     })();
   }, [orderId]);
 
-  // const handleAddProductDetail = () => {
-  //   history.push(`/products/${productId}/add`);
-  // };
-
   const handleChangeStatus = (event) => {
     setStatusOrder(event.target.value);
   };
@@ -101,6 +96,10 @@ function OrderDetailPage(props) {
         status: statusOrder,
       });
       setOpen(false);
+
+      const { data } = await orderApi.getById(orderId);
+      setOrder(data);
+      setOrderDetail(data.orderItemResponseList);
       // ok then show user list
       if (status === "OK") {
         // do something here

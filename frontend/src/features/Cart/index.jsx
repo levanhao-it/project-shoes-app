@@ -22,6 +22,7 @@ function CartFeature(props) {
   const classes = useStyles();
   const cartItems = useSelector((state) => state.cart.cartItems);
   const history = useHistory();
+  const cartItemsCount = useSelector(cartItemsCountSelector);
   const handleCheckout = () => {
     history.push("/delivery");
   };
@@ -33,13 +34,16 @@ function CartFeature(props) {
           <Grid item xs={12} sm={12} md={8} lg={8} xl={8}>
             <CartDetail data={cartItems} />
           </Grid>
-          <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
-            <Box className={classes.btn}>
-              <ButtonActive content="Checkout" onClick={handleCheckout} />
-            </Box>
-            <OrderSumary />
-            <CartVoucher />
-          </Grid>
+
+          {cartItemsCount > 0 && (
+            <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
+              <Box className={classes.btn}>
+                <ButtonActive content="Checkout" onClick={handleCheckout} />
+              </Box>
+              <OrderSumary />
+              <CartVoucher />
+            </Grid>
+          )}
         </Grid>
       </Box>
     </Container>

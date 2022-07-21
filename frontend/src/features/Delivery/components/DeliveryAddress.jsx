@@ -159,7 +159,6 @@ function DeliveryAddress(props) {
     const { data } = await orderApi.add(payload);
 
     history.push(`/checkout/${data.id}`);
-
     dispatch(resetCart());
 
     try {

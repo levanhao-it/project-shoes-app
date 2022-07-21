@@ -8,38 +8,9 @@ import CachedIcon from "@material-ui/icons/Cached";
 import AssignmentTurnedInIcon from "@material-ui/icons/AssignmentTurnedIn";
 import CancelIcon from "@material-ui/icons/Cancel";
 
-OrderItem.propTypes = {};
-
-const columns = [
-  { id: "id", label: "Id", minWidth: 100 },
-  { id: "email", label: "Email", minWidth: 100 },
-  {
-    id: "quantityItem",
-    label: "Quanity Item",
-    minWidth: 170,
-  },
-  {
-    id: "total",
-    label: "Total",
-    minWidth: 170,
-  },
-  {
-    id: "subtotal",
-    label: "Sub Total",
-    minWidth: 170,
-  },
-  {
-    id: "status",
-    label: "Status",
-    minWidth: 100,
-  },
-  {
-    id: "actions",
-    label: "Actions",
-    minWidth: 50,
-    align: "right",
-  },
-];
+OrderItem.propTypes = {
+  row: PropTypes.object,
+};
 
 const STATUS = {
   PROCESS: "Đang xử lí",
