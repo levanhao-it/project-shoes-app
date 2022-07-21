@@ -7,12 +7,13 @@ import {
   Typography,
   useMediaQuery,
   useTheme,
-} from "@material-ui/core";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import ButtonActive from "components/component-custom/ButtonActive";
-import PropTypes from "prop-types";
-import React from "react";
-import { useHistory } from "react-router-dom";
+} from '@material-ui/core';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ButtonActive from 'components/component-custom/ButtonActive';
+import moment from 'moment';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
 
 OrderDetail.propTypes = {
   data: PropTypes.object,
@@ -22,18 +23,18 @@ const useSytle = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(2),
     marginTop: theme.spacing(2),
-    overflow: "hidden",
+    overflow: 'hidden',
   },
 
   titleDate: {
-    color: "#999",
+    color: '#999',
   },
 
   listProduct: {
-    listStyle: "none",
+    listStyle: 'none',
     padding: theme.spacing(2, 0),
-    borderTop: "1px solid #ccc",
-    borderBottom: "1px solid #ccc",
+    borderTop: '1px solid #ccc',
+    borderBottom: '1px solid #ccc',
     margin: theme.spacing(1, 0),
   },
 
@@ -42,45 +43,45 @@ const useSytle = makeStyles((theme) => ({
   },
 
   imgProduct: {
-    borderRadius: "10px",
-    border: "1px solid #ccc",
+    borderRadius: '10px',
+    border: '1px solid #ccc',
   },
 
   nameProduct: {
-    fontSize: "16px",
+    fontSize: '16px',
   },
 
   colorProduct: {
-    color: "#999",
+    color: '#999',
   },
 
   quantityProduct: {
-    color: "#999",
+    color: '#999',
     marginLeft: theme.spacing(1),
   },
 
   priceProduct: {
-    fontSize: "18px",
-    fontWeight: "bold",
-    [theme.breakpoints.down("xs")]: {
-      fontSize: "16px",
+    fontSize: '18px',
+    fontWeight: 'bold',
+    [theme.breakpoints.down('xs')]: {
+      fontSize: '16px',
     },
   },
 
   totalPrice: {
-    fontSize: "18px",
-    fontWeight: "bold",
+    fontSize: '18px',
+    fontWeight: 'bold',
   },
 
   boxContent: {
-    flex: "1",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flex: '1',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginLeft: theme.spacing(1),
-    [theme.breakpoints.down("xs")]: {
-      flexDirection: "column",
-      alignItems: "flex-start",
+    [theme.breakpoints.down('xs')]: {
+      flexDirection: 'column',
+      alignItems: 'flex-start',
     },
   },
 }));
@@ -88,7 +89,7 @@ const useSytle = makeStyles((theme) => ({
 function OrderDetail({ data = {} }) {
   const classes = useSytle();
   const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.down("sm"));
+  const matches = useMediaQuery(theme.breakpoints.down('sm'));
   const history = useHistory();
   const handleOrderDetail = () => {
     history.push(`/checkout/${data.id}`);
@@ -101,19 +102,11 @@ function OrderDetail({ data = {} }) {
             Order number: {data.id}
           </Typography>
           <Box mt={0.5}>
-            <Typography
-              variant="body2"
-              component="span"
-              className={classes.titleDate}
-            >
-              Order date:{" "}
+            <Typography variant="body2" component="span" className={classes.titleDate}>
+              Order date:{' '}
             </Typography>
-            <Typography
-              variant="body2"
-              component="span"
-              className={classes.date}
-            >
-              {data.createDate}
+            <Typography variant="body2" component="span" className={classes.date}>
+              {moment(data.createDate).format('LLLL')}
             </Typography>
           </Box>
         </Box>
@@ -124,26 +117,13 @@ function OrderDetail({ data = {} }) {
             {data.orderItemResponseList.map((x) => (
               <li key={x.id} className={classes.product}>
                 <Box display="flex">
-                  <img
-                    src={x.image}
-                    alt=""
-                    width="80px"
-                    className={classes.imgProduct}
-                  />
+                  <img src={x.image} alt="" width="80px" className={classes.imgProduct} />
                   <Box className={classes.boxContent}>
                     <Box className={classes.boxInfo}>
-                      <Typography
-                        variant="body2"
-                        component="p"
-                        className={classes.nameProduct}
-                      >
+                      <Typography variant="body2" component="p" className={classes.nameProduct}>
                         {x.nameProduct}
                       </Typography>
-                      <Typography
-                        variant="body2"
-                        component="span"
-                        className={classes.colorProduct}
-                      >
+                      <Typography variant="body2" component="span" className={classes.colorProduct}>
                         {x.color}
                       </Typography>
                       <Typography
@@ -182,8 +162,8 @@ function OrderDetail({ data = {} }) {
             <Box display="flex" justifyContent="space-between">
               <Typography variant="body2">Discount:</Typography>
               <Typography variant="body2">
-                {" "}
-                {data.feeVoucher === 0 ? "-" : "- $" + data.feeVoucher}
+                {' '}
+                {data.feeVoucher === 0 ? '-' : '- $' + data.feeVoucher}
               </Typography>
             </Box>
 
@@ -200,7 +180,7 @@ function OrderDetail({ data = {} }) {
           <Box className={classes.btn}>
             <ButtonActive
               content="View detail"
-              widthBtn={matches ? "100%" : "200px"}
+              widthBtn={matches ? '100%' : '200px'}
               onClick={handleOrderDetail}
             />
           </Box>

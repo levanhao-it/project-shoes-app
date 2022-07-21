@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
-import { purple } from "@material-ui/core/colors";
-import CachedIcon from "@material-ui/icons/Cached";
-import AssignmentTurnedInIcon from "@material-ui/icons/AssignmentTurnedIn";
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import { purple } from '@material-ui/core/colors';
+import CachedIcon from '@material-ui/icons/Cached';
+import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
 import {
   Box,
   Button,
@@ -19,14 +19,14 @@ import {
   Radio,
   RadioGroup,
   Typography,
-} from "@material-ui/core";
-import { useHistory, useRouteMatch } from "react-router-dom";
-import orderApi from "components/api/orderApi";
-import UpdateIcon from "@material-ui/icons/Update";
-import OrderDetailList from "../components/OrderDetailList";
-import { useSnackbar } from "notistack";
-import ProductFilters from "features/Product/components/ProductFilters";
-import CancelIcon from "@material-ui/icons/Cancel";
+} from '@material-ui/core';
+import { useHistory, useRouteMatch } from 'react-router-dom';
+import orderApi from 'components/api/orderApi';
+import UpdateIcon from '@material-ui/icons/Update';
+import OrderDetailList from '../components/OrderDetailList';
+import { useSnackbar } from 'notistack';
+import ProductFilters from 'features/Product/components/ProductFilters';
+import CancelIcon from '@material-ui/icons/Cancel';
 
 OrderDetailPage.propTypes = {};
 
@@ -36,31 +36,31 @@ const useStyle = makeStyles((theme) => ({
   },
 
   header: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   heading: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
 
   button: {
     color: theme.palette.getContrastText(purple[500]),
     backgroundColor: purple[500],
-    "&:hover": {
+    '&:hover': {
       backgroundColor: purple[700],
     },
   },
 
   title: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
 }));
 
 const STATUS = {
-  PROCESS: "Đang xử lí",
-  RECEIVED: "Đã nhận",
-  CANCELLED: "Đã hủy",
+  PROCESS: 'Đang xử lí',
+  RECEIVED: 'Đã nhận',
+  CANCELLED: 'Đã hủy',
 };
 
 function OrderDetailPage(props) {
@@ -81,7 +81,7 @@ function OrderDetailPage(props) {
         setOrderDetail(data.orderItemResponseList);
         setStatusOrder(data.status);
       } catch (error) {
-        console.log("Failed to fetch order", error);
+        console.log('Failed to fetch order', error);
       }
     })();
   }, [orderId]);
@@ -101,19 +101,19 @@ function OrderDetailPage(props) {
       setOrder(data);
       setOrderDetail(data.orderItemResponseList);
       // ok then show user list
-      if (status === "OK") {
+      if (status === 'OK') {
         // do something here
-        enqueueSnackbar("Update status of order successfully", {
-          variant: "success",
+        enqueueSnackbar('Update status of order successfully', {
+          variant: 'success',
           autoHideDuration: 1000,
         });
       } else {
-        enqueueSnackbar(message, { variant: "error", autoHideDuration: 1000 });
+        enqueueSnackbar(message, { variant: 'error', autoHideDuration: 1000 });
       }
     } catch (error) {
-      console.log("Faied to update status of order ", error.message);
+      console.log('Faied to update status of order ', error.message);
       enqueueSnackbar(error.message, {
-        variant: "error",
+        variant: 'error',
         autoHideDuration: 1000,
       });
     }
@@ -131,7 +131,7 @@ function OrderDetailPage(props) {
     <div className={classes.box}>
       <Box className={classes.header}>
         <Typography component="h1" variant="h4" className={classes.heading}>
-          Product Detail
+          Order Detail
         </Typography>
         <Button
           variant="contained"
@@ -146,46 +146,46 @@ function OrderDetailPage(props) {
         <Grid container spacing={1}>
           <Grid item xs={6}>
             <Typography component="span" className={classes.title}>
-              Id:{" "}
+              Id:{' '}
             </Typography>
             <Typography component="span">{order.id}</Typography>
           </Grid>
 
           <Grid item xs={6}>
             <Typography component="span" className={classes.title}>
-              Email:{" "}
+              Email:{' '}
             </Typography>
             <Typography component="span">{order.email}</Typography>
           </Grid>
           <Grid item xs={6}>
             <Typography component="span" className={classes.title}>
-              Quantity Item:{" "}
+              Quantity Item:{' '}
             </Typography>
             <Typography component="span">{order.quantityItem}</Typography>
           </Grid>
           <Grid item xs={6}>
             <Typography component="span" className={classes.title}>
-              Status:{" "}
+              Status:{' '}
             </Typography>
             <Typography component="span">{order.status}</Typography>
           </Grid>
           <Grid item xs={6}>
             <Typography component="span" className={classes.title}>
-              Total:{" "}
+              Total:{' '}
             </Typography>
             <Typography component="span">{order.total}</Typography>
           </Grid>
 
           <Grid item xs={6}>
             <Typography component="span" className={classes.title}>
-              Discount:{" "}
+              Discount:{' '}
             </Typography>
             <Typography component="span">{order.feeVoucher}</Typography>
           </Grid>
 
           <Grid item xs={6}>
             <Typography component="span" className={classes.title}>
-              SubTotal:{" "}
+              SubTotal:{' '}
             </Typography>
             <Typography component="span">{order.subtotal}</Typography>
           </Grid>
@@ -206,26 +206,10 @@ function OrderDetailPage(props) {
         <DialogContent>
           <FormControl component="fieldset">
             <FormLabel component="legend">Status</FormLabel>
-            <RadioGroup
-              name="status"
-              value={statusOrder}
-              onChange={handleChangeStatus}
-            >
-              <FormControlLabel
-                value={STATUS.PROCESS}
-                control={<Radio />}
-                label="Đang xử lí"
-              />
-              <FormControlLabel
-                value={STATUS.RECEIVED}
-                control={<Radio />}
-                label="Đã nhận"
-              />
-              <FormControlLabel
-                value={STATUS.CANCELLED}
-                control={<Radio />}
-                label="Đã hủy"
-              />
+            <RadioGroup name="status" value={statusOrder} onChange={handleChangeStatus}>
+              <FormControlLabel value={STATUS.PROCESS} control={<Radio />} label="Đang xử lí" />
+              <FormControlLabel value={STATUS.RECEIVED} control={<Radio />} label="Đã nhận" />
+              <FormControlLabel value={STATUS.CANCELLED} control={<Radio />} label="Đã hủy" />
             </RadioGroup>
           </FormControl>
         </DialogContent>
@@ -233,7 +217,7 @@ function OrderDetailPage(props) {
           <Button onClick={handleUpdate} className={classes.button}>
             Update
           </Button>
-          <Button onClick={handleClose} style={{ color: "#9c27b0" }} autoFocus>
+          <Button onClick={handleClose} style={{ color: '#9c27b0' }} autoFocus>
             Cancel
           </Button>
         </DialogActions>

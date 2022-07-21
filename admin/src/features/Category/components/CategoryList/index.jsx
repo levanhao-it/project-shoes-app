@@ -11,68 +11,50 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-} from "@material-ui/core";
-import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
-import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
-import categoryApi from "components/api/category";
-import useCategoryDetail from "features/Category/hooks/useCategoryDetail";
-import { useSnackbar } from "notistack";
-import PropTypes from "prop-types";
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import CategoryForm from "../CategoryEditForm";
+} from '@material-ui/core';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
+import categoryApi from 'components/api/category';
+import useCategoryDetail from 'features/Category/hooks/useCategoryDetail';
+import { useSnackbar } from 'notistack';
+import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import CategoryForm from '../CategoryEditForm';
 
 CategoryList.propTypes = {
   data: PropTypes.array,
+  onSubmit: PropTypes.func,
 };
 CategoryList.defaultProps = {
   data: [],
 };
 
-const columns = [
-  { id: "id", label: "ID", minWidth: 170 },
-  { id: "name", label: "NAME", minWidth: 100 },
-  {
-    id: "code",
-    label: "CODE",
-    minWidth: 170,
-  },
-  {
-    id: "action",
-    label: "ACTION",
-    minWidth: 170,
-    align: "center",
-  },
-  {
-    id: "quantity_product",
-    label: "QUANTiTY PRODUCT",
-    minWidth: 170,
-    align: "center",
-  },
-];
+Row.propTypes = {
+  row: PropTypes.object,
+  onSubmitEdit: PropTypes.func,
+};
 
 const useStyles = makeStyles({
   margin: {
-    "&:first-child": {
-      marginRight: "15px",
+    '&:first-child': {
+      marginRight: '15px',
     },
   },
 });
 
 const useRowStyles = makeStyles({
   root: {
-    "& > *": {
-      borderBottom: "unset",
+    '& > *': {
+      borderBottom: 'unset',
     },
   },
 });
 
 function Row(props) {
-  const { row } = props;
+  const { row, onSubmitEdit } = props;
   const [open, setOpen] = React.useState(false);
   const classes = useRowStyles();
 
-  const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
 
   const { category, loading } = useCategoryDetail(row.id);
@@ -80,22 +62,23 @@ function Row(props) {
 
   const handleSubmit = async (values) => {
     try {
-      console.log(values);
       const { status, message } = await categoryApi.update(row.id, values);
       // ok then show user list
-      if (status === "OK") {
+      if (status === 'OK') {
         // do something here
-        enqueueSnackbar("Edit Category Success", {
-          variant: "success",
+        const { data } = await categoryApi.getAll();
+        onSubmitEdit(data);
+        enqueueSnackbar('Edit Category Success', {
+          variant: 'success',
           autoHideDuration: 1000,
         });
       } else {
-        enqueueSnackbar(message, { variant: "error", autoHideDuration: 1000 });
+        enqueueSnackbar(message, { variant: 'error', autoHideDuration: 1000 });
       }
     } catch (error) {
-      console.log("failed to Category : ", error.message);
+      console.log('failed to Category : ', error.message);
       enqueueSnackbar(error.message, {
-        variant: "error",
+        variant: 'error',
         autoHideDuration: 1000,
       });
     }
@@ -105,11 +88,7 @@ function Row(props) {
     <React.Fragment>
       <TableRow className={classes.root}>
         <TableCell>
-          <IconButton
-            aria-label="expand row"
-            size="small"
-            onClick={() => setOpen(!open)}
-          >
+          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
             {open ? <KeyboardArrowRightIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
@@ -132,21 +111,11 @@ function Row(props) {
   );
 }
 
-function CategoryList(data) {
-  const classes = useStyles();
-  const history = useHistory();
+function CategoryList({ data, onSubmit }) {
   const [openEdit, setOpenEdit] = React.useState(false);
 
-  const handleClickOpenEdit = () => {
-    setOpenEdit(true);
-  };
-
-  const handleCloseEdit = () => {
-    setOpenEdit(false);
-  };
-
   const rows = [];
-  data.data.map((e) => {
+  data.map((e) => {
     rows.push({
       id: e.id,
       name: e.name,
@@ -165,6 +134,11 @@ function CategoryList(data) {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+  const handleEditCategory = (data) => {
+    onSubmit(data);
+    setOpenEdit(false);
+  };
   return (
     <div>
       <Paper>
@@ -181,7 +155,7 @@ function CategoryList(data) {
             </TableHead>
             <TableBody>
               {rows.map((row) => (
-                <Row key={row.name} row={row} />
+                <Row key={row.name} row={row} onSubmitEdit={handleEditCategory} />
               ))}
             </TableBody>
           </Table>

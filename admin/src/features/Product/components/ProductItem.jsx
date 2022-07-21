@@ -7,20 +7,20 @@ import {
   TableCell,
   TableRow,
 } from '@material-ui/core';
-import { purple } from '@material-ui/core/colors';
 import EditIcon from '@material-ui/icons/Edit';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 import productApi from 'components/api/productApi';
 import { useSnackbar } from 'notistack';
+import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import useProduct from '../hooks/useProduct';
 import ProductEditForm from './ProductEditForm';
-import { Autoplay, Navigation, Pagination } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react';
 
-ProductItem.propTypes = {};
+ProductItem.propTypes = {
+  onSubmit: PropTypes.func,
+};
 
 const useStyle = makeStyles((theme) => ({
   silderImg: {
@@ -55,7 +55,7 @@ const columns = [
   },
 ];
 
-function ProductItem({ row }) {
+function ProductItem({ row, onSubmit }) {
   console.log(row);
   const classes = useStyle();
   const [open, setOpen] = useState(false);
@@ -73,6 +73,8 @@ function ProductItem({ row }) {
       setOpen(false);
       // ok then show user list
       if (status === 'OK') {
+        const { data } = await productApi.getAll({ page: 1, size: 5 });
+        onSubmit(data);
         // do something here
         enqueueSnackbar('Edit product success', {
           variant: 'success',

@@ -62,6 +62,7 @@ function ProductDetailEditForm({ onSubmit, values, onDelete }) {
   const [sizes, setSizes] = useState([]);
   const [checked, setChecked] = useState(values.status);
   const [image, setImage] = useState({});
+  const [file, setFile] = useState(null);
 
   const handleChange = (event) => {
     setChecked(event.target.checked);
@@ -117,7 +118,11 @@ function ProductDetailEditForm({ onSubmit, values, onDelete }) {
     }
   };
   const handleImageChange = (event) => {
-    setImage(event.target.files[0]);
+    if (event.target.files.length > 0) {
+      const fileSelected = URL.createObjectURL(event.target.files[0]);
+      setFile(fileSelected);
+      setImage(event.target.files[0]);
+    }
   };
 
   return (
@@ -157,7 +162,7 @@ function ProductDetailEditForm({ onSubmit, values, onDelete }) {
             >
               Upload
             </Button>
-            <span>{image.name}</span>
+            <img src={file} alt="" width={'60px'} className={classes.img} />
           </label>
         </Grid>
 

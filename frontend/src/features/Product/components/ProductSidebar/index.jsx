@@ -3,27 +3,25 @@ import {
   Button,
   Dialog,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   Hidden,
   makeStyles,
   Typography,
-} from "@material-ui/core";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
-import StraightenIcon from "@material-ui/icons/Straighten";
-import { unwrapResult } from "@reduxjs/toolkit";
-import ButtonActive from "components/component-custom/ButtonActive";
-import GuideSize from "components/GuideSize";
-import StorageKeys from "constant/storage-keys";
-import { addToCart } from "features/Cart/cartSlice";
-import { addWishList, removeWishList } from "features/Wishlist/wishListSlice";
-import { useSnackbar } from "notistack";
-import PropTypes from "prop-types";
-import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useRouteMatch } from "react-router-dom";
-import ProductSilder from "../ProductSlider";
+} from '@material-ui/core';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import StraightenIcon from '@material-ui/icons/Straighten';
+import { unwrapResult } from '@reduxjs/toolkit';
+import ButtonActive from 'components/component-custom/ButtonActive';
+import GuideSize from 'components/GuideSize';
+import StorageKeys from 'constant/storage-keys';
+import { addToCart } from 'features/Cart/cartSlice';
+import { addWishList, removeWishList } from 'features/Wishlist/wishListSlice';
+import { useSnackbar } from 'notistack';
+import PropTypes from 'prop-types';
+import { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import ProductSilder from '../ProductSlider';
 
 ProductSidebar.propTypes = {
   product: PropTypes.object.isRequired,
@@ -35,124 +33,125 @@ ProductSidebar.defaultProps = {
 
 const useStyle = makeStyles((theme) => ({
   root: {
-    padding: "30px 0 0 40px",
-    [theme.breakpoints.down("sm")]: {
-      padding: "0",
+    padding: '30px 0 0 40px',
+    [theme.breakpoints.down('sm')]: {
+      padding: '0',
     },
   },
   productName: {
-    margin: "20px 0 10px",
-    fontWeight: "bold",
+    margin: '20px 0 10px',
+    fontWeight: 'bold',
   },
   productPrice: {
-    fontWeight: "bold",
-    fontSize: "24px",
+    fontWeight: 'bold',
+    fontSize: '24px',
     fontFamily: '"Archivo Narrow"',
   },
   title: {
-    textTransform: "uppercase",
-    fontSize: "18px",
-    color: "#313131",
-    borderBottom: "1px solid #e5e5e5",
-    display: "block",
-    paddingBottom: "10px",
-    margin: "30px 0 10px",
-    fontWeight: "500",
+    textTransform: 'uppercase',
+    fontSize: '18px',
+    color: '#313131',
+    borderBottom: '1px solid #e5e5e5',
+    display: 'block',
+    paddingBottom: '10px',
+    margin: '30px 0 10px',
+    fontWeight: '500',
   },
   reviewDesc: {
-    fontSize: "14px",
+    fontSize: '14px',
   },
 
   listSize: {
-    display: "flex",
-    flexFlow: "row wrap",
-    padding: "0",
-    listStyle: "none",
+    display: 'flex',
+    flexFlow: 'row wrap',
+    padding: '0',
+    listStyle: 'none',
   },
 
   size: {
-    width: "50px",
-    height: "50px",
-    border: "1px solid #e9ecef",
-    marginBottom: "-1px",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    "&:hover": {
-      cursor: "pointer",
-      backgroundColor: "#000",
-      color: "#fff",
+    width: '50px',
+    height: '50px',
+    border: '1px solid #e9ecef',
+    marginBottom: '-1px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    '&:hover': {
+      cursor: 'pointer',
+      backgroundColor: '#000',
+      color: '#fff',
     },
   },
   sizeActive: {
-    backgroundColor: "#000",
-    color: "#fff",
+    backgroundColor: '#000',
+    color: '#fff',
   },
 
   buttonCart: {
-    width: "80%",
-    backgroundColor: "#000",
-    color: "#fff",
-    height: "50px",
-    fontSize: "16px",
-    fontWeight: "600",
-    "&:hover": {
-      backgroundColor: "#000",
-      color: "#ccc",
-      opacity: "0.7",
+    width: '80%',
+    backgroundColor: '#000',
+    color: '#fff',
+    height: '50px',
+    fontSize: '16px',
+    fontWeight: '600',
+    '&:hover': {
+      backgroundColor: '#000',
+      color: '#ccc',
+      opacity: '0.7',
     },
   },
   buttonHeart: {
-    width: "100%",
-    height: "50px",
-    border: "2px solid #000",
-    marginTop: "10px",
-    borderRadius: "0 !important",
+    width: '100%',
+    height: '50px',
+    border: '2px solid #000',
+    marginTop: '10px',
+    borderRadius: '0 !important',
   },
   subTitle: {
-    fontSize: "14px",
-    fontStyle: "italic",
-    textDecoration: "underline",
-    cursor: "pointer",
-    "&:hover": {
-      backgroundColor: "#000",
-      color: "#fff",
+    fontSize: '14px',
+    fontStyle: 'italic',
+    textDecoration: 'underline',
+    cursor: 'pointer',
+    '&:hover': {
+      backgroundColor: '#000',
+      color: '#fff',
     },
   },
   subTitleIcon: {
-    margin: "4px 4px 0 0",
+    margin: '4px 4px 0 0',
   },
   buttonTitle: {
-    fontSize: "16px",
-    fontWeight: "600",
+    fontSize: '16px',
+    fontWeight: '600',
   },
   imgStyle: {
-    width: "54px",
-    border: "2px solid #ccc",
-    marginRight: "10px",
-    cursor: "pointer",
-    "&:hover": {
-      border: "2px solid #2AC37D",
+    width: '54px',
+    border: '2px solid #ccc',
+    marginRight: '10px',
+    cursor: 'pointer',
+    '&:hover': {
+      border: '2px solid #2AC37D',
     },
   },
   imgStyleActive: {
-    border: "2px solid #2AC37D",
+    border: '2px solid #2AC37D',
   },
 
   containerButton: {
-    margin: "15px 0 0 10px",
+    margin: '15px 0 0 10px',
   },
   wishList: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
 }));
 
 function ProductSidebar({ product }) {
   const classes = useStyle();
   const [open, setOpen] = useState(false);
-  const [scroll, setScroll] = useState("paper");
+  const [scroll, setScroll] = useState('paper');
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
+  const [choose, setChoose] = useState(false);
 
   const listDetail = product.productDetailList || [];
   const wishList = useSelector((state) => state.wishList.current);
@@ -171,37 +170,41 @@ function ProductSidebar({ product }) {
     setFavourite(isFavorite);
   });
   colorList.forEach((item, index) => {
-    const productWithImage = listDetail.find(
-      (item, idx) => item.color === colorList[index]
-    );
+    const productWithImage = listDetail.find((item, idx) => item.color === colorList[index]);
     productWithImageList.push(productWithImage);
   });
 
   const [listProductByColor, setListProductByColor] = useState([]);
 
   const handleStylesClick = (idproductDetail, colorProductDetail) => {
-    setListProductByColor(
-      listDetail.filter((item) => item.color === colorProductDetail)
-    );
+    setListProductByColor(listDetail.filter((item) => item.color === colorProductDetail));
     setActiveImg(idproductDetail);
   };
 
   const handleSelectSize = (productDetail) => {
     setProductDetail(productDetail);
     setActiveSize(productDetail.id);
+    setChoose(true);
   };
   const handleSubmitAddToCart = () => {
-    const action = addToCart({
-      productDetailId: productDetail.id,
-      productDetail: productDetail,
-      product: product,
-      quantity: 1,
-    });
-    dispatch(action);
-    enqueueSnackbar("You have successfully added the product to your cart", {
-      variant: "success",
-      autoHideDuration: 2000,
-    });
+    if (choose) {
+      const action = addToCart({
+        productDetailId: productDetail.id,
+        productDetail: productDetail,
+        product: product,
+        quantity: 1,
+      });
+      dispatch(action);
+      enqueueSnackbar('You have successfully added the product to your cart', {
+        variant: 'success',
+        autoHideDuration: 2000,
+      });
+    } else {
+      enqueueSnackbar('Please select styles and size', {
+        variant: 'error',
+        autoHideDuration: 2000,
+      });
+    }
   };
 
   const handleAddWishList = async (productId) => {
@@ -215,7 +218,7 @@ function ProductSidebar({ product }) {
       unwrapResult(resultActionWishList);
       console.log(resultActionWishList);
     } catch (error) {
-      console.log("Cannot add wishList");
+      console.log('Cannot add wishList');
     }
 
     setFavourite(true);
@@ -233,7 +236,7 @@ function ProductSidebar({ product }) {
       unwrapResult(resultActionWishList);
       console.log(resultActionWishList);
     } catch (error) {
-      console.log("Cannot remove wishList");
+      console.log('Cannot remove wishList');
     }
     setFavourite(false);
   };
@@ -301,8 +304,8 @@ function ProductSidebar({ product }) {
               src={productDetail.linkImg}
               className={
                 classes.imgStyle +
-                " " +
-                (activeImg === productDetail.id ? classes.imgStyleActive : "")
+                ' ' +
+                (activeImg === productDetail.id ? classes.imgStyleActive : '')
               }
               alt=""
               onClick={() => {
@@ -318,20 +321,14 @@ function ProductSidebar({ product }) {
           <Typography variant="p" className={classes.title} gutterBottom>
             Available sizes
           </Typography>
-          <Box
-            position="absolute"
-            right="0"
-            top={5}
-            display="flex"
-            alignItems="center"
-          >
+          <Box position="absolute" right="0" top={5} display="flex" alignItems="center">
             <StraightenIcon className={classes.subTitleIcon} />
             <Typography
               variant="p"
               component="a"
               position="absolute"
               className={classes.subTitle}
-              onClick={handleClickOpen("paper")}
+              onClick={handleClickOpen('paper')}
             >
               Size guide
             </Typography>
@@ -343,9 +340,7 @@ function ProductSidebar({ product }) {
             <li
               key={productDetail.id}
               className={
-                classes.size +
-                " " +
-                (activeSize === productDetail.id ? classes.sizeActive : "")
+                classes.size + ' ' + (activeSize === productDetail.id ? classes.sizeActive : '')
               }
               onClick={() => handleSelectSize(productDetail)}
             >
@@ -367,11 +362,7 @@ function ProductSidebar({ product }) {
             className={classes.buttonHeart}
             onClick={() => handleRemoveWishList(product.id)}
           >
-            <Typography
-              variant="button"
-              component="p"
-              className={classes.wishList}
-            >
+            <Typography variant="button" component="p" className={classes.wishList}>
               Add to wishList
             </Typography>
             <FavoriteIcon />
@@ -382,11 +373,7 @@ function ProductSidebar({ product }) {
             className={classes.buttonHeart}
             onClick={() => handleAddWishList(product.id)}
           >
-            <Typography
-              variant="button"
-              component="p"
-              className={classes.wishList}
-            >
+            <Typography variant="button" component="p" className={classes.wishList}>
               Add to wishList
             </Typography>
             <FavoriteBorderIcon />
@@ -401,12 +388,9 @@ function ProductSidebar({ product }) {
         aria-describedby="scroll-dialog-description"
       >
         <DialogTitle id="scroll-dialog-title">
-          <p className={classes.productPrice}>
-            {" "}
-            MEN'S AND WOMEN'S FOOTWEAR SIZING
-          </p>
+          <p className={classes.productPrice}> MEN'S AND WOMEN'S FOOTWEAR SIZING</p>
         </DialogTitle>
-        <DialogContent dividers={scroll === "paper"}>
+        <DialogContent dividers={scroll === 'paper'}>
           <GuideSize></GuideSize>
         </DialogContent>
       </Dialog>

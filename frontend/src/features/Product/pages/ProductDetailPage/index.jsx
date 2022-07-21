@@ -1,12 +1,11 @@
 import { Box, Grid, Hidden, makeStyles } from '@material-ui/core';
 import ProductTabsMobile from 'features/Product/components/ProductTabsMobile';
-import React from 'react';
+import useProductDetail from 'features/Product/hooks/useProductDetail';
+import { Helmet } from 'react-helmet-async';
+import { useRouteMatch } from 'react-router-dom';
 import ProductInfo from '../../components/ProductInfo';
 import ProductRecomend from '../../components/ProductRecomend';
 import ProductSidebar from '../../components/ProductSidebar';
-import { Helmet } from 'react-helmet-async';
-import { useRouteMatch } from 'react-router-dom';
-import useProductDetail from 'features/Product/hooks/useProductDetail';
 
 ProductDetailPage.propTypes = {};
 

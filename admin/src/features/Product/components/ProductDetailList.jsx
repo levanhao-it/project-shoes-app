@@ -15,6 +15,7 @@ import ProductDetailItem from './ProductDetailItem';
 
 ProductDetailList.propTypes = {
   data: PropTypes.object,
+  onSubmit: PropTypes.func,
 };
 
 const useStyles = makeStyles({
@@ -51,7 +52,7 @@ const columns = [
   },
 ];
 
-function ProductDetailList({ data }) {
+function ProductDetailList({ data, onSubmit }) {
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -62,6 +63,10 @@ function ProductDetailList({ data }) {
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
+  };
+
+  const handleEdit = (data) => {
+    onSubmit(data);
   };
 
   return (
@@ -86,7 +91,7 @@ function ProductDetailList({ data }) {
             </TableHead>
             <TableBody>
               {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                return <ProductDetailItem row={row} productId={data.id} />;
+                return <ProductDetailItem row={row} productId={data.id} onSubmit={handleEdit} />;
               })}
             </TableBody>
           </Table>

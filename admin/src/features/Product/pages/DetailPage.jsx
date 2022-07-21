@@ -1,18 +1,11 @@
-import {
-  Box,
-  Button,
-  Grid,
-  makeStyles,
-  Paper,
-  Typography,
-} from "@material-ui/core";
-import { purple } from "@material-ui/core/colors";
-import AddIcon from "@material-ui/icons/Add";
-import productApi from "components/api/productApi";
-import { useEffect, useState } from "react";
-import { useHistory, useRouteMatch } from "react-router-dom";
-import ProductDetailList from "../components/ProductDetailList";
-import ProductFilters from "../components/ProductFilters";
+import { Box, Button, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
+import { purple } from '@material-ui/core/colors';
+import AddIcon from '@material-ui/icons/Add';
+import productApi from 'components/api/productApi';
+import { useEffect, useState } from 'react';
+import { useHistory, useRouteMatch } from 'react-router-dom';
+import ProductDetailList from '../components/ProductDetailList';
+import ProductFilters from '../components/ProductFilters';
 
 DetailPage.propTypes = {};
 
@@ -22,24 +15,24 @@ const useStyle = makeStyles((theme) => ({
   },
 
   header: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   heading: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
 
   button: {
     color: theme.palette.getContrastText(purple[500]),
     backgroundColor: purple[500],
-    "&:hover": {
+    '&:hover': {
       backgroundColor: purple[700],
     },
   },
 
   title: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
 }));
 
@@ -60,13 +53,19 @@ function DetailPage(props) {
         setProduct(data);
         setProductDetail(data.productDetailList);
       } catch (error) {
-        console.log("Failed to fetch user", error);
+        console.log('Failed to fetch user', error);
       }
     })();
   }, [productId]);
 
   const handleAddProductDetail = () => {
     history.push(`/products/${productId}/add`);
+  };
+
+  const handleEditDetail = (data) => {
+    console.log(data);
+    setProductDetail(data.productDetailList);
+    console.log(productDetail);
   };
 
   return (
@@ -88,27 +87,27 @@ function DetailPage(props) {
         <Grid container spacing={1}>
           <Grid item xs={6}>
             <Typography component="span" className={classes.title}>
-              Name:{" "}
+              Name:{' '}
             </Typography>
             <Typography component="span">{product.name}</Typography>
           </Grid>
           <Grid item xs={6}>
             <Typography component="span" className={classes.title}>
-              Description:{" "}
+              Description:{' '}
             </Typography>
             <Typography component="span">{product.description}</Typography>
           </Grid>
 
           <Grid item xs={6}>
             <Typography component="span" className={classes.title}>
-              Category:{" "}
+              Category:{' '}
             </Typography>
             <Typography component="span">{product.categoryName}</Typography>
           </Grid>
 
           <Grid item xs={6}>
             <Typography component="span" className={classes.title}>
-              Price:{" "}
+              Price:{' '}
             </Typography>
             <Typography component="span">{product.originalPrice}</Typography>
           </Grid>
@@ -118,7 +117,7 @@ function DetailPage(props) {
         <ProductFilters />
       </Paper>
 
-      <ProductDetailList data={productDetail} />
+      <ProductDetailList data={productDetail} onSubmit={handleEditDetail} />
     </div>
   );
 }

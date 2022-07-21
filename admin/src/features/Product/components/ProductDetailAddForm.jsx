@@ -39,10 +39,13 @@ const useStyle = makeStyles((theme) => ({
     },
   },
   upload: {
-    margin: '25px',
+    margin: ' 0px 25px',
   },
   input: {
     display: 'none',
+  },
+  img: {
+    marginTop: '25px',
   },
 }));
 
@@ -52,6 +55,7 @@ function ProductDetailAddForm({ onSubmit }) {
   const [colors, setColors] = useState([]);
   const [checked, setChecked] = useState(false);
   const [image, setImage] = useState({});
+  const [file, setFile] = useState(null);
 
   const {
     params: { productId },
@@ -105,7 +109,11 @@ function ProductDetailAddForm({ onSubmit }) {
   };
 
   const handleImageChange = (event) => {
-    setImage(event.target.files[0]);
+    if (event.target.files.length > 0) {
+      const fileSelected = URL.createObjectURL(event.target.files[0]);
+      setFile(fileSelected);
+      setImage(event.target.files[0]);
+    }
   };
 
   return (
@@ -146,7 +154,7 @@ function ProductDetailAddForm({ onSubmit }) {
             >
               Upload
             </Button>
-            <span>{image.name}</span>
+            <img src={file} alt="" width={'60px'} className={classes.img} />
           </label>
         </Grid>
         <Grid item xs={4}>

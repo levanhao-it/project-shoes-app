@@ -1,6 +1,3 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import userApi from 'components/api/userApi';
 import {
   Box,
   Button,
@@ -11,16 +8,18 @@ import {
   Typography,
   withStyles,
 } from '@material-ui/core';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import Profile from '../components/Profile';
-import { useHistory, useRouteMatch } from 'react-router-dom';
-import { useSnackbar } from 'notistack';
-import useUserDetail from '../hooks/useUserDetail';
 import { purple } from '@material-ui/core/colors';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import EditIcon from '@material-ui/icons/Edit';
-import DetailUser from '../components/DetailUser';
+import userApi from 'components/api/userApi';
+import { useSnackbar } from 'notistack';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 import AddressFeature from '../components/Address';
-import Invoice from '../components/Invoice';
+import DetailUser from '../components/DetailUser';
+import Profile from '../components/Profile';
+import useUserDetail from '../hooks/useUserDetail';
 
 PageDetailUser.propTypes = {};
 function TabPanel(props) {
@@ -185,7 +184,7 @@ function PageDetailUser(props) {
         <StyledTabs value={value} onChange={handleChange} aria-label="styled tabs example">
           <StyledTab label="Detail" {...a11yProps(0)} />
           <StyledTab label="Address" {...a11yProps(1)} />
-          <StyledTab label="Invoice" {...a11yProps(2)} />
+          {/* <StyledTab label="Invoice" {...a11yProps(2)} /> */}
         </StyledTabs>
         <TabPanel value={value} index={0}>
           <DetailUser user={userData}></DetailUser>
@@ -193,9 +192,9 @@ function PageDetailUser(props) {
         <TabPanel value={value} index={1}>
           <AddressFeature user={userData} />
         </TabPanel>
-        <TabPanel value={value} index={2}>
+        {/* <TabPanel value={value} index={2}>
           <Invoice user={userData} />
-        </TabPanel>
+        </TabPanel> */}
       </Box>
     </Container>
   );

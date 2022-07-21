@@ -1,9 +1,11 @@
 import productApi from 'api/productApi';
 import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 export default function useProductDetail(productId) {
   const [product, setProduct] = useState({});
   const [loading, setLoading] = useState(true);
+  const history = useHistory();
 
   useEffect(() => {
     (async () => {
@@ -13,6 +15,7 @@ export default function useProductDetail(productId) {
         setProduct(result.data);
       } catch (error) {
         console.log('Failed to fetch product', error);
+        history.push('/not-found');
       }
 
       setLoading(false);

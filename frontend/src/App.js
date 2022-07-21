@@ -1,4 +1,5 @@
 import { Collapse, makeStyles } from '@material-ui/core';
+import Contact from 'components/Contact';
 import NoLogin from 'components/NoLogin';
 import PrivateRoute from 'components/PrivateRoute';
 import { WIDTH_HEADER } from 'constant';
@@ -58,6 +59,7 @@ function App() {
           <Route path="/cart" component={CartFeature} />
           <Route path="/verify" component={Verify} />
           <Route path="/login" component={NoLogin} />
+          <Route path="/contact" component={Contact} />
           <PrivateRoute path="/checkout/" component={CheckoutFeature} />
           <PrivateRoute path="/user" component={UserFeature} />
           <PrivateRoute path="/delivery" component={DeliveryFeauture} />

@@ -7,17 +7,13 @@ import {
   OutlinedInput,
   Typography,
   withStyles,
-} from "@material-ui/core";
-import { Add, Remove } from "@material-ui/icons";
-import { MAX_PRODUCT_QUANTITY, MIN_PRODUCT_QUANTITY } from "constant";
-import PropTypes from "prop-types";
-import { Controller } from "react-hook-form";
+} from '@material-ui/core';
+import { Add, Remove } from '@material-ui/icons';
+import { MAX_PRODUCT_QUANTITY, MIN_PRODUCT_QUANTITY } from 'constant';
+import PropTypes from 'prop-types';
+import { Controller } from 'react-hook-form';
 
-import {
-  getErrorMessageRHF,
-  numberParsePositiveInt,
-  productQuantityClamp,
-} from "utils";
+import { getErrorMessageRHF, numberParsePositiveInt, productQuantityClamp } from 'utils';
 
 /**
  * @typedef {import('@material-ui/core').ButtonProps} ButtonProps
@@ -34,24 +30,24 @@ QuantityField.propTypes = {
 const useStyles = makeStyles((theme) => ({
   root: {},
   inputGroup: {
-    display: "flex",
-    flexFlow: "row nowrap",
-    alignItems: "stretch",
-    minWidth: "135px",
-    maxWidth: "200px",
+    display: 'flex',
+    flexFlow: 'row nowrap',
+    alignItems: 'stretch',
+    minWidth: '135px',
+    maxWidth: '200px',
 
-    "& .MuiInputBase-root": {
+    '& .MuiInputBase-root': {
       borderRadius: 0,
     },
   },
   left: {
-    borderRadius: "50px 0 0 50px !important",
+    borderRadius: '50px 0 0 50px !important',
   },
   right: {
-    borderRadius: "0 50px 50px 0 !important",
+    borderRadius: '0 50px 50px 0 !important',
   },
   input: {
-    textAlign: "center",
+    textAlign: 'center',
   },
 }));
 
@@ -59,13 +55,11 @@ const AdjustButton = withStyles({
   root: {
     borderRadius: 0,
     minWidth: 40,
-    "& .MuiSvgIcon-root": {
+    '& .MuiSvgIcon-root': {
       fontSize: 14,
     },
   },
-})((/** @type {ButtonProps} */ props) => (
-  <Button variant="outlined" size="small" {...props} />
-));
+})((/** @type {ButtonProps} */ props) => <Button variant="outlined" size="small" {...props} />);
 
 function QuantityField(props) {
   const classes = useStyles();
@@ -84,13 +78,7 @@ function QuantityField(props) {
   };
 
   return (
-    <FormControl
-      error={hasError}
-      fullWidth
-      margin="normal"
-      variant="outlined"
-      size="small"
-    >
+    <FormControl error={hasError} fullWidth margin="normal" variant="outlined" size="small">
       <Typography>{label}</Typography>
 
       <Controller
@@ -115,7 +103,7 @@ function QuantityField(props) {
                 }}
                 id={name}
                 type="text"
-                disabled={disabled}
+                disabled="true"
                 // bind render props of Controller
                 value={productQuantityClamp(parsedValue)}
                 onChange={onChange}

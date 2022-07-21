@@ -69,7 +69,6 @@ function CategoryForm({ category = {}, onSubmit = null }) {
   });
 
   const handleSubmit = async (values) => {
-    console.log(values);
     if (onSubmit) {
       await onSubmit(values);
     }

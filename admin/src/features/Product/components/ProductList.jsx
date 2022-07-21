@@ -15,7 +15,8 @@ import React, { useEffect, useState } from 'react';
 import ProductItem from './ProductItem';
 
 ProductList.propTypes = {
-  data: PropTypes.object,
+  data: PropTypes.object.isRequired,
+  onSubmit: PropTypes.func,
 };
 
 const useStyles = makeStyles({
@@ -50,7 +51,7 @@ const columns = [
   },
 ];
 
-function ProductList({ data }) {
+function ProductList({ data, onSubmit }) {
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -90,6 +91,10 @@ function ProductList({ data }) {
     setPage(0);
   };
 
+  const handleOnSubmit = (data) => {
+    onSubmit(data);
+  };
+
   return (
     <div>
       <Paper className={classes.root}>
@@ -114,7 +119,7 @@ function ProductList({ data }) {
               {productList
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row) => {
-                  return <ProductItem row={row} />;
+                  return <ProductItem row={row} onSubmit={handleOnSubmit} />;
                 })}
             </TableBody>
           </Table>

@@ -11,13 +11,17 @@ import {
 } from '@material-ui/core';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
+import productApi from 'components/api/productApi';
 import productDetailApi from 'components/api/productDetailApi';
 import { useSnackbar } from 'notistack';
 import { useState } from 'react';
 import { useRouteMatch } from 'react-router-dom';
 import ProductDetailEditForm from './ProductDetailEditForm';
+import PropTypes from 'prop-types';
 
-ProductDetailItem.propTypes = {};
+ProductDetailItem.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};
 
 const columns = [
   { id: 'salePrice', label: 'Sale price', minWidth: 100 },
@@ -52,7 +56,7 @@ const columns = [
 
 const useStyles = makeStyles((theme) => ({}));
 
-function ProductDetailItem({ row }) {
+function ProductDetailItem({ row, onSubmit }) {
   const [open, setOpen] = useState(false);
   const {
     params: { productId },
@@ -68,6 +72,8 @@ function ProductDetailItem({ row }) {
       // ok then show user list
       if (status === 'OK') {
         // do something here
+        const { data } = await productApi.getById(productId);
+        onSubmit(data);
         enqueueSnackbar('Edit product detail success', {
           variant: 'success',
           autoHideDuration: 1000,

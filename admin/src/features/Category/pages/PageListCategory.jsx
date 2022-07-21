@@ -54,7 +54,6 @@ function PageListCategory(props) {
     (async () => {
       try {
         const { data } = await categoryApi.getAll();
-        console.log(data);
         setCategoryList(data);
       } catch (error) {
         console.log('Failed to fetch getAll', error);
@@ -70,6 +69,10 @@ function PageListCategory(props) {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleAddCategory = (data) => {
+    setCategoryList(data);
   };
 
   return (
@@ -93,10 +96,10 @@ function PageListCategory(props) {
         aria-describedby="alert-dialog-description"
         fullWidth={true}
       >
-        <AddCategory />
+        <AddCategory onSubmit={handleAddCategory} />
       </Dialog>
 
-      <CategoryList data={categoryList} />
+      <CategoryList data={categoryList} onSubmit={handleAddCategory} />
     </div>
   );
 }
