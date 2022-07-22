@@ -33,6 +33,7 @@ import { useDispatch, useSelector } from "react-redux";
 import orderApi from "api/orderApi";
 import { useHistory } from "react-router-dom";
 import { resetCart } from "features/Cart/cartSlice";
+import Loading from "components/Loading/Loading";
 
 DeliveryAddress.propTypes = {};
 
@@ -106,11 +107,11 @@ function DeliveryAddress(props) {
   const [mode, setMode] = useState(MODE.ADD);
   const [addressList, setAddressList] = useState([]);
   const [address, setAddress] = useState({});
+  const [loading, setLoading] = useState(false);
   const [optionalDeliveryList, setOptionalDeliveryList] = useState([]);
   const [optionalDelivey, setOptionalDelivery] = useState({});
   const voucher = useSelector((state) => state.voucher);
   const orderList = useSelector((state) => state.cart.cartItems);
-  const [disableBtn, setDisableBtn] = useState(false);
   const history = useHistory();
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
@@ -143,6 +144,7 @@ function DeliveryAddress(props) {
   }, []);
 
   const handleSubmit = async () => {
+    setLoading(true);
     try {
       const orderDetailRequestList = orderList.map((x) => {
         return {
@@ -150,9 +152,6 @@ function DeliveryAddress(props) {
           quantity: x.quantity,
         };
       });
-      if (address.id && optionalDelivey.id) {
-        setDisableBtn(true);
-      }
 
       const voucherCode = voucher.code || "NO_VOUCHER";
 
@@ -166,8 +165,9 @@ function DeliveryAddress(props) {
 
       const { data } = await orderApi.add(payload);
 
-      history.push(`/checkout/${data.id}`);
       dispatch(resetCart());
+      history.push(`/checkout/${data.id}`);
+      setLoading(false);
     } catch (error) {
       enqueueSnackbar(
         "Please add new address delivery or select address delivery",
@@ -321,7 +321,6 @@ function DeliveryAddress(props) {
         content="Review and pay"
         widthBtn={matches ? "100%" : "50%"}
         onClick={handleSubmit}
-        disabled={disableBtn}
       />
 
       <Dialog open={open} onClose={handleClose} disableEscapeKeyDown>
@@ -356,6 +355,8 @@ function DeliveryAddress(props) {
           )}
         </DialogContent>
       </Dialog>
+
+      {loading && <Loading />}
     </>
   );
 }

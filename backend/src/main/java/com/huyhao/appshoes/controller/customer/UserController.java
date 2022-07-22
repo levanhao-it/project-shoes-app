@@ -39,6 +39,18 @@ public class UserController {
         }
     }
 
+    @DeleteMapping()
+    public ResponseEntity<?> deleteUser(@RequestParam String email){
+        try {
+            authService.deleteUserByEmail(email);
+            return ResponseEntity.ok(ResponseCommon.success(""));
+        } catch (Exception ex) {
+            log.error("API /api/wishList: ", ex);
+            return ResponseEntity.badRequest().body(ErrorResponse.builder().message(ex.getMessage()).build());
+        }
+
+    }
+
 
 
 }

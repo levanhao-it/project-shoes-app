@@ -1,27 +1,27 @@
-import axiosClient from './axiosClient';
+import axiosClient from "./axiosClient";
 
 const userApi = {
   register(data) {
-    const url = '/register';
+    const url = "/register";
     return axiosClient.post(url, data);
   },
   login(data) {
-    const url = '/login';
+    const url = "/login";
     return axiosClient.post(url, data);
   },
   logout() {
-    const url = '/logout';
+    const url = "/logout";
     return axiosClient.get(url);
   },
   getUser() {
-    const url = '/user';
+    const url = "/user";
     return axiosClient.get(url);
   },
   update(data) {
-    const url = '/user';
+    const url = "/user";
     return axiosClient.put(url, data, {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        "Content-Type": "multipart/form-data",
       },
     });
   },
@@ -31,6 +31,11 @@ const userApi = {
     return axiosClient.post(url, null, {
       params: data,
     });
+  },
+
+  remove(params) {
+    const url = "/user";
+    return axiosClient.delete(url, { params });
   },
 };
 export default userApi;

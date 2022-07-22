@@ -252,4 +252,10 @@ public class AuthService {
 
         System.out.println("Email has been sent");
     }
+
+    public void deleteUserByEmail(String email) {
+        Users user = userRepository.findByEmailAndActiveTrue(email).orElseThrow(() -> new IllegalArgumentException("Not found user from id"));
+        user.setActive(false);
+        userRepository.saveAndFlush(user);
+    }
 }
