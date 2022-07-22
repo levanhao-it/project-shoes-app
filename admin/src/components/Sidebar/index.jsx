@@ -1,12 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import { Link } from 'react-router-dom';
-import ManagerUser from '../ManagerUser';
-import ManagerProduct from '../ManagerProduct';
-import ManagerOrder from '../ManagerOrder';
-import ManagerCategory from '../ManagerCategory';
+import React from "react";
+import PropTypes from "prop-types";
+import { makeStyles } from "@material-ui/core/styles";
+import Drawer from "@material-ui/core/Drawer";
+import { Link } from "react-router-dom";
+import ManagerUser from "../ManagerUser";
+import ManagerProduct from "../ManagerProduct";
+import ManagerOrder from "../ManagerOrder";
+import ManagerCategory from "../ManagerCategory";
+import ManagerVoucher from "components/ManagerVoucher";
 
 Sidebar.propTypes = {};
 const drawerWidth = 240;
@@ -18,24 +19,24 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerPaper: {
     width: drawerWidth,
-    backgroundColor: 'rgb(17 24 39)',
-    color: '#d1d5db',
+    backgroundColor: "rgb(17 24 39)",
+    color: "#d1d5db",
   },
   drawerContainer: {
-    padding: '45px 5px 0px 18px',
-    overflowY: 'scroll',
-    '&::-webkit-scrollbar': {
-      display: 'none',
+    padding: "45px 5px 0px 18px",
+    overflowY: "scroll",
+    "&::-webkit-scrollbar": {
+      display: "none",
     },
   },
   center: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
   logo: {
-    width: '110px',
-    marginTop: '20px',
+    width: "110px",
+    marginTop: "20px",
   },
 }));
 
@@ -64,6 +65,7 @@ function Sidebar(props) {
           <ManagerCategory />
           <ManagerProduct />
           <ManagerOrder />
+          <ManagerVoucher />
         </div>
       </Drawer>
     </div>

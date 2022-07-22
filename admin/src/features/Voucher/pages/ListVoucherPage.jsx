@@ -1,13 +1,13 @@
-import { Box, Button, makeStyles, Paper, Typography } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import { purple } from "@material-ui/core/colors";
+import { Box, Button, makeStyles, Typography } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
-import productApi from "components/api/productApi";
-import { useEffect, useState } from "react";
+import VoucherList from "../components/VoucherList";
+import voucherApi from "components/api/voucherApi";
 import { useHistory } from "react-router-dom";
-import ProductFilters from "../components/ProductFilters";
-import ProductList from "../components/ProductList";
 
-ListPage.propTypes = {};
+ListVoucherPage.propTypes = {};
 
 const useStyle = makeStyles((theme) => ({
   box: {
@@ -32,33 +32,31 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 
-function ListPage(props) {
+function ListVoucherPage(props) {
   const classes = useStyle();
-  const [productList, setProductList] = useState([]);
+  const [voucherList, setVoucherList] = useState([]);
   const history = useHistory();
 
   useEffect(() => {
-    const fetchProduct = async () => {
-      const { data } = await productApi.getAll({ page: 1, size: 5 });
-      setProductList(data.products);
-    };
-
-    fetchProduct();
+    (async () => {
+      const { data } = await voucherApi.getAll();
+      setVoucherList(data);
+    })();
   }, []);
 
-  const handleAddProduct = () => {
-    history.push(`/products/add`);
+  const handleChangeData = (data) => {
+    setVoucherList(data);
   };
 
-  const handleEditProduct = (data) => {
-    setProductList(data.products);
+  const handleAddProduct = () => {
+    history.push("/vouchers/add");
   };
 
   return (
     <div className={classes.box}>
       <Box className={classes.header}>
         <Typography component="h1" variant="h4" className={classes.heading}>
-          Products
+          Vouchers
         </Typography>
         <Button
           variant="contained"
@@ -69,12 +67,10 @@ function ListPage(props) {
           Add
         </Button>
       </Box>
-      <Paper elevation={0}>
-        <ProductFilters />
-      </Paper>
-      <ProductList data={productList} onSubmit={handleEditProduct} />
+
+      <VoucherList onChangeData={handleChangeData} data={voucherList} />
     </div>
   );
 }
 
-export default ListPage;
+export default ListVoucherPage;

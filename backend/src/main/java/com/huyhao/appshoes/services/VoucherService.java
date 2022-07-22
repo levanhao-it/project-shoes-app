@@ -28,16 +28,10 @@ public class VoucherService {
                 .code(voucherRequest.getCode())
                 .priceConditional(voucherRequest.getPriceCondition())
                 .discount(voucherRequest.getDiscount())
+                .quantity(voucherRequest.getQuantity())
+                .status(voucherRequest.getStatus())
                 .active(true)
                 .build();
-
-        if(voucherRequest.getQuantity().intValue() == 0){
-            voucher.setQuantity(0);
-            voucher.setStatus(false);
-        }else{
-            voucher.setQuantity(voucherRequest.getQuantity());
-            voucher.setStatus(true);
-        }
 
         voucherRepository.save(voucher);
     }
@@ -52,9 +46,7 @@ public class VoucherService {
         }
 
         boolean checkCode = voucherRepository.existsByCodeAndActiveTrue(voucherRequest.getCode());
-        if(checkCode){
-            throw new IllegalArgumentException("Code already exists");
-        }else {
+        if(!checkCode){
             voucher.setCode(voucherRequest.getCode());
         }
 
@@ -72,6 +64,11 @@ public class VoucherService {
         if(quantity != null && quantity > 0 && !quantity.equals(voucher.getQuantity())){
             voucher.setQuantity(quantity);
         }
+
+        if(voucherRequest.getStatus() != voucher.getStatus()){
+            voucher.setStatus(voucherRequest.getStatus());
+        }
+
         voucherRepository.save(voucher);
     }
 
@@ -122,6 +119,19 @@ public class VoucherService {
         Voucher voucher = voucherRepository.findByCodeAndActiveTrue(code)
                 .orElseThrow(() -> new IllegalArgumentException("Not found voucher from code"));
 
+        return VoucherResponse.builder()
+                .id(voucher.getId())
+                .name(voucher.getName())
+                .code(voucher.getCode())
+                .priceCondition(voucher.getPriceConditional())
+                .discount(voucher.getDiscount())
+                .quantity(voucher.getQuantity())
+                .build();
+    }
+
+    public VoucherResponse getVoucherById(Long voucherId) {
+        Voucher voucher = voucherRepository.findByIdAndActiveTrue(voucherId)
+                .orElseThrow(() -> new IllegalArgumentException("Not found voucher from id"));
         return VoucherResponse.builder()
                 .id(voucher.getId())
                 .name(voucher.getName())

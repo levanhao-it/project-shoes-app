@@ -26,6 +26,18 @@ public class VoucherAdminController {
         }
     }
 
+    @GetMapping("/{voucherId}")
+    public ResponseEntity<?> getVoucher(@PathVariable Long voucherId){
+        try {
+            return ResponseEntity.ok(ResponseCommon.success(voucherService.getVoucherById(voucherId)));
+        } catch (Exception ex) {
+            log.error("API /api/wishList: ", ex);
+            return ResponseEntity.badRequest().body(ErrorResponse.builder().message(ex.getMessage()).build());
+        }
+    }
+
+
+
     @PostMapping()
     public ResponseEntity<?> createVoucher(@RequestBody VoucherRequest voucherRequest){
         try {

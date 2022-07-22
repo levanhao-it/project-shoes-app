@@ -11,4 +11,5 @@ public class VoucherRequest {
     private Double priceCondition;
     private Double discount;
     private Integer quantity;
+    private Boolean status;
 }

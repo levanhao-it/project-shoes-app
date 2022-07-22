@@ -1,8 +1,8 @@
 import {
   Box,
+  Chip,
   Collapse,
   IconButton,
-  makeStyles,
   Paper,
   TableCell,
   TableRow,
@@ -10,69 +10,57 @@ import {
 import EditIcon from "@material-ui/icons/Edit";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
-import productApi from "components/api/productApi";
+import voucherApi from "components/api/voucherApi";
 import { useSnackbar } from "notistack";
 import PropTypes from "prop-types";
 import { useState } from "react";
-import { useHistory } from "react-router-dom";
-import useProduct from "../hooks/useProduct";
-import ProductEditForm from "./ProductEditForm";
+import VoucherForm from "./VoucherForm";
 
-ProductItem.propTypes = {
-  onSubmit: PropTypes.func,
+VoucherItem.propTypes = {
+  data: PropTypes.object,
+  onChangeData: PropTypes.func,
 };
 
-const useStyle = makeStyles((theme) => ({
-  silderImg: {
-    width: "50px",
-    margin: "auto",
-    [theme.breakpoints.down("sm")]: {
-      width: "100%",
-    },
-  },
-}));
-
 const columns = [
-  { id: "name", label: "Name", minWidth: 300 },
-  { id: "stock", label: "Stock", minWidth: 100 },
+  { id: "name", label: "Name", minWidth: 150 },
+  { id: "code", label: "Code", minWidth: 150, align: "center" },
   {
-    id: "price",
-    label: "Price",
-    minWidth: 170,
+    id: "quantity",
+    label: "Quantity",
+    minWidth: 100,
+    align: "center",
   },
   {
-    id: "category",
-    label: "Category",
+    id: "discount",
+    label: "Discount",
     minWidth: 170,
+    align: "center",
   },
   {
-    id: "actions",
-    label: "Actions",
+    id: "priceCondition",
+    label: "Condition",
     minWidth: 170,
-    align: "right",
+    align: "center",
   },
 ];
 
-function ProductItem({ row, onSubmit }) {
+function VoucherItem({ data = {}, onChangeData }) {
   const [open, setOpen] = useState(false);
-  const history = useHistory();
-  const handleAction = (id) => {
-    history.push(`/products/${id}`);
-  };
   const { enqueueSnackbar } = useSnackbar();
 
-  const { product } = useProduct(row.id);
+  const handleChangeData = (data) => {
+    if (onChangeData) onChangeData(data);
+  };
 
   const handleSubmit = async (values) => {
     try {
-      const { status, message } = await productApi.update(row.id, values);
+      const { status, message } = await voucherApi.update(data.id, values);
       setOpen(false);
-      // ok then show user list
+
       if (status === "OK") {
-        const { data } = await productApi.getAll({ page: 1, size: 5 });
-        onSubmit(data);
-        // do something here
-        enqueueSnackbar("Edit product success", {
+        const { data } = await voucherApi.getAll();
+        handleChangeData(data);
+        enqueueSnackbar("Edit voucher successfully", {
           variant: "success",
           autoHideDuration: 1000,
         });
@@ -80,7 +68,7 @@ function ProductItem({ row, onSubmit }) {
         enqueueSnackbar(message, { variant: "error", autoHideDuration: 1000 });
       }
     } catch (error) {
-      console.log("Faied to fetch product: ", error.message);
+      console.log("Faied to fetch voucher: ", error.message);
       enqueueSnackbar(error.message, {
         variant: "error",
         autoHideDuration: 1000,
@@ -88,13 +76,14 @@ function ProductItem({ row, onSubmit }) {
     }
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (data) => {
     try {
-      const { status, message } = await productApi.remove(id);
+      const { status, message } = await voucherApi.remove(data.id);
       setOpen(false);
-      // ok then show user list
+
       if (status === "OK") {
-        // do something here
+        const { data } = await voucherApi.getAll();
+        handleChangeData(data);
         enqueueSnackbar("Delete product successfully", {
           variant: "success",
           autoHideDuration: 1000,
@@ -113,7 +102,7 @@ function ProductItem({ row, onSubmit }) {
 
   return (
     <>
-      <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+      <TableRow hover role="checkbox" tabIndex={-1} key={data.id}>
         <TableCell>
           <IconButton
             aria-label="expand row"
@@ -124,30 +113,32 @@ function ProductItem({ row, onSubmit }) {
           </IconButton>
         </TableCell>
         {columns.map((column) => {
-          const value = row[column.id];
+          const value = data[column.id];
           return (
             <TableCell key={column.id} align={column.align}>
-              {column.id === "actions" ? (
-                <IconButton size="medium" onClick={() => handleAction(row.id)}>
-                  <EditIcon fontSize="inherit" />
-                </IconButton>
-              ) : (
-                value
-              )}
+              {value}
             </TableCell>
           );
         })}
+
+        <TableCell key="status" align="center">
+          {data.status ? (
+            <Chip label="PUBLIC" color="primary" />
+          ) : (
+            <Chip label="PRIVATE" color="secondary" />
+          )}
+        </TableCell>
       </TableRow>
 
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
               <Paper elevation={0}>
-                <ProductEditForm
+                <VoucherForm
                   onSubmit={handleSubmit}
-                  product={product}
                   onDelete={handleDelete}
+                  data={data}
                 />
               </Paper>
             </Box>
@@ -158,4 +149,4 @@ function ProductItem({ row, onSubmit }) {
   );
 }
 
-export default ProductItem;
+export default VoucherItem;
