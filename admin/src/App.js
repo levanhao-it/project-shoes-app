@@ -40,6 +40,7 @@ function App() {
             <Switch>
               <Redirect from="/home" to="/" exact />
               <Route path="/users" component={UserFeature} />
+              <Route path="/" component={UserFeature} exact />
               <Route path="/categories" component={CategoryFeature} />
               {/* <Route path="/login" component={LoginFeature} /> */}
               <Route path="/products" component={ProductFeature} />

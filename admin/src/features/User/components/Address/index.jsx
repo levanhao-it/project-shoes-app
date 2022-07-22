@@ -28,24 +28,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function AddressFeature({ user = {} }) {
-  const { idUser } = user;
-  const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
+  const { email } = user;
   const [addressList, setAddressList] = useState([]);
 
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await addressApi.getAllAddressByUser(idUser);
+        const { data } = await addressApi.getAllAddressByUser(email);
         setAddressList(data);
       } catch (error) {
         console.log('Failed to fetch address list', error);

@@ -6,7 +6,6 @@ import com.huyhao.appshoes.entity.Role;
 import com.huyhao.appshoes.entity.Users;
 import com.huyhao.appshoes.jwt.JwtProvider;
 import com.huyhao.appshoes.payload.auth.*;
-import com.huyhao.appshoes.payload.order.OrderResponse;
 import com.huyhao.appshoes.repositories.OrderRepository;
 import com.huyhao.appshoes.repositories.RoleRepository;
 import com.huyhao.appshoes.repositories.UserRepository;
@@ -26,7 +25,6 @@ import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
