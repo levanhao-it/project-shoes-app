@@ -1,12 +1,8 @@
-import React from "react";
-import PropTypes from "prop-types";
 import { Box, makeStyles, Paper, Typography } from "@material-ui/core";
-import { purple } from "@material-ui/core/colors";
-import VoucherAddForm from "../components/VoucherAddForm";
-import orderApi from "components/api/orderApi";
-import { useHistory } from "react-router-dom";
-import { useSnackbar } from "notistack";
 import voucherApi from "components/api/voucherApi";
+import { useSnackbar } from "notistack";
+import { useHistory } from "react-router-dom";
+import VoucherAddForm from "../components/VoucherAddForm";
 
 AddVoucherPage.propTypes = {};
 
@@ -19,6 +15,7 @@ const useStyle = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
+    marginBottom: theme.spacing(4),
   },
   heading: {
     fontWeight: "bold",
@@ -57,9 +54,10 @@ function AddVoucherPage(props) {
     <div className={classes.box}>
       <Box className={classes.header}>
         <Typography component="h1" variant="h4" className={classes.heading}>
-          Add Product
+          Add Voucher
         </Typography>
       </Box>
+
       <Paper elevation={0}>
         <VoucherAddForm onSubmit={handleSubmit} />
       </Paper>

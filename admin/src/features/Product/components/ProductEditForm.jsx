@@ -132,6 +132,7 @@ function ProductEditForm({ onSubmit, product, onDelete }) {
           color="secondary"
           className={classes.btn}
           onClick={() => handleDelete(product.id)}
+          variant="outlined"
         >
           Delete product
         </Button>

@@ -1,17 +1,24 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import { Box, Button, Checkbox, FormControlLabel, Grid, makeStyles } from '@material-ui/core';
-import InputField from 'components/form-controls/InputField';
-import PropTypes from 'prop-types';
-import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
+import { yupResolver } from "@hookform/resolvers/yup";
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  Grid,
+  makeStyles,
+} from "@material-ui/core";
+import InputField from "components/form-controls/InputField";
+import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
 
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import colorApi from 'components/api/colorApi';
-import sizeApi from 'components/api/sizeApi';
-import PriceField from 'components/form-controls/PriceField';
-import SelectField from 'components/form-controls/SelectField';
-import { jsonToFormData } from 'components/constant';
+import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import colorApi from "components/api/colorApi";
+import sizeApi from "components/api/sizeApi";
+import PriceField from "components/form-controls/PriceField";
+import SelectField from "components/form-controls/SelectField";
+import { jsonToFormData } from "components/constant";
 
 ProductDetailEditForm.propTypes = {
   onSubmit: PropTypes.func,
@@ -21,38 +28,44 @@ ProductDetailEditForm.propTypes = {
 };
 
 const schema = yup.object().shape({
-  salePrice: yup.number().required('Please enter price').min(1, 'Price must be more than 0'),
-  quantity: yup.number().required('Please enter price').min(1, 'Price must be more than 0'),
+  salePrice: yup
+    .number()
+    .required("Please enter price")
+    .min(1, "Price must be more than 0"),
+  quantity: yup
+    .number()
+    .required("Please enter price")
+    .min(1, "Price must be more than 0"),
 
-  sizeId: yup.string().required('Please choose size'),
+  sizeId: yup.string().required("Please choose size"),
 
-  colorId: yup.string().required('Please choose color'),
+  colorId: yup.string().required("Please choose color"),
 });
 const useStyle = makeStyles((theme) => ({
   boxFooter: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
     margin: theme.spacing(4, 0),
   },
 
   btn: {
-    '& > span': {
-      textTransform: 'capitalize',
+    "& > span": {
+      textTransform: "capitalize",
     },
   },
 
   boxPublic: {
     margin: theme.spacing(2, 0, 0, 2),
-    '&  .MuiFormControlLabel-label': {
-      fontSize: '20x',
+    "&  .MuiFormControlLabel-label": {
+      fontSize: "20x",
     },
   },
   upload: {
-    margin: '25px',
+    margin: "25px",
   },
   input: {
-    display: 'none',
+    display: "none",
   },
 }));
 
@@ -70,17 +83,17 @@ function ProductDetailEditForm({ onSubmit, values, onDelete }) {
 
   const form = useForm({
     defaultValues: {
-      salePrice: '',
-      quantity: '',
-      sizeId: '',
-      colorId: '',
+      salePrice: "",
+      quantity: "",
+      sizeId: "",
+      colorId: "",
     },
-    mode: 'onBlur',
+    mode: "onBlur",
     resolver: yupResolver(schema),
   });
 
   useEffect(() => {
-    const fieldList = ['salePrice', 'quantity', 'sizeId', 'colorId'];
+    const fieldList = ["salePrice", "quantity", "sizeId", "colorId"];
     fieldList.forEach((element, i) => {
       form.setValue(element, values[element]);
     });
@@ -141,7 +154,12 @@ function ProductDetailEditForm({ onSubmit, values, onDelete }) {
         </Grid>
 
         <Grid item xs={4}>
-          <SelectField name="colorId" label="Color" form={form} values={colors} />
+          <SelectField
+            name="colorId"
+            label="Color"
+            form={form}
+            values={colors}
+          />
         </Grid>
         <Grid item xs={4}>
           <input
@@ -162,7 +180,7 @@ function ProductDetailEditForm({ onSubmit, values, onDelete }) {
             >
               Upload
             </Button>
-            <img src={file} alt="" width={'60px'} className={classes.img} />
+            <img src={file} alt="" width={"60px"} className={classes.img} />
           </label>
         </Grid>
 
@@ -190,7 +208,7 @@ function ProductDetailEditForm({ onSubmit, values, onDelete }) {
           size="large"
           color="primary"
           className={classes.btn}
-          style={{ marginRight: '16px' }}
+          style={{ marginRight: "16px" }}
           type="submit"
         >
           Update
@@ -201,8 +219,9 @@ function ProductDetailEditForm({ onSubmit, values, onDelete }) {
           color="secondary"
           className={classes.btn}
           onClick={() => handleDelete(values.id)}
+          variant="outlined"
         >
-          Delete product
+          Delete product detail
         </Button>
       </Box>
     </form>

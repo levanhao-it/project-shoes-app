@@ -8,49 +8,49 @@ import {
   Paper,
   TableCell,
   TableRow,
-} from '@material-ui/core';
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
-import productApi from 'components/api/productApi';
-import productDetailApi from 'components/api/productDetailApi';
-import { useSnackbar } from 'notistack';
-import { useState } from 'react';
-import { useRouteMatch } from 'react-router-dom';
-import ProductDetailEditForm from './ProductDetailEditForm';
-import PropTypes from 'prop-types';
+} from "@material-ui/core";
+import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
+import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
+import productApi from "components/api/productApi";
+import productDetailApi from "components/api/productDetailApi";
+import { useSnackbar } from "notistack";
+import { useState } from "react";
+import { useRouteMatch } from "react-router-dom";
+import ProductDetailEditForm from "./ProductDetailEditForm";
+import PropTypes from "prop-types";
 
 ProductDetailItem.propTypes = {
   onSubmit: PropTypes.func.isRequired,
 };
 
 const columns = [
-  { id: 'salePrice', label: 'Sale price', minWidth: 100 },
+  { id: "salePrice", label: "Sale price", minWidth: 100 },
   {
-    id: 'quantity',
-    label: 'Quantity',
+    id: "quantity",
+    label: "Quantity",
     minWidth: 170,
   },
   {
-    id: 'size',
-    label: 'Size',
+    id: "size",
+    label: "Size",
     minWidth: 170,
   },
 
   {
-    id: 'color',
-    label: 'Color',
+    id: "color",
+    label: "Color",
     minWidth: 170,
   },
   {
-    id: 'status',
-    label: 'status',
+    id: "status",
+    label: "status",
     minWidth: 170,
   },
   {
-    id: 'actions',
-    label: 'Actions',
+    id: "actions",
+    label: "Actions",
     minWidth: 170,
-    align: 'right',
+    align: "right",
   },
 ];
 
@@ -67,24 +67,28 @@ function ProductDetailItem({ row, onSubmit }) {
   const handleSubmit = async (values) => {
     try {
       console.log(values);
-      const { status, message } = await productDetailApi.update(productId, row.id, values);
+      const { status, message } = await productDetailApi.update(
+        productId,
+        row.id,
+        values
+      );
       setOpen(false);
       // ok then show user list
-      if (status === 'OK') {
+      if (status === "OK") {
         // do something here
         const { data } = await productApi.getById(productId);
         onSubmit(data);
-        enqueueSnackbar('Edit product detail success', {
-          variant: 'success',
+        enqueueSnackbar("Edit product detail success", {
+          variant: "success",
           autoHideDuration: 1000,
         });
       } else {
-        enqueueSnackbar(message, { variant: 'error', autoHideDuration: 1000 });
+        enqueueSnackbar(message, { variant: "error", autoHideDuration: 1000 });
       }
     } catch (error) {
-      console.log('Faied to fetch product: ', error.message);
+      console.log("Faied to fetch product: ", error.message);
       enqueueSnackbar(error.message, {
-        variant: 'error',
+        variant: "error",
         autoHideDuration: 1000,
       });
     }
@@ -95,19 +99,19 @@ function ProductDetailItem({ row, onSubmit }) {
       const { status, message } = await productDetailApi.remove(productId, id);
       setOpen(false);
       // ok then show user list
-      if (status === 'OK') {
+      if (status === "OK") {
         // do something here
-        enqueueSnackbar('Delete product successfully', {
-          variant: 'success',
+        enqueueSnackbar("Delete product successfully", {
+          variant: "success",
           autoHideDuration: 1000,
         });
       } else {
-        enqueueSnackbar(message, { variant: 'error', autoHideDuration: 1000 });
+        enqueueSnackbar(message, { variant: "error", autoHideDuration: 1000 });
       }
     } catch (error) {
-      console.log('Faied to delete product: ', error.message);
+      console.log("Faied to delete product: ", error.message);
       enqueueSnackbar(error.message, {
-        variant: 'error',
+        variant: "error",
         autoHideDuration: 1000,
       });
     }
@@ -118,7 +122,11 @@ function ProductDetailItem({ row, onSubmit }) {
     <>
       <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
         <TableCell>
-          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
+          <IconButton
+            aria-label="expand row"
+            size="small"
+            onClick={() => setOpen(!open)}
+          >
             {open ? <KeyboardArrowRightIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
@@ -127,7 +135,7 @@ function ProductDetailItem({ row, onSubmit }) {
             alt=""
             src={row.linkImg}
             className={classes.square}
-            style={{ width: '50px', height: '50px' }}
+            style={{ width: "50px", height: "50px" }}
           ></img>
         </TableCell>
         <TableCell>{row.salePrice}</TableCell>
@@ -144,7 +152,7 @@ function ProductDetailItem({ row, onSubmit }) {
       </TableRow>
 
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
               <Paper elevation={0}>

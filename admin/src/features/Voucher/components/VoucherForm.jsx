@@ -187,7 +187,7 @@ function VoucherForm({ data = {}, onSubmit, onDelete }) {
           onClick={handleDelete}
           variant="outlined"
         >
-          Delete product
+          Delete voucher
         </Button>
       </Box>
     </form>
