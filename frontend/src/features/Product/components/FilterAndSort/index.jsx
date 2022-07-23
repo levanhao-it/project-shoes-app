@@ -11,12 +11,13 @@ import FilterByColor from "../Filters/FilterByColor";
 import FilterByPrice from "../Filters/FilterByPrice";
 import FilterBySize from "../Filters/FilterBySize";
 import ProductSort from "../Filters/ProductSort";
+import FilterViewer from "../FilterViewer";
 import "./styles.scss";
 
 FilterAndSort.propTypes = {
   filters: PropTypes.object.isRequired,
   onChange: PropTypes.func,
-  data: PropTypes.array,
+  onNewChange: PropTypes.func,
 };
 
 const useStyles = makeStyles({
@@ -46,7 +47,8 @@ const useStyles = makeStyles({
   },
 });
 
-function FilterAndSort({ filters, onChange, data }) {
+function FilterAndSort({ filters, onChange, onNewChange }) {
+  console.log("Filter and sort", filters);
   const classes = useStyles();
   const [state, setState] = React.useState({
     right: false,
@@ -74,17 +76,21 @@ function FilterAndSort({ filters, onChange, data }) {
     onChange(newFilters);
   };
 
-  const handleCategoryChange = (newCategoryId) => {
-    if (!onChange) return;
-    const newFilters = {
-      ...filters,
-      categoryId: newCategoryId,
-    };
-    onChange(newFilters);
-  };
+  // const handleCategoryChange = (newCategoryId) => {
+  //   if (!onChange) return;
+  //   const newFilters = {
+  //     ...filters,
+  //     categoryId: newCategoryId,
+  //   };
+  //   onChange(newFilters);
+  // };
 
   const handleChange = (values) => {
     if (onChange) onChange(values);
+  };
+
+  const handleNewChange = (values) => {
+    if (onNewChange) onNewChange(values);
   };
 
   return (
@@ -114,8 +120,9 @@ function FilterAndSort({ filters, onChange, data }) {
               className={classes.close}
             />
           </Box>
+          <FilterViewer filters={filters} onChange={handleNewChange} />
           <ProductSort onChange={handleSortChange} currentSort={filters.sort} />
-          <FilterByCategory onChange={handleCategoryChange} />
+          <FilterByCategory onChange={handleChange} />
           <FilterByPrice onChange={handleChange} />
           <FilterBySize onChange={handleChange} />
           <FilterByColor onChange={handleChange} />

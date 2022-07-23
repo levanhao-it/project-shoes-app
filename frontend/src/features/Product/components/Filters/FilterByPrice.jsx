@@ -1,6 +1,7 @@
 import { Box, Collapse, makeStyles, Typography } from "@material-ui/core";
 import ListItem from "@material-ui/core/ListItem";
 import { ExpandLess, ExpandMore } from "@material-ui/icons";
+import { MAX_PRICE, MIN_PRICE } from "constant";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 
@@ -93,7 +94,7 @@ function FilterByPrice({ onChange }) {
           <ListItem
             button
             className={classes.nested}
-            onClick={() => handleClick(0, 50)}
+            onClick={() => handleClick(MIN_PRICE, 50)}
           >
             <Typography variant="body2" className={classes.li}>
               less than $50
@@ -129,7 +130,7 @@ function FilterByPrice({ onChange }) {
           <ListItem
             button
             className={classes.nested}
-            onClick={() => handleClick(300, 9999999999)}
+            onClick={() => handleClick(300, MAX_PRICE)}
           >
             <Typography variant="body2" className={classes.li}>
               $300 or more

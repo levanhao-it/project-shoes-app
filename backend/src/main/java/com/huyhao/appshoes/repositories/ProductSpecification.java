@@ -10,7 +10,7 @@ import java.util.List;
 public class ProductSpecification {
     private ProductSpecification(){}
     @SuppressWarnings("serial")
-    public static Specification<Product> filterBy(String title, Long categoryId, Integer price_gte, Integer price_lte,String color,String size){
+    public static Specification<Product> filterBy(String title, String category, Integer price_gte, Integer price_lte,String color,String size){
         return new Specification<Product>() {
             @Override
             public Predicate toPredicate(Root<Product> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
@@ -21,9 +21,9 @@ public class ProductSpecification {
                     predicateList.add(criteriaBuilder.and(criteriaBuilder.like(root.get("name"),"%"+title+"%")));
                 }
 
-                if (categoryId != null){
+                if (category != null && !category.isEmpty()){
                     Join<Product, Category> joinSize=root.join("category");
-                    predicateList.add(criteriaBuilder.and(criteriaBuilder.equal(joinSize.get("id"),categoryId)));
+                    predicateList.add(criteriaBuilder.and(criteriaBuilder.like(joinSize.get("name"),"%"+category+"%")));
                 }
 
                 if (price_gte != null && price_gte >= 0) {

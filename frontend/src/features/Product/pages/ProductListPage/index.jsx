@@ -1,5 +1,5 @@
 import { Box, Container, makeStyles } from "@material-ui/core";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { Pagination } from "@material-ui/lab";
 import productApi from "api/productApi";
@@ -8,6 +8,8 @@ import FilterAndSort from "features/Product/components/FilterAndSort";
 import ProductList from "features/Product/components/ProductList";
 import ProductSkeletonList from "features/Product/components/ProductSkeletonList";
 import "./styles.scss";
+import { useHistory, useLocation } from "react-router-dom";
+import queryString from "query-string";
 
 ProductListPage.propTypes = {};
 const useStyles = makeStyles((theme) => ({
@@ -39,13 +41,27 @@ const useStyles = makeStyles((theme) => ({
 
 function ProductListPage(props) {
   const classes = useStyles();
+  const history = useHistory();
+  const location = useLocation();
+  const queryParams = useMemo(() => {
+    const params = queryString.parse(location.search);
+    return {
+      ...params,
+      page: Number.parseInt(params.page) || 1,
+      limit: Number.parseInt(params.limit) || 3,
+      sort: params.sort || "createdDate,desc",
+    };
+  }, [location.search]);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [filters, setFilters] = useState({
-    limit: 3,
-    page: 1,
-    sort: "createdDate,desc",
-  });
+
+  // const [filters, setFilters] = useState(() => ({
+  //   ...queryParams,
+  //   page: Number.parseInt(queryParams.page) || 1,
+  //   limit: Number.parseInt(queryParams.limit) || 21,
+  //   sort: queryParams.sort || "createdDate,desc",
+  // }));
+
   const [pagination, setPagination] = useState({
     total: 10,
     page: 1,
@@ -54,7 +70,7 @@ function ProductListPage(props) {
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await productApi.getAll(filters);
+        const { data } = await productApi.getAll(queryParams);
         setProducts(data.products);
         setPagination({
           total: data.totalPages,
@@ -65,20 +81,37 @@ function ProductListPage(props) {
       }
       setLoading(false);
     })();
-  }, [filters]);
+  }, [queryParams]);
 
   const handlePageChange = (e, page) => {
-    setFilters((prevFilters) => ({
-      ...prevFilters,
+    const filters = {
+      ...queryParams,
       page,
-    }));
+    };
+
+    history.push({
+      pathname: history.location.pathname,
+      search: queryString.stringify(filters),
+    });
   };
 
   const handleFiltersChange = (newFilters) => {
-    setFilters((prevFilters) => ({
-      ...prevFilters,
+    const filters = {
+      ...queryParams,
       ...newFilters,
-    }));
+    };
+
+    history.push({
+      pathname: history.location.pathname,
+      search: queryString.stringify(filters),
+    });
+  };
+
+  const setNewFilters = (newFilters) => {
+    history.push({
+      pathname: history.location.pathname,
+      search: queryString.stringify(newFilters),
+    });
   };
 
   return (
@@ -86,7 +119,11 @@ function ProductListPage(props) {
       <Container maxWidth="lg" fixed>
         <OfferBanner />
         <Box className={classes.filter}>
-          <FilterAndSort filters={filters} onChange={handleFiltersChange} />
+          <FilterAndSort
+            filters={queryParams}
+            onChange={handleFiltersChange}
+            onNewChange={setNewFilters}
+          />
         </Box>
         {loading ? <ProductSkeletonList /> : <ProductList data={products} />}
         <Box className={classes.pagination}>

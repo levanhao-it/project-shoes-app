@@ -20,8 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class SizeController {
     private final SizeService sizeService;
 
-
-    @GetMapping()
+    @GetMapping("")
     public ResponseEntity<?> getSizeList(){
         try {
             return ResponseEntity.status(HttpStatus.OK).body(ResponseCommon.success(sizeService.getSizeList()));
@@ -31,10 +30,10 @@ public class SizeController {
         }
     }
 
-    @GetMapping("/{idColor}")
-    public ResponseEntity<?> getSizeById(@PathVariable Long idColor){
+    @GetMapping("/{idSize}")
+    public ResponseEntity<?> getSizeById(@PathVariable Long idSize){
         try {
-            return ResponseEntity.status(HttpStatus.OK).body(ResponseCommon.success(sizeService.getSizeById(idColor)));
+            return ResponseEntity.status(HttpStatus.OK).body(ResponseCommon.success(sizeService.getSizeById(idSize)));
         } catch (Exception ex) {
             log.error("API /: ", ex);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseCommon.fail(ex.getMessage()));

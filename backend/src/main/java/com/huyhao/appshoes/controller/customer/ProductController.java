@@ -18,7 +18,7 @@ public class ProductController {
     @GetMapping("/public/products")
     public ResponseEntity<?> getProductList(
             @RequestParam(required = false) String title,
-            @RequestParam(required = false) Long categoryId,
+            @RequestParam(required = false) String category,
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int limit,
             @RequestParam(defaultValue = "id,asc") String [] sort,
@@ -30,7 +30,7 @@ public class ProductController {
     ){
         try {
             return ResponseEntity.ok(ResponseCommon.success(
-                    productService.getProductList(title, categoryId, price_gte, price_lte,color,size, page, limit, sort)));
+                    productService.getProductList(title, category, price_gte, price_lte,color,size, page, limit, sort)));
         } catch (Exception ex) {
             log.error("API /api/category: ", ex);
             return ResponseEntity.badRequest().body(ErrorResponse.builder().message(ex.getMessage()).build());

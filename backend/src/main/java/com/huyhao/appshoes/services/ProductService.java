@@ -37,7 +37,7 @@ public class ProductService {
     public final RateRepository rateRepository;
     public final AmazonUtil amazonUtil;
 
-    public ProductFilterResponse getProductList(String title, Long categoryId, Integer price_gte, Integer price_lte,String color, String size,int page, int limit, String[] sort) {
+    public ProductFilterResponse getProductList(String title, String category, Integer price_gte, Integer price_lte,String color, String size,int page, int limit, String[] sort) {
 
         List<Order> orders = new ArrayList<>();
         if (sort[0].contains(",")) {
@@ -52,7 +52,7 @@ public class ProductService {
         Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(orders));
         Page<Product> pageProducts;
 
-        pageProducts = productRepository.findAll(ProductSpecification.filterBy(title,categoryId,price_gte,price_lte,color,size),pageable);
+        pageProducts = productRepository.findAll(ProductSpecification.filterBy(title, category ,price_gte,price_lte,color,size),pageable);
 
         List<Product> productList = pageProducts.getContent();
 
