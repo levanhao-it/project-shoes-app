@@ -52,14 +52,7 @@ public class ProductService {
         Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(orders));
         Page<Product> pageProducts;
 
-//        if (categoryId != 0) {
-//            pageProducts = productRepository.findByCategoryIdAndActiveTrue(categoryId, pageable);
-//        } else if (title != null) {
-//            pageProducts = productRepository.findByActiveTrueAndNameContaining(title, pageable);
-//        } else {
-//            pageProducts = productRepository.findByActiveTrue(pageable);
-//        }
-        pageProducts=productRepository.findAll(ProductSpecification.filterBy(title,categoryId,price_gte,price_lte,color,size),pageable);
+        pageProducts = productRepository.findAll(ProductSpecification.filterBy(title,categoryId,price_gte,price_lte,color,size),pageable);
 
         List<Product> productList = pageProducts.getContent();
 

@@ -4,20 +4,19 @@ import List from "@material-ui/core/List";
 import { makeStyles } from "@material-ui/core/styles";
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 import { Close, SortSharp } from "@material-ui/icons";
+import PropTypes from "prop-types";
 import React from "react";
-import FilterByBrand from "../Filters/FilterByBrand";
 import FilterByCategory from "../Filters/FilterByCategory";
 import FilterByColor from "../Filters/FilterByColor";
 import FilterByPrice from "../Filters/FilterByPrice";
 import FilterBySize from "../Filters/FilterBySize";
-import FilterByWidth from "../Filters/FilterByWidth";
 import ProductSort from "../Filters/ProductSort";
-import PropTypes from "prop-types";
 import "./styles.scss";
 
 FilterAndSort.propTypes = {
   filters: PropTypes.object.isRequired,
   onChange: PropTypes.func,
+  data: PropTypes.array,
 };
 
 const useStyles = makeStyles({
@@ -47,7 +46,7 @@ const useStyles = makeStyles({
   },
 });
 
-function FilterAndSort({ filters, onChange }) {
+function FilterAndSort({ filters, onChange, data }) {
   const classes = useStyles();
   const [state, setState] = React.useState({
     right: false,
@@ -84,6 +83,10 @@ function FilterAndSort({ filters, onChange }) {
     onChange(newFilters);
   };
 
+  const handleChange = (values) => {
+    if (onChange) onChange(values);
+  };
+
   return (
     <div className="sideBar">
       <Button onClick={toggleDrawer("right", true)} className={classes.btn}>
@@ -113,9 +116,9 @@ function FilterAndSort({ filters, onChange }) {
           </Box>
           <ProductSort onChange={handleSortChange} currentSort={filters.sort} />
           <FilterByCategory onChange={handleCategoryChange} />
-          <FilterByPrice />
-          <FilterBySize />
-          <FilterByColor />
+          <FilterByPrice onChange={handleChange} />
+          <FilterBySize onChange={handleChange} />
+          <FilterByColor onChange={handleChange} />
         </List>
       </SwipeableDrawer>
     </div>

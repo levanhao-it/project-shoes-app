@@ -1,39 +1,39 @@
-import { Box, Container, makeStyles } from '@material-ui/core';
-import { useEffect, useState } from 'react';
+import { Box, Container, makeStyles } from "@material-ui/core";
+import { useEffect, useState } from "react";
 
-import { Pagination } from '@material-ui/lab';
-import productApi from 'api/productApi';
-import OfferBanner from 'components/OfferBanner';
-import FilterAndSort from 'features/Product/components/FilterAndSort';
-import ProductList from 'features/Product/components/ProductList';
-import ProductSkeletonList from 'features/Product/components/ProductSkeletonList';
-import './styles.scss';
+import { Pagination } from "@material-ui/lab";
+import productApi from "api/productApi";
+import OfferBanner from "components/OfferBanner";
+import FilterAndSort from "features/Product/components/FilterAndSort";
+import ProductList from "features/Product/components/ProductList";
+import ProductSkeletonList from "features/Product/components/ProductSkeletonList";
+import "./styles.scss";
 
 ProductListPage.propTypes = {};
 const useStyles = makeStyles((theme) => ({
   root: {
-    paddingTop: '80px',
+    paddingTop: "80px",
   },
 
   left: {
-    width: '250px',
+    width: "250px",
   },
 
   right: {
-    flex: '1 1 0',
+    flex: "1 1 0",
   },
 
   pagination: {
-    display: 'flex',
-    flexFlow: 'row nowrap',
-    justifyContent: 'center',
+    display: "flex",
+    flexFlow: "row nowrap",
+    justifyContent: "center",
 
     marginTop: theme.spacing(5),
     paddingBottom: theme.spacing(3),
   },
   filter: {
-    float: 'right',
-    marginBottom: '20px',
+    float: "right",
+    marginBottom: "20px",
   },
 }));
 
@@ -44,7 +44,7 @@ function ProductListPage(props) {
   const [filters, setFilters] = useState({
     limit: 3,
     page: 1,
-    sort: 'createdDate,desc',
+    sort: "createdDate,desc",
   });
   const [pagination, setPagination] = useState({
     total: 10,
@@ -61,7 +61,7 @@ function ProductListPage(props) {
           page: data.currentPage,
         });
       } catch (error) {
-        console.log('Failed to fetch products', error);
+        console.log("Failed to fetch products", error);
       }
       setLoading(false);
     })();

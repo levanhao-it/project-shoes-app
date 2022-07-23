@@ -1,8 +1,16 @@
-import { Box, Button, Collapse, makeStyles, Typography } from '@material-ui/core';
-import ListItem from '@material-ui/core/ListItem';
-import { ExpandLess, ExpandMore } from '@material-ui/icons';
-import PropTypes from 'prop-types';
-import React from 'react';
+import {
+  Box,
+  Button,
+  Collapse,
+  makeStyles,
+  Typography,
+} from "@material-ui/core";
+import ListItem from "@material-ui/core/ListItem";
+import { ExpandLess, ExpandMore } from "@material-ui/icons";
+import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
+import CheckIcon from "@material-ui/icons/Check";
+import colorApi from "api/colorSize";
 
 FilterByColor.propTypes = {
   onChange: PropTypes.func,
@@ -10,80 +18,111 @@ FilterByColor.propTypes = {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    borderBottom: '1px solid #e5e5e5',
-    paddingBottom: '25px',
-    marginBottom: '25px',
+    borderBottom: "1px solid #e5e5e5",
+    paddingBottom: "25px",
+    marginBottom: "25px",
   },
 
   menu: {
     padding: 0,
     margin: 0,
-    listStyleType: 'none',
+    listStyleType: "none",
 
-    '& > li': {
+    "& > li": {
       marginTop: theme.spacing(1),
-      transition: 'all .25s',
+      transition: "all .25s",
 
-      '&:hover': {
+      "&:hover": {
         color: theme.palette.primary.dark,
-        cursor: 'pointer',
+        cursor: "pointer",
       },
     },
   },
   h5: {
     fontFamily: '"Archivo Narrow", sans-serif',
-    fontSize: '14px',
-    fontWeight: 'bold',
-    color: '#000',
-    textTransform: 'uppercase',
+    fontSize: "14px",
+    fontWeight: "bold",
+    color: "#000",
+    textTransform: "uppercase",
   },
   li: {
-    position: 'relative',
-    display: 'block',
-    fontSize: '14px',
-    color: '#313131',
-    marginBottom: '20px',
-    paddingLeft: '30px',
-    textTransform: 'uppercase',
-    '&:hover': {
-      color: '#2AC37D',
+    position: "relative",
+    display: "block",
+    fontSize: "14px",
+    color: "#313131",
+    marginBottom: "20px",
+    paddingLeft: "30px",
+    textTransform: "uppercase",
+    "&:hover": {
+      color: "#2AC37D",
     },
   },
   boxTitle: {
-    borderTop: 'none',
-    height: '20px',
-    padding: '20px',
-    cursor: 'pointer',
+    borderTop: "none",
+    height: "20px",
+    padding: "20px",
+    cursor: "pointer",
   },
   content: {
-    borderBottom: '1px solid #e5e5e5',
+    borderBottom: "1px solid #e5e5e5",
   },
-  button: {
-    minWidth: `20px`,
-    width: `25px`,
-    height: '25px',
-    borderRadius: '50%',
-    fontSize: '14px',
-    fontWeight: '500',
-    border: '1px solid #ccc',
-    padding: '0',
-    marginBottom: '20px',
-    marginRight: '20px',
-    border: '1px solid #fff',
+  color: {
+    width: `30px`,
+    height: "30px",
+    borderRadius: "50%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  boxColor: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    margin: "10px",
+    minWidth: "70px",
+    cursor: "pointer",
   },
   boxBtn: {
-    padding: '0 45px',
+    display: "flex",
+    flexFlow: "row wrap",
+    padding: "0 45px",
+    listStyle: "none",
+  },
+
+  nameSize: {
+    fontSize: "12px",
+    paddingTop: "2px",
   },
 }));
 
-function FilterByColor(props) {
-  const handleCategoryClick = (category) => {};
-
+function FilterByColor({ onChange }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
+  const [colors, setColors] = useState([]);
+  const [colorActive, setColorActive] = useState({});
 
   const handleClick = () => {
     setOpen(!open);
+  };
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data } = await colorApi.getAll();
+        setColors(data);
+
+        console.log(data);
+      } catch (error) {
+        console.log("Failed to fetch colors", error);
+      }
+    })();
+  }, []);
+
+  const handleColorClick = (color) => {
+    if (!onChange) return;
+    setColorActive(color);
+    onChange({ color: color.name });
   };
 
   return (
@@ -101,61 +140,37 @@ function FilterByColor(props) {
       </Box>
       <Collapse in={open} timeout="auto" unmountOnExit>
         <Box className={classes.boxBtn}>
-          <Button
-            variant="outlined"
-            className={classes.button}
-            style={{ backgroundColor: '#2AC37D' }}
-          ></Button>
-          <Button
-            variant="outlined"
-            className={classes.button}
-            style={{ backgroundColor: '#2AC87e' }}
-          ></Button>
-          <Button
-            variant="outlined"
-            className={classes.button}
-            style={{ backgroundColor: 'red' }}
-          ></Button>
-          <Button
-            variant="outlined"
-            className={classes.button}
-            style={{ backgroundColor: 'yellow' }}
-          ></Button>
-          <Button
-            variant="outlined"
-            className={classes.button}
-            style={{ backgroundColor: 'pink' }}
-          ></Button>
-          <Button
-            variant="outlined"
-            className={classes.button}
-            style={{ backgroundColor: 'blue' }}
-          ></Button>
-          <Button
-            variant="outlined"
-            className={classes.button}
-            style={{ backgroundColor: 'black' }}
-          ></Button>
-          <Button
-            variant="outlined"
-            className={classes.button}
-            style={{ backgroundColor: '#8b572a' }}
-          ></Button>
-          <Button
-            variant="outlined"
-            className={classes.button}
-            style={{ backgroundColor: 'green' }}
-          ></Button>
-          <Button
-            variant="outlined"
-            className={classes.button}
-            style={{ backgroundColor: '#563462' }}
-          ></Button>
-          <Button
-            variant="outlined"
-            className={classes.button}
-            style={{ backgroundColor: '#83222a' }}
-          ></Button>
+          {colors.map((color) => (
+            <Box
+              className={classes.boxColor}
+              onClick={() => handleColorClick(color)}
+            >
+              <Box
+                className={classes.color}
+                style={
+                  color.name === "White"
+                    ? {
+                        backgroundColor: `${color.code}`,
+                        border: "1px solid #000",
+                      }
+                    : {
+                        backgroundColor: `${color.code}`,
+                      }
+                }
+              >
+                {colorActive.name === color.name && (
+                  <CheckIcon
+                    style={
+                      color.name === "White"
+                        ? { color: "#000" }
+                        : { color: "#fff" }
+                    }
+                  />
+                )}
+              </Box>
+              <Typography className={classes.nameSize}>{color.name}</Typography>
+            </Box>
+          ))}
         </Box>
       </Collapse>
     </Box>
