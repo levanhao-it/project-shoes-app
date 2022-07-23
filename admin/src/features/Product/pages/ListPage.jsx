@@ -39,7 +39,7 @@ function ListPage(props) {
 
   useEffect(() => {
     const fetchProduct = async () => {
-      const { data } = await productApi.getAll({ page: 1, size: 5 });
+      const { data } = await productApi.getAll({ page: 1, limit: 5 });
       setProductList(data.products);
     };
 
