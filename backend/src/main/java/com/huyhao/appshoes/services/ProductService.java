@@ -85,7 +85,7 @@ public class ProductService {
                     .categoryId(p.getCategory().getId())
                     .categoryName(p.getCategory().getName())
                     .originalPrice(p.getOriginalPrice())
-//                    .productDetailList(productDetailResponses)
+                    .productDetailList(productDetailResponses)
                     .build());
         }
 
