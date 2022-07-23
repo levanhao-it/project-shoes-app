@@ -1,7 +1,6 @@
 package com.huyhao.appshoes.repositories;
 
-import com.huyhao.appshoes.entity.Category;
-import com.huyhao.appshoes.entity.Product;
+import com.huyhao.appshoes.entity.*;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.*;
@@ -11,7 +10,7 @@ import java.util.List;
 public class ProductSpecification {
     private ProductSpecification(){}
     @SuppressWarnings("serial")
-    public static Specification<Product> filterBy(String title, Long categoryId, Integer price_gte, Integer price_lte){
+    public static Specification<Product> filterBy(String title, Long categoryId, Integer price_gte, Integer price_lte,String color,String size){
         return new Specification<Product>() {
             @Override
             public Predicate toPredicate(Root<Product> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
@@ -32,6 +31,16 @@ public class ProductSpecification {
                 }
                 if (price_lte!=null && price_lte >= 0) {
                     predicateList.add(criteriaBuilder.and(criteriaBuilder.lessThanOrEqualTo(root.get("originalPrice"), price_lte)));
+                }
+                if(color!=null&&!color.isEmpty()){
+                    Join<Product, ProductDetail> joinSize=root.join("productDetailList");
+                    Join<ProductDetail, Color> join1=joinSize.join("color");
+                    predicateList.add(criteriaBuilder.and(criteriaBuilder.like(join1.get("name"),"%"+color+"%")));
+                }
+                if(size!=null&&!size.isEmpty()){
+                    Join<Product, ProductDetail> joinSize=root.join("productDetailList");
+                    Join<ProductDetail, Size> join1=joinSize.join("size");
+                    predicateList.add(criteriaBuilder.and(criteriaBuilder.like(join1.get("name"),"%"+size+"%")));
                 }
                 return criteriaBuilder.and(predicateList.toArray(new Predicate[predicateList.size()]));
             }
