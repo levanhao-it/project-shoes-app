@@ -94,6 +94,8 @@ function ProductItem({ row, onSubmit }) {
       setOpen(false);
       // ok then show user list
       if (status === "OK") {
+        const { data } = await productApi.getAll({ page: 1, size: 5 });
+        onSubmit(data);
         // do something here
         enqueueSnackbar("Delete product successfully", {
           variant: "success",
