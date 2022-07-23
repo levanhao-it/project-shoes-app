@@ -1,13 +1,125 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Box, Typography } from "@material-ui/core";
+import React, { useMemo } from 'react';
+import PropTypes from 'prop-types';
+import { Box, Chip, makeStyles } from '@material-ui/core';
 
-FilterViewer.propTypes = {};
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    flexFlow: 'row wrap',
+    alignItems: 'center',
 
-function FilterViewer(props) {
+    padding: 0,
+    margin: theme.spacing(2, 0),
+    listStyleType: 'none',
+
+    '& > li': {
+      margin: 0,
+      padding: theme.spacing(1),
+    },
+  },
+}));
+
+const FILTER_LIST = [
+  {
+    id: 2,
+    getLabel: (filters) => {
+      if (filters.sort === 'createdDate,desc') {
+        return 'Sort product by newest';
+      }
+      if (filters.sort === 'originalPrice,asc') {
+        return 'Sort product by price low to high';
+      }
+      if (filters.sort === 'originalPrice,desc') {
+        return 'Sort product by price high to low';
+      }
+    },
+    isActive: () => true,
+    isVisible: (filters) => filters.sort,
+    isRemovable: true,
+    onRemove: (filters) => {
+      const newFilters = { ...filters };
+      delete newFilters.sort;
+      return newFilters;
+    },
+    onToggle: () => {},
+  },
+  {
+    id: 3,
+    getLabel: (filters) => `From ${filters['price_lte']} To ${filters['price_lte']}`,
+    isActive: () => true,
+    isVisible: (filters) => filters['price_lte'] != null && filters['price_lte'] != null,
+    isRemovable: true,
+    onRemove: (filters) => {
+      const newFilters = { ...filters };
+      delete newFilters['price_lte'];
+      delete newFilters['price_gte'];
+      return newFilters;
+    },
+    onToggle: () => {},
+  },
+  {
+    id: 4,
+    getLabel: (filters) => `Category: ${filters['categoryId']}`,
+    isActive: () => true,
+    isVisible: (filters) => filters['categoryId'],
+    isRemovable: true,
+    onRemove: (filters) => {
+      const newFilters = { ...filters };
+      delete newFilters['categoryId'];
+      return newFilters;
+    },
+    onToggle: (filters) => {},
+  },
+];
+
+FilterViewer.propTypes = {
+  filters: PropTypes.object,
+  onChange: PropTypes.func,
+};
+
+function FilterViewer({ filters = {}, onChange = null }) {
+  const classes = useStyles();
+
+  const visibleFilterList = useMemo(() => {
+    return FILTER_LIST.filter((x) => x.isVisible(filters));
+  }, [filters]);
+
   return (
-    <Box padding={3}>
-      <Typography component="p">No filters applied</Typography>
+    <Box component="ul" className={classes.root}>
+      {visibleFilterList.map((x) => {
+        const isFilterActive = x.isActive(filters);
+        return (
+          <li key={x.id}>
+            <Chip
+              icon={x.icon}
+              label={x.getLabel(filters)}
+              className={isFilterActive ? 'is-active' : ''}
+              variant={isFilterActive ? 'default' : 'outlined'}
+              color={isFilterActive ? 'secondary' : 'default'}
+              onClick={
+                x.isRemovable
+                  ? null
+                  : () => {
+                      if (!onChange) return;
+
+                      const newFilters = x.onToggle(filters);
+                      onChange(newFilters);
+                    }
+              }
+              onDelete={
+                x.isRemovable
+                  ? () => {
+                      if (!onChange) return;
+
+                      const newFilters = x.onRemove(filters);
+                      onChange(newFilters);
+                    }
+                  : null
+              }
+            />
+          </li>
+        );
+      })}
     </Box>
   );
 }

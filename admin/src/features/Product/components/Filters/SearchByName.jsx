@@ -1,28 +1,29 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Box, InputAdornment, SvgIcon, TextField } from "@material-ui/core";
-import SearchIcon from "@material-ui/icons/Search";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Box, InputAdornment, SvgIcon, TextField } from '@material-ui/core';
+import SearchIcon from '@material-ui/icons/Search';
+import { useHistory } from 'react-router-dom';
+import queryString from 'query-string';
+import SearchForm from './SearchForm';
 
 SearchByName.propTypes = {};
 
 function SearchByName(props) {
+  const history = useHistory();
+
+  const handleSearchFormSubmit = (values) => {
+    console.log(values);
+    const { search } = values;
+
+    history.push({
+      pathname: '/products',
+      search: queryString.stringify(search ? { title: search } : {}),
+    });
+  };
   return (
     <div>
       <Box>
-        <TextField
-          fullWidth
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SvgIcon fontSize="small" color="action">
-                  <SearchIcon />
-                </SvgIcon>
-              </InputAdornment>
-            ),
-          }}
-          placeholder="Search product"
-          variant="outlined"
-        />
+        <SearchForm onSubmit={handleSearchFormSubmit} />
       </Box>
     </div>
   );

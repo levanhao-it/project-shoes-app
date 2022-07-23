@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import {
   Box,
   Button,
@@ -9,22 +9,25 @@ import {
   Menu,
   MenuItem,
   Popover,
-} from "@material-ui/core";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+} from '@material-ui/core';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import categoryApi from 'components/api/category';
 
-SearchByCategory.propTypes = {};
+SearchByCategory.propTypes = {
+  onChange: PropTypes.func,
+};
 
 const useStyle = makeStyles((theme) => ({
   btn: {
     padding: theme.spacing(1, 2),
-    "& > span": {
-      fontWeight: "bold",
-      textTransform: "capitalize",
+    '& > span': {
+      fontWeight: 'bold',
+      textTransform: 'capitalize',
     },
   },
 }));
 
-function SearchByCategory(props) {
+function SearchByCategory({ onChange }) {
   const classes = useStyle();
   const [anchorEl, setAnchorEl] = useState(null);
   const handleClickCategory = (event) => {
@@ -35,13 +38,31 @@ function SearchByCategory(props) {
     setAnchorEl(null);
   };
 
+  const [categoryList, setCategoryList] = useState([]);
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data } = await categoryApi.getAll();
+        setCategoryList(
+          data.map((x) => ({
+            id: x.id,
+            name: x.name,
+          }))
+        );
+      } catch (error) {
+        console.log('Failed to fetch category list', error);
+      }
+    })();
+  }, []);
+
+  const handleCategoryClick = (category) => {
+    if (onChange) {
+      onChange(category.id);
+    }
+  };
   return (
     <Box padding={1}>
-      <Button
-        endIcon={<ExpandMoreIcon />}
-        className={classes.btn}
-        onClick={handleClickCategory}
-      >
+      <Button endIcon={<ExpandMoreIcon />} className={classes.btn} onClick={handleClickCategory}>
         Category
       </Button>
       <Popover
@@ -50,23 +71,20 @@ function SearchByCategory(props) {
         open={Boolean(anchorEl)}
         onClose={handleCloseCategory}
         anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "center",
+          vertical: 'bottom',
+          horizontal: 'center',
         }}
         transformOrigin={{
-          vertical: "top",
-          horizontal: "center",
+          vertical: 'top',
+          horizontal: 'center',
         }}
       >
-        <MenuItem>
-          <FormControlLabel control={<Checkbox name="men" />} label="Men" />
-        </MenuItem>
-        <MenuItem>
-          <FormControlLabel control={<Checkbox name="men" />} label="Woman" />
-        </MenuItem>
-        <MenuItem>
-          <FormControlLabel control={<Checkbox name="men" />} label="Kids" />
-        </MenuItem>
+        {categoryList.map((category) => (
+          <MenuItem key={category.id} onClick={() => handleCategoryClick(category)}>
+            {/* <FormControlLabel control={<Checkbox name={category.name} />} label={category.name} /> */}
+            {category.name}
+          </MenuItem>
+        ))}
       </Popover>
     </Box>
   );

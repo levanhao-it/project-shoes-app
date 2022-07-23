@@ -113,9 +113,9 @@ function DetailPage(props) {
           </Grid>
         </Grid>
       </Box>
-      <Paper elevation={0}>
+      {/* <Paper elevation={0}>
         <ProductFilters />
-      </Paper>
+      </Paper> */}
 
       <ProductDetailList data={productDetail} onSubmit={handleEditDetail} />
     </div>

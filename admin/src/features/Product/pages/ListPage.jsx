@@ -1,11 +1,14 @@
-import { Box, Button, makeStyles, Paper, Typography } from '@material-ui/core';
+import { Box, Button, Divider, makeStyles, Paper, Typography } from '@material-ui/core';
 import { purple } from '@material-ui/core/colors';
 import AddIcon from '@material-ui/icons/Add';
 import productApi from 'components/api/productApi';
-import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useEffect, useMemo, useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import ProductFilters from '../components/ProductFilters';
 import ProductList from '../components/ProductList';
+import queryString from 'query-string';
+import FilterViewer from '../components/Filters/FilterViewer';
+import { Alert } from '@material-ui/lab';
 
 ListPage.propTypes = {};
 
@@ -36,15 +39,33 @@ function ListPage(props) {
   const classes = useStyle();
   const [productList, setProductList] = useState([]);
   const history = useHistory();
+  const location = useLocation();
+  const queryParams = useMemo(() => {
+    const params = queryString.parse(location.search);
+
+    return {
+      ...params,
+      page: Number.parseInt(params._page) || 1,
+      limit: Number.parseInt(params._limit) || 10,
+      sort: params.sort || 'createdDate,desc',
+      categoryId: Number.parseInt(params.categoryId) || null,
+      price_gte: params.price_gte || '',
+      price_lte: params.price_lte || '',
+      size: params.size || '',
+      color: params.color || '',
+    };
+  }, [location.search]);
 
   useEffect(() => {
-    const fetchProduct = async () => {
-      const { data } = await productApi.getAll({ page: 1, limit: 5 });
-      setProductList(data.products);
-    };
-
-    fetchProduct();
-  }, []);
+    (async () => {
+      try {
+        const { data } = await productApi.getAll(queryParams);
+        setProductList(data.products);
+      } catch (error) {
+        console.log('Failed to fetch product list: ', error);
+      }
+    })();
+  }, [queryParams]);
 
   const handleAddProduct = () => {
     history.push(`/products/add`);
@@ -52,6 +73,32 @@ function ListPage(props) {
 
   const handleEditProduct = (data) => {
     setProductList(data.products);
+  };
+
+  const handleSortChange = (newSortValue) => {
+    const filters = {
+      ...queryParams,
+      sort: newSortValue,
+    };
+  };
+
+  const handleFiltersChange = (newFilters) => {
+    const filters = {
+      ...queryParams,
+      ...newFilters,
+    };
+
+    history.push({
+      pathname: history.location.pathname,
+      search: queryString.stringify(filters),
+    });
+  };
+
+  const setNewFilters = (newFilters) => {
+    history.push({
+      pathname: history.location.pathname,
+      search: queryString.stringify(newFilters),
+    });
   };
 
   return (
@@ -70,9 +117,15 @@ function ListPage(props) {
         </Button>
       </Box>
       <Paper elevation={0}>
-        <ProductFilters />
+        <FilterViewer filters={queryParams} onChange={setNewFilters} />
+        <Divider />
+        <ProductFilters filters={queryParams} onChange={handleFiltersChange} />
       </Paper>
-      <ProductList data={productList} onSubmit={handleEditProduct} />
+      {productList.length === 0 ? (
+        <Alert severity="warning">Rất tiêc. Không tìm thấy sản phẩm phù hợp !</Alert>
+      ) : (
+        <ProductList data={productList} onSubmit={handleEditProduct} />
+      )}
     </div>
   );
 }
