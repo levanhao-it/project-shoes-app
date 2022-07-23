@@ -37,34 +37,34 @@ public class ProductService {
     public final RateRepository rateRepository;
     public final AmazonUtil amazonUtil;
 
-    public ProductFilterResponse getProductList(String title, long categoryId, int price_gte, int price_lte, String color, int page, int size, String[] sort) {
+    public ProductFilterResponse getProductList(String title, Long categoryId, Integer price_gte, Integer price_lte, int page, int size, String[] sort) {
 
         List<Order> orders = new ArrayList<>();
-        if(sort[0].contains(",")){
-            for(String sortOrder: sort){
-                String [] _sort = sortOrder.split(",");
+        if (sort[0].contains(",")) {
+            for (String sortOrder : sort) {
+                String[] _sort = sortOrder.split(",");
                 orders.add(new Order(getSortDirection(_sort[1]), _sort[0]));
             }
-        }else {
+        } else {
             orders.add(new Order(getSortDirection(sort[1]), sort[0]));
         }
 
         Pageable pageable = PageRequest.of(page - 1, size, Sort.by(orders));
         Page<Product> pageProducts;
 
-        if(categoryId != 0){
-            pageProducts = productRepository.findByCategoryIdAndActiveTrue(categoryId, pageable);
-        }else
-         if(title != null){
-            pageProducts = productRepository.findByActiveTrueAndNameContaining(title, pageable);
-        }else {
-            pageProducts = productRepository.findByActiveTrue(pageable);
-        }
+//        if (categoryId != 0) {
+//            pageProducts = productRepository.findByCategoryIdAndActiveTrue(categoryId, pageable);
+//        } else if (title != null) {
+//            pageProducts = productRepository.findByActiveTrueAndNameContaining(title, pageable);
+//        } else {
+//            pageProducts = productRepository.findByActiveTrue(pageable);
+//        }
+        pageProducts=productRepository.findAll(ProductSpecification.filterBy(title,categoryId,price_gte,price_lte),pageable);
 
         List<Product> productList = pageProducts.getContent();
 
         List<ProductResponse> productResponses = new ArrayList<>();
-        for(Product p : productList){
+        for (Product p : productList) {
             List<ProductDetail> productDetails = productDetailRepository.getProductDetailListByProductId(p.getId());
             List<ProductDetailResponse> productDetailResponses = productDetails.stream().map(e -> ProductDetailResponse.builder()
                     .id(e.getId())
@@ -83,22 +83,22 @@ public class ProductService {
                     .name(p.getName())
                     .description(p.getDescription())
                     .categoryId(p.getCategory().getId())
-                            .categoryName(p.getCategory().getName())
+                    .categoryName(p.getCategory().getName())
                     .originalPrice(p.getOriginalPrice())
-                    .productDetailList(productDetailResponses)
+//                    .productDetailList(productDetailResponses)
                     .build());
         }
 
-        return  ProductFilterResponse.builder()
-                .totalItems( pageProducts.getTotalElements() )
-                .products( productResponses )
+        return ProductFilterResponse.builder()
+                .totalItems(pageProducts.getTotalElements())
+                .products(productResponses)
                 .totalPages(pageProducts.getTotalPages())
                 .currentPage(pageProducts.getNumber() + 1)
                 .build();
     }
 
     private Sort.Direction getSortDirection(String s) {
-        if(s.equals("desc"))
+        if (s.equals("desc"))
             return Sort.Direction.DESC;
         return Sort.Direction.ASC;
     }
@@ -110,13 +110,13 @@ public class ProductService {
 
         List<ProductDetail> productDetails = productDetailRepository.getProductDetailListByProductId(productId);
 
-        double ratingAvg=0;
-        double rateCount=0;
-        List<Rate> rateList=rateRepository.findAllByProduct(product);
-        for (Rate r:rateList){
-            rateCount+=r.getRating();
+        double ratingAvg = 0;
+        double rateCount = 0;
+        List<Rate> rateList = rateRepository.findAllByProduct(product);
+        for (Rate r : rateList) {
+            rateCount += r.getRating();
         }
-        if (rateCount>0) {
+        if (rateCount > 0) {
             ratingAvg = rateCount / rateList.size();
         }
 
@@ -148,7 +148,7 @@ public class ProductService {
     public void createProduct(ProductRequest productRequest) {
         Category category = categoryRepository.findById(productRequest.getCategoryId())
                 .orElseThrow(() -> new IllegalArgumentException("Not found category from categoryID"));
-        try{
+        try {
             Product product = Product.builder()
                     .name(productRequest.getName())
                     .description(productRequest.getDescription())
@@ -158,7 +158,7 @@ public class ProductService {
                     .build();
 
             productRepository.save(product);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new IllegalArgumentException("Cannot create product");
         }
 
@@ -166,7 +166,7 @@ public class ProductService {
 
     @Transactional
     public void createProductDetail(Long productId, MultipartFile fileImg, String productDetailRequestJson) {
-        ProductDetailRequest productDetailRequest= JsonUtil.toObject(productDetailRequestJson,ProductDetailRequest.class);
+        ProductDetailRequest productDetailRequest = JsonUtil.toObject(productDetailRequestJson, ProductDetailRequest.class);
 
         Product product = productRepository.findByIdAndActiveTrue(productId)
                 .orElseThrow(() -> new IllegalArgumentException("Not found product from productId"));
@@ -175,7 +175,7 @@ public class ProductService {
 
         Size size = sizeRepository.findById(productDetailRequest.getSizeId())
                 .orElseThrow(() -> new IllegalArgumentException("Not found size from sizeId"));
-        try{
+        try {
             ProductDetail productDetail = ProductDetail.builder()
                     .salePrice(productDetailRequest.getSalePrice())
                     .quantity(productDetailRequest.getQuantity())
@@ -188,7 +188,7 @@ public class ProductService {
                     .build();
 
             productDetailRepository.save(productDetail);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new IllegalArgumentException("Cannot create product detail");
         }
 
@@ -199,22 +199,22 @@ public class ProductService {
                 .orElseThrow(() -> new IllegalArgumentException("Not found product from productId"));
 
         String nameRequest = productRequest.getName();
-        if(nameRequest != null && nameRequest.length() > 0 && !nameRequest.equals(product.getName())){
+        if (nameRequest != null && nameRequest.length() > 0 && !nameRequest.equals(product.getName())) {
             product.setName(nameRequest);
         }
 
         String description = productRequest.getDescription();
-        if(description != null && description.length() > 0 && !description.equals(product.getDescription())){
+        if (description != null && description.length() > 0 && !description.equals(product.getDescription())) {
             product.setDescription(description);
         }
 
         Double originalPrice = productRequest.getOriginalPrice();
-        if( originalPrice != null && originalPrice != product.getOriginalPrice()){
+        if (originalPrice != null && originalPrice != product.getOriginalPrice()) {
             product.setOriginalPrice(originalPrice);
         }
 
         Long categoryId = productRequest.getCategoryId();
-        if(categoryId != null && categoryId != product.getCategory().getId()){
+        if (categoryId != null && categoryId != product.getCategory().getId()) {
             Category category = categoryRepository.findById(categoryId)
                     .orElseThrow(() -> new IllegalArgumentException("Not found category from categoryId"));
             product.setCategory(category);
@@ -223,22 +223,22 @@ public class ProductService {
         productRepository.save(product);
     }
 
-    public void updateProductDetail(Long productId, Long productDetailId ,MultipartFile fileImg,String productDetailRequestJson) {
+    public void updateProductDetail(Long productId, Long productDetailId, MultipartFile fileImg, String productDetailRequestJson) {
         ProductDetail productDetail = productDetailRepository.findByIdAndActiveTrue(productDetailId)
                 .orElseThrow(() -> new IllegalArgumentException("Not found productDetail from productDetailId"));
 
         Product product = productRepository.findByIdAndActiveTrue(productId)
                 .orElseThrow(() -> new IllegalArgumentException("Not found product from productId"));
 
-        ProductDetailRequest productDetailRequest= JsonUtil.toObject(productDetailRequestJson,ProductDetailRequest.class);
+        ProductDetailRequest productDetailRequest = JsonUtil.toObject(productDetailRequestJson, ProductDetailRequest.class);
 
         Double salePrice = productDetailRequest.getSalePrice();
-        if( salePrice != null && salePrice != productDetail.getSalePrice()){
+        if (salePrice != null && salePrice != productDetail.getSalePrice()) {
             productDetail.setSalePrice(salePrice);
         }
 
         Integer quantity = productDetailRequest.getQuantity();
-        if( quantity != null && quantity != productDetail.getQuantity() && quantity > 0){
+        if (quantity != null && quantity != productDetail.getQuantity() && quantity > 0) {
             productDetail.setQuantity(quantity);
         }
 
@@ -246,19 +246,19 @@ public class ProductService {
         productDetail.setStatus(status);
 
         Long colorId = productDetailRequest.getColorId();
-        if(colorId != null && colorId != productDetail.getColor().getId()){
+        if (colorId != null && colorId != productDetail.getColor().getId()) {
             Color color = colorRepository.findById(colorId)
                     .orElseThrow(() -> new IllegalArgumentException("Not found color from colorId"));
             productDetail.setColor(color);
         }
 
         Long sizeId = productDetailRequest.getSizeId();
-        if(sizeId != null && sizeId != productDetail.getSize().getId()){
+        if (sizeId != null && sizeId != productDetail.getSize().getId()) {
             Size size = sizeRepository.findById(sizeId)
                     .orElseThrow(() -> new IllegalArgumentException("Not found size from sizeId"));
             productDetail.setSize(size);
         }
-        if(fileImg != null){
+        if (fileImg != null) {
             productDetail.setImageLink(amazonUtil.uploadFile(fileImg));
         }
 
@@ -273,7 +273,7 @@ public class ProductService {
                 .orElseThrow(() -> new IllegalArgumentException("Not found product from productId"));
 
         List<ProductDetail> productDetails = productDetailRepository.findProductDetailListByProductId(productId);
-        for(ProductDetail pt : productDetails){
+        for (ProductDetail pt : productDetails) {
             ProductDetail productDetail = productDetailRepository.findById(pt.getId()).orElse(null);
             productDetail.setActive(false);
             productDetailRepository.save(productDetail);
