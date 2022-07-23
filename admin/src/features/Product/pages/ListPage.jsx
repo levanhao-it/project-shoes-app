@@ -1,11 +1,11 @@
-import { Box, Button, makeStyles, Paper, Typography } from "@material-ui/core";
-import { purple } from "@material-ui/core/colors";
-import AddIcon from "@material-ui/icons/Add";
-import productApi from "components/api/productApi";
-import { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
-import ProductFilters from "../components/ProductFilters";
-import ProductList from "../components/ProductList";
+import { Box, Button, makeStyles, Paper, Typography } from '@material-ui/core';
+import { purple } from '@material-ui/core/colors';
+import AddIcon from '@material-ui/icons/Add';
+import productApi from 'components/api/productApi';
+import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import ProductFilters from '../components/ProductFilters';
+import ProductList from '../components/ProductList';
 
 ListPage.propTypes = {};
 
@@ -15,18 +15,18 @@ const useStyle = makeStyles((theme) => ({
   },
 
   header: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   heading: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
 
   button: {
     color: theme.palette.getContrastText(purple[500]),
     backgroundColor: purple[500],
-    "&:hover": {
+    '&:hover': {
       backgroundColor: purple[700],
     },
   },
