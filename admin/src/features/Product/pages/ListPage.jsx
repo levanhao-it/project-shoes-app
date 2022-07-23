@@ -122,7 +122,7 @@ function ListPage(props) {
         <ProductFilters filters={queryParams} onChange={handleFiltersChange} />
       </Paper>
       {productList.length === 0 ? (
-        <Alert severity="warning">Rất tiêc. Không tìm thấy sản phẩm phù hợp !</Alert>
+        <Alert severity="warning">Sorry. No matching products found!</Alert>
       ) : (
         <ProductList data={productList} onSubmit={handleEditProduct} />
       )}

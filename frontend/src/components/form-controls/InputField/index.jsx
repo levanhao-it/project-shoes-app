@@ -1,8 +1,8 @@
-import { TextField } from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
-import PropTypes from "prop-types";
-import React from "react";
-import { Controller } from "react-hook-form";
+import { TextField } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { Controller } from 'react-hook-form';
 
 InputField.propTypes = {
   form: PropTypes.object.isRequired,
@@ -29,7 +29,7 @@ function InputField(props) {
       error={!!hasError}
       helperText={errors[name]?.message}
       id="outlined-size-normal"
-      defaultValue="Normal"
+      // defaultValue="Normal"
     />
   );
 }

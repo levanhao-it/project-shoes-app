@@ -6,6 +6,7 @@ import { WIDTH_HEADER } from 'constant';
 import Verify from 'features/Auth/components/Verify';
 import CheckoutFeature from 'features/Checkout';
 import DeliveryFeauture from 'features/Delivery';
+import PasswordFeature from 'features/PasswordFeature';
 import UserFeature from 'features/User';
 import { useEffect, useState } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
@@ -60,6 +61,7 @@ function App() {
           <Route path="/verify" component={Verify} />
           <Route path="/login" component={NoLogin} />
           <Route path="/contact" component={Contact} />
+          <Route path="/forgot-password" component={PasswordFeature} />
           <PrivateRoute path="/checkout/" component={CheckoutFeature} />
           <PrivateRoute path="/user" component={UserFeature} />
           <PrivateRoute path="/delivery" component={DeliveryFeauture} />

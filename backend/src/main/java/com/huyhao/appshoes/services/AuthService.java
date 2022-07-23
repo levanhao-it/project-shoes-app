@@ -25,6 +25,7 @@ import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -100,6 +101,28 @@ public class AuthService {
             user.setActive(true);
             userRepository.save(user);
         }
+
+    }
+
+    public void forgotPassword(AuthRequest email) throws MessagingException, UnsupportedEncodingException {
+        Users user = userRepository.findByEmailAndActiveTrue(email.getEmail()).orElse(null);
+
+        Random rnd = new Random();
+        int number = rnd.nextInt(999999);
+        String randomCode = String.format("%06d", number);
+        user.setVerificationCode(randomCode);
+        sendEmailCode(user);
+        userRepository.saveAndFlush(user);
+
+    }
+
+    public void changePassword(ChangePasswordRequest changePasswordRequest) throws MessagingException, UnsupportedEncodingException {
+        Users user = userRepository.findByVerificationCode(changePasswordRequest.getVerificationCode()).orElseThrow(()-> new IllegalArgumentException("Not found user by verificationCode"));
+        if(changePasswordRequest.getNewPassword()!=null){
+            user.setPassword(passwordEncoder.encode(changePasswordRequest.getNewPassword()));
+            user.setVerificationCode(null);
+        }
+        userRepository.saveAndFlush(user);
 
     }
 
@@ -243,6 +266,37 @@ public class AuthService {
         String verifyURL = "http://localhost:3000/verify?code=" + user.getVerificationCode();
 
         content = content.replace("[[http://localhost:3000/]]", verifyURL);
+
+        helper.setText(content, true);
+
+        mailSender.send(message);
+
+        System.out.println("Email has been sent");
+    }
+
+    private void sendEmailCode(Users user)
+            throws MessagingException, UnsupportedEncodingException {
+        String toAddress = user.getEmail();
+        String fromAddress = "shoesapp2022@gmail.com";
+        String senderName = "Shoes Shop";
+        String subject = "Mã xác minh: ";
+        String content = "Dear [[name]],<br>"
+                + "Đây là mã xác minh của bạn:<br>"
+                + "<h3>[[code]]</h3>"
+                + "Thank you,<br>"
+                + "Shoes Shop.";
+
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+
+        helper.setFrom(fromAddress, senderName);
+        helper.setTo(toAddress);
+        helper.setSubject(subject);
+
+        content = content.replace("[[name]]", user.getFullName());
+        String code = user.getVerificationCode();
+
+        content = content.replace("[[code]]", code);
 
         helper.setText(content, true);
 

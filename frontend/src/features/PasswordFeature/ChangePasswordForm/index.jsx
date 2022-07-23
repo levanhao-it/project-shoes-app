@@ -9,29 +9,32 @@ import {
   Typography,
 } from '@material-ui/core';
 import ButtonActive from 'components/component-custom/ButtonActive';
+import ButtonSecondary from 'components/component-custom/ButtonSecondary';
+import InputField from 'components/form-controls/InputField';
+import PasswordField from 'components/form-controls/PasswordField';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
-import InputField from '../../../../components/form-controls/InputField';
-import PasswordField from '../../../../components/form-controls/PasswordField';
-import './styles.scss';
 
-LogInForm.propTypes = {
+ChangePasswordForm.propTypes = {
   onSubmit: PropTypes.func,
 };
 
 const schema = yup.object().shape({
-  email: yup.string().required('Please enter email').email('Please enter valid email'),
-  password: yup
+  verificationCode: yup.string().required('Please enter verification code'),
+  newPassword: yup
     .string()
     .required('Please enter password')
     .min(6, 'Title must be at least 6 characters'),
+  confirmPassword: yup
+    .string()
+    .required('Please enter confirm password')
+    .oneOf([yup.ref('newPassword'), null], 'Password does not match'),
 });
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: '350px',
     padding: '10px 40px',
     textAlign: 'center',
   },
@@ -60,16 +63,20 @@ const useStyles = makeStyles((theme) => ({
     top: '-18px',
     width: '479px',
   },
+  boxSubmit: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
 }));
 
-function LogInForm(props) {
+function ChangePasswordForm(props) {
   const classes = useStyles();
-  const [checked, setChecked] = useState(false);
 
   const form = useForm({
     defaultValues: {
-      email: '',
-      password: '',
+      verificationCode: '',
+      newPassword: '',
+      confirmPassword: '',
     },
     mode: 'onBlur',
     resolver: yupResolver(schema),
@@ -78,15 +85,10 @@ function LogInForm(props) {
   const handelSubmit = async (values) => {
     const { onSubmit } = props;
     if (onSubmit) {
-      values.remember = checked;
       await onSubmit(values);
     }
 
     form.reset();
-  };
-
-  const handleChangeChecked = (event) => {
-    setChecked(event.target.checked);
   };
 
   const { isSubmitting } = form.formState;
@@ -96,23 +98,13 @@ function LogInForm(props) {
       {isSubmitting && <LinearProgress className={classes.process} />}
 
       <Typography className={classes.title} component="h3" variant="h5">
-        Sign In
+        change information
       </Typography>
-      <Typography className={classes.slogan}>Your account for everything shoes</Typography>
 
       <form onSubmit={form.handleSubmit(handelSubmit)}>
-        <InputField name="email" label="Email" form={form} />
-        <PasswordField name="password" label="Password" form={form} />
-        <Box justifyContent={'space-between'} alignItems={'center'} display="flex">
-          <FormControlLabel
-            control={<Checkbox defaultChecked onChange={handleChangeChecked} checked={checked} />}
-            label="Keep me signed in"
-          />
-          <Link href="/forgot-password" underline="none" className={classes.link}>
-            Forgotten your password?
-          </Link>
-        </Box>
-
+        <InputField name="verificationCode" label="Verification Code" form={form} />
+        <PasswordField name="newPassword" label="Password" form={form} />
+        <PasswordField name="confirmPassword" label="Confim Password" form={form} />
         <Box>
           <Typography>
             <Box sx={{ fontFamily: 'default', m: 1, fontSize: 12 }}>
@@ -128,12 +120,14 @@ function LogInForm(props) {
               </Link>{' '}
             </Box>
           </Typography>
-
-          <ButtonActive disabled={isSubmitting} content="sign in" type="submit" />
+          <Box className={classes.boxSubmit}>
+            <ButtonSecondary disabled={isSubmitting} content="Skip" type="" widthBtn="35%" />
+            <ButtonActive disabled={isSubmitting} content="Save" type="submit" widthBtn="35%" />
+          </Box>
         </Box>
       </form>
     </Box>
   );
 }
 
-export default LogInForm;
+export default ChangePasswordForm;

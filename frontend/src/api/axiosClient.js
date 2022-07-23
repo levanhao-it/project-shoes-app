@@ -26,7 +26,9 @@ axiosClient.interceptors.request.use(
       config.url.indexOf('logout') >= 0 ||
       config.url.indexOf('public/products') >= 0 ||
       config.url.indexOf('public/rate') >= 0 ||
-      config.url.indexOf('public/categories') >= 0
+      config.url.indexOf('public/categories') >= 0 ||
+      config.url.indexOf('forgot-password') >= 0 ||
+      config.url.indexOf('change-password') >= 0
     ) {
       return config;
     }

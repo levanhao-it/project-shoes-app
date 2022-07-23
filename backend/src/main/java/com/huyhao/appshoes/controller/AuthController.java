@@ -4,9 +4,7 @@ import com.huyhao.appshoes.common.AppConstant;
 import com.huyhao.appshoes.common.ResponseCommon;
 import com.huyhao.appshoes.entity.Users;
 import com.huyhao.appshoes.jwt.JwtProvider;
-import com.huyhao.appshoes.payload.auth.AuthRequest;
-import com.huyhao.appshoes.payload.auth.AuthResponse;
-import com.huyhao.appshoes.payload.auth.RegistrationRequest;
+import com.huyhao.appshoes.payload.auth.*;
 import com.huyhao.appshoes.services.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -96,6 +94,36 @@ public class AuthController {
         }
         catch (IllegalArgumentException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseCommon.fail(e.getMessage()));
+        }
+    }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<?> forgotPassword(@RequestBody AuthRequest email)  {
+        try {
+            authService.forgotPassword(email);
+            return ResponseEntity.status(HttpStatus.OK).body(ResponseCommon.success(""));
+        }
+        catch (IllegalArgumentException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseCommon.fail(e.getMessage()));
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<?> forgotPassword(@RequestBody ChangePasswordRequest changePasswordRequest)  {
+        try {
+            authService.changePassword(changePasswordRequest);
+            return ResponseEntity.status(HttpStatus.OK).body(ResponseCommon.success(""));
+        }
+        catch (IllegalArgumentException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseCommon.fail(e.getMessage()));
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
         }
     }
 
