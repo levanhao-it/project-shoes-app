@@ -57,7 +57,7 @@ function SearchByCategory({ onChange }) {
 
   const handleCategoryClick = (category) => {
     if (onChange) {
-      onChange(category.id);
+      onChange(category.name);
     }
   };
   return (

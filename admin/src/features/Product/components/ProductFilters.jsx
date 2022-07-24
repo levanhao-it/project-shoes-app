@@ -20,11 +20,11 @@ const useStyle = makeStyles((theme) => ({
 
 function ProductFilters({ filters, onChange }) {
   const classes = useStyle();
-  const handleCategoryChange = (newCategoryId) => {
+  const handleCategoryChange = (newCategory) => {
     if (!onChange) return;
 
     const newFilters = {
-      categoryId: newCategoryId,
+      category: newCategory,
     };
     onChange(newFilters);
   };

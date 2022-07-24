@@ -48,7 +48,7 @@ function ListPage(props) {
       page: Number.parseInt(params._page) || 1,
       limit: Number.parseInt(params._limit) || 10,
       sort: params.sort || 'createdDate,desc',
-      categoryId: Number.parseInt(params.categoryId) || null,
+      category: params.category || '',
       price_gte: params.price_gte || '',
       price_lte: params.price_lte || '',
       size: params.size || '',
@@ -73,13 +73,6 @@ function ListPage(props) {
 
   const handleEditProduct = (data) => {
     setProductList(data.products);
-  };
-
-  const handleSortChange = (newSortValue) => {
-    const filters = {
-      ...queryParams,
-      sort: newSortValue,
-    };
   };
 
   const handleFiltersChange = (newFilters) => {

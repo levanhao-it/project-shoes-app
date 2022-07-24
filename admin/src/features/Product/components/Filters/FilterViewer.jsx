@@ -34,7 +34,7 @@ const FILTER_LIST = [
       }
     },
     isActive: () => true,
-    isVisible: (filters) => filters.sort,
+    isVisible: (filters) => filters['sort'],
     isRemovable: true,
     onRemove: (filters) => {
       const newFilters = { ...filters };
@@ -45,27 +45,27 @@ const FILTER_LIST = [
   },
   {
     id: 3,
-    getLabel: (filters) => `From ${filters['price_lte']} To ${filters['price_lte']}`,
+    getLabel: (filters) => `From ${filters['price_gte']} To ${filters['price_lte']}`,
     isActive: () => true,
-    isVisible: (filters) => filters['price_lte'] != null && filters['price_lte'] != null,
+    isVisible: (filters) => filters['price_gte'] && filters['price_lte'],
     isRemovable: true,
     onRemove: (filters) => {
       const newFilters = { ...filters };
-      delete newFilters['price_lte'];
       delete newFilters['price_gte'];
+      delete newFilters['price_lte'];
       return newFilters;
     },
     onToggle: () => {},
   },
   {
     id: 4,
-    getLabel: (filters) => `Category: ${filters['categoryId']}`,
+    getLabel: (filters) => `Category: ${filters['category']}`,
     isActive: () => true,
-    isVisible: (filters) => filters['categoryId'],
+    isVisible: (filters) => filters['category'],
     isRemovable: true,
     onRemove: (filters) => {
       const newFilters = { ...filters };
-      delete newFilters['categoryId'];
+      delete newFilters['category'];
       return newFilters;
     },
     onToggle: (filters) => {},
