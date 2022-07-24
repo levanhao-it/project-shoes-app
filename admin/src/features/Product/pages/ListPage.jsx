@@ -33,6 +33,11 @@ const useStyle = makeStyles((theme) => ({
       backgroundColor: purple[700],
     },
   },
+  alert: {
+    marginTop: theme.spacing(2),
+    width: '100%',
+    margin: 'auto',
+  },
 }));
 
 function ListPage(props) {
@@ -115,7 +120,9 @@ function ListPage(props) {
         <ProductFilters filters={queryParams} onChange={handleFiltersChange} />
       </Paper>
       {productList.length === 0 ? (
-        <Alert severity="warning">Sorry. No matching products found!</Alert>
+        <Alert severity="warning" className={classes.alert}>
+          Sorry. No matching products found!
+        </Alert>
       ) : (
         <ProductList data={productList} onSubmit={handleEditProduct} />
       )}

@@ -194,11 +194,19 @@ function ProductSidebar({ product }) {
         product: product,
         quantity: 1,
       });
-      dispatch(action);
-      enqueueSnackbar('You have successfully added the product to your cart', {
-        variant: 'success',
-        autoHideDuration: 2000,
-      });
+      if (productDetail.quantity < 1) {
+        enqueueSnackbar(
+          `Product ${product.name} with color ${productDetail.color} is out of stock.
+          Please choose another product`,
+          { variant: 'error', autoHideDuration: 2000 }
+        );
+      } else {
+        dispatch(action);
+        enqueueSnackbar('You have successfully added the product to your cart', {
+          variant: 'success',
+          autoHideDuration: 2000,
+        });
+      }
     } else {
       enqueueSnackbar('Please select styles and size', {
         variant: 'error',
