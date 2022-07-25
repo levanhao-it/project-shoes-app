@@ -10,6 +10,7 @@ import SelectField from "components/form-controls/SelectField";
 import PriceField from "components/form-controls/PriceField";
 import { useHistory } from "react-router-dom";
 import categoryApi from "components/api/category";
+import EditorProduct from "components/EditorProduct";
 
 ProductEditForm.propTypes = {
   onSubmit: PropTypes.func,
@@ -20,10 +21,10 @@ ProductEditForm.propTypes = {
 
 const schema = yup.object().shape({
   name: yup.string().required("Please enter name product"),
-  description: yup
-    .string()
-    .required("Please enter description")
-    .min(6, "Title must be at least 6 characters"),
+  // description: yup
+  //   .string()
+  //   .required("Please enter description")
+  //   .min(6, "Title must be at least 6 characters"),
   categoryId: yup.string().required("Please choose category"),
   originalPrice: yup
     .number()
@@ -45,14 +46,15 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 
-function ProductEditForm({ onSubmit, product, onDelete }) {
+function ProductEditForm({ onSubmit, product = {}, onDelete }) {
   const classes = useStyle();
   const [categories, setCategories] = useState([]);
+  const [description, setDescription] = useState(() => product.description);
 
   const form = useForm({
     defaultValues: {
       name: "",
-      description: "",
+      // description: "",
       categoryId: "",
       originalPrice: "",
     },
@@ -61,7 +63,7 @@ function ProductEditForm({ onSubmit, product, onDelete }) {
   });
 
   useEffect(() => {
-    const fieldList = ["name", "description", "categoryId", "originalPrice"];
+    const fieldList = ["name", "categoryId", "originalPrice"];
     fieldList.forEach((element, i) => {
       form.setValue(element, product[element]);
     });
@@ -69,19 +71,22 @@ function ProductEditForm({ onSubmit, product, onDelete }) {
 
   useEffect(() => {
     const fetchCategories = async () => {
-      const categoriesList = await categoryApi.getAll();
+      const { data } = await categoryApi.getAll();
 
-      setCategories(categoriesList.data);
+      setCategories(data);
     };
 
     fetchCategories();
   }, []);
 
   const handelSubmit = async (values) => {
+    console.log(values);
+    values.description = description;
+
+    console.log(values);
     if (onSubmit) {
       await onSubmit(values);
     }
-
     form.reset();
   };
 
@@ -91,15 +96,15 @@ function ProductEditForm({ onSubmit, product, onDelete }) {
     }
   };
 
+  const handleChange = (content) => {
+    setDescription(content);
+  };
+
   return (
     <form onSubmit={form.handleSubmit(handelSubmit)}>
       <Grid container spacing={1}>
         <Grid item xs={6}>
           <InputField name="name" label="Product Name" form={form} />
-        </Grid>
-
-        <Grid item xs={6}>
-          <InputField name="description" label="Description" form={form} />
         </Grid>
 
         <Grid item xs={6}>
@@ -114,6 +119,8 @@ function ProductEditForm({ onSubmit, product, onDelete }) {
           <PriceField name="originalPrice" label="Price" form={form} />
         </Grid>
       </Grid>
+
+      <EditorProduct defaultValue={description} onChange={handleChange} />
 
       <Box className={classes.boxFooter}>
         <Button

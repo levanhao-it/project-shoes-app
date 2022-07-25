@@ -1,4 +1,5 @@
 import {
+  Box,
   makeStyles,
   Paper,
   Table,
@@ -8,10 +9,10 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-} from '@material-ui/core';
-import PropTypes from 'prop-types';
-import { useState } from 'react';
-import ProductDetailItem from './ProductDetailItem';
+} from "@material-ui/core";
+import PropTypes from "prop-types";
+import { useState } from "react";
+import ProductDetailItem from "./ProductDetailItem";
 
 ProductDetailList.propTypes = {
   data: PropTypes.object,
@@ -20,7 +21,7 @@ ProductDetailList.propTypes = {
 
 const useStyles = makeStyles({
   root: {
-    width: '100%',
+    width: "100%",
   },
   container: {
     maxHeight: 440,
@@ -28,26 +29,26 @@ const useStyles = makeStyles({
 });
 
 const columns = [
-  { id: 'salePrice', label: 'Sale price', minWidth: 100 },
+  { id: "salePrice", label: "Sale price", minWidth: 100 },
   {
-    id: 'quantity',
-    label: 'Quantity',
+    id: "quantity",
+    label: "Quantity",
     minWidth: 170,
   },
   {
-    id: 'size',
-    label: 'Size',
+    id: "size",
+    label: "Size",
     minWidth: 170,
   },
 
   {
-    id: 'color',
-    label: 'Color',
+    id: "color",
+    label: "Color",
     minWidth: 170,
   },
   {
-    id: 'status',
-    label: 'Status',
+    id: "status",
+    label: "Status",
     minWidth: 170,
   },
 ];
@@ -70,7 +71,7 @@ function ProductDetailList({ data, onSubmit }) {
   };
 
   return (
-    <div>
+    <Box mt={4}>
       <Paper className={classes.root}>
         <TableContainer className={classes.container}>
           <Table stickyHeader aria-label="sticky table">
@@ -90,9 +91,17 @@ function ProductDetailList({ data, onSubmit }) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                return <ProductDetailItem row={row} productId={data.id} onSubmit={handleEdit} />;
-              })}
+              {data
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row) => {
+                  return (
+                    <ProductDetailItem
+                      row={row}
+                      productId={data.id}
+                      onSubmit={handleEdit}
+                    />
+                  );
+                })}
             </TableBody>
           </Table>
         </TableContainer>
@@ -106,7 +115,7 @@ function ProductDetailList({ data, onSubmit }) {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
-    </div>
+    </Box>
   );
 }
 

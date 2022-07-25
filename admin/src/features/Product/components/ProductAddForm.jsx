@@ -10,6 +10,7 @@ import SelectField from "components/form-controls/SelectField";
 import PriceField from "components/form-controls/PriceField";
 import { useHistory } from "react-router-dom";
 import categoryApi from "components/api/category";
+import EditorProduct from "components/EditorProduct";
 
 ProductAddForm.propTypes = {
   onSubmit: PropTypes.func,
@@ -17,15 +18,11 @@ ProductAddForm.propTypes = {
 
 const schema = yup.object().shape({
   name: yup.string().required("Please enter name product"),
-  description: yup
-    .string()
-    .required("Please enter description")
-    .min(6, "Title must be at least 6 characters"),
-  categoryId: yup.string().required("Please choose category"),
   originalPrice: yup
     .number()
     .required("Please enter price")
     .min(1, "Price must be more than 0"),
+  categoryId: yup.string().required("Please choose category"),
 });
 const useStyle = makeStyles((theme) => ({
   boxFooter: {
@@ -46,10 +43,10 @@ function ProductAddForm({ onSubmit }) {
   const classes = useStyle();
   const [categories, setCategories] = useState([]);
   const history = useHistory();
+  const [description, setDescription] = useState("");
   const form = useForm({
     defaultValues: {
       name: "",
-      description: "",
       categoryId: "",
       originalPrice: "",
     },
@@ -57,13 +54,21 @@ function ProductAddForm({ onSubmit }) {
     resolver: yupResolver(schema),
   });
 
+  const handleChange = (content) => {
+    setDescription(content);
+  };
+
   const handelSubmit = async (values) => {
+    console.log(values);
     if (onSubmit) {
       values.categoryId = Number(values.categoryId);
+      values.description = description;
+      console.log(values);
       await onSubmit(values);
     }
 
     form.reset();
+    setDescription("");
   };
 
   const handleCancel = () => {
@@ -95,10 +100,6 @@ function ProductAddForm({ onSubmit }) {
         </Grid>
 
         <Grid item xs={6}>
-          <InputField name="description" label="Description" form={form} />
-        </Grid>
-
-        <Grid item xs={6}>
           <SelectField
             name="categoryId"
             label="Category"
@@ -110,6 +111,8 @@ function ProductAddForm({ onSubmit }) {
           <PriceField name="originalPrice" label="Price" form={form} />
         </Grid>
       </Grid>
+
+      <EditorProduct onChange={handleChange} defaultValue={description} />
 
       <Box mt={4}>
         <Button

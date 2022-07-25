@@ -4,7 +4,6 @@ import productApi from "components/api/productApi";
 import { useSnackbar } from "notistack";
 import { useHistory, useRouteMatch } from "react-router-dom";
 import ProductAddForm from "../components/ProductAddForm";
-import useProduct from "../hooks/useProduct";
 
 AddProductPage.propTypes = {};
 

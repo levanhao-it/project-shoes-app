@@ -16,6 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Product extends BaseEntity{
     private String name;
+    @Column(length = 10000)
     private String description;
     private double originalPrice;
 
