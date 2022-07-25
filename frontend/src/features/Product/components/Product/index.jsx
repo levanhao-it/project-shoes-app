@@ -2,6 +2,7 @@ import { Box, makeStyles, Typography } from "@material-ui/core";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import { unwrapResult } from "@reduxjs/toolkit";
+import { THUMBNAIL_PLACEHOLDER } from "constant";
 import StorageKeys from "constant/storage-keys";
 import { addWishList, removeWishList } from "features/Wishlist/wishListSlice";
 import PropTypes from "prop-types";
@@ -126,7 +127,9 @@ function Product({ data }) {
   const wishList = useSelector((state) => state.wishList.current);
   const history = useHistory();
 
-  const [image, setImage] = useState(data.productDetailList[0].linkImg);
+  const [image, setImage] = useState(
+    data.productDetailList[0].linkImg || THUMBNAIL_PLACEHOLDER
+  );
   const [favourite, setFavourite] = useState(() => {
     return wishList.some((x) => x.product.id === data.id);
   });
@@ -140,7 +143,7 @@ function Product({ data }) {
     data.productDetailList[0].salePrice
   );
   const handleMouseLeave = () => {
-    setImage(data.productDetailList[0].linkImg);
+    setImage(data.productDetailList[0].linkImg || THUMBNAIL_PLACEHOLDER);
   };
 
   const handleMouseOver = (img, salePrice) => {
@@ -252,12 +255,12 @@ function Product({ data }) {
               <img
                 onMouseOver={() =>
                   handleMouseOver(
-                    productDetail.linkImg,
+                    productDetail.linkImg || THUMBNAIL_PLACEHOLDER,
                     productDetail.salePrice
                   )
                 }
                 onMouseLeave={handleMouseLeave}
-                src={productDetail.linkImg}
+                src={productDetail.linkImg || THUMBNAIL_PLACEHOLDER}
                 alt={data.name}
                 width="30px"
                 height="30px"

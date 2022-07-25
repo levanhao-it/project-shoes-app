@@ -39,8 +39,8 @@ function App() {
           <Sidebar />
           <div className={classes.content1}>
             <Switch>
-              <Route path="/users" component={UserFeature} />
               <Route path="/" component={UserFeature} exact />
+              <Route path="/users" component={UserFeature} />
               <Route path="/categories" component={CategoryFeature} />
               {/* <Route path="/login" component={LoginFeature} /> */}
               <Route path="/products" component={ProductFeature} />

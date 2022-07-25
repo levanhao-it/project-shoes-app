@@ -46,7 +46,7 @@ public class CategoryService {
 
     public CategoryResponse getCategoryById(Long categoryId){
         Category category=categoryRepository.findById(categoryId).orElseThrow(()-> new IllegalArgumentException("Not found category"));
-        List<Product> productList=productRepository.findAllByCategory(category);
+        List<Product> productList=productRepository.findAllByActiveTrueAndCategory(category);
 
         List<ProductResponse> productResponses = new ArrayList<>();
         for(Product p : productList){
@@ -87,7 +87,7 @@ public class CategoryService {
 
         for (Category c: categoryList
         ) {
-            List<Product> productList=productRepository.findAllByCategory(c);
+            List<Product> productList=productRepository.findAllByActiveTrueAndCategory(c);
 
             List<ProductResponse> productResponses = productList.stream().map(e -> ProductResponse.builder()
                     .id(e.getId())

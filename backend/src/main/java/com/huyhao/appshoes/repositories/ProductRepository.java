@@ -4,6 +4,7 @@ import com.huyhao.appshoes.entity.Category;
 import com.huyhao.appshoes.entity.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -16,9 +17,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> , Paging
 
     Optional<Product> findByIdAndActiveTrue(Long productId);
 
-    List<Product> findAllByCategory(Category c);
+    List<Product> findAllByActiveTrueAndCategory(Category c);
 
-    Page<Product> findByActiveTrue(Pageable pageable);
+    Page<Product> findAllByActiveTrue(Specification<Product> spec,  Pageable pageable);
 
     Page<Product> findByCategoryIdAndActiveTrue(long id, Pageable pageable);
 

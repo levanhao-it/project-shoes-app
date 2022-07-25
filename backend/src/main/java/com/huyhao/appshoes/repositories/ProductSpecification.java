@@ -42,6 +42,7 @@ public class ProductSpecification {
                     Join<ProductDetail, Size> join1=joinSize.join("size");
                     predicateList.add(criteriaBuilder.and(criteriaBuilder.like(join1.get("name"),"%"+size+"%")));
                 }
+                predicateList.add(criteriaBuilder.and(criteriaBuilder.isTrue(root.get("active"))));
                 return criteriaBuilder.and(predicateList.toArray(new Predicate[predicateList.size()]));
             }
         };
