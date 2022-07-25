@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 import {
   Accordion,
   AccordionDetails,
@@ -7,9 +7,10 @@ import {
   Box,
   makeStyles,
   Typography,
-} from '@material-ui/core';
-import ProductReviewList from './ProductReviewList';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+} from "@material-ui/core";
+import ProductReviewList from "./ProductReviewList";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import DOMPurify from "dompurify";
 
 ProductTabsMobile.propTypes = {
   product: PropTypes.object,
@@ -17,11 +18,12 @@ ProductTabsMobile.propTypes = {
 
 const useStyle = makeStyles((theme) => ({
   heading: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 }));
 
 function ProductTabsMobile({ product = {} }) {
+  const clearDescription = DOMPurify.sanitize(product.description);
   const classes = useStyle();
 
   return (
@@ -31,7 +33,7 @@ function ProductTabsMobile({ product = {} }) {
           <Typography className={classes.heading}>OVERVIEW</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>{product.description}</Typography>
+          <div dangerouslySetInnerHTML={{ __html: clearDescription }} />
         </AccordionDetails>
       </Accordion>
       <Accordion>

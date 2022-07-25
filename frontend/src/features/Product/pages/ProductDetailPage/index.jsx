@@ -1,24 +1,24 @@
-import { Box, Grid, Hidden, makeStyles } from '@material-ui/core';
-import ProductTabsMobile from 'features/Product/components/ProductTabsMobile';
-import useProductDetail from 'features/Product/hooks/useProductDetail';
-import { Helmet } from 'react-helmet-async';
-import { useRouteMatch } from 'react-router-dom';
-import ProductInfo from '../../components/ProductInfo';
-import ProductRecomend from '../../components/ProductRecomend';
-import ProductSidebar from '../../components/ProductSidebar';
+import { Box, Grid, Hidden, makeStyles } from "@material-ui/core";
+import ProductTabsMobile from "features/Product/components/ProductTabsMobile";
+import useProductDetail from "features/Product/hooks/useProductDetail";
+import { Helmet } from "react-helmet-async";
+import { useRouteMatch } from "react-router-dom";
+import ProductInfo from "../../components/ProductInfo";
+import ProductRecomend from "../../components/ProductRecomend";
+import ProductSidebar from "../../components/ProductSidebar";
 
 ProductDetailPage.propTypes = {};
 
 const useStyle = makeStyles((theme) => ({
   root: {
-    padding: '60px 40px 0',
-    [theme.breakpoints.down('xs')]: {
-      padding: '40px 20px',
+    padding: "60px 40px 0",
+    [theme.breakpoints.down("xs")]: {
+      padding: "40px 20px",
     },
   },
 
   tabsMobile: {
-    marginTop: '20px',
+    marginTop: "20px",
   },
 }));
 
@@ -58,9 +58,9 @@ function ProductDetailPage(props) {
             <ProductSidebar product={product} />
           </Grid>
 
-          <Box className={classes.tabsMobile}>
+          <Grid item xs={12} sm={12}>
             <ProductTabsMobile product={product} />
-          </Box>
+          </Grid>
 
           <Grid item xs={12} sm={12}>
             <ProductRecomend product={product} />
