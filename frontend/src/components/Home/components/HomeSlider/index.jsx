@@ -1,5 +1,3 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 // Import Swiper styles
@@ -9,11 +7,14 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
 import './styles.scss';
-import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 
 // import required modules
-import { A11y, Autoplay, EffectFade, Navigation, Pagination } from 'swiper';
-import { Box, Button, makeStyles, Typography } from '@material-ui/core';
+import { Box, makeStyles, Typography } from '@material-ui/core';
+import ButtonActive from 'components/component-custom/ButtonActive';
+import { Link } from 'react-router-dom';
+import { A11y, Autoplay, EffectFade, Pagination } from 'swiper';
+import home1 from '../../../../images/home1.jpg';
+import home2 from '../../../../images/home2.jpg';
 
 const useStyles = makeStyles((theme) => ({
   buttonCart: {
@@ -80,10 +81,10 @@ function HomeSlider(props) {
         }}
       >
         <SwiperSlide>
-          <img src="http://nouthemes.net/html/trueshoes/images/slider/3.jpg" />
+          <img src={home2} />
         </SwiperSlide>
         <SwiperSlide>
-          <img src="http://nouthemes.net/html/trueshoes/images/slider/2.jpg" />
+          <img src={home1} />
         </SwiperSlide>
       </Swiper>
 
@@ -92,15 +93,16 @@ function HomeSlider(props) {
           Life is better in running shoes
         </Typography>
 
-        <Box>
-          <Button variant="contained" className={classes.buttonCart} size="large">
+        <Box component={Link} to="/products" style={{ textDecoration: 'none' }}>
+          {/* <Button variant="contained" className={classes.buttonCart} size="large">
             <Box display="flex" justifyContent="space-between" width="100%">
               <Typography variant="h5" className={classes.buttonTitle}>
                 shop now
               </Typography>
               <ArrowRightAltIcon fontSize="large" />
             </Box>
-          </Button>
+          </Button> */}
+          <ButtonActive content="Shop Now" widthBtn="40%"></ButtonActive>
         </Box>
       </Box>
     </Box>

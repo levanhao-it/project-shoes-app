@@ -18,12 +18,12 @@ public class ProductSpecification {
 
                 query.distinct(true);
                 if(title!=null && !title.isEmpty()){
-                    predicateList.add(criteriaBuilder.and(criteriaBuilder.like(root.get("name"),"%"+title+"%")));
+                    predicateList.add(criteriaBuilder.and(criteriaBuilder.like(criteriaBuilder.lower(root.get("name")),("%"+title+"%").toLowerCase())));
                 }
 
                 if (category != null && !category.isEmpty()){
                     Join<Product, Category> joinSize=root.join("category");
-                    predicateList.add(criteriaBuilder.and(criteriaBuilder.like(joinSize.get("name"),"%"+category+"%")));
+                    predicateList.add(criteriaBuilder.and(criteriaBuilder.like(joinSize.get("name"),category)));
                 }
 
                 if (price_gte != null && price_gte >= 0) {
