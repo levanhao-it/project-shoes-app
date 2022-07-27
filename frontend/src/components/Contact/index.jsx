@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { ButtonBase, Container, Grid, makeStyles, Typography } from '@material-ui/core';
+import { Helmet } from 'react-helmet-async';
 
 Contact.propTypes = {};
 
@@ -35,6 +36,9 @@ function Contact(props) {
   const classes = useStyles();
   return (
     <div className={classes.root}>
+      <Helmet>
+        <title>Contact</title>
+      </Helmet>
       <Container maxWidth="sm" className={classes.box}>
         <Grid container spacing={2}>
           <Grid item>

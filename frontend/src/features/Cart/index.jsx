@@ -1,17 +1,18 @@
-import { Box, Container, Grid, makeStyles } from "@material-ui/core";
-import ButtonActive from "components/component-custom/ButtonActive";
-import OrderSumary from "components/OrderSumary";
-import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import CartDetail from "./components/CartDetail";
-import CartSummary from "./components/CartSummary";
-import CartVoucher from "./components/CartVoucher";
-import { cartItemsCountSelector } from "./selector";
+import { Box, Container, Grid, makeStyles } from '@material-ui/core';
+import ButtonActive from 'components/component-custom/ButtonActive';
+import OrderSumary from 'components/OrderSumary';
+import { Helmet } from 'react-helmet-async';
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import CartDetail from './components/CartDetail';
+import CartSummary from './components/CartSummary';
+import CartVoucher from './components/CartVoucher';
+import { cartItemsCountSelector } from './selector';
 
 CartFeature.propTypes = {};
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: "70px 0",
+    padding: '70px 0',
   },
   btn: {
     marginBottom: theme.spacing(4),
@@ -24,11 +25,14 @@ function CartFeature(props) {
   const history = useHistory();
   const cartItemsCount = useSelector(cartItemsCountSelector);
   const handleCheckout = () => {
-    history.push("/delivery");
+    history.push('/delivery');
   };
 
   return (
     <Container maxWidth="lg" className={classes.root}>
+      <Helmet>
+        <title>Cart</title>
+      </Helmet>
       <Box>
         <Grid container>
           <Grid item xs={12} sm={12} md={8} lg={8} xl={8}>

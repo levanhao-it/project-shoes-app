@@ -81,10 +81,10 @@ function HomeSlider(props) {
         }}
       >
         <SwiperSlide>
-          <img src={home2} />
+          <img src={home2} alt="home1" />
         </SwiperSlide>
         <SwiperSlide>
-          <img src={home1} />
+          <img src={home1} alt="home2" />
         </SwiperSlide>
       </Swiper>
 

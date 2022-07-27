@@ -1,41 +1,42 @@
-import { Box, Container, makeStyles } from "@material-ui/core";
-import { useEffect, useMemo, useState } from "react";
+import { Box, Container, makeStyles } from '@material-ui/core';
+import { useEffect, useMemo, useState } from 'react';
 
-import { Pagination } from "@material-ui/lab";
-import productApi from "api/productApi";
-import OfferBanner from "components/OfferBanner";
-import FilterAndSort from "features/Product/components/FilterAndSort";
-import ProductList from "features/Product/components/ProductList";
-import ProductSkeletonList from "features/Product/components/ProductSkeletonList";
-import "./styles.scss";
-import { useHistory, useLocation } from "react-router-dom";
-import queryString from "query-string";
+import { Pagination } from '@material-ui/lab';
+import productApi from 'api/productApi';
+import OfferBanner from 'components/OfferBanner';
+import FilterAndSort from 'features/Product/components/FilterAndSort';
+import ProductList from 'features/Product/components/ProductList';
+import ProductSkeletonList from 'features/Product/components/ProductSkeletonList';
+import './styles.scss';
+import { useHistory, useLocation } from 'react-router-dom';
+import queryString from 'query-string';
+import { Helmet } from 'react-helmet-async';
 
 ProductListPage.propTypes = {};
 const useStyles = makeStyles((theme) => ({
   root: {
-    paddingTop: "80px",
+    paddingTop: '80px',
   },
 
   left: {
-    width: "250px",
+    width: '250px',
   },
 
   right: {
-    flex: "1 1 0",
+    flex: '1 1 0',
   },
 
   pagination: {
-    display: "flex",
-    flexFlow: "row nowrap",
-    justifyContent: "center",
+    display: 'flex',
+    flexFlow: 'row nowrap',
+    justifyContent: 'center',
 
     marginTop: theme.spacing(5),
     paddingBottom: theme.spacing(3),
   },
   filter: {
-    float: "right",
-    marginBottom: "20px",
+    float: 'right',
+    marginBottom: '20px',
   },
 }));
 
@@ -49,7 +50,7 @@ function ProductListPage(props) {
       ...params,
       page: Number.parseInt(params.page) || 1,
       limit: Number.parseInt(params.limit) || 3,
-      sort: params.sort || "createdDate,desc",
+      sort: params.sort || 'createdDate,desc',
     };
   }, [location.search]);
   const [products, setProducts] = useState([]);
@@ -77,7 +78,7 @@ function ProductListPage(props) {
           page: data.currentPage,
         });
       } catch (error) {
-        console.log("Failed to fetch products", error);
+        console.log('Failed to fetch products', error);
       }
       setLoading(false);
     })();
@@ -116,6 +117,9 @@ function ProductListPage(props) {
 
   return (
     <Box className={classes.root}>
+      <Helmet>
+        <title>Product List</title>
+      </Helmet>
       <Container maxWidth="lg" fixed>
         <OfferBanner />
         <Box className={classes.filter}>

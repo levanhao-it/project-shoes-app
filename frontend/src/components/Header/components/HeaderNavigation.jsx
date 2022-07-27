@@ -19,7 +19,6 @@ import HomeIcon from '@material-ui/icons/Home';
 import MenuIcon from '@material-ui/icons/Menu';
 import PersonIcon from '@material-ui/icons/Person';
 import ReceiptIcon from '@material-ui/icons/Receipt';
-import SearchIcon from '@material-ui/icons/Search';
 import productApi from 'api/productApi';
 import { HEADER_NAVIGATION } from 'constant';
 import { cartItemsCountSelector } from 'features/Cart/selector';
@@ -29,7 +28,6 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { ReactSearchAutocomplete } from 'react-search-autocomplete';
-import SearchForm from './SearchForm';
 
 const useStyles = makeStyles((theme) => ({
   root: {

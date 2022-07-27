@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/styles';
+import { Helmet } from 'react-helmet-async';
 
 NotFound.propTypes = {};
 
@@ -28,6 +29,9 @@ function NotFound(props) {
   const classes = useStyles();
   return (
     <div className={classes.root}>
+      <Helmet>
+        <title>Not Found</title>
+      </Helmet>
       <img
         className={classes.img}
         src="https://www.pngitem.com/pimgs/m/561-5616833_image-not-found-png-not-found-404-png.png"
