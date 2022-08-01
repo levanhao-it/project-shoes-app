@@ -62,7 +62,7 @@ function SearchProduct(props) {
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await productApi.getAll();
+        const { data } = await productApi.getAll({ limit: 1000 });
         setProducts(data.products);
       } catch (error) {
         console.log('Failed to fetch products', error);
