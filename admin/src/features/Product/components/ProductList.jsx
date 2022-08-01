@@ -81,13 +81,14 @@ function ProductList({ data, onSubmit }) {
     });
     setProductList(productList1);
   }, [data]);
+  console.log(productList.length);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
 
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
+    setRowsPerPage(event.target.value);
     setPage(0);
   };
 

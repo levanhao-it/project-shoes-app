@@ -1,53 +1,47 @@
-import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
-import {
-  Box,
-  InputAdornment,
-  InputBase,
-  makeStyles,
-  TextField,
-} from "@material-ui/core";
-import SearchIcon from "@material-ui/icons/Search";
-import { Autocomplete } from "@material-ui/lab";
-import parse from "autosuggest-highlight/parse";
-import match from "autosuggest-highlight/match";
-import productApi from "api/productApi";
-import { useHistory } from "react-router-dom";
-import queryString from "query-string";
-import "./styles.scss";
-import { truncateText } from "utils";
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import { Box, InputAdornment, InputBase, makeStyles, TextField } from '@material-ui/core';
+import SearchIcon from '@material-ui/icons/Search';
+import { Autocomplete } from '@material-ui/lab';
+import parse from 'autosuggest-highlight/parse';
+import match from 'autosuggest-highlight/match';
+import productApi from 'api/productApi';
+import { useHistory } from 'react-router-dom';
+import queryString from 'query-string';
+import './styles.scss';
+import { truncateText } from 'utils';
 
 SearchProduct.propTypes = {};
 
 const useStyle = makeStyles((theme) => ({
   root: {
-    position: "absolute",
-    right: "110px",
+    position: 'absolute',
+    right: '110px',
   },
   boxSearch: {
-    display: "flex",
-    alignItems: "center",
+    display: 'flex',
+    alignItems: 'center',
   },
   searchTitle: {
     marginLeft: theme.spacing(1),
   },
 
   box: {
-    position: "relative",
+    position: 'relative',
   },
 
   boxIcon: {
-    position: "absolute",
-    top: "53%",
-    transform: "translateY(-50%)",
-    right: "13px",
+    position: 'absolute',
+    top: '53%',
+    transform: 'translateY(-50%)',
+    right: '13px',
   },
 }));
 
 function SearchProduct(props) {
   const classes = useStyle();
   const [products, setProducts] = useState([]);
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState('');
   const history = useHistory();
   const handleChange = (event) => {
     setTitle(event.target.value);
@@ -55,7 +49,7 @@ function SearchProduct(props) {
 
   const handleSubmit = (e) => {
     history.push({
-      pathname: "/products",
+      pathname: '/products',
       search: queryString.stringify({ title }),
     });
     e.preventDefault();
@@ -71,7 +65,7 @@ function SearchProduct(props) {
         const { data } = await productApi.getAll();
         setProducts(data.products);
       } catch (error) {
-        console.log("Failed to fetch products", error);
+        console.log('Failed to fetch products', error);
       }
     })();
   }, [title]);
@@ -100,10 +94,7 @@ function SearchProduct(props) {
               const parts = parse(text, matches);
 
               return (
-                <div
-                  onClick={() => handleClick(option)}
-                  className={classes.boxSearch}
-                >
+                <div onClick={() => handleClick(option)} className={classes.boxSearch}>
                   <img
                     src={option.productDetailList[0].linkImg}
                     alt={option.name}
@@ -114,7 +105,9 @@ function SearchProduct(props) {
                     {parts.map((part, index) => (
                       <span
                         key={index}
-                        style={{ fontWeight: part.highlight ? 700 : 400 }}
+                        style={{
+                          fontWeight: part.highlight ? 700 : 400,
+                        }}
                       >
                         {part.text}
                       </span>

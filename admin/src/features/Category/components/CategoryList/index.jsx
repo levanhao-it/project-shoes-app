@@ -72,6 +72,7 @@ function Row(props) {
           variant: 'success',
           autoHideDuration: 1000,
         });
+        setOpen(false);
       } else {
         enqueueSnackbar(message, { variant: 'error', autoHideDuration: 1000 });
       }

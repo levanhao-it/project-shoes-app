@@ -49,7 +49,7 @@ function ProductListPage(props) {
     return {
       ...params,
       page: Number.parseInt(params.page) || 1,
-      limit: Number.parseInt(params.limit) || 3,
+      limit: Number.parseInt(params.limit) || 16,
       sort: params.sort || 'createdDate,desc',
     };
   }, [location.search]);

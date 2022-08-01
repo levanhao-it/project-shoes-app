@@ -51,7 +51,7 @@ function ListPage(props) {
     return {
       ...params,
       page: Number.parseInt(params._page) || 1,
-      limit: Number.parseInt(params._limit) || 10,
+      limit: Number.parseInt(params._limit) || 100,
       sort: params.sort || 'createdDate,desc',
       category: params.category || '',
       price_gte: params.price_gte || '',

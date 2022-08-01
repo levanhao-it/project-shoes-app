@@ -60,7 +60,7 @@ function App() {
           <Route path="/cart" component={CartFeature} />
           <Route path="/verify" component={Verify} />
           <Route path="/login" component={NoLogin} />
-          <Route path="/contact" component={Contact} />
+          <Route path="/about" component={Contact} />
           <Route path="/forgot-password" component={PasswordFeature} />
           <PrivateRoute path="/checkout/" component={CheckoutFeature} />
           <PrivateRoute path="/user" component={UserFeature} />

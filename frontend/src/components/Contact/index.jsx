@@ -2,12 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { ButtonBase, Container, Grid, makeStyles, Typography } from '@material-ui/core';
 import { Helmet } from 'react-helmet-async';
+import about from '../../images/about.jpg';
 
 Contact.propTypes = {};
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    backgroundImage: `url('https://images.pexels.com/photos/1598505/pexels-photo-1598505.jpeg?auto=compress&cs=tinysrgb&w=1260&h=850&dpr=1')`,
+    backgroundImage: `url(${about})`,
     backgroundSize: 'cover',
     height: '850px',
   },
@@ -37,12 +38,12 @@ function Contact(props) {
   return (
     <div className={classes.root}>
       <Helmet>
-        <title>Contact</title>
+        <title>About</title>
       </Helmet>
       <Container maxWidth="sm" className={classes.box}>
         <Grid container spacing={2}>
           <Grid item>
-            <h1 className={classes.title}>Contact Us</h1>
+            <h1 className={classes.title}>About Us</h1>
           </Grid>
           <Grid item xs={12} sm container>
             <Grid item xs container direction="column" spacing={2}>

@@ -1,15 +1,15 @@
-import { Box, makeStyles, Typography } from "@material-ui/core";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
-import { unwrapResult } from "@reduxjs/toolkit";
-import { THUMBNAIL_PLACEHOLDER } from "constant";
-import StorageKeys from "constant/storage-keys";
-import { addWishList, removeWishList } from "features/Wishlist/wishListSlice";
-import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import "./styles.scss";
+import { Box, makeStyles, Typography } from '@material-ui/core';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import { unwrapResult } from '@reduxjs/toolkit';
+import { THUMBNAIL_PLACEHOLDER } from 'constant';
+import StorageKeys from 'constant/storage-keys';
+import { addWishList, removeWishList } from 'features/Wishlist/wishListSlice';
+import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import './styles.scss';
 
 Product.propTypes = {
   data: PropTypes.object.isRequired,
@@ -21,101 +21,101 @@ Product.defaultProps = {
 
 const useStyles = makeStyles((theme) => ({
   box: {
-    position: "relative",
-    transition: "all 0.4s ease",
-    "&:hover": {
-      border: "1px solid #000",
+    position: 'relative',
+    transition: 'all 0.4s ease',
+    '&:hover': {
+      border: '1px solid #000',
     },
   },
   container: {
-    position: "relative",
+    position: 'relative',
   },
   btn: {
-    background: "#2AC37D",
-    fontSize: "16px",
+    background: '#2AC37D',
+    fontSize: '16px',
     border: 0,
     borderRadius: 3,
-    boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
-    color: "white",
+    boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+    color: 'white',
     height: 48,
-    padding: "0 30px",
-    width: "100%",
-    margin: "0 0 20px 0",
-    "&:hover": {
-      background: "linear-gradient(45deg, #5c5c5c 30%, #383838 90%)",
-      transition: "all 0.3s ease-in-out",
+    padding: '0 30px',
+    width: '100%',
+    margin: '0 0 20px 0',
+    '&:hover': {
+      background: 'linear-gradient(45deg, #5c5c5c 30%, #383838 90%)',
+      transition: 'all 0.3s ease-in-out',
     },
   },
   img: {
-    cursor: "pointer",
-    width: "100%",
-    height: "260px",
+    cursor: 'pointer',
+    width: '100%',
+    height: '260px',
   },
 
   imgChildren: {
-    cursor: "pointer",
-    height: "50px",
-    width: "50px",
-    paddingRight: "5px",
-    "&:hover": {
-      borderBottom: "2px solid #000",
+    cursor: 'pointer',
+    height: '50px',
+    width: '50px',
+    paddingRight: '5px',
+    '&:hover': {
+      borderBottom: '2px solid #000',
     },
   },
   name: {
-    fontSize: "16px",
-    fontWeight: "600",
-    color: "#5b5b5b",
-    lineHeight: "20px",
-    cursor: "pointer",
-    marginBottom: "10px",
-    "&:hover": {
-      color: "#2AC37D",
+    fontSize: '16px',
+    fontWeight: '600',
+    color: '#5b5b5b',
+    lineHeight: '20px',
+    cursor: 'pointer',
+    marginBottom: '10px',
+    '&:hover': {
+      color: '#2AC37D',
     },
   },
   favorite: {
-    position: "absolute",
-    top: "20px",
-    right: "18px",
-    display: "block",
-    width: "40px",
-    height: "40px",
-    zIndex: "2",
-    webkitBorderRadius: "50%",
-    mozBorderRadius: "50%",
-    msBorderRadius: "50%",
-    borderRadius: "50%",
-    webkitTransition: "all 0.4s ease",
-    mozTransition: "all 0.4s ease",
-    transition: "all 0.4s ease",
-    cursor: "pointer",
+    position: 'absolute',
+    top: '20px',
+    right: '18px',
+    display: 'block',
+    width: '40px',
+    height: '40px',
+    zIndex: '2',
+    webkitBorderRadius: '50%',
+    mozBorderRadius: '50%',
+    msBorderRadius: '50%',
+    borderRadius: '50%',
+    webkitTransition: 'all 0.4s ease',
+    mozTransition: 'all 0.4s ease',
+    transition: 'all 0.4s ease',
+    cursor: 'pointer',
   },
   icon: {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    color: "#000",
-    fontSize: "20px",
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    color: '#000',
+    fontSize: '20px',
   },
 
   price: {
-    position: "absolute",
-    left: "14px",
-    bottom: "0px",
-    backgroundColor: "#fff",
-    padding: "3px 5px",
-    display: "flex",
+    position: 'absolute',
+    left: '14px',
+    bottom: '0px',
+    backgroundColor: '#fff',
+    padding: '3px 5px',
+    display: 'flex',
   },
   nameDesc: {
-    color: "#767677",
-    fontSize: "12px",
+    color: '#767677',
+    fontSize: '12px',
   },
   salePrice: {
-    color: "#e32b2b",
-    marginLeft: "8px",
+    color: '#e32b2b',
+    marginLeft: '8px',
   },
   banPrice: {
-    textDecoration: "line-through",
+    textDecoration: 'line-through',
   },
 }));
 
@@ -126,10 +126,16 @@ function Product({ data }) {
   const isLoggedIn = !!loggedInUser;
   const wishList = useSelector((state) => state.wishList.current);
   const history = useHistory();
+  const colorList = [...new Set(data.productDetailList.map((item) => item.color))];
+  const productWithImageList = [];
+  colorList.forEach((item, index) => {
+    const productWithImage = data.productDetailList.find(
+      (item, idx) => item.color === colorList[index]
+    );
+    productWithImageList.push(productWithImage);
+  });
 
-  const [image, setImage] = useState(
-    data.productDetailList[0].linkImg || THUMBNAIL_PLACEHOLDER
-  );
+  const [image, setImage] = useState(data.productDetailList[0].linkImg || THUMBNAIL_PLACEHOLDER);
   const [favourite, setFavourite] = useState(() => {
     return wishList.some((x) => x.product.id === data.id);
   });
@@ -139,9 +145,7 @@ function Product({ data }) {
     });
   }, [wishList]);
 
-  const [priceSale, setPriceSale] = useState(
-    data.productDetailList[0].salePrice
-  );
+  const [priceSale, setPriceSale] = useState(data.productDetailList[0].salePrice);
   const handleMouseLeave = () => {
     setImage(data.productDetailList[0].linkImg || THUMBNAIL_PLACEHOLDER);
   };
@@ -163,7 +167,7 @@ function Product({ data }) {
       unwrapResult(resultActionWishList);
       console.log(resultActionWishList);
     } catch (error) {
-      console.log("Cannot add wishList");
+      console.log('Cannot add wishList');
     }
 
     setFavourite(true);
@@ -182,7 +186,7 @@ function Product({ data }) {
       unwrapResult(resultActionWishList);
       console.log(resultActionWishList);
     } catch (error) {
-      console.log("Cannot remove wishList");
+      console.log('Cannot remove wishList');
     }
     setFavourite(false);
   };
@@ -191,26 +195,14 @@ function Product({ data }) {
   };
 
   return (
-    <Box
-      padding={1}
-      className={`${classes.box} product-root`}
-      onClick={handleClick}
-    >
+    <Box padding={1} className={`${classes.box} product-root`} onClick={handleClick}>
       <Box minHeight="215px" className={classes.container}>
         {favourite ? (
-          <Box
-            className={classes.favorite}
-            onClick={(e) => handleRemoveWishList(data.id, e)}
-          >
-            <FavoriteIcon
-              className={`${classes.icon} ${classes.iconFavourite}`}
-            />
+          <Box className={classes.favorite} onClick={(e) => handleRemoveWishList(data.id, e)}>
+            <FavoriteIcon className={`${classes.icon} ${classes.iconFavourite}`} />
           </Box>
         ) : (
-          <Box
-            className={classes.favorite}
-            onClick={(e) => handleAddWishList(data.id, e)}
-          >
+          <Box className={classes.favorite} onClick={(e) => handleAddWishList(data.id, e)}>
             <FavoriteBorderIcon className={classes.icon} />
           </Box>
         )}
@@ -225,19 +217,11 @@ function Product({ data }) {
         >
           {data.originalPrice > priceSale ? (
             <>
-              <Typography
-                variant="p"
-                component="p"
-                className={classes.banPrice}
-              >
+              <Typography variant="p" component="p" className={classes.banPrice}>
                 ${data.originalPrice}
               </Typography>
 
-              <Typography
-                variant="p"
-                component="p"
-                className={classes.salePrice}
-              >
+              <Typography variant="p" component="p" className={classes.salePrice}>
                 ${priceSale}
               </Typography>
             </>
@@ -250,7 +234,7 @@ function Product({ data }) {
       </Box>
       <Box>
         <Box>
-          {data.productDetailList.map((productDetail) => {
+          {productWithImageList.map((productDetail) => {
             return (
               <img
                 onMouseOver={() =>

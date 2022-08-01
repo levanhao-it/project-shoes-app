@@ -57,7 +57,7 @@ function ProductFilters({ filters, onChange }) {
         <SearchByCategory onChange={handleCategoryChange} />
         <ProductSort onChange={handleSortChange} />
       </Box>
-      <FilterByPrice onChange={handleChange} />
+      {/* <FilterByPrice onChange={handleChange} /> */}
     </Box>
   );
 }
