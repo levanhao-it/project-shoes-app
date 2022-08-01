@@ -1,19 +1,19 @@
-import { Typography } from '@material-ui/core';
-import React, { useState } from 'react';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import { Pagination, Navigation } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import './styles.scss';
+import { Typography } from "@material-ui/core";
+import React, { useState } from "react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { Pagination, Navigation } from "swiper";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "./styles.scss";
 
-import { makeStyles } from '@material-ui/core';
-import PropTypes from 'prop-types';
+import { makeStyles } from "@material-ui/core";
+import PropTypes from "prop-types";
 
-import { useEffect } from 'react';
-import categoryApi from 'api/categoryApi';
-import { useHistory } from 'react-router-dom';
-import Product from 'features/Product/components/Product';
+import { useEffect } from "react";
+import categoryApi from "api/categoryApi";
+import { useHistory } from "react-router-dom";
+import Product from "features/Product/components/Product";
 ProductSliderHome.propTypes = {
   categoryId: PropTypes.number.isRequired,
 };
@@ -23,12 +23,12 @@ ProductSliderHome.defaultProps = {
 
 const useStyle = makeStyles((theme) => ({
   root: {
-    margin: '40px 40px 40px',
+    margin: "40px 40px 40px",
   },
   title: {
-    fontWeight: 'bold',
-    fontSize: '24px',
-    marginBottom: '30px',
+    fontWeight: "bold",
+    fontSize: "24px",
+    marginBottom: "30px",
   },
 }));
 
@@ -36,18 +36,18 @@ function ProductSliderHome({ categoryId }) {
   const classes = useStyle();
 
   const [products, setProducts] = useState([]);
-  const [category, setCategory] = useState('Loading...');
+  const [category, setCategory] = useState("Loading...");
   const history = useHistory();
 
   useEffect(() => {
     (async () => {
       try {
         const result = await categoryApi.getById(categoryId);
-        console.log(result);
+        // console.log(result);
         setProducts(result.data.productList);
         setCategory(result.data.name);
       } catch (error) {
-        console.log('Failed to fetch categories', error);
+        console.log("Failed to fetch categories", error);
       }
     })();
   }, [categoryId]);
@@ -62,7 +62,7 @@ function ProductSliderHome({ categoryId }) {
         {category}
       </Typography>
       <Swiper
-        slidesPerView={'auto'}
+        slidesPerView={"auto"}
         spaceBetween={30}
         slidesPerGroup={3}
         loop={true}

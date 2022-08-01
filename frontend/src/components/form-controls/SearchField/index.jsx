@@ -1,8 +1,8 @@
-import { InputBase, makeStyles, TextField } from '@material-ui/core';
+import { InputBase, makeStyles, TextField } from "@material-ui/core";
 
-import PropTypes from 'prop-types';
-import React from 'react';
-import { Controller } from 'react-hook-form';
+import PropTypes from "prop-types";
+import React from "react";
+import { Controller } from "react-hook-form";
 
 SearchField.propTypes = {
   form: PropTypes.object.isRequired,
@@ -13,17 +13,17 @@ SearchField.propTypes = {
 };
 const useStyles = makeStyles((theme) => ({
   inputRoot: {
-    color: 'inherit',
+    color: "inherit",
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      width: '12ch',
-      '&:focus': {
-        width: '20ch',
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.up("sm")]: {
+      width: "12ch",
+      "&:focus": {
+        width: "20ch",
       },
     },
   },
@@ -39,8 +39,8 @@ function SearchField(props) {
     <Controller
       name={name}
       control={form.control}
-      // as={InputBase}
-      as={TextField}
+      as={InputBase}
+      // as={TextField}
       fullWidth
       margin="normal"
       variant="outlined"
