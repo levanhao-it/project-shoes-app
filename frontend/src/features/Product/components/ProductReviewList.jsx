@@ -1,7 +1,7 @@
 import { Link, Dialog, DialogContent } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import { Rating } from '@material-ui/lab';
+import { Alert, Rating } from '@material-ui/lab';
 import React, { useEffect, useState } from 'react';
 import ProductReview from './ProductReview';
 import { makeStyles } from '@material-ui/core/styles';
@@ -13,6 +13,7 @@ import LogIn from 'features/Auth/components/LogIn';
 import Register from 'features/Auth/components/Register';
 import rateApi from 'api/rateApi';
 import { useSnackbar } from 'notistack';
+import useProductDetail from '../hooks/useProductDetail';
 
 ProductReviewList.propTypes = {
   product: PropTypes.object,
@@ -100,6 +101,9 @@ function ProductReviewList({ product = {} }) {
   const isLoggedIn = !!loggedInUser;
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState(MODE.LOGIN);
+  const [rateList, setRateList] = useState([]);
+  const [rateAvg, setRateAvg] = useState(product.rating ? product.rating : 0);
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -137,7 +141,8 @@ function ProductReviewList({ product = {} }) {
       const result = await rateApi.add(values);
       if (result.status === 'OK') {
         const resultRate = await rateApi.getById(product.id);
-        setRate(resultRate.data);
+        setRateList(resultRate.data);
+        setRateAvg(resultRate.data.reduce((a, b) => a + b.rating, 0) / resultRate.data.length);
         enqueueSnackbar('Add Rate Success', { variant: 'success', autoHideDuration: 1000 });
         handleCloseReview();
       }
@@ -146,13 +151,11 @@ function ProductReviewList({ product = {} }) {
     }
   };
 
-  const [rateList, setRate] = useState([]);
-
   useEffect(() => {
     (async () => {
       try {
         const result = await rateApi.getById(product.id);
-        setRate(result.data);
+        setRateList(result.data);
       } catch (error) {
         console.log('Failed to fetch rate', error);
       }
@@ -162,17 +165,22 @@ function ProductReviewList({ product = {} }) {
   return (
     <Box>
       <Box display="flex" alignItems="center">
-        <Rating name="read-only" value={product.rating} precision={0.5} readOnly size="medium" />
+        <Rating name="read-only" value={rateAvg} precision={0.5} readOnly size="medium" />
         <Typography variant="p" className={classes.titleRating}>
-          {product.rating.toFixed(1)} stars
+          {Number.isInteger(rateAvg) ? rateAvg : rateAvg.toFixed(1)} stars
         </Typography>
       </Box>
 
       <Link className={classes.commentLink} onClick={handleOpenReview}>
         Write a Review
       </Link>
-
-      <ProductReview product={product} rateList={rateList} />
+      {rateList.length === 0 ? (
+        <Box mt={2}>
+          <Alert severity="warning">There are no reviews yet</Alert>
+        </Box>
+      ) : (
+        <ProductReview product={product} rateList={rateList} />
+      )}
 
       <Dialog open={openReview} onClose={handleCloseReview} disableEscapeKeyDown>
         <DialogContent>

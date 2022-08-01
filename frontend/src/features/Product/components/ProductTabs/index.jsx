@@ -74,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 ProductTabs.propTypes = {
-  product: PropTypes.object,
+  product: PropTypes.object.isRequired,
 };
 
 export default function ProductTabs({ product = {} }) {

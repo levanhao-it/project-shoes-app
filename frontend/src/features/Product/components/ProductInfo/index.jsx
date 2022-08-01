@@ -3,7 +3,7 @@ import ProductSilder from '../ProductSlider';
 import ProductTabs from '../ProductTabs';
 
 ProductInfo.propTypes = {
-  product: PropTypes.object,
+  product: PropTypes.object.isRequired,
 };
 
 function ProductInfo({ product = {} }) {
