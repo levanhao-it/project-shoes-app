@@ -12,9 +12,28 @@ spring:
         format_sql: true
     show-sql: true
 
+  mail:
+    port: ${MAIL_PORT}
+    host: ${MAIL_HOST}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
 app-shoes:
   token:
     accessLifetimeMinutes: ${TOKEN_ACCESS_LIFE_TIME_MINUTES}
     refreshLifetimeMinutes: ${TOKEN_REFRESH_LIFE_TIME_MINUTES}
   rememberMe:
     expiredDays: ${REMEMBER_ME_EXPIRED_DAYS}
+
+
+amazonProperties:
+  endpointUrl: ${AMAZON_ENDPOINT_URL}
+  accessKey: ${AMAZON_ACCESS_KEY}
+  secretKey: ${AMAZON_SECRET_KEY}
+  bucketName: ${AMAZON_BUCKET_NAME}
