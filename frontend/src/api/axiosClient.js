@@ -6,7 +6,7 @@ import axiosPrivate from "./axiosPrivate";
 import StorageKeys from "constant/storage-keys";
 
 const axiosClient = axios.create({
-  baseURL: "http://localhost:8080/api/",
+  baseURL: "https://app-shoes-nlu.herokuapp.com/",
   headers: {
     "Content-Type": "application/json",
   },
